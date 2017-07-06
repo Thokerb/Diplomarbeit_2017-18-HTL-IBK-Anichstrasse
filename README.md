@@ -1,1 +1,1 @@
-# Diplomarbeit
+# Diplomarbeit Thomas Kerber, Verena Gurtner & Hindelang Sara
