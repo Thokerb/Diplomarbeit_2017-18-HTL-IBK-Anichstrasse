@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Insert title here</title>
+</head>
+<body>
+<h1>Willkommen auf der Startseite</h1>
+
+<h2>Gib hier einen Suchbegriff an</h2>
+<form action="MeinServlet">
+<input type="text" size="10" name="suchbegriff" id="suchbegriffID"></input>
+<input type="hidden" name="answer" id="answer"></input>
+<input type="submit"></input>
+</form>
+<button onClick="addBegriffe()">klick mich</button>
+
+<h3 id="blub">Suchbegriffe:</h3>
+
+<script>
+var begriffe = ["mamamia","asdasda"];
+var JSONbeg;
+
+function addBegriffe(){
+	var bgr = document.getElementById("suchbegriffID").value;
+	begriffe.push(bgr);
+	JSONbeg = JSON.stringify(begriffe);
+	document.getElementById("blub").innerHTML = "Suchbegriffe: "+begriffe;
+	document.getElementById("answer").value = JSONbeg;
+
+	
+	
+}
+</script>
+
+
+<p>Click the button to add a new element to the array.</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("demo").innerHTML = fruits;
+
+function myFunction() {
+    fruits.push("Kiwi");
+    document.getElementById("demo").innerHTML = fruits;
+}
+</script>
+
+
+</body>
+</html>
