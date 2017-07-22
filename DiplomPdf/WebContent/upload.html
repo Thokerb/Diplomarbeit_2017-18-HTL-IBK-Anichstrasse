@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Upload - Seote</title>
+</head>
+<body>
+<h1>Willkommen auf der Upload Seite</h1>
+<form action="UploadServlet">
+<input type="file" accept="application/pdf" enctype="multipart/form-data" name="pdffile" id="pdf" onchange="JSONconv()"></input>
+<input type="hidden" id="answer" name="answer"></input>
+<input type="submit"></input>
+</form>
+<button onClick="JSONconv()">refresh</button>
+
+<script>
+var JSONString;
+function JSONconv(){
+	
+	//da sonst call by reference anstatt call by value
+	var pdf = document.getElementById("pdf").files[0];
+	JSONString = JSON.stringify(pdf);
+	document.getElementById("answer").value = JSONString;
+	alert("JS finished");
+	alert(JSONString);
+}
+</script>
+
+</body>
+</html>
