@@ -7,24 +7,21 @@
 </head>
 <body>
 <h1>Willkommen auf der Upload Seite</h1>
-<form action="UploadServlet">
-<input type="file" accept="application/pdf" enctype="multipart/form-data" name="pdffile" id="pdf" onchange="JSONconv()"></input>
-<input type="hidden" id="answer" name="answer"></input>
+<form action="UploadServlet" method="post" enctype="multipart/form-data">
+<input type="file" accept="application/pdf"  name="pdffile" id="pdf" onchange="blub()"></input>
+<input type="hidden" name="dateiname" id="dateiname"></input>
 <input type="submit"></input>
 </form>
-<button onClick="JSONconv()">refresh</button>
 
 <script>
-var JSONString;
-function JSONconv(){
+function blub(){
 	
-	//da sonst call by reference anstatt call by value
-	var pdf = document.getElementById("pdf").files[0];
-	JSONString = JSON.stringify(pdf);
-	document.getElementById("answer").value = JSONString;
-	alert("JS finished");
-	alert(JSONString);
+var name = document.querySelector('input[type=file]').files[0].name;
+
+document.getElementById("dateiname").value = name;
+alert(document.getElementById("dateiname").value);
 }
+
 </script>
 
 </body>
