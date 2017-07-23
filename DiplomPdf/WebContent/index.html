@@ -14,6 +14,7 @@
 <input type="hidden" name="answer" id="answer"></input>
 <input type="submit"></input>
 </form>
+<div id="searchterms"></div>
 <button onClick="addBegriffe()">klick mich</button>
 
 <h3 id="blub">Suchbegriffe:</h3>
@@ -23,15 +24,16 @@ var begriffe = [];
 var JSONbeg;
 
 function addBegriffe(){
-	var bgr = document.getElementById("suchbegriffID").value;
+	var bgr = document.getElementById("suchbegriffID").value;	
 	begriffe.push(bgr);
 	JSONbeg = JSON.stringify(begriffe);
 	document.getElementById("blub").innerHTML = "Suchbegriffe: "+begriffe;
 	document.getElementById("answer").value = JSONbeg;
+	document.getElementById("searchterms").
 
-	
-	
 }
+
+
 </script>
 
 </body>
