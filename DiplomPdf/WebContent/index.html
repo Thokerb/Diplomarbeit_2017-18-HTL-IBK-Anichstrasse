@@ -3,34 +3,84 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet" href="stylesheet.css">
 <title>Insert title here</title>
 </head>
 <body>
 <h1>Willkommen auf der Startseite</h1>
 
-<h2>Gib hier einen Suchbegriff an</h2>
+<h2>Geben Sie hier einen Suchbegriff an</h2>
+<p>
+Klicken Sie auf einen Suchbegriff um ihn wieder zu löschen
+</p>
 <form action="SearchServlet">
 <input type="text" size="10" name="suchbegriff" id="suchbegriffID"></input>
 <input type="hidden" name="answer" id="answer"></input>
 <input type="submit"></input>
 </form>
 <div id="searchterms"></div>
-<button onClick="addBegriffe()">klick mich</button>
+<button onClick="addBegriffe()">Begriff hinzufügen</button>
 
 <h3 id="blub">Suchbegriffe:</h3>
+<div id="suchbegriffe"></div>
 
 <script>
 var begriffe = [];
 var JSONbeg;
 
-function addBegriffe(){
-	var bgr = document.getElementById("suchbegriffID").value;	
-	begriffe.push(bgr);
-	JSONbeg = JSON.stringify(begriffe);
-	document.getElementById("blub").innerHTML = "Suchbegriffe: "+begriffe;
-	document.getElementById("answer").value = JSONbeg;
-	//document.getElementById("searchterms").
 
+function addBegriffe(){
+	
+	var search = document.getElementById("suchbegriffID").value;
+	var notused = true;
+	
+	if(search === "")notused = false;
+
+	for (i = 0; i < begriffe.length; i++){
+		if(search === begriffe[i]){
+			notused = false;
+			break;
+		}
+		else{
+			
+		}
+	}
+	
+	if(notused){
+		var term = document.createElement("div");
+		term.onclick = function () {
+		    this.parentElement.removeChild(this);
+		    delbegriffe(this.innerHTML);
+		    
+		};
+		term.className = "term";
+		begriffe.push(search);
+		var t = document.createTextNode(search);
+		term.appendChild(t);
+		document.getElementById("suchbegriffe").appendChild(term); 
+		JSONbeg = JSON.stringify(begriffe);
+		document.getElementById("answer").value = JSONbeg;
+
+	}
+	
+	
+
+
+	
+}
+
+function delbegriffe(begriff){
+	
+	for (i = 0; i < begriffe.length; i++){
+		if(begriff === begriffe[i]){
+			begriffe.splice(i,1);
+			break;
+		}
+	}
+	
+
+
+	
 }
 
 

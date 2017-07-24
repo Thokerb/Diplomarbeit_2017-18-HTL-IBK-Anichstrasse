@@ -7,12 +7,11 @@
 <title>Testzwecke</title>
 </head>
 <body>
+<h1> Willkommen auf der  Testseite</h1>
 <input type="text" id="search"></input>
 <button onClick="func()"> Teste mich </button>
 <div id="test">
-<h1>Hier steht etwas</h1>
 
-<h2 class="term" ">teste</h2>
 </div>
 
 <script>
@@ -22,20 +21,33 @@ var begriffe = [];
 
 function func(){
 	
-	
-
-	var term = document.createElement("div");
-	term.onclick = function () {
-	    this.parentElement.removeChild(this);
-	    delbegriffe(this.innerHTML);
-	    
-	};
-	term.className = "term";
 	var search = document.getElementById("search").value;
-	begriffe.push(search);
-	var t = document.createTextNode(search);
-	term.appendChild(t);
-	document.getElementById("test").appendChild(term); 
+	var notused = true;
+
+	for (i = 0; i < begriffe.length; i++){
+		if(search === begriffe[i]){
+			notused = false;
+			break;
+		}
+		else{
+			
+		}
+	}
+	
+	if(notused){
+		var term = document.createElement("div");
+		term.onclick = function () {
+		    this.parentElement.removeChild(this);
+		    delbegriffe(this.innerHTML);
+		    
+		};
+		term.className = "term";
+		begriffe.push(search);
+		var t = document.createTextNode(search);
+		term.appendChild(t);
+		document.getElementById("test").appendChild(term); 
+	}
+
 
 	
 }
