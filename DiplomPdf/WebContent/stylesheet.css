@@ -1,2 +1,8 @@
 @CHARSET "ISO-8859-1";
 
+.term{
+	background-color: gray;
+	border: medium;
+	border: solid;
+	display: inline-block;
+}
