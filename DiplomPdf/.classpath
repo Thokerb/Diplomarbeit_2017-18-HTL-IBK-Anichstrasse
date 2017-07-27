@@ -8,9 +8,9 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="C:/Users/Sara/Diplomarbeit/DiplomPdf/libraries/gson-2.6.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara/Diplomarbeit/DiplomPdf/libraries/java-json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara/Diplomarbeit/DiplomPdf/libraries/pdfbox-app-2.0.6.jar"/>
 	<classpathentry kind="lib" path="C:/xampp/tomcat/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="C:/Users/kerbe/Desktop/java-json.jar/java-json.jar"/>
-	<classpathentry kind="lib" path="C:/Users/kerbe/Desktop/gson-2.6.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sara/Dropbox/Diplomarbeit/pdfbox-app-2.0.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
