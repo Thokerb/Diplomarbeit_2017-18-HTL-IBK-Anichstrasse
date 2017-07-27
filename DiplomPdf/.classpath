@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="C:/xampp/tomcat/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="C:/Users/kerbe/Desktop/java-json.jar/java-json.jar"/>
 	<classpathentry kind="lib" path="C:/Users/kerbe/Desktop/gson-2.6.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara/Dropbox/Diplomarbeit/pdfbox-app-2.0.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
