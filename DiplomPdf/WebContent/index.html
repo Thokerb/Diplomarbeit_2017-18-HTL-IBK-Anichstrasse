@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <link rel="stylesheet" href="stylesheet.css">
-<title>Insert title here</title>
+<title>Startseite</title>
 </head>
 <body>
 <h1>Willkommen auf der Startseite</h1>
@@ -16,13 +18,13 @@ Klicken Sie auf einen Suchbegriff um ihn wieder zu löschen
 <form action="SearchServlet">
 <input type="text" size="10" name="suchbegriff" id="suchbegriffID"></input>
 <input type="hidden" name="answer" id="answer"></input>
-<input type="submit"></input>
+<input type="submit" id = "submitbutton" disabled="true" value="  Suchen  "></input>
 </form>
 <div id="searchterms"></div>
 <button onClick="addBegriffe()">Begriff hinzufügen</button>
 
 <h3 id="blub">Suchbegriffe:</h3>
-<div id="suchbegriffe"></div>
+<div id="suchbegriffe" class="suchbegriffe"></div>
 
 <script>
 var begriffe = [];
@@ -32,6 +34,7 @@ var JSONbeg;
 function addBegriffe(){
 	
 	var search = document.getElementById("suchbegriffID").value;
+
 	var notused = true;
 	
 	if(search === "")notused = false;
@@ -63,6 +66,10 @@ function addBegriffe(){
 
 	}
 	
+	if(begriffe.length > 0){
+		  document.getElementById("submitbutton").disabled = false;
+		//document.getElementById("submitbutton").className = "btn btn-primary";
+	}
 	
 
 
@@ -70,14 +77,19 @@ function addBegriffe(){
 }
 
 function delbegriffe(begriff){
-	
+
 	for (i = 0; i < begriffe.length; i++){
 		if(begriff === begriffe[i]){
+
 			begriffe.splice(i,1);
 			break;
 		}
 	}
 	
+		if(begriffe.length == 0){
+		document.getElementById("submitbutton").disabled = true;
+	//	document.getElementById("submitbutton").className = "btn btn-primary disabled";
+	}
 
 
 	

@@ -9,6 +9,8 @@
 <body>
 <h1> Willkommen auf der  Testseite</h1>
 <input type="text" id="search"></input>
+<input type="text" id="prob" value="<"></input>
+<button onClick="func2()">Solve !!!!!!!!!!</button>
 <button onClick="func()"> Teste mich </button>
 <div id="test">
 
@@ -18,6 +20,14 @@
 
 
 var begriffe = [];
+
+function func2(){
+	
+	var x = document.getElementById("prob").value;
+	begriffe.push(x);
+	alert(unescape(x));
+	alert(begriffe[0]);
+}
 
 function func(){
 	
