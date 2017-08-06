@@ -24,7 +24,7 @@ import com.google.gson.Gson;
  * Servlet implementation class UploadServlet
  */
 //@WebServlet("/UploadServlet")
-@MultipartConfig
+//@MultipartConfig
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -56,7 +56,12 @@ public class UploadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	    Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">
-        InputStream fileContent = filePart.getInputStream(); 
+
+	   
+	    
+	    InputStream fileContent = filePart.getInputStream(); 
+	    
+        
         String dateiname = request.getParameter("dateiname");
         System.out.println(dateiname);
 
@@ -68,6 +73,8 @@ public class UploadServlet extends HttpServlet {
         File uploads = new File("C:/Temp");
         
         File file = new File(uploads, dateiname);
+        
+        
 
         Files.copy(fileContent, file.toPath());
         
@@ -79,5 +86,6 @@ public class UploadServlet extends HttpServlet {
 		
 		
 	}
+
 
 }
