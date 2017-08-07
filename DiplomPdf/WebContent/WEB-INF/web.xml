@@ -11,17 +11,18 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
+  
   <servlet>
   	<servlet-name>UploadServlet</servlet-name>
   	<servlet-class>model.UploadServlet</servlet-class>
   	
   	<multipart-config>
-  	<file-size-threshold>1024</file-size-threshold>
-  	<max-file-size>1048576</max-file-size>
-  	<max-request-size>1048576</max-request-size> 	
+  	  	<max-file-size>1048576</max-file-size>
+  	  	<max-request-size>1048576</max-request-size> 	
+  		<file-size-threshold>1024</file-size-threshold>
   	</multipart-config>
-  	
   </servlet>
+  
   
   <servlet>
  	 <servlet-name>SearchServlet</servlet-name>

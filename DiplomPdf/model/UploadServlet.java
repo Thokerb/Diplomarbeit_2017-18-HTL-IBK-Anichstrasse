@@ -57,7 +57,9 @@ public class UploadServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 	    Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">
 
-	   
+	    
+	    
+	   System.out.println("FilePart: "+filePart);
 	    
 	    InputStream fileContent = filePart.getInputStream(); 
 	    
