@@ -72,7 +72,7 @@ public class UploadServlet extends HttpServlet {
         int size = request.getContentLength();
         byte[] bytes = new byte[1024];
         
-        File uploads = new File("C:/Temp");
+        File uploads = new File("C:/Temp/file.pdf");
         
         File file = new File(uploads, dateiname);
         
