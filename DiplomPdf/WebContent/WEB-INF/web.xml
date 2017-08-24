@@ -16,11 +16,20 @@
   	<servlet-name>UploadServlet</servlet-name>
   	<servlet-class>model.UploadServlet</servlet-class>
   	
+  	  	<init-param>
+  			<description>Der Pfad in welchen geuploadete Dateien gespeichert werden</description>
+  			<param-name>Pfad</param-name>
+  			<param-value>C:/Temp</param-value>
+  		</init-param>
+  	
+  	
   	<multipart-config>
   	  	<max-file-size>1048576</max-file-size>
   	  	<max-request-size>1048576</max-request-size> 	
   		<file-size-threshold>1024</file-size-threshold>
   	</multipart-config>
+  	
+
   </servlet>
   
   

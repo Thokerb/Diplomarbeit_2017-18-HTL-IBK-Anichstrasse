@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="dropzone.css">
     
 
-<title>Upload - Seote</title>
+<title>Upload - Seite</title>
 </head>
 <body>
 <h1>Willkommen auf der Upload Seite</h1>
@@ -16,6 +16,15 @@
 <h1>Neuer Bereich</h1>
 
 <script>
+function blub(){
+	
+	var name = document.querySelector('input[type=file]').files[0].name;
+
+	//document.getElementById("dateiname").value = name;
+	alert(document.getElementById("dateiname").value);
+	return name;
+	}
+
 Dropzone.myDropzone = false;
 var size = 1;
 
@@ -27,25 +36,22 @@ acceptedFiles: "application/pdf",
 dictDefaultMessage: "Ziehe Dateien hierhin zum Hochladen",
 dictFallbackMessage: "Dieser Browser wird leider nicht unterstützt",
 dictFileTooBig: "Die Datei ist leider zu groß. Erlaubtes Maximum " +size +" MB",
-dictInvalidFileType: "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
+dictInvalidFileType: "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt",
+sending: function (file,xhr,formData){
+	formData.append("dateiname",file.name)
+}
 
 }
 
 alert("check");
 
 
-function blub(){
-	
-var name = document.querySelector('input[type=file]').files[0].name;
 
-document.getElementById("dateiname").value = name;
-//alert(document.getElementById("dateiname").value);
-}
 
 </script>
 
 <div>
-    <form action="UploadServlet" method="post" enctype="multipart/form-data" name="pdffile" id="my-dropzone" class="dropzone" onsubmit="blub()">
+    <form action="UploadServlet" method="post" enctype="multipart/form-data" name="pdffile" id="my-dropzone" class="dropzone">
 	<input type="hidden" name="dateiname" id="dateiname"></input>
 	
     </form>
