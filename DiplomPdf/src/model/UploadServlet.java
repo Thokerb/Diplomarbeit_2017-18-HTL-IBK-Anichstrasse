@@ -27,14 +27,14 @@ import com.google.gson.Gson;
 @MultipartConfig
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UploadServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public UploadServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -43,9 +43,7 @@ public class UploadServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 
-		
-		
-		
+
 		//		begriffe = gson.fromJson(antwort, String[].class);
 
 	}
@@ -55,29 +53,29 @@ public class UploadServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-	    Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">
-        InputStream fileContent = filePart.getInputStream(); 
-        String dateiname = request.getParameter("dateiname");
-        System.out.println(dateiname);
-
-        
-        
-        int size = request.getContentLength();
-        byte[] bytes = new byte[1024];
-        
-        File uploads = new File("C:/Temp");
-        
-        File file = new File(uploads, dateiname);
-
-        Files.copy(fileContent, file.toPath());
-        
-
-        
-        System.out.println("Datei fertig eingelesen");
+		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">
+		InputStream fileContent = filePart.getInputStream(); 
+		String dateiname = request.getParameter("dateiname");
+		System.out.println(dateiname);
 
 
-		
-		
+
+		int size = request.getContentLength();
+		byte[] bytes = new byte[1024];
+
+		File uploads = new File("C:/Temp");
+
+		File file = new File(uploads, dateiname);
+
+		Files.copy(fileContent, file.toPath());
+
+
+
+		System.out.println("Datei fertig eingelesen");
+
+
+
+
 	}
 
 }

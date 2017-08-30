@@ -20,9 +20,7 @@ public class PDFmanager {
 	private String filePath;
 	private File file;
 
-	public PDFmanager() {
-
-	}
+	public PDFmanager() {}
 	
 	public String ToText() throws IOException {
 
