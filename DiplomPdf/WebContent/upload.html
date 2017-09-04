@@ -3,45 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<<<<<<< HEAD
-=======
     <script src="dropzone.js"></script>
     <link rel="stylesheet" type="text/css" href="dropzone.css">
     
 
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 <title>Upload - Seite</title>
 </head>
 <body>
-<<<<<<< HEAD
-	<h1>Willkommen auf der Upload Seite</h1>
-	<form action="UploadServlet" method="post"
-		enctype="multipart/form-data">
-		<input type="file" accept="application/pdf" name="pdffile" id="pdf"
-			onchange="blub()"></input>
-		<input type="hidden" name="dateiname" id="dateiname"></input>
-		<input type="submit"></input>
-	</form>
-=======
 <h1>Willkommen auf der Upload Seite</h1>
 
 
 <h1>Neuer Bereich</h1>
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 
-<<<<<<< HEAD
-	<script>
-		function blub() {
-=======
 <script>
 function blub(){
 	
 	var name = document.querySelector('input[type=file]').files[0].name;
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 
-<<<<<<< HEAD
-			var name = document.querySelector('input[type=file]').files[0].name;
-=======
 	//document.getElementById("dateiname").value = name;
 	alert(document.getElementById("dateiname").value);
 	return name;
@@ -62,15 +40,7 @@ dictInvalidFileType: "Dies ist leider der falsche Dateityp. Es werden nur PDF-Da
 sending: function (file,xhr,formData){
 	formData.append("dateiname",file.name)
 }
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 
-<<<<<<< HEAD
-			document.getElementById("dateiname").value = name;
-			alert(document.getElementById("dateiname").value);
-
-		}
-	</script>
-=======
 }
 
 alert("check");
@@ -79,7 +49,6 @@ alert("check");
 
 
 </script>
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 
 <div>
     <form action="UploadServlet" method="post" enctype="multipart/form-data" name="pdffile" id="my-dropzone" class="dropzone">
