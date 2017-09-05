@@ -1,29 +1,24 @@
 
 
-import java.awt.event.TextEvent;
-import java.awt.event.TextListener;
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 /**
- * Servlet implementation class MeinServlet
+ * Servlet implementation class DataTableServlet
  */
-//@WebServlet("/MeinServlet")
-public class MeinServlet extends HttpServlet {
+@WebServlet("/DataTableServlet")
+public class DataTableServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
     /**
-     * Default constructor. 
+     * @see HttpServlet#HttpServlet()
      */
-    public MeinServlet() {
+    public DataTableServlet() {
+        super();
         // TODO Auto-generated constructor stub
     }
 
@@ -32,19 +27,7 @@ public class MeinServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		PrintWriter out  = response.getWriter();
-		String antwort = request.getParameter("answer");
-		System.out.println("Die Antwort: "+antwort);
-		Gson gson = new Gson();
-		String[] begriffe;
-		begriffe = gson.fromJson(antwort, String[].class);
-		System.out.println("Hier sollte nicht null stehen: "+begriffe);
-		for(int i = 0;i<begriffe.length;i++){
-			System.out.println(begriffe[i]);
-		}
-
-
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -54,12 +37,5 @@ public class MeinServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
-
 
 }
-
-
-
-
-
