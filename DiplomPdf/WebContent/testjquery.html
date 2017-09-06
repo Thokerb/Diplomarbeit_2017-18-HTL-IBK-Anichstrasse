@@ -13,15 +13,15 @@
 	$(document).ready(function() {
 		var table = $('#datatable').dataTable({
 			
-		}
-			"processing" : true,
-			"serverSide" : true,
+		
+			//"processing" : true,
+			//"serverSide" : true,
 
-			"ajax" : {
-				"url" : '/DataTableServlet',
-				"type" : 'POST',
-				"dataType" : 'json'
-			},
+//			"ajax" : {
+	//		"url" : '/DataTableServlet',
+		//	"type" : 'POST',
+			//	"dataType" : 'json'
+			//},
 
 			"columns" : [ {
 				"data" : "Name"
@@ -38,12 +38,32 @@
 			],
 			
 			
+		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
+		        var input = $('.dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
+		            self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
+		            $searchbutton = $('<button>')	//erstellt ein Buttonobjekt
+		                       .text('Suchen')		// Button - Text: Suchen
+		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+		                         self.search(input.val());	//ruft die Search - Funktion des DataTables auf
+		                       	 self.draw();	//aktualisiert den DataTable / malt den Inhalt neu
+		                       }),
+		            $deletebutton = $('<button>')	//erstellt ein Buttonobjekt
+		                       .text('Löschen')		//Button - Text: Löschen
+		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+		                          input.val('');	//Setzt den Input wieder leer
+		                          $searchbutton.click(); 	//Betätigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
+		                       }) 
+		        $('.dataTables_filter').append($searchbutton, $deletebutton);	//Fügt beide Buttons zum DataTable hinzu
+		    },
+			
+			
 
 		});
-		alert("check");
 
 	});
 	
+
+
 
 	
 </script>
