@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path=""/>
+	<classpathentry kind="src" path="model"/>
 	<classpathentry kind="lib" path="C:/xampp/tomcat/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="C:/Users/veren/git/Diplomarbeit/DiplomPdf/libraries/gson-2.6.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/veren/git/Diplomarbeit/DiplomPdf/libraries/java-json.jar"/>

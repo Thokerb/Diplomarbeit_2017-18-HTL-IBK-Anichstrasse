@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Insert title here</title>
+<script src="jquery-3.2.1.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"></link>
+<script type="text/javascript"
+	src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var table = $('#datatable').dataTable({
+			
+		
+			//"processing" : true,
+			//"serverSide" : true,
+			"language": {
+				
+					"sEmptyTable":   	"Keine Daten in der Tabelle vorhanden",
+					"sInfo":         	"_START_ bis _END_ von _TOTAL_ Einträgen",
+					"sInfoEmpty":    	"0 bis 0 von 0 Einträgen",
+					"sInfoFiltered": 	"(gefiltert von _MAX_ Einträgen)",
+					"sInfoPostFix":  	"",
+					"sInfoThousands":  	".",
+					"sLengthMenu":   	"_MENU_ Einträge anzeigen",
+					"sLoadingRecords": 	"Wird geladen...",
+					"sProcessing":   	"Bitte warten...",
+					"sSearch":       	"Suchen",
+					"sZeroRecords":  	"Keine Einträge vorhanden.",
+					"oPaginate": {
+						"sFirst":    	"Erste",
+						"sPrevious": 	"Zurück",
+						"sNext":     	"Nächste",
+						"sLast":     	"Letzte"
+					},
+					"oAria": {
+						"sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
+						"sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
+					}
+				
+			},
+
+//			"ajax" : {
+	//		"url" : '/DataTableServlet',
+		//	"type" : 'POST',
+			//	"dataType" : 'json'
+			//},
+
+			"columns" : [ {
+				"data" : "Name"
+			}, {
+				"data" : "Größe"
+			}, {
+				"data" : "Autor"
+			}, {
+				"data" : "UploadDatum"
+			}, {
+				"data" : "DokumentDatum"
+			},
+
+			],
+			
+			
+		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
+		        var input = $('.dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
+		            self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
+		            $searchbutton = $('<button>')	//erstellt ein Buttonobjekt
+		                       .text('Suchen')		// Button - Text: Suchen
+		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+		                         self.search(input.val());	//ruft die Search - Funktion des DataTables auf
+		                       	 self.draw();	//aktualisiert den DataTable / malt den Inhalt neu
+		                       }),
+		            $deletebutton = $('<button>')	//erstellt ein Buttonobjekt
+		                       .text('Löschen')		//Button - Text: Löschen
+		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+		                          input.val('');	//Setzt den Input wieder leer
+		                          $searchbutton.click(); 	//Betätigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
+		                       }) 
+		        $('.dataTables_filter').append($searchbutton, $deletebutton);	//Fügt beide Buttons zum DataTable hinzu
+		    },
+			
+			
+
+		});
+
+	});
+	
+
+
+
+	
+</script>
+
+</head>
+<body>
+	<table id="datatable">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Größe</th>
+				<th>Autor</th>
+				<th>UploadDatum</th>
+				<th>DokumentDatum</th>
+			</tr>
+
+		</thead>
+		<tbody>
+			<tr>
+				<td>Eine Reihe unglücklicher Ereignisse</td>
+				<td>10 MB</td>
+				<td>Sebastian</td>
+				<td>05.09.2017</td>
+				<td>1.1.2005</td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>
