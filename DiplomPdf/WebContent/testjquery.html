@@ -14,8 +14,8 @@
 		var table = $('#datatable').dataTable({
 			
 		
-			//"processing" : true,
-			//"serverSide" : true,
+			"processing" : true,
+			"serverSide" : true,
 			"language": {
 				
 					"sEmptyTable":   	"Keine Daten in der Tabelle vorhanden",
@@ -42,11 +42,11 @@
 				
 			},
 
-//			"ajax" : {
-	//		"url" : '/DataTableServlet',
-		//	"type" : 'POST',
-			//	"dataType" : 'json'
-			//},
+			"ajax" : {
+			"url" : '/DiplomPdf/DataTableServlet',
+			"type" : 'POST',
+				"dataSrc": "data"
+			},
 
 			"columns" : [ {
 				"data" : "Name"
