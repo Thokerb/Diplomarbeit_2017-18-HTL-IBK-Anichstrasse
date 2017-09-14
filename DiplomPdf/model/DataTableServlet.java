@@ -36,13 +36,17 @@ public class DataTableServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		//doGet(request, response);
 		PrintWriter out = response.getWriter();
+		String input;
+		input = request.getParameter("input");
+		System.out.println(input);
 		/**
 		 * Hier sollte irgendwann einmal die Daten aus der DB geholt werden.
 		 */
 		
-		String antwort = "{\"data\":[[\"Name\",\"Größe\",\"Autor\",\"UploadDatum\",\"Dokumentdatum\"]]}";
+		String antwort = "{\"data\":[{\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"}]}";
+		System.out.println(antwort);
 		out.println(antwort);
 	}
 
