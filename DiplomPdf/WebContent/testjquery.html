@@ -63,12 +63,11 @@
 			
 		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
 		        var input = $('.dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
-		            self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
+		           self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
 		            $searchbutton = $('<button>')	//erstellt ein Buttonobjekt
 		                       .text('Suchen')		// Button - Text: Suchen
 		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
-		                         self.search(input.val());	//ruft die Search - Funktion des DataTables auf
-		                       	 self.draw();	//aktualisiert den DataTable / malt den Inhalt neu
+		                        self.search(input.val()).draw();	//ruft die Search - Funktion des DataTables auf und aktualisiert
 		                       }),
 		            $deletebutton = $('<button>')	//erstellt ein Buttonobjekt
 		                       .text('Löschen')		//Button - Text: Löschen
@@ -106,6 +105,12 @@
 		<tbody>
 			<tr>
 				<td>Eine Reihe unglücklicher Ereignisse</td>
+				<td>Sebastian</td>
+				<td>05.09.2017</td>
+				<td>1.1.2005</td>
+			</tr>
+						<tr>
+				<td>Die Wahrheit über Jquery</td>
 				<td>Sebastian</td>
 				<td>05.09.2017</td>
 				<td>1.1.2005</td>

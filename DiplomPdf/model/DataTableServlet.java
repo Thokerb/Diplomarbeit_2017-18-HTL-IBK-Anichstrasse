@@ -38,14 +38,19 @@ public class DataTableServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		PrintWriter out = response.getWriter();
-		String input;
-		input = request.getParameter("input");
-		System.out.println(input);
+		String search = request.getParameter("search[value]");
+		String draw = request.getParameter("draw");
+		
+		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
+		
+		
+
+
 		/**
 		 * Hier sollte irgendwann einmal die Daten aus der DB geholt werden.
 		 */
 		
-		String antwort = "{\"data\":[{\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"}]}";
+		String antwort = "{\"draw\":"+draw+",\"recordsTotal\":2,\"recordsFiltered\":2,\"data\":[{\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"}]}";
 		System.out.println(antwort);
 		out.println(antwort);
 	}
