@@ -11,7 +11,12 @@
 	src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		var table = $('#datatable').dataTable({
+
+
+
+
+		
+		var table = $('#datatable').DataTable({
 			
 		
 			"processing" : true,
@@ -63,13 +68,13 @@
 			
 
 	        "columnDefs": [ {
-	            "targets": -2,
+	        	"targets": -2,
 	            "data": "null",
-	            "defaultContent": "<button>Download!</button>"
+	            "defaultContent": "<button class=\"downloadbutton\">Download!</button>"
 	        }, {
 	            "targets": -1,
 	            "data": "null",
-	            "defaultContent": "<button>Delete!</button>"
+	            "defaultContent": "<button class=\"deletebutton\">Delete!</button>"
 	        }  ],
 
 	        
@@ -99,6 +104,18 @@
 
 		});
 
+	    $('#datatable tbody').on( 'click', '.downloadbutton', function () {
+	         var data = table.row( $(this).parents("tr")).data();
+	         var str = JSON.stringify(data);
+	     	var xhttp = new XMLHttpRequest();
+	    	xhttp.open("POST","DownloadServlet?download=" +str,true);
+	    	xhttp.send(str);
+	         
+
+	    	
+	    });
+		
+		
 	});
 	
 
@@ -122,18 +139,7 @@
 
 		</thead>
 		<tbody>
-			<tr>
-				<td>Eine Reihe unglücklicher Ereignisse</td>
-				<td>Sebastian</td>
-				<td>05.09.2017</td>
-				<td>1.1.2005</td>
-			</tr>
-						<tr>
-				<td>Die Wahrheit über Jquery</td>
-				<td>Sebastian</td>
-				<td>05.09.2017</td>
-				<td>1.1.2005</td>
-			</tr>
+
 		</tbody>
 	</table>
 
