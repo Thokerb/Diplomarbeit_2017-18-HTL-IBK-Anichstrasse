@@ -47,18 +47,35 @@
 			"type" : 'POST',
 				"dataSrc": "data"
 			},
+			
+			
 
-			"columns" : [ {
-				"data" : "Name"
-			},  {
-				"data" : "Autor"
-			}, {
-				"data" : "UploadDatum"
-			}, {
-				"data" : "DokumentDatum"
-			},
+			"columns" : [ 
+				{"data" : "Name"},
+				{"data" : "Autor"},
+				{"data" : "UploadDatum"},
+				{"data" : "DokumentDatum"},
+				{"data" : "Download"},
+				{"data" : "Delete"}
+			
 
 			],
+			
+
+	        "columnDefs": [ {
+	            "targets": -2,
+	            "data": "null",
+	            "defaultContent": "<button>Download!</button>"
+	        }, {
+	            "targets": -1,
+	            "data": "null",
+	            "defaultContent": "<button>Delete!</button>"
+	        }  ],
+
+	        
+
+	        
+	        
 			
 			
 		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
@@ -99,6 +116,8 @@
 				<th>Autor</th>
 				<th>UploadDatum</th>
 				<th>DokumentDatum</th>
+				<th>Download</th>
+				<th>Delete</th>
 			</tr>
 
 		</thead>
