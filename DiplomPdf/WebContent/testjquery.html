@@ -4,7 +4,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Insert title here</title>
+
+
+
 <script src="jquery-3.2.1.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
 	href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"></link>
 <script type="text/javascript"
@@ -32,7 +39,7 @@
 					"sLengthMenu":   	"_MENU_ Einträge anzeigen",
 					"sLoadingRecords": 	"Wird geladen...",
 					"sProcessing":   	"Bitte warten...",
-					"sSearch":       	"Suchen",
+					"sSearch":       	"<span class=\"glyphicon glyphicon-search\"></span>Suchen",
 					"sZeroRecords":  	"Keine Einträge vorhanden.",
 					"oPaginate": {
 						"sFirst":    	"Erste",
@@ -87,12 +94,12 @@
 		        var input = $('.dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
 		           self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
 		            $searchbutton = $('<button>')	//erstellt ein Buttonobjekt
-		                       .text('Suchen')		// Button - Text: Suchen
+		                       .html('<p><span class="glyphicon glyphicon-search"/> Suchen</p>')		// Button - Text: Suchen
 		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
 		                        self.search(input.val()).draw();	//ruft die Search - Funktion des DataTables auf und aktualisiert
 		                       }),
 		            $deletebutton = $('<button>')	//erstellt ein Buttonobjekt
-		                       .text('Löschen')		//Button - Text: Löschen
+		                       .html('<p>Löschen<span class="glyphicon glyphicon-remove"></span></p>')		//Button - Text: Löschen
 		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
 		                          input.val('');	//Setzt den Input wieder leer
 		                          $searchbutton.click(); 	//Betätigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
@@ -114,6 +121,16 @@
 
 	    	
 	    });
+	    
+	    $("#datatable tbody").on("click",".deletebutton",function(){
+	    	alert("gelöscht");
+	         var data = table.row( $(this).parents("tr")).data();
+	         var str = JSON.stringify(data);
+	     	var xhttp = new XMLHttpRequest();
+	    	xhttp.open("POST","DeleteServlet?todelete=" +str,true);
+	    	xhttp.send(str);
+	    	table.draw();
+	    })
 		
 		
 	});
@@ -126,22 +143,35 @@
 
 </head>
 <body>
-	<table id="datatable">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Autor</th>
-				<th>UploadDatum</th>
-				<th>DokumentDatum</th>
-				<th>Download</th>
-				<th>Delete</th>
-			</tr>
+	<div class="container">
+		<div class="row">Hier steht oben noch etwas</div>
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+				<table id="datatable">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Autor</th>
+							<th>UploadDatum</th>
+							<th>DokumentDatum</th>
+							<th>Download</th>
+							<th>Delete</th>
+						</tr>
 
-		</thead>
-		<tbody>
+					</thead>
+					<tbody>
 
-		</tbody>
-	</table>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+
+	</div>
+
+
+
 
 </body>
 </html>
