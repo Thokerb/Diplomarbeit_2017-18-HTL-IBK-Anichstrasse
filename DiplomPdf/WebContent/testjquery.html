@@ -6,16 +6,19 @@
 <title>Insert title here</title>
 
 
-
+<!-- jquery script  -->
 <script src="jquery-3.2.1.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css"
-	href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"></link>
-<script type="text/javascript"
-	src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+<!-- bootstrap implementation -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+<!-- jquery datatable stylesheet -->	
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"></link>
+<!-- jquery datatable javascript -->
+<script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 
@@ -114,9 +117,11 @@
 	    $('#datatable tbody').on( 'click', '.downloadbutton', function () {
 	         var data = table.row( $(this).parents("tr")).data();
 	         var str = JSON.stringify(data);
-	     	var xhttp = new XMLHttpRequest();
-	    	xhttp.open("POST","DownloadServlet?download=" +str,true);
-	    	xhttp.send(str);
+		     	var xhttp = new XMLHttpRequest();
+
+	     	xhttp.open("POST", "DownloadServlet", true);
+	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    	xhttp.send("download="+str);
 	         
 
 	    	
@@ -127,8 +132,9 @@
 	         var data = table.row( $(this).parents("tr")).data();
 	         var str = JSON.stringify(data);
 	     	var xhttp = new XMLHttpRequest();
-	    	xhttp.open("POST","DeleteServlet?todelete=" +str,true);
-	    	xhttp.send(str);
+	    	xhttp.open("POST","DeleteServlet",true);
+	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    	xhttp.send("todelete="+str);
 	    	table.draw();
 	    })
 		
