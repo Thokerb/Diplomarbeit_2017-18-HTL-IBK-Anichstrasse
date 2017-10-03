@@ -19,13 +19,14 @@
 <!-- jquery datatable javascript -->
 <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 
+
 <script type="text/javascript">
+
 	$(document).ready(function() {
 
 
 
 
-		
 		var table = $('#datatable').DataTable({
 			
 		
@@ -136,8 +137,9 @@
 	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	    	xhttp.send("todelete="+str);
 	    	table.draw();
-	    })
+	    });
 		
+	    
 		
 	});
 	
@@ -149,6 +151,7 @@
 
 </head>
 <body>
+
 	<div class="container">
 		<div class="row">Hier steht oben noch etwas</div>
 		<div class="row">

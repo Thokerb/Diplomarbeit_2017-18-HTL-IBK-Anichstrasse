@@ -55,7 +55,8 @@ public class UploadServlet extends HttpServlet {
 		int nummer = 1;
 	    Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	    
 	    InputStream fileContent = filePart.getInputStream();
-	    
+	 System.out.println("was steht da: "+filePart.getHeader("content-disposition").substring(36));  
+
         String dateiname = request.getParameter("dateiname");
         System.out.println("Name der Datei: "+dateiname);
 

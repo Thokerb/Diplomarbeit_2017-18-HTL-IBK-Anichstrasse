@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<button id = "b1" onclick="func2()"> Klick mich für einen Ajax request</button>
+<button id = "b1" onclick="func3()"> Klick mich für einen Ajax request</button>
 
 <script type="text/javascript">
 
@@ -28,7 +28,16 @@ function func2(){
 	alert(x);
 	xhttp.send("download="+x);
 }
-
+/**
+ * Fragt bei einem Servlet um Daten an und gibt diese aus
+ */
+function func3(){
+    $.getJSON("DateienListServlet", function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+        console.log(responseText);
+        var namen = responseText;
+        console.log(namen.length);
+});
+}
 </script>
 </body>
 </html>
