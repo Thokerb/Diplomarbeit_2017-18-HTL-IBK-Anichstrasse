@@ -62,6 +62,7 @@ init: function(){
 	var dropzone = this;
 	var filetogive;
 	var givename;
+	var tochange;
 	
 	function getDokumentNamen(namedatei){
 		
@@ -92,7 +93,11 @@ init: function(){
 	this.on("addedfile",function(file){
 		
 		console.log("called");
-		console.log(this);
+		//console.log(this);
+		tochange =     file.previewElement.querySelector("[data-dz-name]");
+		//file.previewElement;
+	//console.log(test);
+	console.log("fertig");
 	
 	
 	givename = file.name;
@@ -105,8 +110,11 @@ init: function(){
 	$("#modalinputbtn").on("click",function(){
 		console.log("filetogive");
 		givename = $("#modalinput").val();
+		//TODO: html element change
 	//	var element = $(".dz-filename").val();
 	//	console.log(element);// = givename;
+
+		tochange.innerHTML = givename;
 		dropzone.processFile(filetogive);
 		
 		$("#saveModal").modal("hide");
@@ -115,6 +123,10 @@ init: function(){
 	function sendfile(){
 		dropzone.processFile(filetogive);
 	}
+	
+	this.on("renameFile",function(file){
+		alert("called renameFile");
+	});
 	
 	
 	this.on("sending",function (file,xhr,formData){
@@ -142,8 +154,7 @@ dictInvalidFileType: "Dies ist leider der falsche Dateityp. Es werden nur PDF-Da
 
 
 
-alert("check");
-
+console.log("finished javascript")
 
 
 
@@ -155,6 +166,7 @@ alert("check");
 	
     </form>
 </div>
+
 
 
 
