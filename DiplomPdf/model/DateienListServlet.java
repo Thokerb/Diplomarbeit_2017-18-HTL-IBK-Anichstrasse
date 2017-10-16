@@ -27,6 +27,11 @@ public class DateienListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/**
+		 * Hier sollten von der Datenbank als String Array eine Liste mit den Name der bereits vorhandenen Dateien geschickt werden.
+		 * Für ein Beipsiel siehe String[] namen
+		 */
+		
 		// TODO Auto-generated method stub
 		String[] namen = new String[2];
 		namen[0] = "schule.pdf";

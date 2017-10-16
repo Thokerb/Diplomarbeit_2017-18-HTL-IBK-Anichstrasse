@@ -29,6 +29,10 @@ public class DownloadServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		/**
+		 * Hier werden die Daten der Datei geschickt, welche gedownloaded werden sollen
+		 * Für ein Beispiel testjquery.html öffnen und auf den download button klicken
+		 */
 		String antwort = request.getParameter("download");
 
 		System.out.println(antwort);

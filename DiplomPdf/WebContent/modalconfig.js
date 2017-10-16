@@ -9,15 +9,24 @@
 		function addChecker(DokumentNamen){
 			console.log("addkeypress");
 			
-			$("#modalinput").keypress(function(){			
+			$("#modalinput").keyup(function(){				// statt keypress da ansonst 1 char delay
 				console.log("keypressed!!!");
 				console.log(DokumentNamen);
 				var userinput = $("#modalinput").val();
 				console.log(userinput);
 				if($.inArray(userinput,DokumentNamen)==-1){
 					console.log("nicht vorhandener name");
-					$("#modalinputbtn").prop("disabled",false); //nicht mit attr
-					$("#modalinputbtn").attr("class","btn btn-primary active");
+					if(userinput.match(".pdf$")){
+						console.log("Datei besitzt die richtige Endung")
+						$("#modalinputbtn").prop("disabled",false); //nicht mit attr
+						$("#modalinputbtn").attr("class","btn btn-primary active");
+					}
+					else{
+						console.log("Die neue Datei ist keine PDF");
+						$("#modalinputbtn").prop("disabled",true);	// nicht mit attr
+						$("#modalinputbtn").attr("class","btn btn-primary disabled");
+					}
+
 				}
 				else{
 					console.log(" vorhandener name");

@@ -91,20 +91,26 @@ init: function(){
 	}
 	
 	this.on("addedfile",function(file){
+		if(file.name.match(".pdf$")){
+			
+			console.log("akzeptiert: ");
+			console.log(file);
+			console.log("called");
+			//console.log(this);
+			tochange =     file.previewElement.querySelector("[data-dz-name]");
+			//file.previewElement;
+		//console.log(test);
+		console.log("fertig");
 		
-		console.log("called");
-		//console.log(this);
-		tochange =     file.previewElement.querySelector("[data-dz-name]");
-		//file.previewElement;
-	//console.log(test);
-	console.log("fertig");
-	
-	
-	givename = file.name;
-	console.log(givename);
-	getDokumentNamen(givename);
-	filetogive = file;
-	console.log(file);
+		
+		givename = file.name;
+		console.log(givename);
+		getDokumentNamen(givename);
+		filetogive = file;
+		console.log(file);
+			
+		}
+
 	});
 	
 	$("#modalinputbtn").on("click",function(){

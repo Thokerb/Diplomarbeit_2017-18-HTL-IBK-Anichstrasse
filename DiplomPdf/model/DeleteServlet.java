@@ -28,6 +28,10 @@ public class DeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	//	response.getWriter().append("Served at: ").append(request.getContextPath());
+		/**
+		 * Hier werden die Daten der Datei geschickt, welche gelöscht werden sollen
+		 * Für ein Beispiel testjquery.html öffnen und auf den delete button klicken
+		 */
 		String todelete = request.getParameter("todelete");
 		System.out.println("todelete: "+todelete);
 	}

@@ -33,6 +33,10 @@ public class MeinServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		/**
+		 * veraltetes Servlet von index.html, welches Suchbegriffe von JSON auf String [] umwandelt
+		 * nicht relevant als Schnittstelle
+		 */
 		PrintWriter out  = response.getWriter();
 		String antwort = request.getParameter("answer");
 		System.out.println("Die Antwort: "+antwort);
