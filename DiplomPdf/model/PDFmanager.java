@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-=======
-
-
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 import java.io.File;
 import java.io.IOException;
 
@@ -26,7 +21,7 @@ public class PDFmanager {
 	public PDFmanager() {
 
 	}
-	
+
 	public String ToText() throws IOException {
 
 		this.pdfStripper = null;
@@ -43,7 +38,7 @@ public class PDFmanager {
 		pdDoc.getNumberOfPages();
 		pdfStripper.setStartPage(1);
 		pdfStripper.setEndPage(pdDoc.getNumberOfPages());
-//		pdfStripper.setEndPage(2);
+		//		pdfStripper.setEndPage(2);
 
 		Text = pdfStripper.getText(pdDoc);
 		return Text;
