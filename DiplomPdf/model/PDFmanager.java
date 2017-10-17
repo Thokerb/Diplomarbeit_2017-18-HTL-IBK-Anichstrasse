@@ -1,5 +1,3 @@
-package Sara;
-
 import java.io.File;
 import java.io.IOException;
 

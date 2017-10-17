@@ -1,5 +1,3 @@
-package Sara;
-
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -10,7 +8,7 @@ public class PDFboxLesen {
 	public static void main(String[] args) throws IOException {
 
 		PDFmanager pdfM = new PDFmanager();
-		pdfM.setFilePath("C:\\Users\\Sara\\Desktop\\ZaunerHindelang.pdf");
+		pdfM.setFilePath("C:\\Users\\Sara\\Documents\\UFW-V\\ZaunerHindelang.pdf");
 
 		System.out.print("Bitte hier Wort, nachdem gesucht werden sollte eingeben:  ");
 		Scanner scanner = new Scanner(System.in);
@@ -24,5 +22,4 @@ public class PDFboxLesen {
 		System.out.println("War das Wort vorhanden? " + text.equals(gesucht));
 		
 	}    
-
 }

@@ -1,5 +1,3 @@
-
-
 import java.awt.event.TextEvent;
 import java.awt.event.TextListener;
 import java.io.IOException;
@@ -20,12 +18,12 @@ import com.google.gson.Gson;
 public class MeinServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * Default constructor. 
-     */
-    public MeinServlet() {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * Default constructor. 
+	 */
+	public MeinServlet() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -43,8 +41,6 @@ public class MeinServlet extends HttpServlet {
 		for(int i = 0;i<begriffe.length;i++){
 			System.out.println(begriffe[i]);
 		}
-
-
 	}
 
 	/**
@@ -54,12 +50,4 @@ public class MeinServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
-
-
 }
-
-
-
-
-
