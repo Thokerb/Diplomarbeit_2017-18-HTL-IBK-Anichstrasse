@@ -53,6 +53,7 @@ public class UploadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/**
 		 * Aktuell wird die Datei temporär auf C:/Temp gespeichert
+		 * wenn boolean overwrite true ist, dann gibt es die datei bereit und sie soll überschrieben werden
 		 * TODO: übergabe in Datenbank
 		 */
 		// TODO Auto-generated method stub
@@ -61,8 +62,9 @@ public class UploadServlet extends HttpServlet {
 	    InputStream fileContent = filePart.getInputStream();
 	 System.out.println("was steht da: "+filePart.getHeader("content-disposition").substring(36));  
 
+	 	boolean overwrite = Boolean.parseBoolean(request.getParameter("overwrite"));	//nimmt den String und wandelt ihn in ein boolean um
         String dateiname = request.getParameter("dateiname");
-        System.out.println("Name der Datei: "+dateiname);
+        System.out.println("Name der Datei: "+dateiname+" overwrite: "+overwrite);
 
         uploader(fileContent,dateiname,0);
         
