@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 import java.io.File;
 import java.io.IOException;
 

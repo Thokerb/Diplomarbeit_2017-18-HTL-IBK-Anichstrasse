@@ -4,47 +4,163 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
     <script src="dropzone.js"></script>
-    <link rel="stylesheet" type="text/css" href="dropzone.css">
+    <link rel="stylesheet" type="text/css" href="dropzone.css"/>
     
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<!-- jquery library -->
+	<script src="jquery-3.2.1.js"></script>
+
+
+	<!-- Latest compiled JavaScript -->
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<script type="text/javascript" src="modalconfig.js"></script>		
 
 <title>Upload - Seite</title>
 </head>
 <body>
+
+
+	<!-- Modal -->
+<div id="saveModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+      <p>Der Name <span id="modaldatname"></span> ist bereits vorhanden</p>
+      <p>Bitte gib einen neuen Namen ein: </p><input id="modalinput" /><button disabled="true" class="btn btn-primary disabled" id="modalinputbtn">OK</button>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 <h1>Willkommen auf der Upload Seite</h1>
 
 
 <h1>Neuer Bereich</h1>
 
 <script>
-function blub(){
-	
-	var name = document.querySelector('input[type=file]').files[0].name;
 
-	//document.getElementById("dateiname").value = name;
-	alert(document.getElementById("dateiname").value);
-	return name;
-	}
 
 Dropzone.myDropzone = false;
 var size = 1;
-
+var name;
 Dropzone.options.myDropzone = {
+		
+init: function(){
+	var dropzone = this;
+	var filetogive;
+	var givename;
+	var tochange;
+	
+	function getDokumentNamen(namedatei){
+		
+	    $.getJSON("DateienListServlet", function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+	         var DokumentNamen = responseText;
+	        
+	    	console.log(DokumentNamen);
+	        console.log(namedatei);
+	    	var vorhanden = $.inArray(namedatei,DokumentNamen);
+			console.log(vorhanden);
+	        
+	        if(vorhanden===-1){
+	        	console.log("nicht vorhanden");
+	        	sendfile();
+	        }
+	        else{
+	        	console.log("vorhanden");
+	        	addChecker(DokumentNamen);
+	        	showModal(namedatei);
+	        	console.log(DokumentNamen);
+	        	
+	        	
+	        }
+	});
+		
+	}
+	
+	this.on("addedfile",function(file){
+		if(file.name.match(".pdf$")){
+			
+			console.log("akzeptiert: ");
+			console.log(file);
+			console.log("called");
+			//console.log(this);
+			tochange =     file.previewElement.querySelector("[data-dz-name]");
+			//file.previewElement;
+		//console.log(test);
+		console.log("fertig");
+		
+		
+		givename = file.name;
+		console.log(givename);
+		getDokumentNamen(givename);
+		filetogive = file;
+		console.log(file);
+			
+		}
+
+	});
+	
+	$("#modalinputbtn").on("click",function(){
+		console.log("filetogive");
+		givename = $("#modalinput").val();
+		//TODO: html element change
+	//	var element = $(".dz-filename").val();
+	//	console.log(element);// = givename;
+
+		tochange.innerHTML = givename;
+		dropzone.processFile(filetogive);
+		
+		$("#saveModal").modal("hide");
+	});
+	
+	function sendfile(){
+		dropzone.processFile(filetogive);
+	}
+	
+	this.on("renameFile",function(file){
+		alert("called renameFile");
+	});
+	
+	
+	this.on("sending",function (file,xhr,formData){
+		
+	console.log("sending called");
+	formData.append("dateiname",givename);
+
+});
+	
+console.log("finished init");
+},
 maxFilesize: size,
 paramName: "pdffile",
 url: "UploadServlet",
 acceptedFiles: "application/pdf",
+parallelUploads: 1,
+autoQueue: false,
+autoProcessQueue: false,
 dictDefaultMessage: "Ziehe Dateien hierhin zum Hochladen",
 dictFallbackMessage: "Dieser Browser wird leider nicht unterstützt",
-dictFileTooBig: "Die Datei ist leider zu groß. Erlaubtes Maximum " +size +" MB",
-dictInvalidFileType: "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt",
-sending: function (file,xhr,formData){
-	formData.append("dateiname",file.name)
-}
+dictFileTooBig: "Die Datei ist leider zu groß. Erlaubtes Maximum sind " +size +" MB",
+dictInvalidFileType: "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
 
 }
 
-alert("check");
 
+
+console.log("finished javascript")
 
 
 
@@ -56,6 +172,7 @@ alert("check");
 	
     </form>
 </div>
+
 
 
 

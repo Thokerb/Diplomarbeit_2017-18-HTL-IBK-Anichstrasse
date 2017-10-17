@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="stylesheet.css"></link>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<!-- jquery library -->
+	<script src="jquery-3.2.1.js"></script>
+
+
+	<!-- Latest compiled JavaScript -->
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<script src="modalconfig.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Insert title here</title>
+</head>
+<body>
+	<button id="mybutton">I bims 1 Button</button>
+
+	<button id="bsbutton">I open a bootstrap modal</button>
+
+
+	<button onclick="func2()">Open a new window !</button>
+	
+	<form action="">
+	<input type="text" value="sometext" id="text1"></input>
+	</form>
+	
+	<!-- Modal -->
+<div id="saveModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+      <p>Der Name <span id="modaldatname"></span> ist bereits vorhanden</p>
+      <p>Bitte gib einen neuen Namen ein: </p><input id="modalinput" /><button id="modalinputbtn">OK</button>
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+	
+	
+	<script>
+	//alte version von func2 öffnete ein window, war jedoch optisch nicht sehr ansprechend und state of the art
+	
+	function func2(){
+		alert("2");
+		showModal();
+	}
+	
+		$(document).ready(function() {
+
+			$("#mybutton").click(function() {
+				alert("salve");
+				$("#mymodal").css("display", "block");
+			});
+
+			$("window").click(function(event) {
+				if (event.target == mymodal) {
+					alert("amk");
+					$("#mymodal").css("display", "none");
+				}
+			});
+			
+			$("#bsbutton").click(function(){
+				$("#saveModal").modal("show");
+			});
+			
+			$("#saveModal").on("show.bs.modal",function(){
+				var formdata = $("#text1").val();
+				//alert(formdata);
+				$("#modalinput").val(formdata);
+				$("#modaldatname").text(formdata);	//verwende .text anstatt .html da in diesem Fall die Formatierung des modals beibehalten wird
+			});
+			
+			
+			$("#saveModal").on("shown.bs.modal",function(){
+				$("#modalinput").select();
+			})
+			
+			$("#modalinput").on("click", function () {
+				   $(this).select();
+				});
+			
+			$("#modalinputbutton").on("click",function(){
+				//modal WebElement - config finished, next step intregrating into Hauptseite
+			})
+
+
+	//		alert("document ready");
+
+		});
+	</script>
+</body>
+</html>

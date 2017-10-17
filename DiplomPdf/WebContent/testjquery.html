@@ -4,14 +4,30 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Insert title here</title>
+
+
+<!-- jquery script  -->
 <script src="jquery-3.2.1.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"></link>
-<script type="text/javascript"
-	src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+<!-- bootstrap implementation -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+<!-- jquery datatable stylesheet -->	
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"></link>
+<!-- jquery datatable javascript -->
+<script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+
 <script type="text/javascript">
+
 	$(document).ready(function() {
-		var table = $('#datatable').dataTable({
+
+
+
+
+		var table = $('#datatable').DataTable({
 			
 		
 			"processing" : true,
@@ -27,7 +43,7 @@
 					"sLengthMenu":   	"_MENU_ Einträge anzeigen",
 					"sLoadingRecords": 	"Wird geladen...",
 					"sProcessing":   	"Bitte warten...",
-					"sSearch":       	"Suchen",
+					"sSearch":       	"<span class=\"glyphicon glyphicon-search\"></span>Suchen",
 					"sZeroRecords":  	"Keine Einträge vorhanden.",
 					"oPaginate": {
 						"sFirst":    	"Erste",
@@ -47,31 +63,47 @@
 			"type" : 'POST',
 				"dataSrc": "data"
 			},
+			
+			
 
-			"columns" : [ {
-				"data" : "Name"
-			},  {
-				"data" : "Autor"
-			}, {
-				"data" : "UploadDatum"
-			}, {
-				"data" : "DokumentDatum"
-			},
+			"columns" : [ 
+				{"data" : "Name"},
+				{"data" : "Autor"},
+				{"data" : "UploadDatum"},
+				{"data" : "DokumentDatum"},
+				{"data" : "Download"},
+				{"data" : "Delete"}
+			
 
 			],
+			
+
+	        "columnDefs": [ {
+	        	"targets": -2,
+	            "data": "null",
+	            "defaultContent": "<button class=\"downloadbutton\">Download!</button>"
+	        }, {
+	            "targets": -1,
+	            "data": "null",
+	            "defaultContent": "<button class=\"deletebutton\">Delete!</button>"
+	        }  ],
+
+	        
+
+	        
+	        
 			
 			
 		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
 		        var input = $('.dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
-		            self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
+		           self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
 		            $searchbutton = $('<button>')	//erstellt ein Buttonobjekt
-		                       .text('Suchen')		// Button - Text: Suchen
+		                       .html('<p><span class="glyphicon glyphicon-search"/> Suchen</p>')		// Button - Text: Suchen
 		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
-		                         self.search(input.val());	//ruft die Search - Funktion des DataTables auf
-		                       	 self.draw();	//aktualisiert den DataTable / malt den Inhalt neu
+		                        self.search(input.val()).draw();	//ruft die Search - Funktion des DataTables auf und aktualisiert
 		                       }),
 		            $deletebutton = $('<button>')	//erstellt ein Buttonobjekt
-		                       .text('Löschen')		//Button - Text: Löschen
+		                       .html('<p>Löschen<span class="glyphicon glyphicon-remove"></span></p>')		//Button - Text: Löschen
 		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
 		                          input.val('');	//Setzt den Input wieder leer
 		                          $searchbutton.click(); 	//Betätigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
@@ -83,6 +115,32 @@
 
 		});
 
+	    $('#datatable tbody').on( 'click', '.downloadbutton', function () {
+	         var data = table.row( $(this).parents("tr")).data();
+	         var str = JSON.stringify(data);
+		     	var xhttp = new XMLHttpRequest();
+
+	     	xhttp.open("POST", "DownloadServlet", true);
+	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    	xhttp.send("download="+str);
+	         
+
+	    	
+	    });
+	    
+	    $("#datatable tbody").on("click",".deletebutton",function(){
+	    	alert("gelöscht");
+	         var data = table.row( $(this).parents("tr")).data();
+	         var str = JSON.stringify(data);
+	     	var xhttp = new XMLHttpRequest();
+	    	xhttp.open("POST","DeleteServlet",true);
+	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    	xhttp.send("todelete="+str);
+	    	table.draw();
+	    });
+		
+	    
+		
 	});
 	
 
@@ -93,25 +151,36 @@
 
 </head>
 <body>
-	<table id="datatable">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Autor</th>
-				<th>UploadDatum</th>
-				<th>DokumentDatum</th>
-			</tr>
 
-		</thead>
-		<tbody>
-			<tr>
-				<td>Eine Reihe unglücklicher Ereignisse</td>
-				<td>Sebastian</td>
-				<td>05.09.2017</td>
-				<td>1.1.2005</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="container">
+		<div class="row">Hier steht oben noch etwas</div>
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+				<table id="datatable">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Autor</th>
+							<th>UploadDatum</th>
+							<th>DokumentDatum</th>
+							<th>Download</th>
+							<th>Delete</th>
+						</tr>
+
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+
+	</div>
+
+
+
 
 </body>
 </html>

@@ -51,11 +51,16 @@ public class UploadServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/**
+		 * Aktuell wird die Datei temporär auf C:/Temp gespeichert
+		 * TODO: übergabe in Datenbank
+		 */
 		// TODO Auto-generated method stub
 		int nummer = 1;
 	    Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	    
 	    InputStream fileContent = filePart.getInputStream();
-	    
+	 System.out.println("was steht da: "+filePart.getHeader("content-disposition").substring(36));  
+
         String dateiname = request.getParameter("dateiname");
         System.out.println("Name der Datei: "+dateiname);
 

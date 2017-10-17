@@ -1,8 +1,6 @@
-import java.awt.event.TextEvent;
-import java.awt.event.TextListener;
-import java.io.IOException;
-import java.io.PrintWriter;
 
+
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,18 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 /**
- * Servlet implementation class MeinServlet
+ * Servlet implementation class DownloadServlet
  */
-//@WebServlet("/MeinServlet")
-public class MeinServlet extends HttpServlet {
+public class DownloadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Default constructor. 
-	 */
-	public MeinServlet() {
-		// TODO Auto-generated constructor stub
-	}
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public DownloadServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,19 +30,13 @@ public class MeinServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		/**
-		 * veraltetes Servlet von index.html, welches Suchbegriffe von JSON auf String [] umwandelt
-		 * nicht relevant als Schnittstelle
+		 * Hier werden die Daten der Datei geschickt, welche gedownloaded werden sollen
+		 * Für ein Beispiel testjquery.html öffnen und auf den download button klicken
 		 */
-		PrintWriter out  = response.getWriter();
-		String antwort = request.getParameter("answer");
-		System.out.println("Die Antwort: "+antwort);
-		Gson gson = new Gson();
-		String[] begriffe;
-		begriffe = gson.fromJson(antwort, String[].class);
-		System.out.println("Hier sollte nicht null stehen: "+begriffe);
-		for(int i = 0;i<begriffe.length;i++){
-			System.out.println(begriffe[i]);
-		}
+		String antwort = request.getParameter("download");
+
+		System.out.println(antwort);
+		
 	}
 
 	/**
@@ -54,4 +46,5 @@ public class MeinServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+
 }
