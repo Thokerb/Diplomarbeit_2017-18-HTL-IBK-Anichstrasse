@@ -8,9 +8,7 @@ public class TextdateiLesen {
 
 	public static void main(String[] args) {
 		// Hier Datei angeben, wessen Text gelesen werden sollte 
-		String fileName = "C://Users//Sara//Dropbox//Diplomarbeit//Text.txt";
-
-		// Zwischenspeicher der Zeilen 
+		String fileName = "C://Users//Sara//Dropbox//Diplomarbeit//Text.txt"; 
 		String line = null;
 
 		try {
