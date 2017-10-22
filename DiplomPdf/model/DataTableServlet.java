@@ -43,11 +43,16 @@ public class DataTableServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String search = request.getParameter("search[value]");
 		String draw = request.getParameter("draw");
-		int order = Integer.parseInt(request.getParameter("order [i][columm]"));
-		int start = Integer.parseInt(request.getParameter("start"));
-		String order_art = request.getParameter("order[i][dir]");
 		
-		System.out.println(+order+start+order_art);
+		String order_art = null;
+		
+			String order =request.getParameter("order[0][column]");
+		
+	
+			order_art = request.getParameter("order[0][dir]");
+		
+		
+		System.out.println(order+order_art);
 		
 //		String antwort = "{\"data\":[{\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"}, {\"Name\":\"FLasche Luggi\",\"Autor\":\"HTL\",\"UploadDatum\":\"übermorgen\",\"DokumentDatum\":\"2013\"},{\"]}";
 //		System.out.println(antwort);
@@ -65,7 +70,7 @@ public class DataTableServlet extends HttpServlet {
 
 		String antwort = "{\"draw\":"+draw+",\"recordsTotal\":2,\"recordsFiltered\":2,\"data\":[{\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"}]}";
 		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
-		System.out.println(antwort);
-		out.println(antwort);
+		System.out.println(antwort2);
+		out.println(antwort2);
 	}
 }

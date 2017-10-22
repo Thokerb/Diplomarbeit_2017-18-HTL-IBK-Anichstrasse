@@ -116,10 +116,17 @@
 		});
 
 	    $('#datatable tbody').on( 'click', '.downloadbutton', function () {
+	    	console.log("downloadbutton geklickt");
+
+	    	var position = $(this);
+	    	console.log(position);
+	    	
+
+	    	
 	         var data = table.row( $(this).parents("tr")).data();
 	         var str = JSON.stringify(data);
 		     	var xhttp = new XMLHttpRequest();
-
+			
 	     	xhttp.open("POST", "DownloadServlet", true);
 	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	    	xhttp.send("download="+str);
