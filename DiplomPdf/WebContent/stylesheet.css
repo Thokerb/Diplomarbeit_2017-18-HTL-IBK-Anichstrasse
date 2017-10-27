@@ -40,7 +40,20 @@ box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
 .glyphicon-arrow-down{
 	position: relative;
 	font-size: 30px;
-	width: 100%;
+	
+}
+
+
+
+.btn-datatable{
+	font-size: 30px;
+	cursor: pointer;
+}
+
+
+
+.btn-link:focus{
+	outline: none;
 }
 
 .animate{
@@ -53,7 +66,7 @@ box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
 
 .iconeffect{
 
-	animation: linksnachrechts 1s forwards;
+	animation: linksnachrechts 0.8s forwards;
 		animation-iteration-count: 1;
 	
 	
