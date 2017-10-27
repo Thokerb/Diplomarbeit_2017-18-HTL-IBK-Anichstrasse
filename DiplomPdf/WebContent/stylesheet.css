@@ -37,3 +37,53 @@ box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
 }
+.glyphicon-arrow-down{
+	position: relative;
+	font-size: 30px;
+	width: 100%;
+}
+
+.animate{
+	background-color: gray;
+	height: 50px;
+	width: 100px;
+
+	position: fixed;
+}
+
+.iconeffect{
+
+	animation: linksnachrechts 1s forwards;
+		animation-iteration-count: 1;
+	
+	
+}
+
+/*.iconeffect:hover {
+	animation: linksnachrechts 1s forwards;
+	animation-iteration-count: infinite;
+	
+}*/
+
+
+
+.test{
+	display: inline-block;
+	border: solid;
+	border-width: medium;
+}
+
+
+
+@keyframes linksnachrechts{
+	49%{
+		transform: translateY(100%);
+	}
+	50%{
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+	51%{
+		opacity: 1;
+	}
+}

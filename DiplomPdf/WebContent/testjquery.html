@@ -11,8 +11,11 @@
 
 <!-- bootstrap implementation -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 
+<link rel="stylesheet" href="testjquerystyle.css"/>
+
+<link rel="stylesheet" href="stylesheet.css"></link>
 
 <!-- jquery datatable stylesheet -->	
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"></link>
@@ -81,7 +84,7 @@
 	        "columnDefs": [ {
 	        	"targets": -2,
 	            "data": "null",
-	            "defaultContent": "<button class=\"downloadbutton\">Download!</button>"
+	            "defaultContent": "<button class=\"downloadbutton\"><span class=\"glyphicon glyphicon-arrow-down\"></span></button>"
 	        }, {
 	            "targets": -1,
 	            "data": "null",
@@ -118,12 +121,21 @@
 	    $('#datatable tbody').on( 'click', '.downloadbutton', function () {
 	    	console.log("downloadbutton geklickt");
 
-	    	var position = $(this);
+	    	var position = $(this).parents("td");
 	    	console.log(position);
-	    	
+	    	var y = $("<div class='animate'>Download</div>");
+	    	position.append(y);
+            y.animate({
+				left: "-100px",
+				bottom: "-100px"
+            });
+            setTimeout(function () {
+				y.remove();
+            },5000);
 
-	    	
-	         var data = table.row( $(this).parents("tr")).data();
+
+
+            var data = table.row( $(this).parents("tr")).data();
 	         var str = JSON.stringify(data);
 		     	var xhttp = new XMLHttpRequest();
 			
@@ -146,8 +158,35 @@
 	    	table.draw();
 	    });
 		
+	    //	    $('#datatable tbody').on( 'click', '.downloadbutton', function () {
 	    
+	    	$("#datatable tbody").on('mouseenter','.glyphicon-arrow-down',function(){
+	    		//$(this).children.(".glyphicon-arrow-down").addClass()
+	    		console.log("enter");
+	    		$(this).addClass("iconeffect");
+	    	//	$(this).children().addClass("iconeffect");
+
+	    	});
+	    	
+/* 	    	$("#datatable tbody").on("mouseout",".glyphicon-arrow-down",function(){
+	    		console.log("leave");
+	    		$(this).removeClass("iconeffect");
+	    	//	$(this).children().removeClass("iconeffect");
+	    	}) */
+	    	
+	    	
+
 		
+ 		$("#datatable tbody").on("webkitAnimationEnd mozAnimationEnd animationEnd",".glyphicon-arrow-down",function(){
+			console.log("called");
+			$(this).removeClass("iconeffect");
+		}); 
+		
+		
+//#datatable > tbody > tr.odd > td:nth-child(5) > button > span
+		
+
+		console.log("finished  js init");
 	});
 	
 
