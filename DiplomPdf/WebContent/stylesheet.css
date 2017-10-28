@@ -13,6 +13,15 @@
 	
 }
 
+.arrowpagenav{
+	font-size: 30px;
+}
+
+.dttopbtn{
+	margin: 2px;
+	padding: 3px;
+}
+
 .term:HOVER {
 -webkit-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
 -moz-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
