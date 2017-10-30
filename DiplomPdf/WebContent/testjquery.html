@@ -11,11 +11,13 @@
 
 <!-- bootstrap implementation -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 
 
-<!-- jquery datatable stylesheet -->	
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"></link>
+<link rel="stylesheet" href="stylesheet.css"></link>
+
+<!-- jquery datatable stylesheet bootstrap -->	
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"></link>
 <!-- jquery datatable javascript -->
 <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 
@@ -24,8 +26,8 @@
 
 	$(document).ready(function() {
 
-
-
+		//aktiviert Tooltip
+	    $('[data-toggle="tooltip"]').tooltip(); 
 
 		var table = $('#datatable').DataTable({
 			
@@ -43,12 +45,12 @@
 					"sLengthMenu":   	"_MENU_ Einträge anzeigen",
 					"sLoadingRecords": 	"Wird geladen...",
 					"sProcessing":   	"Bitte warten...",
-					"sSearch":       	"<span class=\"glyphicon glyphicon-search\"></span>Suchen",
+					"sSearch":       	"<span class=\"glyphicon glyphicon-search\"></span>",
 					"sZeroRecords":  	"Keine Einträge vorhanden.",
 					"oPaginate": {
 						"sFirst":    	"Erste",
-						"sPrevious": 	"Zurück",
-						"sNext":     	"Nächste",
+						"sPrevious": 	"<span class=\"glyphicon glyphicon-circle-arrow-left arrowpagenav\" data-toggle=\"tooltip\" title =\"Vorherige Seite\"></span>",
+						"sNext":     	"<span class=\"glyphicon glyphicon-circle-arrow-right arrowpagenav\" data-toggle=\"tooltip\" title =\"Nächste Seite\"></span>",
 						"sLast":     	"Letzte"
 					},
 					"oAria": {
@@ -81,11 +83,11 @@
 	        "columnDefs": [ {
 	        	"targets": -2,
 	            "data": "null",
-	            "defaultContent": "<button class=\"downloadbutton\">Download!</button>"
+	            "defaultContent": "<button class=\"downloadbutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Downloaden\"><span class=\"glyphicon glyphicon-arrow-down\" ></span></button>"
 	        }, {
 	            "targets": -1,
 	            "data": "null",
-	            "defaultContent": "<button class=\"deletebutton\">Delete!</button>"
+	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
 	        }  ],
 
 	        
@@ -97,13 +99,13 @@
 		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
 		        var input = $('.dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
 		           self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
-		            $searchbutton = $('<button>')	//erstellt ein Buttonobjekt
-		                       .html('<p><span class="glyphicon glyphicon-search"/> Suchen</p>')		// Button - Text: Suchen
+		            $searchbutton = $('<button class=\"btn-success dttopbtn\" data-toggle=\"tooltip\" title =\"Suchen\">')	//erstellt ein Buttonobjekt
+		                       .html('<span class="glyphicon glyphicon-search"/>')		// Button - Text: Suchen
 		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
 		                        self.search(input.val()).draw();	//ruft die Search - Funktion des DataTables auf und aktualisiert
 		                       }),
-		            $deletebutton = $('<button>')	//erstellt ein Buttonobjekt
-		                       .html('<p>Löschen<span class="glyphicon glyphicon-remove"></span></p>')		//Button - Text: Löschen
+		            $deletebutton = $('<button class=\"btn-danger dttopbtn\"data-toggle=\"tooltip\" title =\"Löschen\">')	//erstellt ein Buttonobjekt
+		                       .html('<span class="glyphicon glyphicon-remove"></span>')		//Button - Text: Löschen
 		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
 		                          input.val('');	//Setzt den Input wieder leer
 		                          $searchbutton.click(); 	//Betätigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
@@ -118,12 +120,21 @@
 	    $('#datatable tbody').on( 'click', '.downloadbutton', function () {
 	    	console.log("downloadbutton geklickt");
 
-	    	var position = $(this);
+	    	var position = $(this).parents("td");
 	    	console.log(position);
-	    	
+	    	var y = $("<div class='animate'>Download</div>");
+	    	position.append(y);
+            y.animate({
+				left: "-100px",
+				bottom: "-100px"
+            });
+            setTimeout(function () {
+				y.remove();
+            },5000);
 
-	    	
-	         var data = table.row( $(this).parents("tr")).data();
+
+
+            var data = table.row( $(this).parents("tr")).data();
 	         var str = JSON.stringify(data);
 		     	var xhttp = new XMLHttpRequest();
 			
@@ -147,7 +158,25 @@
 	    });
 		
 	    
+	    	$("#datatable tbody").on('mouseenter','.glyphicon-arrow-down',function(){
+	    		console.log("enter");
+	    		$(this).addClass("iconeffect");
+
+	    	});
+	    	
+
+
 		
+ 		$("#datatable tbody").on("webkitAnimationEnd mozAnimationEnd animationEnd",".glyphicon-arrow-down",function(){
+			console.log("called");
+			$(this).removeClass("iconeffect");
+		}); 
+		
+		
+//#datatable > tbody > tr.odd > td:nth-child(5) > button > span
+		
+
+		console.log("finished  js init");
 	});
 	
 
@@ -164,7 +193,7 @@
 		<div class="row">
 			<div class="col-sm-2"></div>
 			<div class="col-sm-8">
-				<table id="datatable">
+				<table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
 					<thead>
 						<tr>
 							<th>Name</th>

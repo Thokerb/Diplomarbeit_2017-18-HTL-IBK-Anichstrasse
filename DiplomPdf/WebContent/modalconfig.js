@@ -17,7 +17,7 @@
 				if($.inArray(userinput,DokumentNamen)==-1){
 					console.log("nicht vorhandener name");
 					if(userinput.match(".pdf$")){
-						console.log("Datei besitzt die richtige Endung")
+						console.log("Datei besitzt die richtige Endung");
 						$("#modalinputbtn").prop("disabled",false); //nicht mit attr
 						$("#modalinputbtn").attr("class","btn btn-primary active");
 					}
