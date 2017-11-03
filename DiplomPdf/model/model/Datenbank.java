@@ -41,6 +41,7 @@ public class Datenbank {
 	}
 
 	public static ArrayList<String[]> readAutoren() {
+		
 		ArrayList<String[]> Autoren = new ArrayList<String[]>();
 
 		String READ_DATA_SQL_AUTOREN = "select autor from uploaddaten group by autor";
@@ -52,7 +53,7 @@ public class Datenbank {
 				String[] spalten = new String[1];
 				System.out.print("Gelesen wurde: ");
 				spalten[0] = resultSet.getString(1);
-				
+
 				Autoren.add(spalten);
 				System.out.println(" '" + spalten[0] + "'");	//zur Kontrolle
 			}
@@ -63,8 +64,9 @@ public class Datenbank {
 		return Autoren;
 
 	}
-	
+
 	public static ArrayList<String[]> readDateinamen() {
+		
 		ArrayList<String[]> dateinamen = new ArrayList<String[]>();
 
 		String READ_DATA_SQL_DATEINAMEN = "select dateiname from uploaddaten group by dateiname";
@@ -76,7 +78,7 @@ public class Datenbank {
 				String[] spalten = new String[1];
 				System.out.print("Gelesen wurde: ");
 				spalten[0] = resultSet.getString(1);
-				
+
 				dateinamen.add(spalten);
 				System.out.println(" '" + spalten[0] + "'");	//zur Kontrolle
 			}
@@ -87,8 +89,9 @@ public class Datenbank {
 		return dateinamen;
 
 	}
-	
+
 	public static ArrayList<String[]> readTags() {
+		
 		ArrayList<String[]> Tags = new ArrayList<String[]>();
 
 		String READ_DATA_SQL_AUTOREN = "select tag from uploaddaten group by tag";
@@ -100,7 +103,7 @@ public class Datenbank {
 				String[] spalten = new String[1];
 				System.out.print("Gelesen wurde: ");
 				spalten[0] = resultSet.getString(1);
-				
+
 				Tags.add(spalten);
 				System.out.println(" '" + spalten[0] + "'");	//zur Kontrolle
 			}
@@ -113,6 +116,7 @@ public class Datenbank {
 	}
 
 	public static boolean writeDaten(ArrayList<String[]> eintraege) {
+		
 		boolean erfolg = true;
 		//Neue Daten in Datebantabelle schreiben.
 		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (language, tag, blobdatei, stichworttext, inhalttext, uploader, autor, dateiname,uploadid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";

@@ -18,11 +18,9 @@ public class PDFmanager {
 	private String filePath;
 	private File file;
 
-	public PDFmanager() {
-
-	}
-
-	public String ToText() throws IOException {
+	public PDFmanager() {}
+	
+	public String pdfToText() throws IOException {
 
 		this.pdfStripper = null;
 		this.pdDoc = null;
@@ -38,8 +36,7 @@ public class PDFmanager {
 		pdDoc.getNumberOfPages();
 		pdfStripper.setStartPage(1);
 		pdfStripper.setEndPage(pdDoc.getNumberOfPages());
-		//		pdfStripper.setEndPage(2);
-
+		
 		Text = pdfStripper.getText(pdDoc);
 		return Text;
 	}

@@ -21,9 +21,7 @@ public class MeinServlet extends HttpServlet {
 	/**
 	 * Default constructor. 
 	 */
-	public MeinServlet() {
-		// TODO Auto-generated constructor stub
-	}
+	public MeinServlet() {}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
