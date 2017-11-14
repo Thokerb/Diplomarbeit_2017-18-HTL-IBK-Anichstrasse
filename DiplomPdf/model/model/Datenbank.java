@@ -11,13 +11,16 @@ public class Datenbank {
 	private static String wort=Suchwort;
 	private static ArrayList<String[]> liste = new ArrayList<String[]>();
 	private static String[] testzeile = new String[]{"Deustch","Nachhilfe","NULL","NULL","fhjdskfhdsuifhusdifhdshfisfhjisd fjdisfjhsidf sfjidsofhisd fjdisofhjisdo hdisofhsid","Verena","Verena","Super cooler Text","1"};
+	static Connection conn = null;
+	static Statement stmt = null;
+	static PreparedStatement pstmt = null;
 	
 	public static void main(String[] args) {
-		//readDaten();
-		//readAutoren();
+		readDaten();
+		readAutoren();
 		//readDateinamen();
 		//readTags();
-		writeDaten(liste);
+		//writeDaten(testzeile);
 
 	
 		//fuellen der Liste mit Daten
@@ -49,38 +52,8 @@ public class Datenbank {
 		}
 		return daten;
 	}
-	/*
-	public static ArrayList<String[]> readDaten2()
-	{
-		ArrayList<String[]> daten2 = new ArrayList<String[]>();
-		
-		try{
-			
-		}
-			
-		}
-		catch(SQLException se){
-			se.printStackTrace();
-		}catch(Exception e){
-			//Handle errors for Class.forName
-			e.printStackTrace();
-		}finally{
-			//finally block used to close resources
-			try{
-				if(stmt!=null)
-					stmt.close();
-			}catch(SQLException se2){
-			}// nothing we can do
-			try{
-				if(conn!=null)
-					conn.close();
-			}catch(SQLException se){
-				se.printStackTrace();
-			}//end finally try
-		
-		return daten2;
-	}
-*/
+
+	
 	public static ArrayList<String[]> readAutoren() {
 		
 		ArrayList<String[]> Autoren = new ArrayList<String[]>();
@@ -156,14 +129,42 @@ public class Datenbank {
 
 	}
 	
+	// TODO funktionert nit ganz
 	//Neue Daten in Datebantabelle schreiben.
+	public static boolean writeDaten(String[] testzeile2) {
+		
+		boolean erfolg = true;
+		//SQL-Abfrag zum hineinschreiben neuer Daten
+		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (language, tag, blobdatei, stichworttext, inhalttext, uploader, autor, dateiname,uploadid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		//connection Aufbau
+		try (
+				Connection connection = DriverManager.getConnection(dbUrl);
+				PreparedStatement pStatement = connection.prepareStatement(INSERT_DATA_SQL);) {
+				
+				System.out.println("HIIIIIII");
+				
+				for (int i = 1; i <= 9; i++) {
+					pStatement.setString(i, testzeile[i-1]);
+					System.out.println(" '" + testzeile[i-1] + "'");
+				}
+				pStatement.executeUpdate();
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+			erfolg = false;
+		}
+		return erfolg;
+		
+	}
+	/*
 	public static boolean writeDaten(ArrayList<String[]> eintraege) {
 		
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
 		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (language, tag, blobdatei, stichworttext, inhalttext, uploader, autor, dateiname,uploadid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		//connection Aufbau
-		try (Connection connection = DriverManager.getConnection(dbUrl);
+		try (
+				Connection connection = DriverManager.getConnection(dbUrl);
 				PreparedStatement pStatement = connection.prepareStatement(INSERT_DATA_SQL);) {
 				for (String[] zeile  : eintraege) {
 				
@@ -178,6 +179,7 @@ public class Datenbank {
 		}
 		return erfolg;
 	}
+	*/
 	
 	public static boolean fulltextsearch(String wort) {
 		ArrayList<String[]> daten = new ArrayList<String[]>();
@@ -187,7 +189,7 @@ public class Datenbank {
 				PreparedStatement pStatement = connection.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
 				ResultSet resultSet = pStatement.executeQuery()) {
 			while (resultSet.next()) {
-				System.out.print("Ist das eigengebene Suchtwort, "+Suchwort+"im Tetx?");
+				System.out.print("Ist das eigengebene Suchtwort, "+Suchwort+"im Text?");
 
 
 				System.out.println();
