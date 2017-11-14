@@ -49,7 +49,7 @@ public class DocLesen {
 	public static void main(String[] args) {
 
 		DocLesen l1 = new DocLesen();
-		l1.lesenDoc("C://Users//Sara//Dropbox//Diplomarbeit//Doc.dc");
+		l1.lesenDoc("C://Users//Sara//Dropbox//Diplomarbeit//Doc.doc");
 
 
 	}

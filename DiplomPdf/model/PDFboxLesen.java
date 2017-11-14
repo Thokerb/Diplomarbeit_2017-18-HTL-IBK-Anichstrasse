@@ -11,7 +11,5 @@ public class PDFboxLesen {
 
 		text = pdfM.pdfToText();
 		System.out.println(pdfM.pdfToText());     
-
-
 	}
 }
