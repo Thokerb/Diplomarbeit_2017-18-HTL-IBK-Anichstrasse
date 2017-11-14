@@ -13,6 +13,16 @@
 	
 }
 
+.arrowpagenav{
+	font-size: 30px;
+	cursor: pointer;
+}
+
+.dttopbtn{
+	margin: 2px;
+	padding: 3px;
+}
+
 .term:HOVER {
 -webkit-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
 -moz-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
@@ -36,4 +46,67 @@ box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
+}
+.glyphicon-arrow-down{
+	position: relative;
+	font-size: 30px;
+	
+}
+
+
+
+.btn-datatable{
+	font-size: 30px;
+	cursor: pointer;
+}
+
+
+
+.btn-link:focus{
+	outline: none;
+}
+
+.animate{
+	background-color: gray;
+	height: 50px;
+	width: 100px;
+
+	position: fixed;
+}
+
+.iconeffect{
+
+	animation: linksnachrechts 0.8s forwards;
+		animation-iteration-count: 1;
+	
+	
+}
+
+/*.iconeffect:hover {
+	animation: linksnachrechts 1s forwards;
+	animation-iteration-count: infinite;
+	
+}*/
+
+
+
+.test{
+	display: inline-block;
+	border: solid;
+	border-width: medium;
+}
+
+
+
+@keyframes linksnachrechts{
+	49%{
+		transform: translateY(100%);
+	}
+	50%{
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+	51%{
+		opacity: 1;
+	}
 }

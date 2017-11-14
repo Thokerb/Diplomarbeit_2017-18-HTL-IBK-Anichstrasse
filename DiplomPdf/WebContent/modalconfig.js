@@ -17,7 +17,7 @@
 				if($.inArray(userinput,DokumentNamen)==-1){
 					console.log("nicht vorhandener name");
 					if(userinput.match(".pdf$")){
-						console.log("Datei besitzt die richtige Endung")
+						console.log("Datei besitzt die richtige Endung");
 						$("#modalinputbtn").prop("disabled",false); //nicht mit attr
 						$("#modalinputbtn").attr("class","btn btn-primary active");
 					}
@@ -62,9 +62,11 @@ $(document).ready(function() {
 		
 		$("#modalinput").on("click", function () {
 			   $(this).select();
-			});
+			})
 		
 		$("#modalinputbutton").on("click",function(){
 			//modal WebElement - config finished, next step intregrating into Hauptseite
 		})
+		
+		console.log("finished loading modalconfig.js");
 });

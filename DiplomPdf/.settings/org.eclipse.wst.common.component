@@ -2,6 +2,7 @@
     <wb-module deploy-name="DiplomPdf">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/model"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/libraries"/>
         <property name="context-root" value="DiplomPdf"/>
         <property name="java-output-path" value="/DiplomPdf/build/classes"/>
     </wb-module>

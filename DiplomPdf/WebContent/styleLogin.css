@@ -1,0 +1,40 @@
+#center{
+    border-style: solid;
+    
+}
+
+.btnpw:focus{
+    outline: none;
+}
+
+.center-content{
+    margin: auto;
+    border-style: solid;
+    max-width: 600px;
+    background-color: white;
+    padding: 10px;
+}
+
+.title{
+    text-align:center; 
+}
+
+.heroimage{
+    background-image: url(Images/heroimage_kuppel.jpeg);
+       background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+        display: table-cell;
+    vertical-align: middle;
+}
+
+body{
+    height: 100%;
+    width: 100%;
+        display: table;
+    position: absolute;
+}
+
+.imglogo{
+    text-align: center;
+}

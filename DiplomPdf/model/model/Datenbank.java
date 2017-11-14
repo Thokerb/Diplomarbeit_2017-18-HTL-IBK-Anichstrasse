@@ -82,6 +82,7 @@ public class Datenbank {
 	}
 */
 	public static ArrayList<String[]> readAutoren() {
+		
 		ArrayList<String[]> Autoren = new ArrayList<String[]>();
 
 		String READ_DATA_SQL_AUTOREN = "select autor from uploaddaten group by autor";
@@ -106,6 +107,7 @@ public class Datenbank {
 	}
 
 	public static ArrayList<String[]> readDateinamen() {
+		
 		ArrayList<String[]> dateinamen = new ArrayList<String[]>();
 
 		String READ_DATA_SQL_DATEINAMEN = "select dateiname from uploaddaten group by dateiname";
@@ -130,6 +132,7 @@ public class Datenbank {
 	}
 
 	public static ArrayList<String[]> readTags() {
+		
 		ArrayList<String[]> Tags = new ArrayList<String[]>();
 
 		String READ_DATA_SQL_AUTOREN = "select tag from uploaddaten group by tag";
@@ -155,6 +158,7 @@ public class Datenbank {
 	
 	//Neue Daten in Datebantabelle schreiben.
 	public static boolean writeDaten(ArrayList<String[]> eintraege) {
+		
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
 		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (language, tag, blobdatei, stichworttext, inhalttext, uploader, autor, dateiname,uploadid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";

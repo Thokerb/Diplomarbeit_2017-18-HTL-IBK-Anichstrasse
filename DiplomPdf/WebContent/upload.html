@@ -35,7 +35,7 @@
       </div>
       <div class="modal-body">
       <p>Der Name <span id="modaldatname"></span> ist bereits vorhanden</p>
-      <p>Bitte gib einen neuen Namen ein: </p><input id="modalinput" /><button disabled="true" class="btn btn-primary disabled" id="modalinputbtn">OK</button>
+      <p>Bitte gib einen neuen Namen ein: </p><input id="modalinput" /><button disabled="true" class="btn btn-primary disabled" id="modalinputbtn">OK</button><button id="overwritebtn" class="btn btn-primary">Überschreibe die Datei</button>
       </div>
       <div class="modal-footer">
       </div>
@@ -63,6 +63,7 @@ init: function(){
 	var filetogive;
 	var givename;
 	var tochange;
+	var overwrite = false;
 	
 	function getDokumentNamen(namedatei){
 		
@@ -90,44 +91,38 @@ init: function(){
 		
 	}
 	
+	
+	
 	this.on("addedfile",function(file){
-		if(file.name.match(".pdf$")){
-			
-			console.log("akzeptiert: ");
-			console.log(file);
-			console.log("called");
-			//console.log(this);
-			tochange =     file.previewElement.querySelector("[data-dz-name]");
-			//file.previewElement;
-		//console.log(test);
-		console.log("fertig");
-		
-		
+		tochange =     file.previewElement.querySelector("[data-dz-name]");
 		givename = file.name;
 		console.log(givename);
 		getDokumentNamen(givename);
 		filetogive = file;
 		console.log(file);
-			
-		}
-
 	});
+	
+	$("#overwritebtn").on("click",function(){
+		overwrite = true;
+		sendfile();
+		$("#saveModal").modal("hide");
+	})
 	
 	$("#modalinputbtn").on("click",function(){
 		console.log("filetogive");
 		givename = $("#modalinput").val();
-		//TODO: html element change
-	//	var element = $(".dz-filename").val();
-	//	console.log(element);// = givename;
-
 		tochange.innerHTML = givename;
 		dropzone.processFile(filetogive);
-		
 		$("#saveModal").modal("hide");
 	});
 	
 	function sendfile(){
-		dropzone.processFile(filetogive);
+		console.log("sendingstatus");
+		console.log(filetogive.status);
+		if(filetogive.status != "error"){
+			dropzone.processFile(filetogive);
+		}
+
 	}
 	
 	this.on("renameFile",function(file){
@@ -136,10 +131,10 @@ init: function(){
 	
 	
 	this.on("sending",function (file,xhr,formData){
-		
 	console.log("sending called");
 	formData.append("dateiname",givename);
-
+	formData.append("overwrite",overwrite);
+	overwrite = false;
 });
 	
 console.log("finished init");

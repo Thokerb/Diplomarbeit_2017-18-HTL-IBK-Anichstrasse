@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.Scanner;
 
 public class PDFboxLesen {
 
@@ -8,19 +7,11 @@ public class PDFboxLesen {
 	public static void main(String[] args) throws IOException {
 
 		PDFmanager pdfM = new PDFmanager();
-		pdfM.setFilePath("D:\\Schuljahr2016_17\\UFW-V\\Gurtner.pdf");
- 
-		System.out.print("Bitte hier Wort, nachdem gesucht werden sollte eingeben:  ");
-		Scanner scanner = new Scanner(System.in);
-		String gesucht = scanner.nextLine();
+		pdfM.setFilePath("C:\\Users\\Sara\\Dropbox\\Diplomarbeit\\PDf.pdf");
 
-		System.out.println("Wort nachdem gesucht wird: " + gesucht);
-		text = pdfM.ToText();
-		System.out.println(pdfM.ToText());     
-		
-		System.out.println("War das Wort vorhanden? " + text.contains(gesucht));
-		System.out.println("War das Wort vorhanden? " + text.equals(gesucht));
-		
-	}    
+		text = pdfM.pdfToText();
+		System.out.println(pdfM.pdfToText());     
 
+
+	}
 }
