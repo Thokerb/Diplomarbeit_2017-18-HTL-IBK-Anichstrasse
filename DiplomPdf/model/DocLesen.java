@@ -8,7 +8,7 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
 
 public class DocLesen {
 
-	public String lesenDoc(String filename){
+	public static String lesenDoc(String filename){
 
 		try {
 			System.out.println("Verwendete Datei: "+filename);  //Kontrolle

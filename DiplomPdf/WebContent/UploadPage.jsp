@@ -27,7 +27,6 @@
 </head>
 <body>
 
-
 	<!-- Modal -->
 	<div id="saveModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
@@ -54,10 +53,7 @@
 		</div>
 	</div>
 
-
 	<h1>Willkommen auf der Upload Seite von EasyPDF</h1>
-
-
 	<h1>Bitte ziehe hier die Dateien die du speichern möchtest hinein:
 	</h1>
 
@@ -152,13 +148,13 @@
 			autoProcessQueue : false,
 			dictDefaultMessage : "Ziehe Dateien hierhin zum Hochladen",
 			dictFallbackMessage : "Dieser Browser wird leider nicht unterstützt",
-			dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "+ size + " MB",
+			dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "
+					+ size + " MB",
 			dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt" //TODO andere Formate
 
 		}
 
 		console.log("finished javascript")
-		
 	</script>
 
 	<div>

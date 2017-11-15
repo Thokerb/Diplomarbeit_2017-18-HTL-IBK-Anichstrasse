@@ -2,7 +2,7 @@ import java.io.*;
 
 public class TextdateiLesen {
 
-	public String textdateiLesen(String filename){
+	public static String textdateiLesen(String filename){
 
 
 		// Hier Datei angeben, wessen Text gelesen werden sollte 

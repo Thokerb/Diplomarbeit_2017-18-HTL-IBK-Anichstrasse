@@ -9,7 +9,7 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
 public class DocxLesen { 	
 
-	public String lesenDocx(String filename){
+	public static String lesenDocx(String filename){
 
 		try {
 

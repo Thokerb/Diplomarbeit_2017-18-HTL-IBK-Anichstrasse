@@ -56,7 +56,7 @@ public class UploadServlet extends HttpServlet {
 		int nummer = 1;
 		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	    
 		InputStream fileContent = filePart.getInputStream();
-		System.out.println("was steht da: "+filePart.getHeader("content-disposition").substring(36));  
+		System.out.println("was steht da: "+filePart.getHeader("content-disposition").substring(36));  //TODO substring 36?
 
 		boolean overwrite = Boolean.parseBoolean(request.getParameter("overwrite"));	//nimmt den String und wandelt ihn in ein boolean um
 		String dateiname = request.getParameter("dateiname");
@@ -64,6 +64,44 @@ public class UploadServlet extends HttpServlet {
 
 		uploader(fileContent,dateiname,0);
 
+		File f = new File(dateiname);
+		String name = f.getName();
+		System.out.println("Es handelt sich um eine ' "+name.substring(name.lastIndexOf('.')+1,name.length())+" ' Datei: ");
+		System.out.println("-----------------------------------------");
+
+
+		switch(name.substring(name.lastIndexOf('.')+1,name.length())){
+
+		case "pdf"  :{
+			PDFboxLesen.lesenPDF("C://Temp//"+dateiname);
+			System.out.println("PDF - Datei wurde in Text umgewandelt -> Weitergeben an DB");
+			break;
+		}
+
+		case "txt"  :{
+
+			TextdateiLesen.textdateiLesen("C://Temp//"+dateiname);
+			System.out.println("Txt - Datei wurde in Text umgewandelt -> Weitergeben an DB");
+			break; 
+		}
+
+		case "doc"  :{
+
+			DocLesen.lesenDoc("C://Temp//"+dateiname);
+			System.out.println("Doc - Datei wurde in Text umgewandelt -> Weitergeben an DB");
+			break; 
+		}
+
+		case "docx"  :{
+
+			DocxLesen.lesenDocx("C://Temp//"+dateiname);
+			System.out.println("Docx - Datei wurde in Text umgewandelt -> Weitergeben an DB");
+			break; 
+		}
+
+
+
+		}
 		/*
         String pfad =getInitParameter("Pfad");
         File file = createFile(pfad, dateiname);
