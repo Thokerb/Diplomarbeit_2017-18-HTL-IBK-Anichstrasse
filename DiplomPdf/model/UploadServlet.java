@@ -24,14 +24,14 @@ import com.google.gson.Gson;
 //@MultipartConfig
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UploadServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public UploadServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -44,7 +44,6 @@ public class UploadServlet extends HttpServlet {
 		
 		
 		//		begriffe = gson.fromJson(antwort, String[].class);
-
 	}
 
 	/**
@@ -58,13 +57,13 @@ public class UploadServlet extends HttpServlet {
 		 */
 		// TODO Auto-generated method stub
 		int nummer = 1;
-	    Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	    
-	    InputStream fileContent = filePart.getInputStream();
-	 System.out.println("was steht da: "+filePart.getHeader("content-disposition").substring(36));  
+		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	    
+		InputStream fileContent = filePart.getInputStream();
+		System.out.println("was steht da: "+filePart.getHeader("content-disposition").substring(36));  
 
-	 	boolean overwrite = Boolean.parseBoolean(request.getParameter("overwrite"));	//nimmt den String und wandelt ihn in ein boolean um
-        String dateiname = request.getParameter("dateiname");
-        System.out.println("Name der Datei: "+dateiname+" overwrite: "+overwrite);
+		boolean overwrite = Boolean.parseBoolean(request.getParameter("overwrite"));	//nimmt den String und wandelt ihn in ein boolean um
+		String dateiname = request.getParameter("dateiname");
+		System.out.println("Name der Datei: "+dateiname+" overwrite: "+overwrite);
 
         uploader(fileContent,dateiname,0);
         
@@ -72,46 +71,47 @@ public class UploadServlet extends HttpServlet {
         
         
         
+		uploader(fileContent,dateiname,0);
 
-        
-        System.out.println("Datei fertig eingelesen");
-
-
-		
-		
-	}
-	
-	private void uploader(InputStream fileContent, String dateiname,int nummer){
-	    
-        String pfad = getInitParameter("Pfad");
+		/*
+        String pfad =getInitParameter("Pfad");
         File file = createFile(pfad, dateiname);
-        
         try{
             Files.copy(fileContent, file.toPath());
-            System.out.println("Datei gespeichert. Sie war bisher "+nummer+" mal vorhanden");
-
         }	
         catch(Exception ex){
         	System.out.println("ERROR DATEI BEREITS VORHANDEN");
-        	nummer++;
-        	uploader(fileContent, NamensNummerierer(dateiname,nummer),nummer);
-
-        	
         }
+		 */
 
-
+		System.out.println("Datei fertig eingelesen");
 
 	}
 
+	private void uploader(InputStream fileContent, String dateiname,int nummer){
 
+		String pfad = getInitParameter("Pfad");
+		File file = createFile(pfad, dateiname);
+
+		try{
+			Files.copy(fileContent, file.toPath());
+			System.out.println("Datei gespeichert. Sie war bisher "+nummer+" mal vorhanden");
+
+		}	
+		catch(Exception ex){
+			System.out.println("ERROR DATEI BEREITS VORHANDEN");
+			nummer++;
+			uploader(fileContent, NamensNummerierer(dateiname,nummer),nummer);
+		}
+	}
 
 	private File createFile(String pfad, String name){
 		File uploads = new File(pfad);
 		File file = new File(uploads, name);
 		return file;
-		
+
 	}
-	
+
 	private String NamensNummerierer(String name,int nummer){
 		String nameneu = name;
 		nameneu = name.substring(0,name.length()-4);
