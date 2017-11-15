@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Insert title here</title>
 
+</head>
 
 <!-- jquery script  -->
 <script src="jquery-3.2.1.js"></script>
@@ -28,12 +29,55 @@
 
 		//aktiviert Tooltip
 	    $('[data-toggle="tooltip"]').tooltip(); 
+        
+        var table2 = $("#datatable2").DataTable({
+            "processing" : true,
+			"serverSide" : true,
+            "ajax" : {
+			"url" : '/DiplomPdf/DataTableServlet',
+			"type" : 'POST',
+				"dataSrc": "data"
+			},
+            
+			"columns" : [ 
+				{"data" : "Name"},
+				{"data" : "Autor"},
+				{"data" : "UploadDatum"},
+				{"data" : "DokumentDatum"},
+				{"data" : "Download"},
+				{"data" : "Delete"}
+			
+
+			],
+			
+
+	        "columnDefs": [ {
+	        	"targets": -2,
+	            "data": "null",
+	            "defaultContent": "<button class=\"downloadbutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Downloaden\"><span class=\"glyphicon glyphicon-arrow-down\" ></span></button>"
+	        }, {
+	            "targets": -1,
+	            "data": "null",
+	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
+	        }  ],           
+            
+            
+        });
+        
 
 		var table = $('#datatable').DataTable({
 			
 		
 			"processing" : true,
 			"serverSide" : true,
+            "ajax" : {
+			"url" : '/DiplomPdf/DataTableServlet',
+			"type" : 'POST',
+				"dataSrc": "data"
+			},
+            
+            
+            
 			"language": {
 				
 					"sEmptyTable":   	"Keine Daten in der Tabelle vorhanden",
@@ -42,7 +86,7 @@
 					"sInfoFiltered": 	"(gefiltert von _MAX_ Einträgen)",
 					"sInfoPostFix":  	"",
 					"sInfoThousands":  	".",
-					"sLengthMenu":   	"_MENU_ Einträge anzeigen",
+					"sLengthMenu":   	"_MENU_",
 					"sLoadingRecords": 	"Wird geladen...",
 					"sProcessing":   	"Bitte warten...",
 					"sSearch":       	"<span class=\"glyphicon glyphicon-search\"></span>",
@@ -51,7 +95,7 @@
 						"sFirst":    	"Erste",
 						"sPrevious": 	"<span class=\"glyphicon glyphicon-circle-arrow-left arrowpagenav\" data-toggle=\"tooltip\" title =\"Vorherige Seite\"></span>",
 						"sNext":     	"<span class=\"glyphicon glyphicon-circle-arrow-right arrowpagenav\" data-toggle=\"tooltip\" title =\"Nächste Seite\"></span>",
-						"sLast":     	"Letzte"
+						"sLast":     	"Letzte"    
 					},
 					"oAria": {
 						"sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
@@ -60,11 +104,7 @@
 				
 			},
 
-			"ajax" : {
-			"url" : '/DiplomPdf/DataTableServlet',
-			"type" : 'POST',
-				"dataSrc": "data"
-			},
+
 			
 			
 
@@ -97,7 +137,7 @@
 			
 			
 		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
-		        var input = $('.dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
+		        var input = $('#datatable_wrapper .dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
 		           self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
 		            $searchbutton = $('<button class=\"btn-success dttopbtn\" data-toggle=\"tooltip\" title =\"Suchen\">')	//erstellt ein Buttonobjekt
 		                       .html('<span class="glyphicon glyphicon-search"/>')		// Button - Text: Suchen
@@ -110,14 +150,14 @@
 		                          input.val('');	//Setzt den Input wieder leer
 		                          $searchbutton.click(); 	//Betätigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
 		                       }) 
-		        $('.dataTables_filter').append($searchbutton, $deletebutton);	//Fügt beide Buttons zum DataTable hinzu
+		        $('#datatable_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//Fügt beide Buttons zum DataTable hinzu
 		    },
 			
 			
 
 		});
 
-	    $('#datatable tbody').on( 'click', '.downloadbutton', function () {
+	    $('.table tbody').on( 'click', '.downloadbutton', function () {
 	    	console.log("downloadbutton geklickt");
 
 	    	var position = $(this).parents("td");
@@ -132,8 +172,7 @@
 				y.remove();
             },5000);
 
-
-
+            
             var data = table.row( $(this).parents("tr")).data();
 	         var str = JSON.stringify(data);
 		     	var xhttp = new XMLHttpRequest();
@@ -146,19 +185,39 @@
 	    	
 	    });
 	    
-	    $("#datatable tbody").on("click",".deletebutton",function(){
-	    	alert("gelöscht");
-	         var data = table.row( $(this).parents("tr")).data();
-	         var str = JSON.stringify(data);
+        
+	    
+	    
+	    $(".table tbody").on("click",".deletebutton",function(){
+            var info2 = $(this).parents(".table").attr("id");
+        //aktuell primitiv gehardcoded,eventuell switch änderung. Je nach anzahl an tabellen    
+            if(info2 === "datatable"){
+                    var data = table.row( $(this).parents("tr")).data();
+            }
+            else{
+                if(info2 === "datatable2"){
+                      var data = table2.row( $(this).parents("tr")).data();
+                }
+                else{
+                    console.log("SCHWERER FEHLER !")
+                }
+            }
+            
+	    //    var data = table.row( $(this).parents("tr")).data();
+	        var str = JSON.stringify(data);
+            var sourcetable = JSON.stringify(info2);
+	        console.log(str);
 	     	var xhttp = new XMLHttpRequest();
 	    	xhttp.open("POST","DeleteServlet",true);
 	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	    	xhttp.send("todelete="+str);
+	    	xhttp.send("todelete="+str+sourcetable);
+            
 	    	table.draw();
+            table2.draw();
 	    });
 		
 	    
-	    	$("#datatable tbody").on('mouseenter','.glyphicon-arrow-down',function(){
+	    	$(".table tbody").on('mouseenter','.glyphicon-arrow-down',function(){
 	    		console.log("enter");
 	    		$(this).addClass("iconeffect");
 
@@ -167,13 +226,12 @@
 
 
 		
- 		$("#datatable tbody").on("webkitAnimationEnd mozAnimationEnd animationEnd",".glyphicon-arrow-down",function(){
+ 		$(".table tbody").on("webkitAnimationEnd mozAnimationEnd animationEnd",".glyphicon-arrow-down",function(){
 			console.log("called");
 			$(this).removeClass("iconeffect");
 		}); 
 		
 		
-//#datatable > tbody > tr.odd > td:nth-child(5) > button > span
 		
 
 		console.log("finished  js init");
@@ -185,7 +243,6 @@
 	
 </script>
 
-</head>
 <body>
 
 	<div class="container">
@@ -209,9 +266,36 @@
 
 					</tbody>
 				</table>
+                
+                
 			</div>
 			<div class="col-sm-2"></div>
 		</div>
+        
+        <div class="row">
+        <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <table id="datatable2" class="table table-striped table-bordered" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Autor</th>
+							<th>UploadDatum</th>
+							<th>DokumentDatum</th>
+							<th>Download</th>
+							<th>Delete</th>
+						</tr>
+
+					</thead>
+					<tbody>
+
+
+					</tbody>
+				</table>
+            </div>
+                    <div class="col-sm-2"></div>
+
+        </div>
 
 	</div>
 

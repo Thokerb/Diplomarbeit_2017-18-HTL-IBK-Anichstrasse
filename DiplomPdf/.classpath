@@ -15,6 +15,6 @@
 	<classpathentry kind="lib" path="libraries/poi-ooxml-schemas-3.17.jar"/>
 	<classpathentry kind="lib" path="libraries/poi-scratchpad-3.17.jar"/>
 	<classpathentry kind="lib" path="libraries/xmlbeans-2.6.0.jar"/>
-	<classpathentry kind="lib" path="C:/Temp/libraries/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="libraries/commons-collections4-4.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
