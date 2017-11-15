@@ -40,6 +40,9 @@ public class UploadServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 
+		
+		
+		
 		//		begriffe = gson.fromJson(antwort, String[].class);
 
 	}
@@ -65,22 +68,7 @@ public class UploadServlet extends HttpServlet {
 
         uploader(fileContent,dateiname,0);
         
-        /*
-        String pfad =getInitParameter("Pfad");
-        
-        
-        File file = createFile(pfad, dateiname);
-        
-        try{
-            Files.copy(fileContent, file.toPath());
 
-        }	
-        catch(Exception ex){
-        	System.out.println("ERROR DATEI BEREITS VORHANDEN");
-
-        	
-        }
-        */
         
         
         
