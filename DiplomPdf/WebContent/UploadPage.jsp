@@ -142,7 +142,7 @@
 			maxFilesize : size,
 			paramName : "pdffile",
 			url : "UploadServlet",
-			acceptedFiles : "application/pdf",
+			acceptedFiles : "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain",
 			parallelUploads : 1,
 			autoQueue : false,
 			autoProcessQueue : false,
@@ -150,8 +150,7 @@
 			dictFallbackMessage : "Dieser Browser wird leider nicht unterstützt",
 			dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "
 					+ size + " MB",
-			dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt" //TODO andere Formate
-
+			dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
 		}
 
 		console.log("finished javascript")
@@ -162,12 +161,8 @@
 			enctype="multipart/form-data" name="pdffile" id="my-dropzone"
 			class="dropzone">
 			<input type="hidden" name="dateiname" id="dateiname"></input>
-
 		</form>
 	</div>
-
-
-
 
 </body>
 </html>

@@ -7,6 +7,8 @@ import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
+
+
 public class PDFmanager {
 
 	private PDFParser parser;

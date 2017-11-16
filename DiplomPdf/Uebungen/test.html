@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet" href="stylesheet.css">
+<title>Testzwecke</title>
+</head>
+<body>
+<h1> Willkommen auf der  Testseite</h1>
+<input type="text" id="search"></input>
+<input type="text" id="prob" value="<"></input>
+<button onClick="func2()">Solve !!!!!!!!!!</button>
+<button onClick="func()"> Teste mich </button>
+<div id="test">
+
+</div>
+
+<script>
+
+
+var begriffe = [];
+
+function func2(){
+	
+	var x = document.getElementById("prob").value;
+	begriffe.push(x);
+	alert(unescape(x));
+	alert(begriffe[0]);
+}
+
+function func(){
+	
+	var search = document.getElementById("search").value;
+	var notused = true;
+
+	for (i = 0; i < begriffe.length; i++){
+		if(search === begriffe[i]){
+			notused = false;
+			break;
+		}
+		else{
+			
+		}
+	}
+	
+	if(notused){
+		var term = document.createElement("div");
+		term.onclick = function () {
+		    this.parentElement.removeChild(this);
+		    delbegriffe(this.innerHTML);
+		    
+		};
+		term.className = "term";
+		begriffe.push(search);
+		var t = document.createTextNode(search);
+		term.appendChild(t);
+		document.getElementById("test").appendChild(term); 
+	}
+
+
+	
+}
+
+function delbegriffe(begriff){
+	
+	for (i = 0; i < begriffe.length; i++){
+		if(begriff === begriffe[i]){
+			begriffe.splice(i,1);
+			break;
+		}
+	}
+	
+	for (i = 0; i < begriffe.length; i++){
+		
+		alert(begriffe[i]);
+	}
+
+	
+}
+
+
+</script>
+</body>
+</html>

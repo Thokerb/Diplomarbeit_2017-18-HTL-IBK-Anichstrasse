@@ -40,9 +40,9 @@ public class UploadServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 
-		
-		
-		
+
+
+
 		//		begriffe = gson.fromJson(antwort, String[].class);
 	}
 
@@ -65,19 +65,13 @@ public class UploadServlet extends HttpServlet {
 		String dateiname = request.getParameter("dateiname");
 		System.out.println("Name der Datei: "+dateiname+" overwrite: "+overwrite);
 
-        uploader(fileContent,dateiname,0);
-        
-
-        
-        
-        
 		uploader(fileContent,dateiname,0);
 
+		//		uploader(fileContent,dateiname,0);
 		File f = new File(dateiname);
 		String name = f.getName();
 		System.out.println("Es handelt sich um eine ' "+name.substring(name.lastIndexOf('.')+1,name.length())+" ' Datei: ");
 		System.out.println("-----------------------------------------");
-
 
 		switch(name.substring(name.lastIndexOf('.')+1,name.length())){
 
@@ -122,7 +116,7 @@ public class UploadServlet extends HttpServlet {
         }
 		 */
 
-		System.out.println("Datei fertig eingelesen");
+		System.out.println("Datei fertig eingelesen (noch nicht ganz)");
 
 	}
 

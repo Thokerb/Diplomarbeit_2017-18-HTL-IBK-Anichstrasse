@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet" href="stylesheet.css">
+
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<!-- jQuery library -->
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+		<title>Startseite</title>
+</head>
+<body>
+	<h1>Willkommen auf der Startseite</h1>
+
+	<h2>Geben Sie hier einen Suchbegriff an</h2>
+	<p>
+		Klicken Sie auf einen Suchbegriff um ihn wieder zu löschen.<br></br>
+		Geben Sie mehrere Begriffe auf einmal ein, indem Sie ein Leerzeichen
+		zwischen den Wörtern machen.
+	</p>
+	<form action="SearchServlet">
+		<input type="text" size="10" name="suchbegriff" id="suchbegriffID"></input>
+		<input type="hidden" name="answer" id="answer"></input>
+		<input type="submit" id="submitbutton" disabled="true"
+			value="  Suchen" class="btn btn-primary disabled"></input>
+	</form>
+	<div id="searchterms"></div>
+	<button onClick="getBegriffe()">Begriff hinzufügen</button>
+
+	<h3 id="blub">Suchbegriffe:</h3>
+	<div id="suchbegriffe" class="suchbegriffe"></div>
+
+	<script>
+		var begriffe = [];
+		var JSONbeg;
+
+		function getBegriffe() {
+			var searchbegriffe = [];
+
+			var search = document.getElementById("suchbegriffID").value;
+			var begriff = search.trim();
+			var stelle = begriff.search(" ");
+
+			if (stelle > 0) {
+
+				searchbegriffe = begriff.split(" ");
+
+				for (var i = 0; i <= searchbegriffe.length - 1; i++) {
+					addBegriffe(searchbegriffe[i]);
+				}
+
+			} else {
+				addBegriffe(begriff);
+			}
+
+		}
+
+		function addBegriffe(search) {
+
+			//var search = document.getElementById("suchbegriffID").value;
+
+			var notused = true;
+
+			if (search === "")
+				notused = false;
+
+			for (i = 0; i < begriffe.length; i++) {
+				if (search === begriffe[i]) {
+					notused = false;
+					break;
+				} else {
+
+				}
+			}
+
+			if (notused) {
+				var term = document.createElement("div");
+				term.onclick = function() {
+					this.parentElement.removeChild(this);
+					delbegriffe(this.innerHTML);
+
+				};
+				term.className = "term";
+				begriffe.push(search);
+				var t = document.createTextNode(search);
+				term.appendChild(t);
+				document.getElementById("suchbegriffe").appendChild(term);
+				JSONbeg = JSON.stringify(begriffe);
+				document.getElementById("answer").value = JSONbeg;
+
+			}
+
+			if (begriffe.length > 0) {
+				document.getElementById("submitbutton").disabled = false;
+				document.getElementById("submitbutton").className = "btn btn-primary";
+			}
+
+		}
+
+		function delbegriffe(begriff) {
+
+			for (i = 0; i < begriffe.length; i++) {
+				if (begriff === begriffe[i]) {
+
+					begriffe.splice(i, 1);
+					break;
+				}
+			}
+
+			if (begriffe.length == 0) {
+				document.getElementById("submitbutton").disabled = true;
+				document.getElementById("submitbutton").className = "btn btn-primary disabled";
+			}
+
+		}
+	</script>
+
+</body>
+	</html>

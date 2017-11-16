@@ -1,53 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
-    <link rel="stylesheet" href="styleLogin.css"/>
+<title>Login</title>
+<link rel="stylesheet" href="styleLogin.css" />
 <script src="jquery-3.2.1.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 <body>
 
-    <div class="heroimage">
+	<div class="heroimage">
 
-    <div class="container">
-    <div class="center-content">
-        
+		<div class="container">
+			<div class="center-content">
 
-        <h1 class="title"><img src="Images/logo_placeholder.png" class="imglogo" alt="LOGO"></h1>
-        
-        <form action="LoginServlet"  method="post">
-        <div class="form-group">
-                <label class="sr-only" for="uninput">Benutzername</label>
 
-        <input type="text" class="form-control" name="username" id="uninput" placeholder="Benutzername" required>
-        </div>
-            <div class="form-group">
-        <div class="input-group">
-                            <label class="sr-only" for="pwinput">Passwort</label>
-        <input type="password" class="form-control" name="password" id="pwinput" placeholder="Passwort" required><span class="input-group-btn"> <button class="btn-link btnpw form-control" type="button" id="unmaskbtn"><span class="glyphicon glyphicon-eye-open"></span></button> </span>
-        </div>
-                </div>
-           
-            <div class="form-group">
-                <label class="sr-only" for="pwinput2">Passwort wiederholen</label>
-                <input type="password" class="form-control" name="passwordrepeat" id="pwinput2" placeholder="Passwort wiederholen" required>
-            </div>
-        <div class="form-group">
-            <hr/>
-            <input type="submit" class="form-control btn btn-primary" value="Registrieren">
-    </div>
-             </form>
+				<h1 class="title">
+					<img src="Images/logo_placeholder.png" class="imglogo" alt="LOGO">
+				</h1>
 
-    
-            </div>
-    </div>
-        </div>
+				<form action="LoginServlet" method="post">
+					<div class="form-group">
+						<label class="sr-only" for="uninput">Benutzername</label> <input
+							type="text" class="form-control" name="username" id="uninput"
+							placeholder="Benutzername" required>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<label class="sr-only" for="pwinput">Passwort</label> <input
+								type="password" class="form-control" name="password"
+								id="pwinput" placeholder="Passwort" required><span
+								class="input-group-btn">
+								<button class="btn-link btnpw form-control" type="button"
+									id="unmaskbtn">
+									<span class="glyphicon glyphicon-eye-open"></span>
+								</button>
+							</span>
+						</div>
+					</div>
 
-       
-    <script>
+					<div class="form-group">
+						<label class="sr-only" for="pwinput2">Passwort wiederholen</label>
+						<input type="password" class="form-control" name="passwordrepeat"
+							id="pwinput2" placeholder="Passwort wiederholen" required>
+					</div>
+					<div class="form-group">
+						<hr />
+						<input type="submit" class="form-control btn btn-primary"
+							value="Registrieren">
+					</div>
+				</form>
+
+
+			</div>
+		</div>
+	</div>
+
+
+	<script>
 	$(document).ready(function() {
 	    $("#unmaskbtn").on('click',function(){
 	        if($("#pwinput").attr('type') == 'password'){
@@ -81,6 +95,6 @@
         
     
     </script>
-    
-    </body>
+
+</body>
 </html>

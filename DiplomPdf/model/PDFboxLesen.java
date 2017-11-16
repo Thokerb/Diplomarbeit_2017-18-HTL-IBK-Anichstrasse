@@ -1,4 +1,4 @@
-import java.io.IOException;
+import java.io.*;
 
 public class PDFboxLesen {
 
@@ -25,7 +25,6 @@ public class PDFboxLesen {
 			e.printStackTrace();
 			return "Achtung - Fehler! Die Datei konnte nicht gelesen werden ";
 		}		
-		return text;
-		
+		return text;	
 	}
 }

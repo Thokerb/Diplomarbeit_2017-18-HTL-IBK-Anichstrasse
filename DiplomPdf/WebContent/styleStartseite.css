@@ -1,61 +1,57 @@
 body, html {
-    height: 100%;
+	height: 100%;
 }
 
-#Start{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+#Start {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
 
 /* The hero image */
 .hero-image {
-    /* The image used */
-    background-image: url("Images/hero_image_bearbeitet.jpg");
-
-    /* Set a specific height */
-    height: 10%;
-    
-
-    /* Position and center the image to scale nicely on all screens */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-    flex-grow: 1;
-    
-    background-attachment: fixed;
+	/* The image used */
+	background-image: url("Images/hero_image_bearbeitet.jpg");
+	/* Set a specific height */
+	height: 10%;
+	/* Position and center the image to scale nicely on all screens */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+	flex-grow: 1;
+	background-attachment: fixed;
 }
 
-.trennstrich{
-    border-bottom-style: solid;
-    border-bottom-width: thin;
+.trennstrich {
+	border-bottom-style: solid;
+	border-bottom-width: thin;
 }
 
-#headerStart{
-    font-size: 40px;
+#headerStart {
+	font-size: 40px;
 }
 
-#textStart{
-    
+#textStart {
+	
 }
 
-.text{
-    display: inline;
+.text {
+	display: inline;
 }
 
 /* Place text in the middle of the image */
 .hero-text {
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: whitesmoke;
-    font-weight: bold;
-    font-family: monospace;
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: whitesmoke;
+	font-weight: bold;
+	font-family: monospace;
 }
 
-#navbarStartseite{
-    margin-bottom: 0px;
+#navbarStartseite {
+	margin-bottom: 0px;
 }

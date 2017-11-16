@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
@@ -15,22 +16,24 @@ public class DocxLesen {
 
 			FileInputStream fis = new FileInputStream(filename);
 
+			XWPFWordExtractor oleTextExtractor = new XWPFWordExtractor(new XWPFDocument(fis));
+			String text = null; 
+			text = oleTextExtractor.getText();
+			System.out.println("----------------Text-----------------");
+			System.out.println(text);
+			System.out.println("----------------Text-----------------");
+			return text; 
+
 			//			FileInputStream fis = new FileInputStream("C://Users//Sara//Dropbox//Diplomarbeit//test.docx");
-
-			//			File f = new File("C://Users//Sara//Dropbox//Diplomarbeit//test.docx");
-			File f = new File(filename);
-			String name = f.getName();
-			System.out.println("Es handelt sich um eine ' "+name.substring(name.lastIndexOf('.')+1,name.length())+" ' Datei: ");
-			System.out.println("-----------------------------------------");
-
-			XWPFDocument docx = new XWPFDocument(fis);
-			List<XWPFParagraph> paragrafListe = docx.getParagraphs();
-
-
-			for(XWPFParagraph paragraph: paragrafListe){
-				String text = paragraph.getText();
-				System.out.println(text);
-			}
+			//
+			//			XWPFDocument docx = new XWPFDocument(fis);
+			//			List<XWPFParagraph> paragrafListe = docx.getParagraphs();
+			//
+			//
+			//			for(XWPFParagraph paragraph: paragrafListe){
+			//				String text = paragraph.getText();
+			//				System.out.println(text);
+			//			}
 
 
 		} catch (FileNotFoundException e) {
@@ -46,9 +49,9 @@ public class DocxLesen {
 	}
 
 
-	public static void main(String[] args) {
-		DocxLesen l1 = new DocxLesen();
-		l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//test.docx");
-	}
+//	public static void main(String[] args) {
+//		DocxLesen l1 = new DocxLesen();
+//		l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//test.docx");
+//	}
 
 }
