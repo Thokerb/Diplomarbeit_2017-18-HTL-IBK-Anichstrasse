@@ -136,6 +136,16 @@
 					formData.append("overwrite", overwrite);
 					overwrite = false;
 				});
+				
+				this.on("success",function(file){
+					console.log("success");
+				});
+				this.on("complete",function(file){
+					console.log("complete");
+				});
+				this.on("uploadprogress",function(file,progress,bytesSent){
+					console.log("progress: "+progress+" | "+bytesSent);
+				});
 
 				console.log("finished init");
 			},
