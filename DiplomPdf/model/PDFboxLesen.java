@@ -19,7 +19,9 @@ public class PDFboxLesen {
 		pdfM.setFilePath(filename);
 		try {
 			text = pdfM.pdfToText();
+			System.out.println("---------------TEXT-------------");
 			System.out.println(pdfM.pdfToText());
+			System.out.println("---------------TEXT-------------");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
