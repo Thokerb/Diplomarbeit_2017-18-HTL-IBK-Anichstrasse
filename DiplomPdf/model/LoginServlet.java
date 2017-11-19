@@ -8,26 +8,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class Login
- */
-@WebServlet("/Login")
-public class LoginServlet extends HttpServlet {       
-  
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+@WebServlet("/LoginServlet")
+public class LoginServlet extends HttpServlet {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String uname = request.getParameter("uname");
+		String pass = request.getParameter("pass");
+
+
+		// Datenbank abfrage von Benutzer normal
 		
-		String uname = request.getParameter("username");
-		String pwd = request.getParameter("password");
-		
-		if(uname.equals("sara") && pwd.equals("1234")){
-			
+		if(uname.equals("user") && pass.equals("1234"))
+		{
 			HttpSession session = request.getSession();
 			session.setAttribute("username", uname);
-			response.sendRedirect("Startseite.html");
+			response.sendRedirect("UploadPage.jsp");
+		}else{
+			response.sendRedirect("Login.jsp");
 		}
-		else{
-			response.sendRedirect("Login.html");
-		}
+
+
 	}
 
 }

@@ -221,6 +221,12 @@
 </head>
 <body>
 
+<%
+	if(session.getAttribute("username")== null){
+		response.sendRedirect("Login.jsp");
+	}
+%>
+
 	<div class="container">
 		<div class="row">Hier haben Sie einen Überblick über Ihre
 			Dateien</div>

@@ -1,14 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login</title>
+<title>Register</title>
 <link rel="stylesheet" href="styleLogin.css" />
 <script src="jquery-3.2.1.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-
 <body>
 
 	<div class="heroimage">
@@ -21,12 +25,18 @@
 					<img src="Images/logo_placeholder.png" class="imglogo" alt="LOGO">
 				</h1>
 
-				<form action="LoginServlet" method="post">
+				<form action="LoginServlet" method="get">
 					<div class="form-group">
 						<label class="sr-only" for="uninput">Benutzername</label> <input
 							type="text" class="form-control" name="username" id="uninput"
 							placeholder="Benutzername" required>
 					</div>
+					<div class="form-group">
+						<label class="sr-only" for="uninput">E-Mail</label> <input
+							type="text" class="form-control" name="username" id="uninput"
+							placeholder="E-Mail " required>
+					</div>
+					
 					<div class="form-group">
 						<div class="input-group">
 							<label class="sr-only" for="pwinput">Passwort</label> <input
@@ -40,10 +50,16 @@
 							</span>
 						</div>
 					</div>
+
+					<div class="form-group">
+						<label class="sr-only" for="pwinput2">Passwort wiederholen</label>
+						<input type="password" class="form-control" name="passwordrepeat"
+							id="pwinput2" placeholder="Passwort wiederholen" required>
+					</div>
 					<div class="form-group">
 						<hr />
 						<input type="submit" class="form-control btn btn-primary"
-							value="Login">
+							value="Registrieren">
 					</div>
 				</form>
 
@@ -57,23 +73,26 @@
 	$(document).ready(function() {
 	    $("#unmaskbtn").on('click',function(){
 	        if($("#pwinput").attr('type') == 'password'){
-	        	console.log(1);
 	        	var input = $("#pwinput");
 	        	var pw = input.val();
-	        	console.log(pw);
 	        	input.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput\" placeholder=\"Passwort\" class=\"form-control\" value=\""+pw+"\" required>");
                 $(this).html("<span class=\"glyphicon glyphicon-eye-close\"></span>")
+                
+                var input2 = $("#pwinput2");
+                var pw2 = input2.val();
+	        	input2.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput2\" placeholder=\"Passwort wiederholen\" class=\"form-control\" value=\""+pw2+"\" required>");
+                
 	     
 	        }
 	        else{
-	        	console.log(2);
 	        	var input = $("#pwinput");
-                console.log(input);
 	        	var pw = input.val();
-	        	console.log(pw);
 	        	input.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput\" class=\"form-control\" placeholder=\"Passwort\" value=\""+pw+"\" required>");
-                                $(this).html("<span class=\"glyphicon glyphicon-eye-open\"></span>")
-
+                                $(this).html("<span class=\"glyphicon glyphicon-eye-open\"></span>");
+                
+                var input2 = $("#pwinput2");
+                var pw2 = input2.val();
+	        	input2.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput2\" class=\"form-control\" placeholder=\"Passwort wiederholen\" value=\""+pw2+"\" required>");
 	     	       }
 
 	          });

@@ -23,6 +23,12 @@
 </head>
 <body>
 
+<%
+	if(session.getAttribute("username")== null){
+		response.sendRedirect("Login.jsp");
+	}
+%>
+
 
 	<!-- Modal -->
 	<div id="saveModal" class="modal fade" role="dialog">
@@ -54,7 +60,7 @@
 	<h1>Willkommen auf der Upload Seite</h1>
 
 
-	<h1>Neuer Bereich</h1>
+	<h1>Bitte hier Dateien die abgelegt werden sollen hineinziehen: </h1>
 
 	<script>
 		Dropzone.myDropzone = false;
@@ -174,9 +180,15 @@
 			<input type="hidden" name="dateiname" id="dateiname"></input>
 
 		</form>
+		
+		<form action="LogoutServlet" >
+			<input type ="submit" value="Logout"></input>
+		</form>
+		
+		<div> 
+		
+		</div>
 	</div>
-
-
 
 
 </body>

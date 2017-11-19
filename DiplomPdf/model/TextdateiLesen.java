@@ -20,7 +20,9 @@ public class TextdateiLesen {
 			} 
 			text = strText.toString();
 			bufferedReader.close();
-			System.out.println("geht");
+			System.out.println("------------TEXT-------------");
+			System.out.print(text);
+			System.out.println("------------TEXT-------------");
 			return text; 
 		}
 		catch(FileNotFoundException ex) {
