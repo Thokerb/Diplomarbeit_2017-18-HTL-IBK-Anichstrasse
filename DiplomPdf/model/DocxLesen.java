@@ -22,6 +22,8 @@ public class DocxLesen {
 			System.out.println("----------------Text-----------------");
 			System.out.println(text);
 			System.out.println("----------------Text-----------------");
+			
+//			oleTextExtractor.close();
 			return text; 
 
 			//			FileInputStream fis = new FileInputStream("C://Users//Sara//Dropbox//Diplomarbeit//test.docx");

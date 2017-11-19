@@ -1,10 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <script src="dropzone.js"></script>
@@ -23,9 +19,10 @@
 
 <script type="text/javascript" src="modalconfig.js"></script>
 
-<title>EasyPDF: Upload - Seite</title>
+<title>Upload - Seite</title>
 </head>
 <body>
+
 
 	<!-- Modal -->
 	<div id="saveModal" class="modal fade" role="dialog">
@@ -53,9 +50,11 @@
 		</div>
 	</div>
 
-	<h1>Willkommen auf der Upload Seite von EasyPDF</h1>
-	<h1>Bitte ziehe hier die Dateien die du speichern möchtest hinein:
-	</h1>
+
+	<h1>Willkommen auf der Upload Seite</h1>
+
+
+	<h1>Neuer Bereich</h1>
 
 	<script>
 		Dropzone.myDropzone = false;
@@ -124,6 +123,7 @@
 					if (filetogive.status != "error") {
 						dropzone.processFile(filetogive);
 					}
+
 				}
 
 				this.on("renameFile", function(file) {
@@ -135,6 +135,16 @@
 					formData.append("dateiname", givename);
 					formData.append("overwrite", overwrite);
 					overwrite = false;
+				});
+				
+				this.on("success",function(file){
+					console.log("success");
+				});
+				this.on("complete",function(file){
+					console.log("complete");
+				});
+				this.on("uploadprogress",function(file,progress,bytesSent){
+					console.log("progress: "+progress+" | "+bytesSent);
 				});
 
 				console.log("finished init");
@@ -151,6 +161,7 @@
 			dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "
 					+ size + " MB",
 			dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
+
 		}
 
 		console.log("finished javascript")
@@ -161,8 +172,12 @@
 			enctype="multipart/form-data" name="pdffile" id="my-dropzone"
 			class="dropzone">
 			<input type="hidden" name="dateiname" id="dateiname"></input>
+
 		</form>
 	</div>
+
+
+
 
 </body>
 </html>
