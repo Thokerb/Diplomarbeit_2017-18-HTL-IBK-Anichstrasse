@@ -13,6 +13,14 @@
 	
 }
 
+@media only screen and (max-width: 425px) {
+   .row{
+	overflow:auto;
+	}
+}
+
+
+
 .arrowpagenav{
 	font-size: 30px;
 	cursor: pointer;
