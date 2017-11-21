@@ -14,6 +14,14 @@
     <url-pattern>/DateienListServlet</url-pattern>
   </servlet-mapping>
   <servlet>
+  <servlet-name>LogoutServlet</servlet-name>
+  <servlet-class>LogoutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>LogoutServlet</servlet-name>
+  <url-pattern>/LogoutServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>DeleteServlet</servlet-name>
     <servlet-class>DeleteServlet</servlet-class>
   </servlet>
