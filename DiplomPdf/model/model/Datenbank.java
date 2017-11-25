@@ -2,31 +2,48 @@ package model;
 
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 public class Datenbank {
-
+	//Datenbank relevante Variablen
 	private static String dbUrl = "jdbc:postgresql://localhost:5432/diplomarbeit?user=postgres&password=password";
-	private static boolean wert;
-	private static String Suchwort;
-	private static String wort=Suchwort;
-	private static ArrayList<String[]> liste = new ArrayList<String[]>();
-	private static String[] testzeile = new String[]{"Deustch","Nachhilfe","NULL","NULL","fhjdskfhdsuifhusdifhdshfisfhjisd fjdisfjhsidf sfjidsofhisd fjdisofhjisdo hdisofhsid","Verena","Verena","Super cooler Text","1"};
 	static Connection conn = null;
 	static Statement stmt = null;
 	static PreparedStatement pstmt = null;
+	static ResultSet resultSet = null;
+
+	//Variable relevant für Methoden
+	private static String easyText;
+	private static String text="Das ist ein wunderschönes Haus, ich liebe dein Haus";
+	private static String suchwort;
+	private static String easySuchwort;
+	private static boolean wert;
+	
+	//Zum Austesten
+	private static ArrayList<String[]> liste = new ArrayList<String[]>();
+	static Date currentDate = Calendar.getInstance().getTime();
+	private static String[] testzeile = new String[]{"Nachhilfe","fhjdskfhdsuifhusdifhdshfisfhjisd fjdisfjhsidf sfjidsofhisd fjdisofhjisdo hdisofhsid","Verena","Verena","Super cooler Text", "2017-11-25"};
+
 	
 	public static void main(String[] args) {
-		readDaten();
-		readAutoren();
+		
+		
+		System.out.println(currentDate);
+		
+		//readDaten2();
+		//readAutoren();
 		//readDateinamen();
 		//readTags();
-		//writeDaten(testzeile);
+		writeDaten(testzeile);
+		//Stichworttextgenerator(text);
 
-	
 		//fuellen der Liste mit Daten
-	    //liste.add(testzeile);
+		//liste.add(testzeile);
 
 	}
+	
+	
+	
 
 	//Auslesen aller Daten in der Tabelle Uploaddaten
 	public static ArrayList<String[]> readDaten() {
@@ -52,10 +69,10 @@ public class Datenbank {
 		}
 		return daten;
 	}
-
+	
 	
 	public static ArrayList<String[]> readAutoren() {
-		
+
 		ArrayList<String[]> Autoren = new ArrayList<String[]>();
 
 		String READ_DATA_SQL_AUTOREN = "select autor from uploaddaten group by autor";
@@ -80,7 +97,7 @@ public class Datenbank {
 	}
 
 	public static ArrayList<String[]> readDateinamen() {
-		
+
 		ArrayList<String[]> dateinamen = new ArrayList<String[]>();
 
 		String READ_DATA_SQL_DATEINAMEN = "select dateiname from uploaddaten group by dateiname";
@@ -105,7 +122,7 @@ public class Datenbank {
 	}
 
 	public static ArrayList<String[]> readTags() {
-		
+
 		ArrayList<String[]> Tags = new ArrayList<String[]>();
 
 		String READ_DATA_SQL_AUTOREN = "select tag from uploaddaten group by tag";
@@ -128,37 +145,38 @@ public class Datenbank {
 		return Tags;
 
 	}
-	
-	// TODO funktionert nit ganz
+
+	// TODO fehler bei  uploaddatum
 	//Neue Daten in Datebantabelle schreiben.
 	public static boolean writeDaten(String[] testzeile2) {
-		
+
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
-		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (language, tag, blobdatei, stichworttext, inhalttext, uploader, autor, dateiname,uploadid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String INSERT_DATA_SQL = "INSERT INTO uploaddaten ( tag, inhalttext, uploader, autor, dateiname, uploaddatum) VALUES (?, ?, ?, ?, ?, ?)";
+		
 		//connection Aufbau
 		try (
 				Connection connection = DriverManager.getConnection(dbUrl);
 				PreparedStatement pStatement = connection.prepareStatement(INSERT_DATA_SQL);) {
-				
-				System.out.println("HIIIIIII");
-				
-				for (int i = 1; i <= 9; i++) {
-					pStatement.setString(i, testzeile[i-1]);
-					System.out.println(" '" + testzeile[i-1] + "'");
-				}
-				pStatement.executeUpdate();
-				
+
+			System.out.println("HIIIIIII");
+
+			for (int i = 1; i <= 6; i++) {
+				pStatement.setString(i, testzeile[i-1]);
+				System.out.println(" '" + testzeile[i-1] + "'");
+			}
+			pStatement.executeUpdate();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			erfolg = false;
 		}
 		return erfolg;
-		
+
 	}
 	/*
 	public static boolean writeDaten(ArrayList<String[]> eintraege) {
-		
+
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
 		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (language, tag, blobdatei, stichworttext, inhalttext, uploader, autor, dateiname,uploadid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -167,7 +185,7 @@ public class Datenbank {
 				Connection connection = DriverManager.getConnection(dbUrl);
 				PreparedStatement pStatement = connection.prepareStatement(INSERT_DATA_SQL);) {
 				for (String[] zeile  : eintraege) {
-				
+
 				for (int i = 1; i <= 9; i++) {
 					pStatement.setString(i, zeile[i-1]);
 				}
@@ -179,17 +197,19 @@ public class Datenbank {
 		}
 		return erfolg;
 	}
-	*/
-	
+	 */
+
+	// TODO funktionert nit ganz
+	//Überprüft ob angegebnes wort im text ist
 	public static boolean fulltextsearch(String wort) {
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//Tabellenzeilen aus Datenbank einlesen
-		String SEARCH_FOR_DATA_SQL_DATEN = "to_tsvecto";
-		try (Connection connection = DriverManager.getConnection(dbUrl);
-				PreparedStatement pStatement = connection.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
-				ResultSet resultSet = pStatement.executeQuery()) {
+		String SEARCH_FOR_DATA_SQL_DATEN = "select ('easyText')@@('easySuchwort')";
+		try {	conn = DriverManager.getConnection(dbUrl);
+				PreparedStatement pStatement = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
+				resultSet = pStatement.executeQuery();
 			while (resultSet.next()) {
-				System.out.print("Ist das eigengebene Suchtwort, "+Suchwort+"im Text?");
+				System.out.print("Ist das eigengebene Suchtwort, "+easySuchwort+"im Text?");
 
 
 				System.out.println();
@@ -198,6 +218,61 @@ public class Datenbank {
 			e.printStackTrace();
 		}
 		return wert;
+	}
+
+	//Methode zum generieren eines vereinfachten Text zur 
+	public static String Stichworttextgenerator(String wort) {
+		//System.out.print("Das Wort"+text+"wurde vereinfacht zu "+EasyText+". ");
+
+		String SEARCH_FOR_DATA_SQL_DATEN = "select to_tsvector(\'"+ wort +"\')";
+
+		try {
+			if(pstmt==null){
+				conn = DriverManager.getConnection(dbUrl);
+				pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
+				//System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
+				resultSet = pstmt.executeQuery();
+				while (resultSet.next()) {
+
+					easyText = resultSet.getString(1);
+					System.out.print("Das Wort '"+text+"' wurde vereinfacht zu '"+easyText+"'h.");
+
+
+					System.out.println();
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return easyText;
+	}
+	
+	public static String VereinfachtesSuchwortgenerator(String wort) {
+		//System.out.print("Das Wort"+text+"wurde vereinfacht zu "+EasyText+". ");
+
+		String SEARCH_FOR_DATA_SQL_DATEN = "select to_tsvector(\'"+ wort +"\')";
+
+		try {
+			if(pstmt==null){
+				conn = DriverManager.getConnection(dbUrl);
+				pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
+				//System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
+				resultSet = pstmt.executeQuery();
+				while (resultSet.next()) {
+
+					easyText = resultSet.getString(1);
+					System.out.print("Das Wort '"+suchwort+"' wurde vereinfacht zu '"+easySuchwort+"'h.");
+
+
+					System.out.println();
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return easySuchwort;
 	}
 
 
