@@ -2,11 +2,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 
+import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.xmlbeans.impl.store.Path;
 
 public class DocxLesen { 	
 
@@ -15,27 +19,15 @@ public class DocxLesen {
 		try {
 
 			FileInputStream fis = new FileInputStream(filename);
-
+			
 			XWPFWordExtractor oleTextExtractor = new XWPFWordExtractor(new XWPFDocument(fis));
 			String text = null; 
+			
 			text = oleTextExtractor.getText();
 			System.out.println("----------------Text-----------------");
 			System.out.println(text);
 			System.out.println("----------------Text-----------------");
-			
-//			oleTextExtractor.close();
 			return text; 
-
-			//			FileInputStream fis = new FileInputStream("C://Users//Sara//Dropbox//Diplomarbeit//test.docx");
-			//
-			//			XWPFDocument docx = new XWPFDocument(fis);
-			//			List<XWPFParagraph> paragrafListe = docx.getParagraphs();
-			//
-			//
-			//			for(XWPFParagraph paragraph: paragrafListe){
-			//				String text = paragraph.getText();
-			//				System.out.println(text);
-			//			}
 
 
 		} catch (FileNotFoundException e) {
@@ -51,9 +43,9 @@ public class DocxLesen {
 	}
 
 
-//	public static void main(String[] args) {
-//		DocxLesen l1 = new DocxLesen();
-//		l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//test.docx");
-//	}
+	public static void main(String[] args) {
+		DocxLesen l1 = new DocxLesen();
+		l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//test.docx");
+	}
 
 }
