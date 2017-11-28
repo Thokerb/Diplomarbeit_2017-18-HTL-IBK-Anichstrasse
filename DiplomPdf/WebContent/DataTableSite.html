@@ -8,7 +8,8 @@
 <title>Insert title here</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-
+<!-- font-awesome stylesheets -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
 <link rel="stylesheet" href="stylesheet.css"></link>
 
@@ -21,6 +22,8 @@
 
 <!-- jquery script  -->
 <script src="jquery-3.2.1.js"></script>
+
+
 
 <!-- bootstrap implementation -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -72,6 +75,7 @@
 		},
             
 			"columns" : [ 
+				{"data" : "DateiTyp"},
 				{"data" : "Name"},
 				{"data" : "Autor"},
 				{"data" : "UploadDatum"},
@@ -91,7 +95,33 @@
 	            "targets": -1,
 	            "data": "null",
 	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
-	        }  ],   
+	        },
+	        {
+	        	"targets": 0,
+	        	"render": function func(data){
+	        		console.log(data);
+	        		var text = "";
+	        		switch(data){
+	        		case "PDF":
+	        			text = "<span class=\"fa fa-file-pdf-o icontype\" ></span>";
+	        			break;
+	        		case "TXT":
+	        			text = "<span class=\"fa fa-file-text-o	\" ></span>";
+	        			break;
+	        		case "DOC":
+	        			text = "<span class=\"fa fa-file-word-o	 icontype\" ></span>";
+	        			break;
+	        		case "DOCX":
+	        			text = "<span class=\"fa fa-file-word-o	 icontype\" ></span>";
+	        			break;
+	        		default:
+	        			text = "<span class=\"fa fa-question icontype\" ></span>";
+	        			break;
+	        		}
+	        		return text;
+	        	}
+	        	
+	        }],   
 	        
 	        
 		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
@@ -159,6 +189,7 @@
 			
 
 			"columns" : [ 
+				{"data" : "DateiTyp"},
 				{"data" : "Name"},
 				{"data" : "Autor"},
 				{"data" : "UploadDatum"},
@@ -178,7 +209,34 @@
 	            "targets": -1,
 	            "data": "null",
 	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
-	        }  ],
+	        },
+	        {
+	        	"targets": 0,
+	        	"render": function func(data){
+	        		console.log(data);
+	        		var text = "";
+	        		switch(data){
+	        		case "PDF":
+	        			text = "<span class=\"fa fa-file-pdf-o icontype\" ></span>";
+	        			break;
+	        		case "TXT":
+	        			text = "<span class=\"fa fa-file-text-o	\" ></span>";
+	        			break;
+	        		case "DOC":
+	        			text = "<span class=\"fa fa-file-word-o	 icontype\" ></span>";
+	        			break;
+	        		case "DOCX":
+	        			text = "<span class=\"fa fa-file-word-o	 icontype\" ></span>";
+	        			break;
+	        		default:
+	        			text = "<span class=\"fa fa-question icontype\" ></span>";
+	        			break;
+	        		}
+	        		return text;
+	        	}
+	        	
+	        }
+	        ],
 
 	        
 
@@ -281,9 +339,8 @@
 			$(this).removeClass("iconeffect");
 		}); 
 		
-		
-		
 
+		
 		console.log("finished  js init");
 	});
 	
@@ -324,6 +381,7 @@
 				<table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
 					<thead>
 						<tr>
+							<th>DateiTyp</th>
 							<th>Name</th>
 							<th>Autor</th>
 							<th>UploadDatum</th>
@@ -350,6 +408,7 @@
                 <table id="datatable2" class="table table-striped table-bordered" cellspacing="0" width="100%">
 					<thead>
 						<tr>
+							<th>DateiTyp</th>
 							<th>Name</th>
 							<th>Autor</th>
 							<th>UploadDatum</th>
