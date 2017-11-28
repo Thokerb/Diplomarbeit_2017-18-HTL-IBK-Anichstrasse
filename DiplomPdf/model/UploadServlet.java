@@ -65,8 +65,8 @@ public class UploadServlet extends HttpServlet {
 
 		case "pdf"  :{
 			String wort=PDFboxLesen.lesenPDF("C://Temp//"+dateiname);
-			//model.Datenbank.
-			model.Datenbank.Stichworttextgenerator(wort);
+			model.Datenbank3.VerbindungAufbauen();
+			model.Datenbank3.Stichworttextgenerator(wort);
 			System.out.println("PDF - Datei wurde in Text umgewandelt -> Weitergeben an DB");
 			break;
 		}

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.google.gson.Gson;
+
 public class Datenbank3 {
 
 	//Datenbank relevante Variablen
@@ -54,6 +56,8 @@ public class Datenbank3 {
 		Stichworttextgenerator(text);
 		fulltextsearch(suchwort,suchwort);
 		VereinfachtesSuchwortgenerator(suchwort);
+		
+		autorASC();
 
 
 		//fuellen der Liste mit Daten
@@ -67,10 +71,12 @@ public class Datenbank3 {
 		System.out.println("Connecting to database...");
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			System.out.println("Connecting successful");
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("Connecting nicht successful");
 		}
-		System.out.println("Connecting successful");
+		
 	}
 
 
@@ -255,7 +261,6 @@ public class Datenbank3 {
 		return wert;
 	}
 
-	// TODO Wieso wird null als rückgabewert
 	//Methode zum generieren eines vereinfachten Text zur 
 	public static String Stichworttextgenerator(String wort) {
 		//System.out.print("Das Wort"+text+"wurde vereinfacht zu "+EasyText+". ");
@@ -284,7 +289,6 @@ public class Datenbank3 {
 		return easyText;
 	}
 
-	// TODO Wieso wird null als rückgabewert
 	public static String VereinfachtesSuchwortgenerator(String wort) {
 		//System.out.print("Das Wort"+text+"wurde vereinfacht zu "+EasyText+". ");
 		//pstmt=null;
@@ -313,6 +317,142 @@ public class Datenbank3 {
 		}
 		return easySuchwort;
 	}
+	
+	public static ArrayList<String[]> autorASC()
+	{
+		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
+		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
+		
+		//SQL-Abfrage
+		String READ_DATEN_AUTORASC="select dateiname, autor, tag, uploaddatum from uploaddaten order by Autor ASC";
+		
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(READ_DATEN_AUTORASC);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				String[] zeile = new String[10];
+				System.out.print("Gelesen wurde: ");
+				for (int i = 0; i < 4; i++) {
+					zeile[i] = rs.getString(i+1);
+					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
+				}
+				DatennachAutorASC.add(zeile);
+				System.out.println();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return DatennachAutorASC;
+		
+	}
+	
+	public static ArrayList<String[]> autorDESC()
+	{
+		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
+		ArrayList<String[]> DatennachAutorDESC = new ArrayList<String[]>();
+		
+		//SQL-Abfrage
+		String READ_DATEN_AUTORDESC="select dateiname, autor, tag, uploaddatum from uploaddaten order by Autor DESC";
+		
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(READ_DATEN_AUTORDESC);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				String[] zeile = new String[10];
+				System.out.print("Gelesen wurde: ");
+				for (int i = 0; i < 10; i++) {
+					zeile[i] = rs.getString(i+1);
+					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
+				}
+				DatennachAutorDESC.add(zeile);
+				System.out.println();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return DatennachAutorDESC;
+		
+	}
+	
+	public static ArrayList<String[]> uploaddatumASC()
+	{
+		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
+		ArrayList<String[]> DatenuploaddatumASC = new ArrayList<String[]>();
+		
+		//SQL-Abfrage
+		String READ_DATEN_UPLOADDATUMASC="select dateiname, autor, tag, uploaddatum from uploaddaten order by Autor ASC";
+		
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(READ_DATEN_UPLOADDATUMASC);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				String[] zeile = new String[10];
+				System.out.print("Gelesen wurde: ");
+				for (int i = 0; i < 4; i++) {
+					zeile[i] = rs.getString(i+1);
+					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
+				}
+				DatenuploaddatumASC.add(zeile);
+				System.out.println();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return DatenuploaddatumASC;
+		
+	}
 
+	
+	public static ArrayList<String[]> uploaddatumDESC()
+	{
+		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
+		ArrayList<String[]> DatenUploaddatumDESC = new ArrayList<String[]>();
+		ArrayList<String> list = new ArrayList<String>();
+		//SQL-Abfrage
+		String READ_DATEN_UPLOADDATUMDESC="select dateiname, autor, tag, uploaddatum from uploaddaten order by Autor DESC";
+		
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(READ_DATEN_UPLOADDATUMDESC);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				String[] zeile = new String[10];
+				System.out.print("Gelesen wurde: ");
+				for (int i = 0; i < 10; i++) {
+					zeile[i] = rs.getString(i+1);
+					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
+				}
+				DatenUploaddatumDESC.add(zeile);
+				System.out.println();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return DatenUploaddatumDESC;
+		//Gson gson = new Gson();
+		
+		//String jsonCartList = gson.toJson(DatenUploaddatumDESC);
+		
+		
+	}
 
 }
