@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -22,6 +23,8 @@
 
 <!-- jquery script  -->
 <script src="jquery-3.2.1.js"></script>
+
+
 
 <!-- bootstrap implementation -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -73,6 +76,7 @@
 		},
             
 			"columns" : [ 
+				{"data" : "DateiTyp"},
 				{"data" : "Name"},
 				{"data" : "Autor"},
 				{"data" : "UploadDatum"},
@@ -92,7 +96,33 @@
 	            "targets": -1,
 	            "data": "null",
 	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
-	        }  ],   
+	        },
+	        {
+	        	"targets": 0,
+	        	"render": function func(data){
+	        		console.log(data);
+	        		var text = "";
+	        		switch(data){
+	        		case "PDF":
+	        			text = "<span class=\"fa fa-file-pdf-o icontype\" ></span>";
+	        			break;
+	        		case "TXT":
+	        			text = "<span class=\"fa fa-file-text-o	\" ></span>";
+	        			break;
+	        		case "DOC":
+	        			text = "<span class=\"fa fa-file-word-o	 icontype\" ></span>";
+	        			break;
+	        		case "DOCX":
+	        			text = "<span class=\"fa fa-file-word-o	 icontype\" ></span>";
+	        			break;
+	        		default:
+	        			text = "<span class=\"fa fa-question icontype\" ></span>";
+	        			break;
+	        		}
+	        		return text;
+	        	}
+	        	
+	        }],   
 	        
 	        
 		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
@@ -160,6 +190,7 @@
 			
 
 			"columns" : [ 
+				{"data" : "DateiTyp"},
 				{"data" : "Name"},
 				{"data" : "Autor"},
 				{"data" : "UploadDatum"},
@@ -179,7 +210,34 @@
 	            "targets": -1,
 	            "data": "null",
 	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
-	        }  ],
+	        },
+	        {
+	        	"targets": 0,
+	        	"render": function func(data){
+	        		console.log(data);
+	        		var text = "";
+	        		switch(data){
+	        		case "PDF":
+	        			text = "<span class=\"fa fa-file-pdf-o icontype\" ></span>";
+	        			break;
+	        		case "TXT":
+	        			text = "<span class=\"fa fa-file-text-o	\" ></span>";
+	        			break;
+	        		case "DOC":
+	        			text = "<span class=\"fa fa-file-word-o	 icontype\" ></span>";
+	        			break;
+	        		case "DOCX":
+	        			text = "<span class=\"fa fa-file-word-o	 icontype\" ></span>";
+	        			break;
+	        		default:
+	        			text = "<span class=\"fa fa-question icontype\" ></span>";
+	        			break;
+	        		}
+	        		return text;
+	        	}
+	        	
+	        }
+	        ],
 
 	        
 
@@ -286,7 +344,6 @@
 			alert("TODO: UPLOAD MODAL ERSCHEINEN LASSEN")
 		});
 		
-
 		console.log("finished  js init");
 	});
 	
@@ -329,6 +386,7 @@
 				<table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
 					<thead>
 						<tr>
+							<th>DateiTyp</th>
 							<th>Name</th>
 							<th>Autor</th>
 							<th>UploadDatum</th>
@@ -355,6 +413,7 @@
                 <table id="datatable2" class="table table-striped table-bordered" cellspacing="0" width="100%">
 					<thead>
 						<tr>
+							<th>DateiTyp</th>
 							<th>Name</th>
 							<th>Autor</th>
 							<th>UploadDatum</th>
