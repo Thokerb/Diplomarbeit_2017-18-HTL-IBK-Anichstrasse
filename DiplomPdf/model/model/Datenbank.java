@@ -30,9 +30,9 @@ public class Datenbank {
 		
 		System.out.println(currentDate);
 		
-		readDaten();
+		//readDaten();
 		//readDaten2();
-		//readAutoren();
+		readAutoren();
 		//readDateinamen();
 		//readTags();
 		//writeDaten(testzeile);
