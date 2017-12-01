@@ -17,6 +17,11 @@
 <!-- jquery datatable stylesheet bootstrap -->	
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"></link>
 
+<!-- dropzone js und stylesheet -->
+<script src="dropzone.js"></script>
+<link rel="stylesheet" type="text/css" href="dropzone.css" />
+<script type="text/javascript" src="dropzoneconfig.js" charset="UTF-8"></script>
+<script src="modalconfig.js"></script>
 
 </head>
 <body>
@@ -369,7 +374,7 @@
         <li><a href="#">Verlauf</a></li>
         <li><a href="#">Über EasyPDF</a></li>
       </ul>
-          <button class="btn btn-primary navbar-btn uploadmodalbtn">UPLOAD</button>
+          <button type="button" class="btn btn-info  navbar-btn" data-toggle="modal" data-target="#uploadModal">UPLOAD</button>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
       </ul>
@@ -433,6 +438,61 @@
 
         </div>
 
+	</div>
+
+
+<!-- Modal -->
+<div id="uploadModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Lade dein Dokument hoch</h4>
+      </div>
+      <div class="modal-body">
+      	<h2 id="modalueberschrift">Ziehe dein Dokument hier hinein</h2>
+        		<form action="UploadServlet" method="post"
+			enctype="multipart/form-data" name="pdffile" id="my-dropzone"
+			class="dropzone">
+			<input type="hidden" name="dateiname" id="dateiname"></input>
+
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+	<!-- Modal -->
+	<div id="saveModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Modal Header</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+						Der Name <span id="modaldatname"></span> ist bereits vorhanden
+					</p>
+					<p>Bitte gib einen neuen Namen ein:</p>
+					<input id="modalinput" />
+					<button disabled="true" class="btn btn-primary disabled"
+						id="modalinputbtn">OK</button>
+					<button id="overwritebtn" class="btn btn-primary">Überschreibe
+						die Datei</button>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+
+		</div>
 	</div>
 
 
