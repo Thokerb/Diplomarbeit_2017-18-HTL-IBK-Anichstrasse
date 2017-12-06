@@ -30,10 +30,12 @@ public class Datenbank3 {
 
 	//Variable relevant für Methoden
 	private static String easyText;
+	private static String easySuchwort2;
 	private static String text="Das ist ein wunderschönes Haus, ich liebe dein Haus";
-	private static String suchwort="Helm";
+	private static String suchwort="helm";
 	private static String easySuchwort;
 	private static boolean wert;
+	private static int anzahl;
 
 	//Zum Austesten
 	private static ArrayList<String[]> liste = new ArrayList<String[]>();
@@ -53,11 +55,19 @@ public class Datenbank3 {
 		//readDateinamen();
 		//readTags();
 		//writeDaten(testzeile);
-		Stichworttextgenerator(text);
-		fulltextsearch(suchwort,suchwort);
-		VereinfachtesSuchwortgenerator(suchwort);
+		//Stichworttextgenerator(text);
 		
-		autorASC();
+		System.out.println(suchwort);
+		VereinfachtesSuchwortgenerator(suchwort);
+		System.out.println(easySuchwort);
+		Suchwort(easySuchwort);
+		System.out.println(easySuchwort2);
+		fulltextsearch(easySuchwort2,suchwort);
+		
+		
+		//AnzahlEinträge();
+		//autorDESC();
+		//autorASC();
 
 
 		//fuellen der Liste mit Daten
@@ -202,8 +212,8 @@ public class Datenbank3 {
 			//System.out.println("HIIIIIII"); //zur Kontrolle
 
 			for (int i = 1; i <= 6; i++) {
-				pstmt.setString(i, testzeile[i-1]);
-				System.out.println(" '" + testzeile[i-1] + "'");
+				pstmt.setString(i, testzeile2[i-1]);
+				System.out.println(" '" + testzeile2[i-1] + "'");
 			}
 			pstmt.executeUpdate();
 
@@ -245,12 +255,13 @@ public class Datenbank3 {
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//Tabellenzeilen aus Datenbank einlesen
 		String SEARCH_FOR_DATA_SQL_DATEN = "select (\'"+wort+"\')@@ to_tsquery(\'"+wort2+"\')";
+		System.out.print(easySuchwort);
 		try {	
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			PreparedStatement pStatement = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
-			rs = pStatement.executeQuery();
+			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
+			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				System.out.println("Ist das eigengebene Suchtwort, "+easySuchwort+" im Text?");
+				System.out.println("Ist das eigengebene Suchtwort, "+wort2+", im Text?");
 				System.out.print(wert);
 
 				System.out.println();
@@ -286,9 +297,34 @@ public class Datenbank3 {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		String SQL2="Insert into verwendeteSuchwörter (Suchwort) VALUES (?)";
+		
+		try {
+			conn=DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt=conn.prepareStatement(SQL2);
+			
+			pstmt.setString(1, easySuchwort2);
+			System.out.println(" '" +easySuchwort2+"'");
+			pstmt.executeUpdate();
+			
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
 		return easyText;
 	}
 
+	/**
+	 * Methode zur vereinfachung des Suchwortes und Speicherung in der Datenbank
+	 * @param wort
+	 * @return der Rückgabewert ist die vereinfachte Form des ursprünglichen Suchwortes
+	 * 		   Hierbei werden alle Großbuchstaben durch Kleinbuchstaben ersetzt; Präpositionen,
+	 * 		   Artikel, Personalpronomen,Nachsilben,.. fallen weg;
+	 */
 	public static String VereinfachtesSuchwortgenerator(String wort) {
 		//System.out.print("Das Wort"+text+"wurde vereinfacht zu "+EasyText+". ");
 		//pstmt=null;
@@ -318,6 +354,8 @@ public class Datenbank3 {
 		return easySuchwort;
 	}
 	
+	
+	// TODO ab hier bitch
 	public static ArrayList<String[]> autorASC()
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
@@ -342,8 +380,18 @@ public class Datenbank3 {
 				DatennachAutorASC.add(zeile);
 				System.out.println();
 			}
+			
+			System.out.println(DatennachAutorASC.get(0)[0]);
+			/*
+			for(int i=0;i<=3;i++)
+			{
+				System.out.println(DatennachAutorASC.get(i)[0]);
+				System.out.println(DatennachAutorASC.get(i)[1]);
+				System.out.println(DatennachAutorASC.get(i)[2]);
+				System.out.println(DatennachAutorASC.get(i)[3]);
+			}*/
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -368,15 +416,24 @@ public class Datenbank3 {
 			{
 				String[] zeile = new String[10];
 				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 10; i++) {
+				for (int i = 0; i < 4; i++) {
 					zeile[i] = rs.getString(i+1);
 					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
 				}
 				DatennachAutorDESC.add(zeile);
 				System.out.println();
 			}
+			
+			for(int i=0;i<=3;i++)
+			{
+				System.out.println(DatennachAutorDESC.get(i)[0]);
+				System.out.println(DatennachAutorDESC.get(i)[1]);
+				System.out.println(DatennachAutorDESC.get(i)[2]);
+				System.out.println(DatennachAutorDESC.get(i)[3]);
+			}
+			
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -409,7 +466,6 @@ public class Datenbank3 {
 				System.out.println();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -422,7 +478,7 @@ public class Datenbank3 {
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> DatenUploaddatumDESC = new ArrayList<String[]>();
-		ArrayList<String> list = new ArrayList<String>();
+		//ArrayList<String> list = new ArrayList<String>();
 		//SQL-Abfrage
 		String READ_DATEN_UPLOADDATUMDESC="select dateiname, autor, tag, uploaddatum from uploaddaten order by Autor DESC";
 		
@@ -435,15 +491,17 @@ public class Datenbank3 {
 			{
 				String[] zeile = new String[10];
 				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 10; i++) {
+				for (int i = 0; i < 4; i++) {
 					zeile[i] = rs.getString(i+1);
 					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
 				}
 				DatenUploaddatumDESC.add(zeile);
+				System.out.println(zeile[1]);
+				System.out.println(zeile[1]);
+				System.out.println(zeile[1]);
 				System.out.println();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -454,5 +512,40 @@ public class Datenbank3 {
 		
 		
 	}
+	
+	public static int AnzahlEinträge()
+	{
+		String SQL="select count(uploadid) from uploaddaten";
+		
+		try {
+			conn=DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt=conn.prepareStatement(SQL);
+			rs=pstmt.executeQuery();
+			while(rs.next())
+			{
+				anzahl=rs.getInt(1);
+				System.out.println(anzahl);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return anzahl;
+	}
+	
+	public static void Ranking()
+	{
+		
+	}
+	
+	private static String Suchwort(String name){
+		easySuchwort2 = name;
+		easySuchwort2 = name.substring(0,name.length()-2);
+		System.out.println(easySuchwort2);
+		
+		return easySuchwort2;
+	}
+	
+	
 
 }
