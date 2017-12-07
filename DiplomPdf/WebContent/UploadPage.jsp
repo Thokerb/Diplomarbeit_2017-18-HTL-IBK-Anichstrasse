@@ -19,7 +19,7 @@
 
 <script type="text/javascript" src="modalconfig.js"></script>
 
-<title>Upload - Seite</title>
+<title>Easy PDF - Upload </title>
 </head>
 <body>
 

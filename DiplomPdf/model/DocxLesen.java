@@ -10,6 +10,7 @@ import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.tika.metadata.Metadata;
 import org.apache.xmlbeans.impl.store.Path;
 
 public class DocxLesen { 	
@@ -20,6 +21,8 @@ public class DocxLesen {
 
 			FileInputStream fis = new FileInputStream(filename);
 			
+	
+			
 			XWPFWordExtractor oleTextExtractor = new XWPFWordExtractor(new XWPFDocument(fis));
 			String text = null; 
 			
@@ -27,6 +30,11 @@ public class DocxLesen {
 			System.out.println("----------------Text-----------------");
 			System.out.println(text);
 			System.out.println("----------------Text-----------------");
+			
+
+            Metadata metadata = new Metadata();
+            System.out.println("Last author: " + metadata.get(Metadata.AUTHOR));
+			
 			return text; 
 
 
@@ -44,6 +52,8 @@ public class DocxLesen {
 
 
 	public static void main(String[] args) {
+		
+		
 		DocxLesen l1 = new DocxLesen();
 		l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//test.docx");
 	}
