@@ -16,9 +16,9 @@ import model.Datenbank3;
  * Servlet implementation class DataTableServlet
  */
 public class DataTableServlet extends HttpServlet {
-	
+
 	public static ArrayList<String[]> sortiertAutorASC = new ArrayList<String[]>();
-	
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -36,12 +36,12 @@ public class DataTableServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
-	
-	
+
+
 	public static void setsortiertAutorASC()
 	{
 		sortiertAutorASC = Datenbank3.autorASC();
-		
+
 	}
 
 	/**
@@ -81,36 +81,34 @@ public class DataTableServlet extends HttpServlet {
 		 */
 		String antwort2 = "{\"draw\":"+draw+",\"recordsTotal\":2,\"recordsFiltered\":2,\"data\":[{\"DateiTyp\":\"PDF\",\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"},{\"DateiTyp\":\"DOC\",\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"}]}";
 
-		
+		/*
 		String json = new Gson().toJson(sortiertAutorASC);
-		
-		
-		
-		
-		String antwort = "{\"draw\":"+draw+",\"recordsTotal\":2,\"recordsFiltered\":2,\"data\":[{\"Name\":\""+sortiertAutorASC.get(0)[0]+"\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"}]}";
-		//String antwortautorASC = "{\"draw\":"+draw+",\"recordsTotal\":4,\"recordsFiltered\":4,\"data\":[{\"Name\":\""+DatennachAutorASC[0]+""\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"}]}";
-		
-		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
-		System.out.println(antwort2);
-		out.println(antwort2);
-		
+
 		setsortiertAutorASC();
-		
+
 		System.out.println("HIIII");
-		
+
 		for(int i=0;i<=sortiertAutorASC.size();i++)
 		{
 			//System.out.println(sortiertAutorASC.get(i)[0]);
 		}
-		
+		*/
+
+		String antwort = "{\"draw\":"+draw+",\"recordsTotal\":2,\"recordsFiltered\":2,\"data\":[{\"Name\":\""+sortiertAutorASC.get(0)[0]+"\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"}]}";
+		//String antwortautorASC = "{\"draw\":"+draw+",\"recordsTotal\":4,\"recordsFiltered\":4,\"data\":[{\"Name\":\""+DatennachAutorASC[0]+""\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"}]}";
+
+		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
+		System.out.println(antwort2);
+		out.println(antwort2);
+
 	}
-	
+
 	public String toJSON(ArrayList<String> sortiertAutorASC) {
-	    Gson gson = new Gson();
-	    StringBuilder sb = new StringBuilder();
-	    for(String d : sortiertAutorASC) {
-	        sb.append(gson.toJson(d));
-	    }
-	    return sb.toString();
+		Gson gson = new Gson();
+		StringBuilder sb = new StringBuilder();
+		for(String d : sortiertAutorASC) {
+			sb.append(gson.toJson(d));
+		}
+		return sb.toString();
 	}
 }
