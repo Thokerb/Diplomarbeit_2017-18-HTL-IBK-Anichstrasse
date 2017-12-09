@@ -1,0 +1,65 @@
+
+
+html,body{
+    min-height: 100%;
+    width: 100%;
+    margin:0px;
+    position: absolute;
+    
+}
+
+.board{
+    position: absolute;
+    background-image: url(Images/Swietenia_macrophylla_wood.jpg);
+    float: left;
+    width: 100%;
+    min-height: 100%;
+}
+
+.card {
+    box-shadow: 20px 19px 2px 3px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    float: left;
+    margin-left: 100px;
+    background-color: dimgrey;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+}
+
+.sector{
+    color: whitesmoke;
+    font-size: 18px;
+    font-family: monospace;
+    border-style: dashed;
+}
+
+img:hover {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+.pbutton{
+    margin-bottom: 0px;
+}
+
+@media(max-width:800px){
+    .card{
+        float: none;
+        margin-left: 10%;
+        margin-top: 10%;
+    }
+}
+
+#ueberschrift{
+    color: white;
+    text-align: center;
+    
+}
+
+.textme{
+    margin-left: 10px;
+    margin-right: 10px;
+}
