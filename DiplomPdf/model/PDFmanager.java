@@ -58,13 +58,15 @@ public class PDFmanager {
 		
 //		System.out.println( "Autor: " + info.getAuthor() );
 //		System.out.println( "Autor: " + info.getCreator()); gibt zB nur Microsoft zurück
-//		   System.out.println("Erstelldatum: " + getDatum(info.getCreationDate()));
+//		System.out.println("Erstelldatum: " + getDatum(info.getCreationDate()));
 
 		pdfStripper.setStartPage(1);
 		pdfStripper.setEndPage(pdDoc.getNumberOfPages());
 
 		Text = pdfStripper.getText(pdDoc);
 		pdDoc.close();
+		
+		System.out.println(Text);
 		
 		return Text;
 	}
@@ -86,5 +88,6 @@ public class PDFmanager {
 	public static String getDatum(){ 
 		return datum; 
 	}
+
 }
 

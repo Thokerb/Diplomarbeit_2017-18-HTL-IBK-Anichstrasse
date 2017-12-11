@@ -14,6 +14,7 @@ import javax.servlet.http.Part;
  */
 //@WebServlet("/UploadServlet")
 //@MultipartConfig
+
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +23,6 @@ public class UploadServlet extends HttpServlet {
 	 */
 	public UploadServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -30,8 +30,10 @@ public class UploadServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//		response.getWriter().append("Served at: ").append(request.getContextPath());
 		//		begriffe = gson.fromJson(antwort, String[].class);
+
+		doPost(request, response); //? Ok? 
 	}
 
 	/**
@@ -39,11 +41,12 @@ public class UploadServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/**
-		 * Aktuell wird die Datei temporär auf C:/Temp gespeichert
+		 * Aktuell wird die Datei temporär auf C:/Temp gespeichert --> später dann alles über DB
 		 * wenn boolean overwrite true ist, dann gibt es die datei bereit und sie soll überschrieben werden
-		 * TODO: übergabe in Datenbank
+		 * TODO: übergabe in DATENBANK
 		 */
-		// TODO Auto-generated method stub
+
+
 		int nummer = 1;
 		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	    
 		InputStream fileContent = filePart.getInputStream();
@@ -91,6 +94,9 @@ public class UploadServlet extends HttpServlet {
 			System.out.println("Docx - Datei wurde in Text umgewandelt -> Weitergeben an DB");
 			break; 
 		}
+		default:{
+			System.out.println("Datei kann nicht gespeichert werden, Dateityp wird nicht unterstützt");
+		}
 
 
 
@@ -133,9 +139,39 @@ public class UploadServlet extends HttpServlet {
 	}
 
 	private String NamensNummerierer(String name,int nummer){
-		String nameneu = name;
-		nameneu = name.substring(0,name.length()-4);
-		nameneu = nameneu+"("+nummer+")"+".pdf";
-		return nameneu;
+
+		String nameneu;
+
+		switch(name.substring(name.lastIndexOf('.')+1,name.length())) {
+		case "pdf": {
+			nameneu = name;
+			nameneu = name.substring(0,name.length()-4);
+			nameneu = nameneu+"("+nummer+")"+".pdf";
+			return nameneu; 
+		}
+		case "doc": {
+			nameneu = name;
+			nameneu = name.substring(0,name.length()-4);
+			nameneu = nameneu+"("+nummer+")"+".doc";
+			return nameneu; 
+		}
+		case "docx": {
+			nameneu = name;
+			nameneu = name.substring(0,name.length()-4);
+			nameneu = nameneu+"("+nummer+")"+".docx";
+			return nameneu; 
+		}
+		case "txt": {
+			nameneu = name;
+			nameneu = name.substring(0,name.length()-4);
+			nameneu = nameneu+"("+nummer+")"+".txt";
+			return nameneu;
+		}
+		default:{
+			System.out.println("Neuer Name konnte nicht vergeben werden, Dateityp wird nicht unterstützt");
+		}
+
+		}
+		return null;
 	}
 }

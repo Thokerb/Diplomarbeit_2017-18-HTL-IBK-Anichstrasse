@@ -27,24 +27,20 @@
 
 				<form action="LoginServlet" method="get">
 					<div class="form-group">
-						<label class="sr-only" for="uninput">Benutzername</label> <input
-							type="text" class="form-control" name="username" id="uninput"
-							placeholder="Benutzername" required>
+						<label class="sr-only" for="uninput">Benutzername</label> 
+						<input type="text" class="form-control" name="username" id="uninput" placeholder="Benutzername" required>
 					</div>
 					<div class="form-group">
-						<label class="sr-only" for="uninput">E-Mail</label> <input
-							type="text" class="form-control" name="username" id="uninput"
-							placeholder="E-Mail " required>
+						<label class="sr-only" for="emailinput">E-Mail</label> 
+						<input type="email" class="form-control" name="email" id="emailinput" placeholder="E-Mail " required>
 					</div>
 					
 					<div class="form-group">
 						<div class="input-group">
-							<label class="sr-only" for="pwinput">Passwort</label> <input
-								type="password" class="form-control" name="password"
-								id="pwinput" placeholder="Passwort" required><span
-								class="input-group-btn">
-								<button class="btn-link btnpw form-control" type="button"
-									id="unmaskbtn">
+							<label class="sr-only" for="pwinput">Passwort</label> 
+							<input type="password" class="form-control" name="password" id="pwinput" placeholder="Passwort" required>
+							<span class="input-group-btn">
+								<button class="btn-link btnpw form-control" type="button" id="unmaskbtn">
 									<span class="glyphicon glyphicon-eye-open"></span>
 								</button>
 							</span>
@@ -53,17 +49,13 @@
 
 					<div class="form-group">
 						<label class="sr-only" for="pwinput2">Passwort wiederholen</label>
-						<input type="password" class="form-control" name="passwordrepeat"
-							id="pwinput2" placeholder="Passwort wiederholen" required>
+						<input type="password" class="form-control" name="passwordrepeat" id="pwinput2" placeholder="Passwort wiederholen" required>
 					</div>
 					<div class="form-group">
 						<hr />
-						<input type="submit" class="form-control btn btn-primary"
-							value="Registrieren">
+						<input type="submit" class="form-control btn btn-primary" value="Registrieren">
 					</div>
 				</form>
-
-
 			</div>
 		</div>
 	</div>
@@ -81,8 +73,7 @@
                 var input2 = $("#pwinput2");
                 var pw2 = input2.val();
 	        	input2.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput2\" placeholder=\"Passwort wiederholen\" class=\"form-control\" value=\""+pw2+"\" required>");
-                
-	     
+     	     
 	        }
 	        else{
 	        	var input = $("#pwinput");
@@ -96,12 +87,7 @@
 	     	       }
 
 	          });
-	})
-
-        
-
-        
-    
+	})    
     </script>
 
 </body>
