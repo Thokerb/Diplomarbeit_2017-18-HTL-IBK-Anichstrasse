@@ -33,12 +33,39 @@ public class FunktionenDB {
 			private static boolean wert=false;
 			private static int anzahl;
 			private static String wort="haus";
+			private static float relevanz;
+			
+			public static ArrayList<String[]> sortiertAutorASC = new ArrayList<String[]>();
 
 	public static void main(String[] args) {
 		
-		//Stichtextgenerator(text);
-		//VereinfachtesSuchwortgenerator(suchwort);
-		fulltextsearch(text,wort);
+		Stichtextgenerator(text);
+		VereinfachtesSuchwortgenerator(suchwort);
+		//fulltextsearch(text,wort);
+		//geordneteAusgabe.autorASC();
+//		setsortiertAutorASC();
+		
+		easySuchwort2=HineinschreibenDB.Suchwort(easySuchwort);
+		System.out.println(easySuchwort2);
+		ranking(easyText,easySuchwort2);
+		
+		
+		for(int i=0;i<=2;i++)
+		{
+			System.out.println(sortiertAutorASC.get(i)[0]);
+			System.out.println("HI");
+			System.out.println(sortiertAutorASC.get(i)[1]);
+			System.out.println(sortiertAutorASC.get(i)[2]);
+			System.out.println(sortiertAutorASC.get(i)[3]);
+			System.out.println(sortiertAutorASC.get(i)[4]);
+		}
+		
+		int anzahl=geordneteAusgabe.AnzahlEinträge();
+		System.out.println(anzahl);
+		
+		System.out.println("String antwortautorASC =[{\"DateiTyp\":\""+sortiertAutorASC.get(0)[0]+"\",\"Name\":\""+sortiertAutorASC.get(0)[1]+"\",\"Autor\":\""+sortiertAutorASC.get(0)[2]+"\",\"UploadDatum\":\""+sortiertAutorASC.get(0)[3]+"\",\"DokumentDatum\":\""+sortiertAutorASC.get(0)[4]+"\"}");
+		String antwortautorASC = "{\"draw\":,\"recordsTotal\":"+anzahl +",\"recordsFiltered\":"+anzahl +",\"data\":[{\"DateiTyp\":\""+sortiertAutorASC.get(0)[0]+"\",\"Name\":\""+sortiertAutorASC.get(0)[1]+"\",\"Autor\":\""+sortiertAutorASC.get(0)[2]+"\",\"UploadDatum\":\""+sortiertAutorASC.get(0)[3]+"\",\"DokumentDatum\":\""+sortiertAutorASC.get(0)[4]+"\"}";
+		System.out.println(antwortautorASC);
 		
 	}
 	
@@ -59,7 +86,7 @@ public class FunktionenDB {
 		Connection conn = null;
 		//neuen Connection holen
 		try {
-			conn=DriverManager.getConnection(DB_URL);
+			conn=DriverManager.getConnection(DB_URL,USER,PASS);
 			
 			
 		} catch (SQLException e) {
@@ -100,7 +127,7 @@ public class FunktionenDB {
 					while (rs.next()) {
 
 						easyText = rs.getString(1);
-						System.out.print("Der Text '"+text+"' wurde vereinfacht zu '"+easyText+"'.");
+						System.out.print("Der Text Inhalttext wurde vereinfacht zu '"+easyText+"'.");
 						//System.out.println(easyText);
 
 						System.out.println();
@@ -151,7 +178,6 @@ public class FunktionenDB {
 			return getEasySuchwort();
 		}
 
-		// TODO funktionert nit ganz
 		//Überprüft ob angegebnes wort im text ist
 		public static boolean fulltextsearch(String wort,String wort2) {
 			ArrayList<String[]> daten = new ArrayList<String[]>();
@@ -176,11 +202,27 @@ public class FunktionenDB {
 		}
 		
 		// TODO
-		public void ranking()
-		{
-			
-		}
+		public static float ranking(String wort,String wort2) {
+			ArrayList<String[]> daten = new ArrayList<String[]>();
+			//Tabellenzeilen aus Datenbank einlesen
+			String SEARCH_FOR_DATA_SQL_DATEN = "select ts_rank((\'"+wort+"\')@@ to_tsquery(\'"+wort2+"\')) as relevancy";
+			System.out.print(SEARCH_FOR_DATA_SQL_DATEN);
+			try {	
+				conn = DriverManager.getConnection(DB_URL,USER,PASS);
+				pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					relevanz=rs.getFloat(1);
+					System.out.println("Ist das eingegebene Suchwort, "+wort2+", im Text und mit einer wie hohen relevanz auf den Text?");
+					System.out.print(relevanz);
 
+					System.out.println();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return relevanz;
+		}
 
 		public static String getEasySuchwort() {
 			return easySuchwort;
@@ -202,7 +244,11 @@ public class FunktionenDB {
 		}
 
 
-	
+//		public static void setsortiertAutorASC()
+//		{
+//			sortiertAutorASC = geordneteAusgabe.autorASC();
+//
+//		}
 	
 
 }

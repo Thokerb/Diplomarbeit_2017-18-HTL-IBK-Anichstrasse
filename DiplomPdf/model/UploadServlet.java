@@ -63,7 +63,8 @@ public class UploadServlet extends HttpServlet {
 		//		uploader(fileContent,dateiname,0);
 		File f = new File(dateiname);
 		String name = f.getName();
-		System.out.println("Es handelt sich um eine ' "+name.substring(name.lastIndexOf('.')+1,name.length())+" ' Datei: ");
+		String dateityp=name.substring(name.lastIndexOf('.')+1,name.length());
+		System.out.println("Es handelt sich um eine ' "+dateityp+" ' Datei: ");
 		System.out.println("-----------------------------------------");
 
 		switch(name.substring(name.lastIndexOf('.')+1,name.length())){
@@ -77,14 +78,22 @@ public class UploadServlet extends HttpServlet {
 				HineinschreibenDB hdb=new HineinschreibenDB();
 				Connection conn2=hdb.getConnection();
 				String stichworttext=fdb.Stichtextgenerator(inhalttext);
-				String[] daten =new String[3];
+				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
+				String[] daten =new String[8];
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=PDFmanager.getAutor();
 				daten[3]=PDFmanager.getAutor();
-				daten[4]="dateiname";
+				daten[4]=dateiname;
 				daten[5]=PDFmanager.getDatum();
-				hdb.writeDaten(daten);
+				daten[6]=stichworttext;
+				daten[7]=dateityp;
+				
+				for(String s : daten) {
+					System.out.print("Gelesen wurde: ");
+					 System.out.println(s);
+					}
+				HineinschreibenDB.writeDaten(daten);
 				fdb.releaseConnection(conn1);
 				fdb.releaseConnection(conn2);
 			} catch (InstantiationException e) {
