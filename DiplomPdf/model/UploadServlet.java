@@ -2,12 +2,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.sql.*;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+
+import model.FunktionenDB;
+import model.HineinschreibenDB;
 
 /**
  * Servlet implementation class UploadServlet
@@ -67,9 +72,34 @@ public class UploadServlet extends HttpServlet {
 		switch(name.substring(name.lastIndexOf('.')+1,name.length())){
 
 		case "pdf"  :{
-			String wort=PDFboxLesen.lesenPDF("C://Temp//"+dateiname);
-			model.Datenbank3.VerbindungAufbauen();
-			model.Datenbank3.Stichworttextgenerator(wort);
+			String inhalttext=PDFboxLesen.lesenPDF("C://Temp//"+dateiname);
+			// TODO Verena ist am workn hier
+			try {
+				FunktionenDB fdb=new FunktionenDB();
+				Connection conn1=fdb.getConnection();
+				HineinschreibenDB hdb=new HineinschreibenDB();
+				Connection conn2=hdb.getConnection();
+				String stichworttext=fdb.Stichtextgenerator(inhalttext);
+				String[] daten =new String[3];
+				daten[0]="tag";
+				daten[1]=inhalttext;
+				daten[2]=PDFmanager.getAutor();
+				daten[3]=PDFmanager.getAutor();
+				daten[4]="dateiname";
+				daten[5]=PDFmanager.getDatum();
+				hdb.writeDaten(daten);
+				fdb.releaseConnection(conn1);
+				fdb.releaseConnection(conn2);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+			
 			System.out.println("PDF - Datei wurde in Text umgewandelt -> Weitergeben an DB");
 			break;
 		}
