@@ -29,7 +29,7 @@ public class geordneteAusgabe {
 	private static int anzahl;
 
 	public static void main(String[] args) {
-		//autorASC();
+		autorASC();
 		//autorDESC();
 		
 		//uploaddatumASC();
@@ -93,7 +93,7 @@ public class geordneteAusgabe {
 		String READ_DATEN_AUTORASC="select dateityp, dateiname, autor, tag, uploaddatum from uploaddaten order by Autor ASC";
 		
 		try {
-			//conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(READ_DATEN_AUTORASC);
 			rs = pstmt.executeQuery();
 			
@@ -128,14 +128,14 @@ public class geordneteAusgabe {
 //				}
 			
 			//System.out.println(DatennachAutorASC.get(0)[0]);
-			/*
+	
 			for(int i=0;i<=3;i++)
 			{
 				System.out.println(DatennachAutorASC.get(i)[0]);
 				System.out.println(DatennachAutorASC.get(i)[1]);
 				System.out.println(DatennachAutorASC.get(i)[2]);
 				System.out.println(DatennachAutorASC.get(i)[3]);
-			}*/
+			}
 			
 			pstmt.close(); pstmt=null;
 			rs.close();rs=null;

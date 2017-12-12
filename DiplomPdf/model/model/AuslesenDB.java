@@ -229,7 +229,7 @@ public class AuslesenDB {
 					String email=rs.getString(2);
 					String vorname=rs.getString(3);
 					String nachname=rs.getString(4);
-					int passwort=rs.getString(Integer.parseInt(5));
+					int passwort=rs.getInt(5);
 					
 					Benutzer zeile = new Benutzer(benutzername,email,vorname,nachname,passwort);
 					daten.add(zeile);
