@@ -16,11 +16,10 @@ public class PDFboxLesen {
 	public static String lesenPDF(String filename){
 		
 		PDFmanager pdfM = new PDFmanager();
-		
-		pdfM.setFilePath(filename);
+	
 		try {
 			
-			text = pdfM.pdfToText();
+			text = pdfM.pdfToText(filename);
 			System.out.println("--------------- TEXT aus PDFboxLesen: -------------");
 			System.out.println(text);
 			System.out.println("--------------- TEXT -------------");

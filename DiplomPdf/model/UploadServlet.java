@@ -38,7 +38,7 @@ public class UploadServlet extends HttpServlet {
 		//		response.getWriter().append("Served at: ").append(request.getContextPath());
 		//		begriffe = gson.fromJson(antwort, String[].class);
 
-		doPost(request, response); //? Ok? 
+		doPost(request, response);
 	}
 
 	/**
@@ -66,13 +66,16 @@ public class UploadServlet extends HttpServlet {
 		//		uploader(fileContent,dateiname,0);
 		File f = new File(dateiname);
 		String name = f.getName();
-		System.out.println("Es handelt sich um eine ' "+name.substring(name.lastIndexOf('.')+1,name.length())+" ' Datei: ");
+		String endung = name.substring(name.lastIndexOf('.')+1,name.length());
+		endung.toUpperCase();
+		
+		System.out.println("Es handelt sich um eine ' "+ endung +" ' Datei: ");
 		System.out.println("-----------------------------------------");
 
-		switch(name.substring(name.lastIndexOf('.')+1,name.length())){
+		switch(endung){
 
-		case "pdf"  :{
-			String inhalttext=PDFboxLesen.lesenPDF("C://Temp//"+dateiname);
+		case "PDF"  :{
+			String inhalttext=PDFmanager.pdfToText("C://Temp//"+dateiname);
 			// TODO Verena ist am workn hier
 			try {
 				FunktionenDB fdb=new FunktionenDB();
@@ -104,21 +107,21 @@ public class UploadServlet extends HttpServlet {
 			break;
 		}
 
-		case "txt"  :{
+		case "TXT"  :{
 
 			TextdateiLesen.textdateiLesen("C://Temp//"+dateiname);
 			System.out.println("Txt - Datei wurde in Text umgewandelt -> Weitergeben an DB");
 			break; 
 		}
 
-		case "doc"  :{
+		case "DOC"  :{
 
 			DocLesen.lesenDoc("C://Temp//"+dateiname);
 			System.out.println("Doc - Datei wurde in Text umgewandelt -> Weitergeben an DB");
 			break; 
 		}
 
-		case "docx"  :{
+		case "DOCX"  :{
 
 			DocxLesen.lesenDocx("C://Temp//"+dateiname);
 			System.out.println("Docx - Datei wurde in Text umgewandelt -> Weitergeben an DB");
@@ -141,7 +144,7 @@ public class UploadServlet extends HttpServlet {
         	System.out.println("ERROR DATEI BEREITS VORHANDEN");
         }
 		 */
-		System.out.println("Datei fertig eingelesen (noch nicht ganz)");
+		System.out.println("Datei fertig eingelesen (noch nicht ganz DB speicherung fehlt bis jetzt )");
 	}
 
 	private void uploader(InputStream fileContent, String dateiname,int nummer){
@@ -171,27 +174,29 @@ public class UploadServlet extends HttpServlet {
 	private String NamensNummerierer(String name,int nummer){
 
 		String nameneu;
-
-		switch(name.substring(name.lastIndexOf('.')+1,name.length())) {
-		case "pdf": {
+		String endungneu = name.substring(name.lastIndexOf('.')+1,name.length());
+		endungneu.toUpperCase();
+	
+		switch(endungneu) {
+		case "PDF": {
 			nameneu = name;
 			nameneu = name.substring(0,name.length()-4);
 			nameneu = nameneu+"("+nummer+")"+".pdf";
 			return nameneu; 
 		}
-		case "doc": {
+		case "DOC": {
 			nameneu = name;
 			nameneu = name.substring(0,name.length()-4);
 			nameneu = nameneu+"("+nummer+")"+".doc";
 			return nameneu; 
 		}
-		case "docx": {
+		case "DOCX": {
 			nameneu = name;
 			nameneu = name.substring(0,name.length()-4);
 			nameneu = nameneu+"("+nummer+")"+".docx";
 			return nameneu; 
 		}
-		case "txt": {
+		case "TXT": {
 			nameneu = name;
 			nameneu = name.substring(0,name.length()-4);
 			nameneu = nameneu+"("+nummer+")"+".txt";
