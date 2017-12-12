@@ -16,6 +16,14 @@ html,body{
     min-height: 100%;
 }
 
+.navbar{
+    margin: 0px;
+}
+
+img{
+    max-width: 100%;
+}
+
 .card {
     box-shadow: 20px 19px 2px 3px rgba(0, 0, 0, 0.2);
     max-width: 300px;
@@ -62,4 +70,5 @@ img:hover {
 .textme{
     margin-left: 10px;
     margin-right: 10px;
+    font-weight: 500;
 }

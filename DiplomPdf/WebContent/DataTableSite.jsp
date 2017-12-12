@@ -6,10 +6,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-
-<title>Easy PDF - Uebersicht</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+<title>Easy PDF - Files</title>
 
 
 <%
@@ -19,18 +17,20 @@
 %>
 
 
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="htätps://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 <!-- font-awesome stylesheets -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 <link rel="stylesheet" href="stylesheet.css"></link>
 
 <!-- jquery datatable stylesheet bootstrap -->
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"></link>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"></link>
 
+<!-- dropzone js und stylesheet -->
+<script src="dropzone.js"></script>
+<link rel="stylesheet" type="text/css" href="dropzone.css" />
+<script type="text/javascript" src="dropzoneconfig.js" charset="UTF-8"></script>
+<script src="modalconfig.js"></script>
 
 </head>
 <body>
@@ -62,7 +62,7 @@
             "ajax" : {
 			"url" : '/DiplomPdf/DataTableServlet',
 			"type" : 'POST',
-				"dataSrc": "data"
+			"dataSrc": "data"
 			},
 			
 			"language": {
@@ -383,16 +383,40 @@
 			<ul class="nav navbar-nav">
 				<li><a href="#">Gelöschte Dokumente</a></li>
 				<li><a href="#">Verlauf</a></li>
-				<li><a href="index.html">Über EasyPDF</a></li>
-				<li><a href="UploadPage.jsp">Dokument ablegen</a></li>
+				<li><a href="#">Über EasyPDF</a></li>
 			</ul>
-			<button class="btn btn-primary navbar-btn uploadmodalbtn">UPLOAD</button>
+			<button type="button" class="btn btn-info  navbar-btn"
+				data-toggle="modal" data-target="#uploadModal">UPLOAD</button>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+				<li><a href="#"><span class="glyphicon glyphicon-log-out"></span>
+						Abmelden</a></li>
 			</ul>
 		</div>
 	</div>
 	</nav>
+<nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">EasyPDF</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav"> 
+        <li><a href="#">Gelöschte Dokumente</a></li>
+        <li><a href="#">Verlauf</a></li>
+        <li><a href="#">Über EasyPDF</a></li>
+      </ul>
+          <button type="button" class="btn btn-info  navbar-btn" data-toggle="modal" data-target="#uploadModal">UPLOAD</button>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 	<div class="container">
 
 
@@ -452,6 +476,61 @@
 
 		</div>
 
+	</div>
+
+
+	<!-- Modal -->
+	<div id="uploadModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Lade dein Dokument hoch</h4>
+				</div>
+				<div class="modal-body">
+					<h2 id="modalueberschrift">Ziehe dein Dokument hier hinein</h2>
+					<form action="UploadServlet" method="post"
+						enctype="multipart/form-data" name="pdffile" id="my-dropzone"
+						class="dropzone">
+						<input type="hidden" name="dateiname" id="dateiname"></input>
+
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- Modal -->
+	<div id="saveModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Modal Header</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+						Der Name <span id="modaldatname"></span> ist bereits vorhanden
+					</p>
+					<p>Bitte gib einen neuen Namen ein:</p>
+					<input id="modalinput" />
+					<button disabled="true" class="btn btn-primary disabled"
+						id="modalinputbtn">OK</button>
+					<button id="overwritebtn" class="btn btn-primary">Überschreibe
+						die Datei</button>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+
+		</div>
 	</div>
 
 

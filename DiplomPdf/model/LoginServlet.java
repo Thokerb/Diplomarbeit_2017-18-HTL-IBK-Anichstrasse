@@ -1,6 +1,9 @@
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,22 +16,35 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String uname = request.getParameter("uname");
-		String pass = request.getParameter("pass");
+		String username = request.getParameter("uname");
+		String pwd = request.getParameter("pass");
 
 
 		// Datenbank abfrage von Benutzer normal
-		
-		if(uname.equals("user") && pass.equals("1234"))
+
+		if(AnmeldungValidate.checkUser(username, pwd) || username.equals("user") && pwd.equals("1234"))
 		{
-			HttpSession session = request.getSession();
-			session.setAttribute("username", uname);
-			response.sendRedirect("UploadPage.jsp");
+			RequestDispatcher rs = request.getRequestDispatcher("DataTableSite.jsp");
+			rs.forward(request,response);
 		}else{
-			response.sendRedirect("Login.jsp");
+			System.out.println("Achtung! Username oder Password stimmen nicht überein");
+			
+			PrintWriter out = response.getWriter();  
+			response.setContentType("text/html");  
+			out.println("<script type=\"text/javascript\">");  
+			out.println("alert('Achtung! Username oder Password stimmen nicht überein');");  
+			out.println("</script>");
+			
+			RequestDispatcher rs = request.getRequestDispatcher("Login.jsp");
+			rs.include(request, response);
 		}
 
 
 	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
+
 
 }

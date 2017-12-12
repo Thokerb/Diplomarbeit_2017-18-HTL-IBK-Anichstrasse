@@ -4,7 +4,12 @@ import java.io.IOException;
 
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
-
+/**
+ * @author Sara
+ * 
+ * Extrahiert Text (und hoffendlich bald auch Datum und Autor) aus einer .doc Datei 
+ * Verwendet dabei die Apache POI Library, welche im Builthpath eingebettet ist 
+ */
 
 public class DocLesen {
 
@@ -39,6 +44,6 @@ public class DocLesen {
 //		public static void main(String[] args) {
 //			DocLesen l1 = new DocLesen();
 //			l1.lesenDoc("C://Users//Sara//Dropbox//Diplomarbeit//Doc.doc");
-//	
 //		}
+	
 }
