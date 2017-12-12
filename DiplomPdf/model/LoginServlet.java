@@ -22,17 +22,15 @@ public class LoginServlet extends HttpServlet {
 
 		// Datenbank abfrage von Benutzer normal
 
-		//	if(AnmeldungValidate.checkUser(username, pwd) || ( username.equals("user") && pwd.equals("1234") ) )
-		if( ( username.equals("user") && pwd.equals("1234") ) )
-
 		//if(AnmeldungValidate.checkUser(username, pwd) || username.equals("user") && pwd.equals("1234"))
 		if(username.equals("user") && pwd.equals("1234"))
-
 		{
-			RequestDispatcher rs = request.getRequestDispatcher("DataTableSite.jsp");
+			System.out.println("Anmeldung OK");
+			RequestDispatcher rs = request.getRequestDispatcher("DataTableSite.html");
 			rs.forward(request,response);
 			
 		}else{
+			
 			System.out.println("Achtung! Username oder Password stimmen nicht überein");
 
 			PrintWriter out = response.getWriter();  
