@@ -21,7 +21,7 @@ public class AnmeldungValidate {
 			
 			Class.forName("JDBC_DRIVER");
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			System.out.println("Connecting successful");
+			System.out.println("Connection DB successful");
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
@@ -35,7 +35,7 @@ public class AnmeldungValidate {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("Connecting nicht erfolgreich");
+			System.out.println("Connection DB nicht erfolgreich");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
