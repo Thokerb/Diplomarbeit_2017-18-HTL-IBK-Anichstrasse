@@ -91,7 +91,7 @@ public class UploadServlet extends HttpServlet {
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=PDFmanager.getAutor();
-				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
+				daten[3]=PDFmanager.getAutor();
 				daten[4]=dateiname;
 				daten[5]=PDFmanager.getDatum();
 				daten[6]=stichworttext;
