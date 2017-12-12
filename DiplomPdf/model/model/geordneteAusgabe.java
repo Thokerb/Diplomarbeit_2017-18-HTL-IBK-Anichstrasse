@@ -53,12 +53,12 @@ public class geordneteAusgabe {
 		}
 	}
 
-	public Connection getConnection() throws SQLException
+	public static Connection getConnection() throws SQLException
 	{
 		Connection conn = null;
 		//neuen Connection holen
 		try {
-			conn=DriverManager.getConnection(DB_URL);
+			conn=DriverManager.getConnection(DB_URL,USER,PASS);
 
 
 		} catch (SQLException e) {
