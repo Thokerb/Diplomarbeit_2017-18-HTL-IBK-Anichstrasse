@@ -116,24 +116,15 @@ public class DataTableServlet extends HttpServlet {
 		
 		setsortiertAutorASC();
 		
-//		geordneteAusgabe.autorASC();
-//		try {
-//			geordneteAusgabe.getConnection();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		setsortiertAutorASC();
-//		
-//		for(int i=0;i<=2;i++)
-//		{
-//			System.out.println(sortiertAutorASC.get(i)[0]);
-//			System.out.println("HI");
-//			System.out.println(sortiertAutorASC.get(i)[1]);
-//			System.out.println(sortiertAutorASC.get(i)[2]);
-//			System.out.println(sortiertAutorASC.get(i)[3]);
-//			System.out.println(sortiertAutorASC.get(i)[4]);
-//		}
+		for(int i=0;i<=2;i++)
+		{
+			System.out.println(sortiertAutorASC.get(i)[0]);
+			System.out.println("HI");
+			System.out.println(sortiertAutorASC.get(i)[1]);
+			System.out.println(sortiertAutorASC.get(i)[2]);
+			System.out.println(sortiertAutorASC.get(i)[3]);
+			System.out.println(sortiertAutorASC.get(i)[4]);
+		}
 
 		//String antwortautorASC = "{\"draw\":"+draw+",\"recordsTotal\":1,\"recordsFiltered\":1,\"data\":[{\"DateiTyp\":\""+sortiertAutorASC.get(0)[0]+"\",\"Name\":\""+sortiertAutorASC.get(0)[1]+"\",\"Autor\":\""+sortiertAutorASC.get(0)[2]+"\",\"UploadDatum\":\""+sortiertAutorASC.get(0)[3]+"\",\"DokumentDatum\":\""+sortiertAutorASC.get(0)[4]+"\"}";
 		//String antwortautorASC = "{\"draw\":"+draw+",\"recordsTotal\":"+anzahl +",\"recordsFiltered\":"+anzahl +",\"data\":[{\"DateiTyp\":\""+sortiertAutorASC.get(0)[0]+"\",\"Name\":\""+sortiertAutorASC.get(0)[1]+"\",\"Autor\":\""+sortiertAutorASC.get(0)[2]+"\",\"UploadDatum\":\""+sortiertAutorASC.get(0)[3]+"\",\"DokumentDatum\":\""+sortiertAutorASC.get(0)[4]+"\"}";
