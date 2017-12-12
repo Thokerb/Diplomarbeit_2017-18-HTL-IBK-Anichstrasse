@@ -50,8 +50,6 @@ public class UploadServlet extends HttpServlet {
 		 * wenn boolean overwrite true ist, dann gibt es die datei bereit und sie soll überschrieben werden
 		 * TODO: übergabe in DATENBANK
 		 */
-
-
 		int nummer = 1;
 		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	    
 		InputStream fileContent = filePart.getInputStream();
