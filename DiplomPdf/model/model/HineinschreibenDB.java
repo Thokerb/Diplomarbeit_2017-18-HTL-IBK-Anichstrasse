@@ -103,18 +103,7 @@ public class HineinschreibenDB {
 			//System.out.println("HIIIIIII"); //zur Kontrolle
 
 			for (int i = 1; i <= 8; i++) {
-				if(i==6)
-				{
-					// dd-mm-yyyy
-					// yyyy-mm-dd
-					String[] datumsTeile = testzeile2[i-1].split("-");
-					Date datum= new Date(Integer.parseInt(datumsTeile[2]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[0]));
-					pstmt.setDate(i, datum);
-				}
-				else
-				{
-					pstmt.setString(i, testzeile2[i-1]);
-				}
+				pstmt.setString(i, testzeile2[i-1]);
 				System.out.println(" '" + testzeile2[i-1] + "'");
 			}
 			//pstmt.setDate(id, getSQLDate(lDate));
