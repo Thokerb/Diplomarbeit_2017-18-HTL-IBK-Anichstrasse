@@ -13,7 +13,7 @@ public class AnmeldungValidate {
 	public static boolean checkUser(String username, String pwd) {
 		
 		boolean st = false; 
-		String sql = "SELECT * FROM benutzer where username=? and pwd=?";
+		String sql = "SELECT * FROM benutzer where benutzername=? and passwort=?";
 	
 		System.out.println("Connecting to database...");
 		
@@ -31,7 +31,6 @@ public class AnmeldungValidate {
 			ResultSet rs = ps.executeQuery();
 			
 			st = rs.next();
-			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

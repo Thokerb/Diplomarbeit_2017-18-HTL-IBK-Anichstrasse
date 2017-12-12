@@ -39,16 +39,19 @@ public class FunktionenDB {
 
 	public static void main(String[] args) {
 		
-		Stichtextgenerator(text);
-		VereinfachtesSuchwortgenerator(suchwort);
-		//fulltextsearch(text,wort);
-		//geordneteAusgabe.autorASC();
-//		setsortiertAutorASC();
+//		Stichtextgenerator(text);
+//		VereinfachtesSuchwortgenerator(suchwort);
+//		fulltextsearch(text,wort);
+
 		
-		easySuchwort2=HineinschreibenDB.Suchwort(easySuchwort);
-		System.out.println(easySuchwort2);
-		ranking(easyText,easySuchwort2);
+//		easySuchwort2=HineinschreibenDB.Suchwort(easySuchwort);
+//		System.out.println(easySuchwort2);
+//		ranking(easyText,easySuchwort2);
+	
 		
+
+		geordneteAusgabe.autorASC();
+		setsortiertAutorASC();
 		
 		for(int i=0;i<=2;i++)
 		{
@@ -59,6 +62,7 @@ public class FunktionenDB {
 			System.out.println(sortiertAutorASC.get(i)[3]);
 			System.out.println(sortiertAutorASC.get(i)[4]);
 		}
+		
 		
 		int anzahl=geordneteAusgabe.AnzahlEinträge();
 		System.out.println(anzahl);
@@ -90,7 +94,6 @@ public class FunktionenDB {
 			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			//e.printStackTrace();
 			System.out.println("SQLException: " + e.getMessage());
 		    System.out.println("SQLState: " + e.getSQLState());
@@ -104,7 +107,6 @@ public class FunktionenDB {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Fehler beim schließen der Verbindung:");
 			System.out.println("Meldung: "+e.getMessage());
 			e.printStackTrace();
@@ -244,11 +246,11 @@ public class FunktionenDB {
 		}
 
 
-//		public static void setsortiertAutorASC()
-//		{
-//			sortiertAutorASC = geordneteAusgabe.autorASC();
-//
-//		}
+		public static void setsortiertAutorASC()
+		{
+			sortiertAutorASC = geordneteAusgabe.autorASC();
+
+		}
 	
 
 }

@@ -29,7 +29,7 @@ public class geordneteAusgabe {
 	private static int anzahl;
 
 	public static void main(String[] args) {
-		//autorASC();
+		autorASC();
 		//autorDESC();
 		
 		//uploaddatumASC();
@@ -62,7 +62,6 @@ public class geordneteAusgabe {
 
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			//e.printStackTrace();
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getSQLState());
@@ -76,7 +75,6 @@ public class geordneteAusgabe {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Fehler beim schlieﬂen der Verbindung:");
 			System.out.println("Meldung: "+e.getMessage());
 			e.printStackTrace();
@@ -93,7 +91,8 @@ public class geordneteAusgabe {
 		String READ_DATEN_AUTORASC="select dateityp, dateiname, autor, tag, uploaddatum from uploaddaten order by Autor ASC";
 		
 		try {
-			//conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			Class.forName("JDBC_DRIVER");
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(READ_DATEN_AUTORASC);
 			rs = pstmt.executeQuery();
 			
@@ -128,18 +127,21 @@ public class geordneteAusgabe {
 //				}
 			
 			//System.out.println(DatennachAutorASC.get(0)[0]);
-			/*
+	
 			for(int i=0;i<=3;i++)
 			{
 				System.out.println(DatennachAutorASC.get(i)[0]);
 				System.out.println(DatennachAutorASC.get(i)[1]);
 				System.out.println(DatennachAutorASC.get(i)[2]);
 				System.out.println(DatennachAutorASC.get(i)[3]);
-			}*/
+			}
 			
 			pstmt.close(); pstmt=null;
 			rs.close();rs=null;
 		} catch (SQLException e) {
+			e.printStackTrace();
+		}catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

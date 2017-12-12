@@ -64,15 +64,14 @@ public class UploadServlet extends HttpServlet {
 		//		uploader(fileContent,dateiname,0);
 		File f = new File(dateiname);
 		String name = f.getName();
-<<<<<<< HEAD
+
 		String dateityp=name.substring(name.lastIndexOf('.')+1,name.length());
 		System.out.println("Es handelt sich um eine ' "+dateityp+" ' Datei: ");
-=======
+
 		String endung = name.substring(name.lastIndexOf('.')+1,name.length());
 		endung.toUpperCase();
 		
 		System.out.println("Es handelt sich um eine ' "+ endung +" ' Datei: ");
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 		System.out.println("-----------------------------------------");
 
 		switch(endung){
@@ -91,7 +90,7 @@ public class UploadServlet extends HttpServlet {
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=PDFmanager.getAutor();
-				daten[3]=PDFmanager.getAutor();
+				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
 				daten[4]=dateiname;
 				daten[5]=PDFmanager.getDatum();
 				daten[6]=stichworttext;

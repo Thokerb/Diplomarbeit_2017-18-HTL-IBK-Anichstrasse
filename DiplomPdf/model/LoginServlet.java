@@ -16,13 +16,14 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String username = request.getParameter("uname");
-		String pwd = request.getParameter("pass");
+		String username = request.getParameter("username");
+		String pwd = request.getParameter("passwort");
 
 
 		// Datenbank abfrage von Benutzer normal
 
-		if(AnmeldungValidate.checkUser(username, pwd) || username.equals("user") && pwd.equals("1234"))
+		//if(AnmeldungValidate.checkUser(username, pwd) || username.equals("user") && pwd.equals("1234"))
+		if(username.equals("user") && pwd.equals("1234"))
 		{
 			RequestDispatcher rs = request.getRequestDispatcher("DataTableSite.jsp");
 			rs.forward(request,response);
