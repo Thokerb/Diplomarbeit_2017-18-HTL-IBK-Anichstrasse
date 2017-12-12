@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AuslesenDB {
 
@@ -212,5 +213,34 @@ public class AuslesenDB {
 
 			return Tags;
 
+		}
+		
+		public List<Benutzer> readBenutzer (Connection conn) throws SQLException
+		{
+			ArrayList<Benutzer> daten = new ArrayList<>();
+			String SQL="select * from data";
+			
+			try {
+				PreparedStatement pstmt=conn.prepareStatement(SQL);
+				ResultSet rs=pstmt.executeQuery();
+				while(rs.next())
+				{
+					String benutzername=rs.getString(1);
+					String email=rs.getString(2);
+					String vorname=rs.getString(3);
+					String nachname=rs.getString(4);
+					String passwort=rs.getString(5);
+					
+					Benutzer zeile = new Benutzer(benutzername,email,vorname,nachname,passwort);
+					daten.add(zeile);
+				}
+				rs.close(); rs=null;
+				pstmt.close(); pstmt=null;
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return daten;
 		}
 }

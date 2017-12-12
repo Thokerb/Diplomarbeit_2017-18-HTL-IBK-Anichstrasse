@@ -1,5 +1,7 @@
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.*;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -11,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import model.Datenbank3;
+import model.FunktionenDB;
+import model.Uploaddaten;
+import model.geordneteAusgabe;
 
 /**
  * Servlet implementation class DataTableServlet
@@ -40,7 +45,7 @@ public class DataTableServlet extends HttpServlet {
 
 	public static void setsortiertAutorASC()
 	{
-		sortiertAutorASC = Datenbank3.autorASC();
+		sortiertAutorASC = geordneteAusgabe.autorASC();
 
 	}
 
@@ -80,39 +85,58 @@ public class DataTableServlet extends HttpServlet {
 		 * Formatierung siehe antwort2
 		 */
 		String antwort2 = "{\"draw\":"+draw+",\"recordsTotal\":2,\"recordsFiltered\":2,\"data\":[{\"DateiTyp\":\"PDF\",\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"},{\"DateiTyp\":\"DOC\",\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"}]}";
-
+		String antwort2_0 = "{\"draw\":"+draw+",\"recordsTotal\":1,\"recordsFiltered\":1,\"data\":[{\"DateiTyp\":\"PDF\",\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"}]}";
+//		Connection conn=null;
+//		try{
+//			geordneteAusgabe gadb = new geordneteAusgabe();
+//			conn=gadb.getConnection();
+//			ArrayList<String[]> elemente = gadb.autorASC(conn);
+//			//geordneteAusgabe.autorASC();
+//			//setsortiertAutorASC();
+//			int anzahl=geordneteAusgabe.AnzahlEinträge();
+//
+//		} catch (InstantiationException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IllegalAccessException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch(SQLException e){
+//			e.printStackTrace();
+//		}
 		/*
-		String json = new Gson().toJson(sortiertAutorASC);
-
-		setsortiertAutorASC();
-
-		System.out.println("HIIII");
-
 		for(int i=0;i<=sortiertAutorASC.size();i++)
 		{
-			//System.out.println(sortiertAutorASC.get(i)[0]);
-		}
-		*/
+			for(int j=0;j<=sortiertAutorASC.size();j++)
+			{
 
-		String antwort = "{\"draw\":"+draw+",\"recordsTotal\":2,\"recordsFiltered\":2,\"data\":[{\"Name\":\""+sortiertAutorASC.get(0)[0]+"\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"}]}";
-		//String antwortautorASC = "{\"draw\":"+draw+",\"recordsTotal\":4,\"recordsFiltered\":4,\"data\":[{\"Name\":\""+DatennachAutorASC[0]+""\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"}]}";
+			}
+		}
+		 */
+		
+		setsortiertAutorASC();
+		
+		for(int i=0;i<=2;i++)
+		{
+			System.out.println(sortiertAutorASC.get(i)[0]);
+			System.out.println("HI");
+			System.out.println(sortiertAutorASC.get(i)[1]);
+			System.out.println(sortiertAutorASC.get(i)[2]);
+			System.out.println(sortiertAutorASC.get(i)[3]);
+			System.out.println(sortiertAutorASC.get(i)[4]);
+		}
+
+		//String antwortautorASC = "{\"draw\":"+draw+",\"recordsTotal\":1,\"recordsFiltered\":1,\"data\":[{\"DateiTyp\":\""+sortiertAutorASC.get(0)[0]+"\",\"Name\":\""+sortiertAutorASC.get(0)[1]+"\",\"Autor\":\""+sortiertAutorASC.get(0)[2]+"\",\"UploadDatum\":\""+sortiertAutorASC.get(0)[3]+"\",\"DokumentDatum\":\""+sortiertAutorASC.get(0)[4]+"\"}";
+		//String antwortautorASC = "{\"draw\":"+draw+",\"recordsTotal\":"+anzahl +",\"recordsFiltered\":"+anzahl +",\"data\":[{\"DateiTyp\":\""+sortiertAutorASC.get(0)[0]+"\",\"Name\":\""+sortiertAutorASC.get(0)[1]+"\",\"Autor\":\""+sortiertAutorASC.get(0)[2]+"\",\"UploadDatum\":\""+sortiertAutorASC.get(0)[3]+"\",\"DokumentDatum\":\""+sortiertAutorASC.get(0)[4]+"\"}";
 
 
 		String antwort3 = "{\"draw\":"+draw+",\"recorawdasdasdtal\":2,\"recoawdasdastered\":2,\"data\":[{\"DateiTyp\":\"PDF\",\"awdsad\":\"Schuwadasdh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"},{\"DateiTyp\":\"DOC\",\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"}]}";
 		String antwort4 = "{\"draw\":"+draw+",\"recordsTotal\":2,\"recordsFiltered\":2,\"data\":[{\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"}]}";
 
 		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
-		System.out.println(antwort2);
-		out.println(antwort2);
+		System.out.println(antwort2_0);
+		out.println(antwort2_0);
 
 	}
 
-	public String toJSON(ArrayList<String> sortiertAutorASC) {
-		Gson gson = new Gson();
-		StringBuilder sb = new StringBuilder();
-		for(String d : sortiertAutorASC) {
-			sb.append(gson.toJson(d));
-		}
-		return sb.toString();
-	}
 }

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class geordneteAusgabe {
 
@@ -28,14 +29,14 @@ public class geordneteAusgabe {
 	private static int anzahl;
 
 	public static void main(String[] args) {
-		//autorASC();
+		autorASC();
 		//autorDESC();
 		
 		//uploaddatumASC();
 		//uploaddatumDESC();
 		
-		dateinameASC();
-		dateinameDESC();
+		//dateinameASC();
+		//dateinameDESC();
 	
 		//AnzahlEintr‰ge();
 	}
@@ -61,7 +62,6 @@ public class geordneteAusgabe {
 
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			//e.printStackTrace();
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getSQLState());
@@ -75,7 +75,6 @@ public class geordneteAusgabe {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Fehler beim schlieﬂen der Verbindung:");
 			System.out.println("Meldung: "+e.getMessage());
 			e.printStackTrace();
@@ -89,9 +88,10 @@ public class geordneteAusgabe {
 		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
 		
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select dateiname, autor, tag, uploaddatum from uploaddaten order by Autor ASC";
+		String READ_DATEN_AUTORASC="select dateityp, dateiname, autor, tag, uploaddatum from uploaddaten order by Autor ASC";
 		
 		try {
+			Class.forName("JDBC_DRIVER");
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(READ_DATEN_AUTORASC);
 			rs = pstmt.executeQuery();
@@ -100,7 +100,7 @@ public class geordneteAusgabe {
 			{
 				String[] zeile = new String[10];
 				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 4; i++) {
+				for (int i = 0; i < 5; i++) {
 					zeile[i] = rs.getString(i+1);
 					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
 				}
@@ -108,19 +108,40 @@ public class geordneteAusgabe {
 				System.out.println();
 			}
 			
+//			try {
+//				//conn = DriverManager.getConnection(DB_URL,USER,PASS);
+//				pstmt = conn.prepareStatement(READ_DATEN_AUTORASC);
+//				rs = pstmt.executeQuery();
+//				
+//				while(rs.next())
+//				{
+//					String dateityp = rs.getString(1);
+//					String dateiname = rs.getString(2);
+//					String autor = rs.getString(3);
+//					String tag = rs.getString(4);
+//					String uploaddatum = rs.getString(5);
+//					
+//					Uploaddaten zeile = new Uploaddaten(dateityp, dateiname, autor, tag, uploaddatum);
+//					DatennachAutorASC.add(zeile);
+//					System.out.println();
+//				}
+			
 			//System.out.println(DatennachAutorASC.get(0)[0]);
-			/*
+	
 			for(int i=0;i<=3;i++)
 			{
 				System.out.println(DatennachAutorASC.get(i)[0]);
 				System.out.println(DatennachAutorASC.get(i)[1]);
 				System.out.println(DatennachAutorASC.get(i)[2]);
 				System.out.println(DatennachAutorASC.get(i)[3]);
-			}*/
+			}
 			
 			pstmt.close(); pstmt=null;
 			rs.close();rs=null;
 		} catch (SQLException e) {
+			e.printStackTrace();
+		}catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -134,7 +155,7 @@ public class geordneteAusgabe {
 		ArrayList<String[]> DatennachAutorDESC = new ArrayList<String[]>();
 		
 		//SQL-Abfrage
-		String READ_DATEN_AUTORDESC="select dateiname, autor, tag, uploaddatum from uploaddaten order by Autor DESC";
+		String READ_DATEN_AUTORDESC="select dateityp, dateiname, autor, tag, uploaddatum from uploaddaten order by Autor DESC";
 		
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -179,7 +200,7 @@ public class geordneteAusgabe {
 		ArrayList<String[]> DatenuploaddatumASC = new ArrayList<String[]>();
 		
 		//SQL-Abfrage
-		String READ_DATEN_UPLOADDATUMASC="select dateiname, autor, tag, uploaddatum from uploaddaten order by uploaddatum ASC";
+		String READ_DATEN_UPLOADDATUMASC="select dateityp, dateiname, autor, tag, uploaddatum from uploaddaten order by uploaddatum ASC";
 		
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -215,7 +236,7 @@ public class geordneteAusgabe {
 		ArrayList<String[]> DatenUploaddatumDESC = new ArrayList<String[]>();
 		//ArrayList<String> list = new ArrayList<String>();
 		//SQL-Abfrage
-		String READ_DATEN_UPLOADDATUMDESC="select dateiname, autor, tag, uploaddatum from uploaddaten order by uploaddatum DESC";
+		String READ_DATEN_UPLOADDATUMDESC="select dateityp, dateiname, autor, tag, uploaddatum from uploaddaten order by uploaddatum DESC";
 		
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -250,7 +271,7 @@ public class geordneteAusgabe {
 		ArrayList<String[]> DatennachDateinameASC = new ArrayList<String[]>();
 		
 		//SQL-Abfrage
-		String READ_DATEN_DATEINAMEASC="select dateiname, autor, tag, uploaddatum from uploaddaten order by dateiname ASC";
+		String READ_DATEN_DATEINAMEASC="select dateityp, dateiname, autor, tag, uploaddatum from uploaddaten order by dateiname ASC";
 		
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -285,7 +306,7 @@ public class geordneteAusgabe {
 		ArrayList<String[]> DatennachDateinameDESC = new ArrayList<String[]>();
 		
 		//SQL-Abfrage
-		String READ_DATEN_DATEINAMEDESC="select dateiname, autor, tag, uploaddatum from uploaddaten order by dateiname DESC";
+		String READ_DATEN_DATEINAMEDESC="select dateityp, dateiname, autor, tag, uploaddatum from uploaddaten order by dateiname DESC";
 		
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -333,13 +354,6 @@ public class geordneteAusgabe {
 		
 		return anzahl;
 	}
-	
-	// TODO 
-	public static void Ranking()
-	{
-		
-	}
-	
 	
 
 }
