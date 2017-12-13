@@ -61,7 +61,6 @@ public class UploadServlet extends HttpServlet {
 
 		uploader(fileContent,dateiname,0);
 
-		//		uploader(fileContent,dateiname,0);
 		File f = new File(dateiname);
 		String name = f.getName();
 
@@ -136,7 +135,8 @@ public class UploadServlet extends HttpServlet {
 		}
 
 		default:{
-			System.out.println("Datei kann nicht gespeichert werden, Dateityp wird nicht unterstützt");
+			
+			System.out.println("Datei kann nicht gespeichert werden, Dateityp "+ dateityp +"wird nicht unterstützt");
 		}
 
 

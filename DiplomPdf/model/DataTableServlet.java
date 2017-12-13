@@ -38,8 +38,7 @@ public class DataTableServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 
@@ -53,13 +52,12 @@ public class DataTableServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
 
 		//------------------------------------------
 		//https://datatables.net/manual/server-side
 		//zum Nachlesen welche daten empfangen werden
 		//----------------------------------------------
+		
 		PrintWriter out = response.getWriter();
 		String search = request.getParameter("search[value]");
 		String draw = request.getParameter("draw");
@@ -67,7 +65,6 @@ public class DataTableServlet extends HttpServlet {
 		String order_art = null;
 
 		String order =request.getParameter("order[0][column]");
-
 
 		order_art = request.getParameter("order[0][dir]");
 

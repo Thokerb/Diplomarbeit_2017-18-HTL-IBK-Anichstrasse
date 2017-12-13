@@ -31,12 +31,13 @@ public class LoginServlet extends HttpServlet {
 			
 		}else{
 			
-			System.out.println("Achtung! Username oder Password stimmen nicht überein");
+			String error = "Achtung! Username oder Password stimmen nicht überein";
+			System.out.println(error);
 
 			PrintWriter out = response.getWriter();  
 			response.setContentType("text/html");  
 			out.println("<script type=\"text/javascript\">");  
-			out.println("alert('Achtung! Username oder Password stimmen nicht überein');");  
+			out.println("alert(' \"Achtung! Username oder Passwort stimmen nicht überein\"');");  
 			out.println("</script>");
 
 			RequestDispatcher rs = request.getRequestDispatcher("Login.jsp");
