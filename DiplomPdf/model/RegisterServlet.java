@@ -27,6 +27,14 @@ public class RegisterServlet extends HttpServlet {
 
 	static Connection conn = null;
 
+	static int min = 8; 
+	static int max = 16; 
+
+	static int digit = 1;
+	static int upCount = 1;
+	static int loCount = 1;
+	static int special = 0;
+
 	public RegisterServlet() {
 		super();
 	}
@@ -37,6 +45,7 @@ public class RegisterServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 
 		String username = request.getParameter("username");
 		String pwd = request.getParameter("password");
@@ -59,7 +68,7 @@ public class RegisterServlet extends HttpServlet {
 			ps.setString(3,pwdwh);    
 
 			int i = ps.executeUpdate(); 
-			
+
 			if(i>0)  
 				out.print("Sie wurden erfolgreich angemeldet...");  
 
@@ -72,35 +81,99 @@ public class RegisterServlet extends HttpServlet {
 		out.close();  
 	}  
 
-	
+
 	public static boolean usernIsValid(String username) {
+		//TODO Aus DB alte abfragen, bereits vorhanden, best. länge, ..
 		
+		
+		for(int i = 0;i < username.length(); i++){
+			char c = username.charAt(i);
+
+			if(c >= 33 && c <= 46 ||c == 64){
+
+				special++;
+			}
+		}
+		if(username.length() >= 3 && username.length() <= 15 && special == 0 )
+		{
+			System.out.println("Username "+ username +" darf verwendet werden!");
+			return true; 
+		}
+
+
 		return false;
-		
+
 	}
 
 	public static boolean pwdIsValid(String password) {
 
-		if (password.length() < 8) { 
-			
-			return false;
-			
-		} else {    
-			char c;
-			int count = 1; 
-			for (int i = 0; i < password.length() - 1; i++) {
-				c = password.charAt(i);
-				if (!Character.isLetterOrDigit(c)) {        
-					return false;
-				} else if (Character.isDigit(c)) {
-					count++;
-					if (count < 2)   {   
-						return false;
-					}   
+		if(password.length() >= min && password.length() <= max){
+
+			for(int i = 0; i < password.length(); i++){
+				char c = password.charAt(i);
+				if(Character.isUpperCase(c)){
+					upCount++;
+				}
+				if(Character.isLowerCase(c)){
+					loCount++;
+				}
+				if(Character.isDigit(c)){
+					digit++;
 				}
 			}
+
+			if(loCount >= 1 && upCount >= 1 && digit >= 1){
+				System.out.println("Passwort ist OK ");
+			}
+
 		}
-		return true;
+
+		if(password.length() < min){
+
+			for(int i = 0;i < password.length(); i++){
+				char c = password.charAt(i);
+				if(Character.isLowerCase(c)){
+					loCount++;
+				}
+			}
+
+			if(loCount > 0){
+				System.out.println(" Password must be atleast "+min+" characters:");
+				System.out.println(" You need atleast one upper case chracter:");
+				System.out.println(" You need atleast one digit:");
+			}
+		}
+
+		else if(password.length() < min && upCount > 1){
+
+			for(int i = 0; i < password.length(); i++){
+				char c = password.charAt(i);
+				if(Character.isLowerCase(c)){
+					loCount++;
+				}
+				if(Character.isUpperCase(c)){
+					upCount++;
+
+				}
+			}
+			if(loCount > 0 && upCount > 0){
+				System.out.println(" Password must be atleast "+min+" chracters:");
+				System.out.println(" You need atleast one digit:");
+				return false;
+			}
+		}
+		
+		if(password.length() > max|| password.length() >= max && upCount > 1 &&loCount > 1 && digit > 1){
+
+			System.out.println(" Password is too long.Limit is "+max+" chracters:");
+			return false;
+		}
+
+		if(password.length() >= min && password.length() <= max && loCount > 0 && upCount > 0 && digit == 0){
+			System.out.println(" You need atleast one digit:");
+			return false;
+		}
+		return false;
 	}
 
 }

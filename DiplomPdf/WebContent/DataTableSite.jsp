@@ -20,12 +20,9 @@
 <link rel="stylesheet" href="htätps://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 <!-- font-awesome stylesheets -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
 <link rel="stylesheet" href="stylesheet.css"></link>
-
 <!-- jquery datatable stylesheet bootstrap -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"></link>
-
 <!-- dropzone js und stylesheet -->
 <script src="dropzone.js"></script>
 <link rel="stylesheet" type="text/css" href="dropzone.css" />
@@ -310,9 +307,6 @@
 	    	
 	    });
 	    
-        
-	    
-	    
 	    $(".table tbody").on("click",".deletebutton",function(){
             var info2 = $(this).parents(".table").attr("id");
         //aktuell primitiv gehardcoded,eventuell switch änderung. Je nach anzahl an tabellen    
@@ -340,7 +334,6 @@
 	    	table.draw();
             table2.draw();
 	    });
-		
 	    
 	    	$(".table tbody").on('mouseenter','.glyphicon-arrow-down',function(){
 	    		console.log("enter");
@@ -383,13 +376,12 @@
 			<ul class="nav navbar-nav">
 				<li><a href="#">Gelöschte Dokumente</a></li>
 				<li><a href="#">Verlauf</a></li>
-				<li><a href="#">Über EasyPDF</a></li>
+				<li><a href="MeetTheTeam.jsp">Über EasyPDF</a></li>
 			</ul>
 			<button type="button" class="btn btn-info  navbar-btn"
 				data-toggle="modal" data-target="#uploadModal">UPLOAD</button>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-log-out"></span>
-						Abmelden</a></li>
+				<li><a href="Startseite.jsp"> <span class="glyphicon glyphicon-log-out"> </span> Abmelden</a></li>
 			</ul>
 		</div>
 	</div>
@@ -408,11 +400,11 @@
       <ul class="nav navbar-nav"> 
         <li><a href="#">Gelöschte Dokumente</a></li>
         <li><a href="#">Verlauf</a></li>
-        <li><a href="#">Über EasyPDF</a></li>
+        <li><a href="MeetTheTeam.jsp">Über EasyPDF</a></li>
       </ul>
-          <button type="button" class="btn btn-info  navbar-btn" data-toggle="modal" data-target="#uploadModal">UPLOAD</button>
+          <button type="button" class="btn btn-info  navbar-btn" data-toggle="modal" data-target="#uploadModal"> UPLOAD </button>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
+        <li><a href="Startseite.jsp"><span class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
       </ul>
     </div>
   </div>
@@ -524,8 +516,7 @@
 					<input id="modalinput" />
 					<button disabled="true" class="btn btn-primary disabled"
 						id="modalinputbtn">OK</button>
-					<button id="overwritebtn" class="btn btn-primary">Überschreibe
-						die Datei</button>
+					<button id="overwritebtn" class="btn btn-primary">Überschreibe die Datei</button>
 				</div>
 				<div class="modal-footer"></div>
 			</div>
