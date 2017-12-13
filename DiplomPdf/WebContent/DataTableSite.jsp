@@ -26,8 +26,7 @@
 <!-- dropzone js und stylesheet -->
 <script src="dropzone.js"></script>
 <link rel="stylesheet" type="text/css" href="dropzone.css" />
-<script type="text/javascript" src="dropzoneconfig.js" charset="UTF-8"></script>
-<script src="modalconfig.js"></script>
+
 
 </head>
 <body>
@@ -331,8 +330,8 @@
 	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	    	xhttp.send("todelete="+str+sourcetable);
             
-	    	table.draw();
-            table2.draw();
+	    	refreshtables();
+
 	    });
 	    
 	    	$(".table tbody").on('mouseenter','.glyphicon-arrow-down',function(){
@@ -353,14 +352,22 @@
 			alert("TODO: UPLOAD MODAL ERSCHEINEN LASSEN")
 		});
 		
+		function refreshtables(){
+			table.draw();
+			table2.draw();
+		}
+		
 		console.log("finished  js init");
 	});
 	
 
-
+	
 
 	
 </script>
+<script type="text/javascript" src="dropzoneconfig.js" charset="UTF-8"></script>
+<script src="modalconfig.js"></script>
+
 
 	<nav class="navbar navbar-inverse">
 	<div class="container-fluid">
