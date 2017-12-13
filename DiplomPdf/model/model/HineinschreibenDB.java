@@ -108,7 +108,8 @@ public class HineinschreibenDB {
 					// dd-mm-yyyy
 					// yyyy-mm-dd
 					String[] datumsTeile = testzeile2[i-1].split("-");
-					Date datum= new Date(Integer.parseInt(datumsTeile[2]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[0]));
+					//Date datum=PDFmanager.getDatum(); 
+					Date datum=	new Date(Integer.parseInt(datumsTeile[2]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[0]));
 					pstmt.setDate(i, datum);
 				}
 				else

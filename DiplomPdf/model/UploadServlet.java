@@ -75,40 +75,40 @@ public class UploadServlet extends HttpServlet {
 		case "PDF"  :{
 			String inhalttext = PDFboxLesen.lesenPDF("C://Temp//"+dateiname);
 			//			 TODO Verena ist am workn hier
-			//						try {
-			//							FunktionenDB fdb=new FunktionenDB();
-			//							Connection conn1=fdb.getConnection();
-			//							HineinschreibenDB hdb=new HineinschreibenDB();
-			//							Connection conn2=hdb.getConnection();
-			//							String stichworttext=fdb.Stichtextgenerator(inhalttext);
-			//							//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-			//							String[] daten =new String[8];
-			//							daten[0]="tag";
-			//							daten[1]=inhalttext;
-			//							daten[2]=PDFmanager.getAutor();
-			//							daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
-			//							daten[4]=dateiname;
-			//							daten[5]=PDFmanager.getDatum();
-			//							daten[6]=stichworttext;
-			//							daten[7]=dateityp;
-			//							
-			//							for(String s : daten) {
-			//								System.out.print("Gelesen wurde: ");
-			//								 System.out.println(s);
-			//								}
-			//							HineinschreibenDB.writeDaten(daten);
-			//							fdb.releaseConnection(conn1);
-			//							fdb.releaseConnection(conn2);
+									try {
+										FunktionenDB fdb=new FunktionenDB();
+										Connection conn1=fdb.getConnection();
+										HineinschreibenDB hdb=new HineinschreibenDB();
+										Connection conn2=hdb.getConnection();
+										String stichworttext=fdb.Stichtextgenerator(inhalttext);
+										//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
+										String[] daten =new String[8];
+										daten[0]="tag";
+										daten[1]=inhalttext;
+										daten[2]=PDFmanager.getAutor();
+										daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
+										daten[4]=dateiname;
+										daten[5]=PDFmanager.getDatum();
+										daten[6]=stichworttext;
+										daten[7]=dateityp;
+										
+										for(String s : daten) {
+											System.out.print("Gelesen wurde: ");
+											 System.out.println(s);
+											}
+										HineinschreibenDB.writeDaten(daten);
+										fdb.releaseConnection(conn1);
+										fdb.releaseConnection(conn2);
 			System.out.println(inhalttext);
-			//						} catch (InstantiationException e) {
-			//							// TODO Auto-generated catch block
-			//							e.printStackTrace();
-			//						} catch (IllegalAccessException e) {
-			//							// TODO Auto-generated catch block
-			//							e.printStackTrace();
-			//						} catch(SQLException e){
-			//							e.printStackTrace();
-			//						}
+									} catch (InstantiationException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									} catch (IllegalAccessException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									} catch(SQLException e){
+										e.printStackTrace();
+									}
 
 			System.out.println("PDF - Datei wurde in Text umgewandelt -> Weitergeben an DB");
 			break;

@@ -21,6 +21,14 @@
     <url-pattern>/LogoutServlet</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>RegisterServlet</servlet-name>
+    <servlet-class>RegisterServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegisterServlet</servlet-name>
+    <url-pattern>/RegisterServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>DeleteServlet</servlet-name>
     <servlet-class>DeleteServlet</servlet-class>
   </servlet>
