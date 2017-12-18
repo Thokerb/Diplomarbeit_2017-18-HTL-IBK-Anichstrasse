@@ -19,11 +19,11 @@
 
 <script type="text/javascript" src="modalconfig.js"></script>
 
-<title>Easy PDF - Upload </title>
+<title>Easy PDF - Upload</title>
 </head>
 <body>
 
-<%
+	<%
 	if(session.getAttribute("username")== null){
 		response.sendRedirect("Login.jsp");
 	}
@@ -60,7 +60,7 @@
 	<h1>Willkommen auf der Upload Seite</h1>
 
 
-	<h1>Bitte hier Dateien die abgelegt werden sollen hineinziehen: </h1>
+	<h1>Bitte hier Dateien die abgelegt werden sollen hineinziehen:</h1>
 
 	<script>
 		Dropzone.myDropzone = false;
@@ -180,13 +180,15 @@
 			<input type="hidden" name="dateiname" id="dateiname"></input>
 
 		</form>
-		
-		<form action="LogoutServlet" >
-			<input type ="submit" value="Logout"></input>
+
+		<form action="LogoutServlet">
+			<input type="submit" value="Logout"></input>
 		</form>
-		
-		<div> 
-		
+
+		<div>
+			<form action="LogoutServlet">
+				<input type="submit" value="Logout"></input>
+			</form>
 		</div>
 	</div>
 

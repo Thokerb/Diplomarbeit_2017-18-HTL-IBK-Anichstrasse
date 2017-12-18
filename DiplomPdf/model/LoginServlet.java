@@ -26,11 +26,12 @@ public class LoginServlet extends HttpServlet {
 		if(username.equals("user") && pwd.equals("1234"))
 		{
 			System.out.println("Anmeldung OK");
-			RequestDispatcher rs = request.getRequestDispatcher("DataTableSite.html");
-			rs.forward(request,response);
-			
+			HttpSession session=request.getSession();  
+//			session.setAttribute("user",username);  
+			response.sendRedirect("DataTableSite.jsp");
+
 		}else{
-			
+
 			String error = "Achtung! Username oder Password stimmen nicht überein";
 			System.out.println(error);
 

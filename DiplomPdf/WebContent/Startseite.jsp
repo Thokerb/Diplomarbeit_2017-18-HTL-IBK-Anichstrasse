@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,26 +16,33 @@
 </head>
 <body>
 	<div id="Start">
-		<nav class="navbar navbar-inverse" id="navbarStartseite">
+		<nav class="navbar navbar-inverse navbar-static-top"
+			id="navbarStartseite">
 			<div class="container-fluid">
 				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#myNavbar">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
 					<a class="navbar-brand" href="#">EasyPDF</a>
 				</div>
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Startseite</a></li>
-					<li><a href="#">Platzhalter1</a></li>
-					<li><a href="#">Platzhalter2</a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="Register.jsp"><span class="glyphicon glyphicon-user"></span> Registrieren</a></li>
-					<li><a href="Login.jsp"><span class="glyphicon glyphicon-log-in"></span> Anmelden</a></li>
-				</ul>
+				<div class="collapse navbar-collapse" id="myNavbar">
+					<ul class="nav navbar-nav">
+						<li><a href="#">Platzhalter</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="Register.jsp"><span class="glyphicon glyphicon-user"></span>
+								Registrieren</a></li>
+						<li><a href="Login.jsp"><span class="glyphicon glyphicon-log-in"></span>
+								Anmelden</a></li>
+					</ul>
+				</div>
 			</div>
 		</nav>
-
 		<div class="hero-image">
 			<div class="hero-text">
-				<h1 id="headerStart">Ein Zuhause f�r alle Dokumente</h1>
+				<h1 id="headerStart">Ein Zuhause für alle Dokumente</h1>
 				<p id="textStart">EasyPdf bietet Ihnen einen einfachen Weg alle
 					ihre Dokumente an 1 Ort sicher zu speichern und easy
 					wiederzufinden.</p>
@@ -45,26 +52,20 @@
 	</div>
 
 	<div class="container-fluid">
-		<div class="row">
+		<div class="row inhalt">
 			<div class="col-sm-4">
-				<img class="img-responsive" src="Images/Placeholder_med.png" />
+				<img class="img-responsive"
+					src="Images/cloud-computing-2153286_640.png" />
 			</div>
 			<div class="col-sm-8">
-				<h2>Heading</h2>
+				<h2 class="underheader">Zugriff überall</h2>
 				<br>
-				<h4>lorem ipsum dolor sit amet, consectetur adipiscing elit,
-					sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-					nisi ut aliquip ex ea commodo consequat.</h4>
-				<br>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-					do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-					enim ad minim veniam, quis nostrud exercitation ullamco laboris
-					nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-					amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-					ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-					nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat.</p>
+				<h4 class="infotext">Mit EasyPDF haben Sie einen einheitlichen,
+					kostenfreien Speicherort für alle Ihre Dokumente. Nie wieder
+					Verlust von Daten auf Grund eines PC – Ausfalles. Die Tage an denen
+					Sie ihre Dokumente mühsam von einem Gerät zum nächsten schicken
+					sind gezählt.</h4>
+
 			</div>
 		</div>
 
@@ -80,12 +81,13 @@
 		<div class="row">
 
 			<div class="col-sm-8">
-				<h2>Heading</h2>
+				<h2 class="underheader">Heading</h2>
 				<br>
-				<h4>lorem ipsum dolor sit amet, consectetur adipiscing elit,
-					sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-					nisi ut aliquip ex ea commodo consequat.</h4>
+				<h4 class="infotext">lorem ipsum dolor sit amet, consectetur
+					adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+					dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+					exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat.</h4>
 				<br>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
 					do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut

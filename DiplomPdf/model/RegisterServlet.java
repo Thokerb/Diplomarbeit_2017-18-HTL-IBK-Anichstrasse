@@ -30,10 +30,11 @@ public class RegisterServlet extends HttpServlet {
 	static int min = 8; 
 	static int max = 16; 
 
-	static int digit = 1;
+	static int digit = 2;
 	static int upCount = 1;
 	static int loCount = 1;
-	static int special = 0;
+
+	static int specialUN = 0;
 
 	public RegisterServlet() {
 		super();
@@ -64,18 +65,18 @@ public class RegisterServlet extends HttpServlet {
 			ps.setString(1,username);  
 			if (pwdIsValid(pwd)) {
 				ps.setString(2,pwd);  
+				ps.setString(3,pwdwh); 
 			}
-			ps.setString(3,pwdwh);    
+
 
 			int i = ps.executeUpdate(); 
 
 			if(i>0)  
 				out.print("Sie wurden erfolgreich angemeldet...");  
 
-
 		}catch (Exception e) {
 
-			System.out.println("Register- Fehlermeldung: " +e);
+			System.out.println("Registrier - Fehlermeldung: " +e);
 		}  
 
 		out.close();  
@@ -83,26 +84,30 @@ public class RegisterServlet extends HttpServlet {
 
 
 	public static boolean usernIsValid(String username) {
-		//TODO Aus DB alte abfragen, bereits vorhanden, best. länge, ..
-		
-		
+
+		//TODO Aus DB abfragen, bereits vorhanden
+
 		for(int i = 0;i < username.length(); i++){
+
 			char c = username.charAt(i);
 
 			if(c >= 33 && c <= 46 ||c == 64){
 
-				special++;
+				specialUN++;
+				System.out.println("Achtung, bitte keine Sonderzeichen im Benutzername verwenden");
+				return false;
 			}
 		}
-		if(username.length() >= 3 && username.length() <= 15 && special == 0 )
+
+		if(username.length() >= 3 && username.length() <= 15 && specialUN == 0 )
 		{
 			System.out.println("Username "+ username +" darf verwendet werden!");
 			return true; 
+
+		}else {
+			System.out.println("Username zu kurz / lang");
+			return false;
 		}
-
-
-		return false;
-
 	}
 
 	public static boolean pwdIsValid(String password) {
@@ -147,7 +152,9 @@ public class RegisterServlet extends HttpServlet {
 		else if(password.length() < min && upCount > 1){
 
 			for(int i = 0; i < password.length(); i++){
+				
 				char c = password.charAt(i);
+				
 				if(Character.isLowerCase(c)){
 					loCount++;
 				}
@@ -162,7 +169,7 @@ public class RegisterServlet extends HttpServlet {
 				return false;
 			}
 		}
-		
+
 		if(password.length() > max|| password.length() >= max && upCount > 1 &&loCount > 1 && digit > 1){
 
 			System.out.println(" Password is too long.Limit is "+max+" chracters:");

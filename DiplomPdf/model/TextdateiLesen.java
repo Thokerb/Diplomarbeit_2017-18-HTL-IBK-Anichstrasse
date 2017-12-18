@@ -5,9 +5,7 @@ import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 public class TextdateiLesen {
 
 	public static String textdateiLesen(String filename){
-		
-		//	File f = new File("C://Users//Sara//Dropbox//Diplomarbeit//Text.txt");
-		
+
 		try {
 			String text = null; 
 			FileReader fileReader = new FileReader(filename);
@@ -16,11 +14,10 @@ public class TextdateiLesen {
 			
 			while((text = bufferedReader.readLine()) != null) {
 				strText.append(text + "\n");
-//				System.out.println(text);
 			} 
 			text = strText.toString();
 			bufferedReader.close();
-			System.out.println("------------TEXT-------------");
+			System.out.println("------------TEXT - TXT Datei:-------------");
 			System.out.print(text);
 			System.out.println("------------TEXT-------------");
 			return text; 
@@ -35,10 +32,8 @@ public class TextdateiLesen {
 		return "Achtung - Fehler! Die Datei konnte nicht gelesen werden ";
 	}
 
-	public static void main(String[] args) {
-		
-		TextdateiLesen l1 = new TextdateiLesen();
-		l1.textdateiLesen("C://Users//Sara//Dropbox//Diplomarbeit//Text.txt");
-
-	}
+//	public static void main(String[] args) {
+//		TextdateiLesen l1 = new TextdateiLesen();
+//		l1.textdateiLesen("C://Users//Sara//Dropbox//Diplomarbeit//Text.txt");
+//	}
 }
