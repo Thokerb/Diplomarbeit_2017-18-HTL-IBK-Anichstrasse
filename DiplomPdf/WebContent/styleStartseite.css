@@ -35,6 +35,27 @@ body, html {
 	
 }
 
+@media(max-width:768px){
+    .inhalt{
+    padding-top: 0vh;
+    padding-bottom: 0vh;
+}
+}
+@media(min-width:769px){
+.inhalt{
+    padding-top: 8vh;
+    padding-bottom: 5vh;
+}    
+}
+
+.unterheader{
+    text-align: center;
+}
+
+.infotext{
+    color: dimgray;
+}
+
 .text {
 	display: inline;
 }
