@@ -32,7 +32,7 @@ public class PDFmanager {
 
 	private String getDatum(Calendar cal){
 
-		SimpleDateFormat d = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
 		String pD = d.format(cal.getTime());
 		return pD;
 	}
