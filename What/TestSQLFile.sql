@@ -1,0 +1,1 @@
+insert into uploaddaten (Dateiname, Autor) values ('Yooohooo','Sofia');
