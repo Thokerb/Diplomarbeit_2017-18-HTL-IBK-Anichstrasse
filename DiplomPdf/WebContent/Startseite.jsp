@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EasyPDF</title>
 <meta charset="utf-8">
 
@@ -81,27 +82,36 @@
 		<div class="row">
 
 			<div class="col-sm-8">
-				<h2 class="underheader">Heading</h2>
+				<h2 class="underheader">Work smart, not hard</h2>
 				<br>
-				<h4 class="infotext">lorem ipsum dolor sit amet, consectetur
-					adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-					dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-					exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat.</h4>
-				<br>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-					do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-					enim ad minim veniam, quis nostrud exercitation ullamco laboris
-					nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-					amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-					ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-					nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat.</p>
+				<h4 class="infotext">Vorbei sind die Zeiten in welchen Sie mühsam nach Ihren Aufsätzen, Arbeiten, Briefen, etc mühsam gesucht haben. Mit unserer innovativen Volltextsuche ist jedes Dokument mit nur einigen Stichwörtern aus dem Text gefunden. Probieren Sie es doch einfach selbst!</h4>
 			</div>
 			<div class="col-sm-4">
-				<img class="img-responsive" src="Images/Placeholder_med.png" />
+				<img class="img-responsive" src="Images/happyguyworking.jpg" />
 			</div>
 		</div>
+        		<div class="row">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-10">
+				<hr class="trennstrich">
+			</div>
+			<div class="col-sm-1"></div>
+
+		</div>
+        
+        		<div class="row inhalt">
+			<div class="col-sm-4">
+				<img class="img-responsive"
+					src="Images/happygroupworking.jpg" />
+			</div>
+			<div class="col-sm-8">
+				<h2 class="underheader">Gemeinsam sind wir mehr</h2>
+				<br>
+				<h4 class="infotext">Teile und empfange Texte aus der ganzen Welt. Mit nur einem Klick kannst du deine Dokumente für alle zur Verfügung stellen. Lasse dich von fremden Arbeiten inspirieren oder finde endlich wieder diesen einen Aufsatz wo du nichts außer dieser einen Überschrift weißt. Treten Sie jetzt unserer Community bei und erreichen Sie mehr.</h4>
+
+			</div>
+		</div>
+        
 	</div>
 </body>
 

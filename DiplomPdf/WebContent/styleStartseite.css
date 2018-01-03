@@ -29,10 +29,11 @@ body, html {
 }
 
 #headerStart {
+	font-size: 5vw;
 }
 
 #textStart {
-	
+	font-size: 2vw;
 }
 
 @media(max-width:768px){
@@ -41,19 +42,23 @@ body, html {
     padding-bottom: 0vh;
 }
 }
-@media(min-width:769px){
+@media(min-width:768px){
 .inhalt{
-    padding-top: 8vh;
+    padding-top: 5vh;
     padding-bottom: 5vh;
 }    
+.infotext{
+	font-size: 1.5vw;
+}
 }
 
-.unterheader{
+.underheader{
     text-align: center;
 }
 
 .infotext{
     color: dimgray;
+  
 }
 
 .text {
