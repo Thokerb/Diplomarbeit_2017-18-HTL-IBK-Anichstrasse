@@ -32,7 +32,7 @@ pageEncoding="ISO-8859-1"%>
 
 <%
 if(session.getAttribute("username")== null){
-response.sendRedirect("Login.jsp");
+//response.sendRedirect("Login.jsp");
 }
 %>
 <body>
