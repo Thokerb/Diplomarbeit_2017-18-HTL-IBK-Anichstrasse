@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -61,11 +62,25 @@ public class DataTableServlet extends HttpServlet {
 		//----------------------------------------------
 
 		PrintWriter out = response.getWriter();
+		
+//		Enumeration<String> en = request.getParameterNames();
+//		System.out.println("Alle ELEMENTE");
+//		while(en.hasMoreElements()){
+//			System.out.println(en.nextElement());
+//		}
+		
+		
+		
 		String search = request.getParameter("search[value]");
 		String draw = request.getParameter("draw");
 
 		String order_art = null;
 
+		String start = request.getParameter("start");
+		String length = request.getParameter("length");
+System.out.println("Erstes Element:"+start+" Einträge pro Seite: "+length);
+
+		
 		String order =request.getParameter("order[0][column]");
 
 		order_art = request.getParameter("order[0][dir]");
