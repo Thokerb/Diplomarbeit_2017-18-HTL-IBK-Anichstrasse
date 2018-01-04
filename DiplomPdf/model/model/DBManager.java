@@ -262,7 +262,7 @@ public class DBManager {
 
 	}
 
-	public static ArrayList<String[]> autorDESC()
+	public static ArrayList<String[]> autorDESC(Connection conn)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> DatennachAutorDESC = new ArrayList<String[]>();
@@ -307,7 +307,7 @@ public class DBManager {
 	}
 
 	// TODO wieso gleich wie DESC
-	public static ArrayList<String[]> uploaddatumASC()
+	public static ArrayList<String[]> uploaddatumASC(Connection conn)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> DatenuploaddatumASC = new ArrayList<String[]>();
@@ -343,7 +343,7 @@ public class DBManager {
 	}
 
 
-	public static ArrayList<String[]> uploaddatumDESC()
+	public static ArrayList<String[]> uploaddatumDESC(Connection conn)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> DatenUploaddatumDESC = new ArrayList<String[]>();
@@ -378,7 +378,7 @@ public class DBManager {
 	}
 
 	// TODO wieso gleich wie DESC
-	public static ArrayList<String[]> dateinameASC()
+	public static ArrayList<String[]> dateinameASC(Connection conn)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> DatennachDateinameASC = new ArrayList<String[]>();
@@ -413,7 +413,7 @@ public class DBManager {
 
 	}
 
-	public static ArrayList<String[]> dateinameDESC()
+	public static ArrayList<String[]> dateinameDESC(Connection conn)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> DatennachDateinameDESC = new ArrayList<String[]>();

@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import model.DBManager;
 import model.Datenbank3;
 import model.FunktionenDB;
+import model.HineinschreibenDB;
 import model.Uploaddaten;
 import model.geordneteAusgabe;
 
@@ -45,11 +46,6 @@ public class DataTableServlet extends HttpServlet {
 	}
 
 
-//	public static void setsortiertAutorASC()
-//	{
-//		sortiertAutorASC = geordneteAusgabe.autorASC();
-//
-//	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -62,15 +58,15 @@ public class DataTableServlet extends HttpServlet {
 		//----------------------------------------------
 
 		PrintWriter out = response.getWriter();
-		
-//		Enumeration<String> en = request.getParameterNames();
-//		System.out.println("Alle ELEMENTE");
-//		while(en.hasMoreElements()){
-//			System.out.println(en.nextElement());
-//		}
-		
-		
-		
+
+		//		Enumeration<String> en = request.getParameterNames();
+		//		System.out.println("Alle ELEMENTE");
+		//		while(en.hasMoreElements()){
+		//			System.out.println(en.nextElement());
+		//		}
+
+
+
 		String search = request.getParameter("search[value]");
 		String draw = request.getParameter("draw");
 
@@ -78,9 +74,9 @@ public class DataTableServlet extends HttpServlet {
 
 		String start = request.getParameter("start");
 		String length = request.getParameter("length");
-System.out.println("Erstes Element:"+start+" Einträge pro Seite: "+length);
+		System.out.println("Erstes Element:"+start+" Einträge pro Seite: "+length);
 
-		
+
 		String order =request.getParameter("order[0][column]");
 
 		order_art = request.getParameter("order[0][dir]");
@@ -95,11 +91,12 @@ System.out.println("Erstes Element:"+start+" Einträge pro Seite: "+length);
 		//		
 
 		/**
-		 * TODO Hier sollte irgendwann einmal die Daten aus der DB geholt werden, welche die Daten an dem DataTable schickt.
-		 * Formatierung siehe antwort2
+		 * TODO Hier sollte je nach dem welcher button zum sortieren der Daten die Antowrt anders sein, sortierparameter einstellen
 		 */
-		String antwort2 = "{\"draw\":"+draw+",\"recordsTotal\":2,\"recordsFiltered\":2,\"data\":[{\"DateiTyp\":\"PDF\",\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"},{\"DateiTyp\":\"DOC\",\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"}]}";
-		String antwort2_0 = "{\"draw\":"+draw+",\"recordsTotal\":1,\"recordsFiltered\":1,\"data\":[{\"DateiTyp\":\"PDF\",\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"}]}";
+
+		//sortierparameter muss Spalte+ASC oder DESC sein
+		String sortierparameter = null;
+
 
 
 		Connection conn=null;
@@ -107,53 +104,118 @@ System.out.println("Erstes Element:"+start+" Einträge pro Seite: "+length);
 
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		int anzahl = 0;
-		
+
 		try {
 			DBManager db = new DBManager();
 			conn=db.getConnection();
 
 			//list = db.readDaten(conn);
 
-			daten=db.autorASC(conn);
-			for(int i=0;i<daten.size();i++)
-			{
-				System.out.println(daten.get(i)[1]);
+			switch(sortierparameter){
+
+			case "2ASC"  :{
+				daten=db.dateinameASC(conn);
+				for(int i=0;i<daten.size();i++)
+				{
+					System.out.println(daten.get(i)[1]);
+				}
+				break;
+			}
+
+			case "2DESC"  :{
+				daten=db.dateinameDESC(conn);
+				for(int i=0;i<daten.size();i++)
+				{
+					System.out.println(daten.get(i)[1]);
+				}
+				break; 
+			}
+
+			case "3ASC"  :{
+				daten=db.autorASC(conn);
+				for(int i=0;i<daten.size();i++)
+				{
+					System.out.println(daten.get(i)[1]);
+				}
+				break; 
+			}
+
+			case "3DESC"  :{
+				daten=db.autorDESC(conn);
+				for(int i=0;i<daten.size();i++)
+				{
+					System.out.println(daten.get(i)[1]);
+				}
+				break; 
+			}
+
+			case "4ASC"  :{
+				daten=db.uploaddatumASC(conn);
+				for(int i=0;i<daten.size();i++)
+				{
+					System.out.println(daten.get(i)[1]);
+				}
+				break; 
+			}
+
+			case "4DESC"  :{
+				daten=db.uploaddatumDESC(conn);
+				for(int i=0;i<daten.size();i++)
+				{
+					System.out.println(daten.get(i)[1]);
+				}
+				break; 
+			}
+
+			case "5ASC"  :{
+				daten=db.uploaddatumDESC(conn);
+				for(int i=0;i<daten.size();i++)
+				{
+					System.out.println(daten.get(i)[1]);
+				}
+				break; 
+			}
+
+			case "5DESC"  :{
+				daten=db.uploaddatumDESC(conn);
+				for(int i=0;i<daten.size();i++)
+				{
+					System.out.println(daten.get(i)[1]);
+				}
+				break; 
+			}
+
+			default:{
+
+				System.out.println("Du hast alles kaputt gemacht! :(");
+			}
 			}
 			anzahl=db.AnzahlEinträge(conn);
 
 
 			db.releaseConnection(conn);
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch(SQLException e){
 			e.printStackTrace();
 		}
-		
-		String antwortautorASC = "{\"draw\":"+draw+",\"recordsTotal\":"+anzahl +",\"recordsFiltered\":"+anzahl +",\"data\":[";
+
+		String antwort = "{\"draw\":"+draw+",\"recordsTotal\":"+anzahl +",\"recordsFiltered\":"+anzahl +",\"data\":[";
 		for(int i=0;i<daten.size();i++)
 		{
-			antwortautorASC += "{\"DateiTyp\":\""+daten.get(i)[0]+"\",\"Name\":\""+daten.get(i)[1]+"\",\"Autor\":\""+daten.get(i)[2]+"\",\"UploadDatum\":\""+daten.get(i)[3]+"\",\"DokumentDatum\":\""+daten.get(i)[4]+"\"}";
+			antwort += "{\"DateiTyp\":\""+daten.get(i)[0]+"\",\"Name\":\""+daten.get(i)[1]+"\",\"Autor\":\""+daten.get(i)[2]+"\",\"UploadDatum\":\""+daten.get(i)[3]+"\",\"DokumentDatum\":\""+daten.get(i)[4]+"\"}";
 			if(i!=daten.size()-1)
 			{
-				antwortautorASC+=",";
+				antwort+=",";
 			}
 		}
-		antwortautorASC += "]}";
-		//String antwortautorASC = "{\"draw\":"+draw+",\"recordsTotal\":1,\"recordsFiltered\":1,\"data\":[{\"DateiTyp\":\""+daten.get(0)[0]+"\",\"Name\":\""+daten.get(0)[1]+"\",\"Autor\":\""+daten.get(0)[2]+"\",\"UploadDatum\":\""+daten.get(0)[3]+"\",\"DokumentDatum\":\""+daten.get(0)[4]+"\"}]}";
-		//String antwortautorASC = "{\"draw\":"+draw+",\"recordsTotal\":"+anzahl +",\"recordsFiltered\":"+anzahl +",\"data\":[{\"DateiTyp\":\""+sortiertAutorASC.get(0)[0]+"\",\"Name\":\""+sortiertAutorASC.get(0)[1]+"\",\"Autor\":\""+sortiertAutorASC.get(0)[2]+"\",\"UploadDatum\":\""+sortiertAutorASC.get(0)[3]+"\",\"DokumentDatum\":\""+sortiertAutorASC.get(0)[4]+"\"}";
-
-
-		String antwort3 = "{\"draw\":"+draw+",\"recorawdasdasdtal\":2,\"recoawdasdastered\":2,\"data\":[{\"DateiTyp\":\"PDF\",\"awdsad\":\"Schuwadasdh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"},{\"DateiTyp\":\"DOC\",\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"}]}";
-		String antwort4 = "{\"draw\":"+draw+",\"recordsTotal\":2,\"recordsFiltered\":2,\"data\":[{\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\",\"Download\":\"Downloadlink\",\"Delete\":\"Deletelink?\"}]}";
+		antwort += "]}";
 
 		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
-		System.out.println(antwortautorASC);
-		out.println(antwortautorASC);
-
+		System.out.println(antwort);
+		out.println(antwort);
 	}
 
 }
