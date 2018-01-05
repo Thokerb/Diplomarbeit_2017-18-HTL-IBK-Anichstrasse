@@ -34,11 +34,9 @@ public class BilderSpeichern2 {
 				
 				conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
-<<<<<<< HEAD
 				// Alle LargeObject-Aufrufe m¸ssen in einem Transaktionsblock stehen
-=======
+				
 				// Alle LargeObject-Aufrufe muessen in einem Transaktionsblock stehen
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 				conn.setAutoCommit(false);
 
 				// Erzeuge einen Large-Object-Manager
@@ -66,11 +64,7 @@ public class BilderSpeichern2 {
 				// Schlieﬂe das Large Object
 				obj.close();
 
-<<<<<<< HEAD
 				// F¸ge die Zeile in die Tabelle ein
-=======
-				// Fuege die Zeile in die Tabelle ein
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 				PreparedStatement ps = conn.prepareStatement("INSERT INTO bilder VALUES (?, ?)");
 				ps.setString(1, "name");
 				ps.setInt(2, oid);
