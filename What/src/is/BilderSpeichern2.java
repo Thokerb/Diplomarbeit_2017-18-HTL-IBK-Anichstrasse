@@ -21,7 +21,7 @@ public class BilderSpeichern2 {
 
 	//  Database credentials
 	static final String USER = "postgres";
-	static final String PASS = "password";
+	static final String PASS = "saraemil4";
 	//private static String dbUrl = "jdbc:postgresql://localhost:5432/diplomarbeit?user=postgres&password=password";
 	static Connection conn = null;
 	static Statement stmt = null;
@@ -30,7 +30,7 @@ public class BilderSpeichern2 {
 
 	public static void main(String[] args) throws SQLException, IOException {
 
-				// Alle LargeObject-Aufrufe müssen in einem Transaktionsblock stehen
+				// Alle LargeObject-Aufrufe muessen in einem Transaktionsblock stehen
 				conn.setAutoCommit(false);
 
 				// Erzeuge einen Large-Object-Manager
@@ -57,7 +57,7 @@ public class BilderSpeichern2 {
 				// Schlie�e das Large Object
 				obj.close();
 
-				// Füge die Zeile in die Tabelle ein
+				// Fuege die Zeile in die Tabelle ein
 				PreparedStatement ps = conn.prepareStatement("INSERT INTO bilder VALUES (?, ?)");
 				ps.setString(1, file.getName());
 				ps.setInt(2, oid);

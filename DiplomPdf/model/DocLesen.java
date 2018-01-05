@@ -1,6 +1,7 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
@@ -13,18 +14,32 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
 
 public class DocLesen {
 
+	
+	static String text;
+	static String aut; 
+	static Date date; 
+	
 	public static String lesenDoc(String filename){
 
 		try {
-			System.out.println("Verwendete Datei: "+filename);  //Kontrolle
-//						FileInputStream fis = new FileInputStream("C://Users//Sara//Dropbox//Diplomarbeit//Doc.doc"); //testzweck
+			
+//			System.out.println("Verwendete Datei: "+filename);  //Kontrolle
 			FileInputStream fis = new FileInputStream(filename); //allgemein		
 
 			HWPFDocument doc = new HWPFDocument(fis);
+			
+			aut = doc.getSummaryInformation().getAuthor();
+			date = doc.getSummaryInformation().getCreateDateTime();			
+		
 			WordExtractor extractor = new WordExtractor(doc);
 			String[] fileData = extractor.getParagraphText();
-			String text = extractor.getText();
+			text = extractor.getText();
+			System.out.println("----------------- Text aus DOC Lesen: -----------------");
 			System.out.println(text); 
+			System.out.println("----------------- INFO: -----------------");
+			System.out.println(aut);
+			System.out.println(date);
+			System.out.println("----------------------------------");
 
 			return text;
 
@@ -41,9 +56,9 @@ public class DocLesen {
 
 	}
 
-//		public static void main(String[] args) {
-//			DocLesen l1 = new DocLesen();
-//			l1.lesenDoc("C://Users//Sara//Dropbox//Diplomarbeit//Doc.doc");
-//		}
+		public static void main(String[] args) {
+			DocLesen l1 = new DocLesen();
+			l1.lesenDoc("C://Users//Sara//Dropbox//Diplomarbeit//Doc.doc");
+		}
 	
 }
