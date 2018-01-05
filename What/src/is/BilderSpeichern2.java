@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -29,8 +31,10 @@ public class BilderSpeichern2 {
 	static ResultSet rs = null;
 
 	public static void main(String[] args) throws SQLException, IOException {
+				
+				conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
-				// Alle LargeObject-Aufrufe mÃ¼ssen in einem Transaktionsblock stehen
+				// Alle LargeObject-Aufrufe müssen in einem Transaktionsblock stehen
 				conn.setAutoCommit(false);
 
 				// Erzeuge einen Large-Object-Manager
@@ -43,7 +47,8 @@ public class BilderSpeichern2 {
 				LargeObject obj = lobj.open(oid, LargeObjectManager.WRITE);
 
 				// Öffne die Datei
-				File file = new File("bild2.jpg");
+				Path path = FileSystems.getDefault().getPath("bilder", "bild2.jpg");
+				File file=path.toFile();
 				FileInputStream fis = new FileInputStream(file);
 
 				// Kopiere die Daten aus der Datei in das Large Object
@@ -57,11 +62,12 @@ public class BilderSpeichern2 {
 				// Schließe das Large Object
 				obj.close();
 
-				// FÃ¼ge die Zeile in die Tabelle ein
+				// Füge die Zeile in die Tabelle ein
 				PreparedStatement ps = conn.prepareStatement("INSERT INTO bilder VALUES (?, ?)");
-				ps.setString(1, file.getName());
+				ps.setString(1, "name");
 				ps.setInt(2, oid);
 				ps.executeUpdate();
+				System.out.println("In Datenbank gespeichert!");
 				ps.close();
 				fis.close();
 		
@@ -101,7 +107,7 @@ public class BilderSpeichern2 {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			System.out.println("Fehler beim schließen der Verbindung:");
+			System.out.println("Fehler beim Schließen der Verbindung:");
 			System.out.println("Meldung: "+e.getMessage());
 			e.printStackTrace();
 		}

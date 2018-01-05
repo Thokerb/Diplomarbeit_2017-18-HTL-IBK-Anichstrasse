@@ -3,13 +3,22 @@ package is;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.postgresql.largeobject.LargeObject;
+import org.postgresql.largeobject.LargeObjectManager;
 
 public class BilderSpeichernUebung {
 
@@ -25,8 +34,11 @@ public class BilderSpeichernUebung {
 	static PreparedStatement pstmt = null;
 	static ResultSet rs = null;
 
-	public static void main(String[] args) {
-		Bildeinfuegen();
+	public static void main(String[] args){
+		//Bildeinfuegen();
+		//BildAuslesen();
+		//Auslesen();
+		lesen();
 	}
 
 	public BilderSpeichernUebung() throws InstantiationException, IllegalAccessException{
@@ -70,17 +82,22 @@ public class BilderSpeichernUebung {
 
 	public static void Bildeinfuegen()
 	{
-		File file = new File("bilder/bild.jpg");
-		FileInputStream fis;
+		//File file = new File ((Knackquiz.class.getResource("/view/KnackQuizTransparent.png")));
+		//File file = new File("\\What\\src\\is\\bild.jpg");
+		Path path = FileSystems.getDefault().getPath("bilder", "bild2.jpg");
+		File file=path.toFile();
+		//File file = new File(getCacheDirectory() + "\\results.txt");
+		
 		String INSERT_DATA_SQL="INSERT INTO bilder VALUES (?, ?)";
 		try {
 
+			FileInputStream fis= new FileInputStream(file);
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
 			fis = new FileInputStream(file);
 			//pstmt = conn.prepareStatement("INSERT INTO bilder VALUES (?, ?)");
 			pstmt.setString(1, file.getName());
-			pstmt.setBinaryStream(2, fis, file.length());
+			pstmt.setBinaryStream(2, fis, (int)file.length());
 			pstmt.executeUpdate();
 
 			pstmt.close();
@@ -95,7 +112,7 @@ public class BilderSpeichernUebung {
 			e.printStackTrace();
 		}
 
-
+		System.out.println("Daten in Datenbank gepeichert.");
 	}
 
 	public static void BildAuslesen()
@@ -107,8 +124,10 @@ public class BilderSpeichernUebung {
 			ResultSet rs = ps.executeQuery();
 			if (rs != null) {
 				while (rs.next()) {
+					String name= rs.getString(1);
 					byte[] imgBytes = rs.getBytes(1);
-					// verwenden Sie die Daten hier irgendwie
+					
+					System.out.println(name);
 				}
 				rs.close();
 			}
@@ -117,5 +136,103 @@ public class BilderSpeichernUebung {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void Auslesen()
+	{
+		// Get the Large Object Manager to perform operations with
+		LargeObjectManager lobj;
+		try {
+			conn= DriverManager.getConnection(DB_URL,USER,PASS);
+			lobj = ((org.postgresql.PGConnection)conn).getLargeObjectAPI();
+			PreparedStatement ps = conn.prepareStatement("SELECT bild FROM bilder WHERE bild = ?");
+			ps.setString(1, "bild2.jpg");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+			    // Open the large object for reading
+				String name = rs.getString(1);
+			    int oid = rs.getInt(2);
+			    LargeObject obj = lobj.open(oid, LargeObjectManager.READ);
 
+			    // Read the data
+			    byte buf[] = new byte[obj.size()];
+			    obj.read(buf, 0, obj.size());
+			    // Do something with the data read here
+			    
+			    String pfad = "C:/Temp";
+				File file = createFile(pfad, "bild2.jpg");
+				Files.copy(obj.getInputStream(), file.toPath());
+			
+			    
+			    // Close the object
+			    obj.close();
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
+	
+	public static void lesen()
+	{
+		FileOutputStream fos = null;
+		try {
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            String query = "SELECT bild, LENGTH(bild) FROM bilder WHERE name = 'bild2.jpg'";
+            pstmt = conn.prepareStatement(query);
+
+            ResultSet result = pstmt.executeQuery();
+            result.next();
+
+            fos = new FileOutputStream("C:/Temp/woman2.jpg");
+
+            int len = result.getInt(2);
+            byte[] buf = result.getBytes("bild");
+            fos.write(buf, 0, len);
+            
+//          String pfad = "C:/Temp";
+//			File file = createFile(pfad, "bild2.jpg");
+//			Files.copy(file.toPath(), fos);
+
+
+        } catch (Exception ex) {
+        	ex.printStackTrace();
+            
+
+        } 
+  
+    }
+	
+	private static File createFile(String pfad, String name){
+		File uploads = new File(pfad);
+		File file = new File(uploads, name);
+		return file;
+
+	}
+
+	public static void loeschen()
+	{
+		int foovalue = 500;
+		
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			PreparedStatement st = conn.prepareStatement("DELETE FROM bilder WHERE columnfoo = ?");
+			st.setInt(1, foovalue);
+			int rowsDeleted = st.executeUpdate();
+			System.out.println(rowsDeleted + " rows deleted");
+			st.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }

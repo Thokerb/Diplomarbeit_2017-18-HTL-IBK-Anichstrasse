@@ -27,6 +27,7 @@ import model.geordneteAusgabe;
 public class DataTableServlet extends HttpServlet {
 
 	public static ArrayList<String[]> sortiertAutorASC = new ArrayList<String[]>();
+	
 
 	private static final long serialVersionUID = 1L;
 
@@ -81,6 +82,7 @@ public class DataTableServlet extends HttpServlet {
 
 		order_art = request.getParameter("order[0][dir]");
 
+		String sortierparameter=order+order_art;
 
 		System.out.println(order+order_art);
 
@@ -95,7 +97,7 @@ public class DataTableServlet extends HttpServlet {
 		 */
 
 		//sortierparameter muss Spalte+ASC oder DESC sein
-		String sortierparameter = null;
+		
 
 
 
@@ -110,10 +112,10 @@ public class DataTableServlet extends HttpServlet {
 			conn=db.getConnection();
 
 			//list = db.readDaten(conn);
-
+			
 			switch(sortierparameter){
 
-			case "2ASC"  :{
+			case "1asc"  :{
 				daten=db.dateinameASC(conn);
 				for(int i=0;i<daten.size();i++)
 				{
@@ -122,7 +124,7 @@ public class DataTableServlet extends HttpServlet {
 				break;
 			}
 
-			case "2DESC"  :{
+			case "1desc"  :{
 				daten=db.dateinameDESC(conn);
 				for(int i=0;i<daten.size();i++)
 				{
@@ -131,7 +133,7 @@ public class DataTableServlet extends HttpServlet {
 				break; 
 			}
 
-			case "3ASC"  :{
+			case "2asc"  :{
 				daten=db.autorASC(conn);
 				for(int i=0;i<daten.size();i++)
 				{
@@ -140,7 +142,7 @@ public class DataTableServlet extends HttpServlet {
 				break; 
 			}
 
-			case "3DESC"  :{
+			case "2desc"  :{
 				daten=db.autorDESC(conn);
 				for(int i=0;i<daten.size();i++)
 				{
@@ -149,7 +151,7 @@ public class DataTableServlet extends HttpServlet {
 				break; 
 			}
 
-			case "4ASC"  :{
+			case "3asc"  :{
 				daten=db.uploaddatumASC(conn);
 				for(int i=0;i<daten.size();i++)
 				{
@@ -158,7 +160,7 @@ public class DataTableServlet extends HttpServlet {
 				break; 
 			}
 
-			case "4DESC"  :{
+			case "3desc"  :{
 				daten=db.uploaddatumDESC(conn);
 				for(int i=0;i<daten.size();i++)
 				{
@@ -167,8 +169,8 @@ public class DataTableServlet extends HttpServlet {
 				break; 
 			}
 
-			case "5ASC"  :{
-				daten=db.uploaddatumDESC(conn);
+			case "4asc"  :{
+				daten=db.uploaddatumASC(conn);
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -176,7 +178,7 @@ public class DataTableServlet extends HttpServlet {
 				break; 
 			}
 
-			case "5DESC"  :{
+			case "4desc"  :{
 				daten=db.uploaddatumDESC(conn);
 				for(int i=0;i<daten.size();i++)
 				{
@@ -184,10 +186,24 @@ public class DataTableServlet extends HttpServlet {
 				}
 				break; 
 			}
-
+/*
+			case "suchwort" :{
+				daten=db.ranking2(search);
+				for(int i=0;i<daten.size();i++)
+				{
+					System.out.println(daten.get(i)[1]);
+				}
+				break;
+			}*/
+			
 			default:{
 
-				System.out.println("Du hast alles kaputt gemacht! :(");
+				daten=db.dateinameASC(conn);
+				for(int i=0;i<daten.size();i++)
+				{
+					System.out.println(daten.get(i)[1]);
+				}
+				System.out.println("Die Daten wurden nach Autor alphabetisch geordnet");
 			}
 			}
 			anzahl=db.AnzahlEinträge(conn);

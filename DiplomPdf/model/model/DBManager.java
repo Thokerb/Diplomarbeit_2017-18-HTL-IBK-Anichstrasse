@@ -31,8 +31,16 @@ public class DBManager {
 	private static String easySuchwort;
 	private static String easySuchwort2;
 
-
-
+	public static void main(String[] args) {
+		//String wort="Skellette";
+		//VereinfachtesSuchwortgenerator(wort);
+		//writeStichwörter(wort);
+		
+		//fulltextsearch(easyText,easySuchwort2);
+		
+		ranking2("Zwiebel");
+	}
+	
 	public DBManager() throws InstantiationException, IllegalAccessException{
 		super();
 		// DB Driver init
@@ -519,11 +527,11 @@ public class DBManager {
 			if(pstmt==null){
 				conn = DriverManager.getConnection(DB_URL,USER,PASS);
 				pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
-				//System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
 				rs = pstmt.executeQuery();
 				while (rs.next()) {
 
-					easySuchwort=(rs.getString(1));
+					//easySuchwort=(rs.getString(1));
+					//easySuchwort=(rs.getTsvector(1));
 					System.out.print("Das Wort eingegebene Wort,'"+wort+"' ,wurde vereinfacht zu '"+easySuchwort+"'.");
 
 
@@ -543,7 +551,7 @@ public class DBManager {
 	public static boolean fulltextsearch(String wort,String wort2) {
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//Tabellenzeilen aus Datenbank einlesen
-		String SEARCH_FOR_DATA_SQL_DATEN = "select (\'"+wort+"\')@@ to_tsquery(\'"+wort2+"\')";
+		String SEARCH_FOR_DATA_SQL_DATEN = "select (\'"+wort+"\')@@(\'"+wort2+"\')";
 		//System.out.print(easySuchwort);
 		try {	
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -583,6 +591,45 @@ public class DBManager {
 			e.printStackTrace();
 		}
 		return relevanz;
+	}
+	
+	public static ArrayList<String[]> ranking2(String wort) {
+		ArrayList<String[]> daten = new ArrayList<String[]>();
+		//Tabellenzeilen aus Datenbank einlesen
+		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateiname "
+				+ "FROM (SELECT uploaddaten.uploadid as uploadid,"
+				+ "uploaddaten.dateiname as dateiname,"
+				+ "setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.dateiname), 'A') || "
+				+ "setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.inhalttext), 'B') ||"
+				+ "setweight(to_tsvector('simple', uploaddaten.autor), 'C') ||"
+				+ "setweight(to_tsvector('simple', coalesce(string_agg(uploaddaten.tag, ' '))), 'B') as document"
+					+ "FROM uploaddaten"
+					+ "GROUP BY uploaddaten.uploadid, uploaddaten.autor) p_search"
+					+ "WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\')"
+					+ "ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
+		System.out.print(SEARCH_FOR_DATA_SQL_DATEN);
+		try {	
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String[] zeile = new String[10];
+				System.out.print("Gelesen wurde: ");
+				for (int i = 0; i < 10; i++) {
+					zeile[i] = rs.getString(i+1);
+					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
+				}
+				daten.add(zeile);
+				System.out.println();
+				System.out.println("Sortierten Texte nach Suchwort");
+				System.out.print(relevanz);
+
+				System.out.println();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return daten;
 	}
 
 
