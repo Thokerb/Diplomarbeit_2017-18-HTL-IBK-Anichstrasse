@@ -28,13 +28,7 @@ body, html {
 	border-bottom-width: thin;
 }
 
-#headerStart {
-	font-size: 5vw;
-}
 
-#textStart {
-	font-size: 2vw;
-}
 
 @media(max-width:768px){
     .inhalt{
@@ -43,6 +37,13 @@ body, html {
 }
 }
 @media(min-width:768px){
+#headerStart {
+	font-size: 5vw;
+}
+
+#textStart {
+	font-size: 2vw;
+}
 .inhalt{
     padding-top: 5vh;
     padding-bottom: 5vh;

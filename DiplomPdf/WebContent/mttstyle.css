@@ -5,6 +5,8 @@ html,body{
     width: 100%;
     margin:0px;
     position: absolute;
+    background-image: url(Images/woodboard.jpeg);
+    background-size: cover;
     
 }
 
@@ -26,15 +28,16 @@ img{
 
 .card {
     box-shadow: 20px 19px 2px 3px rgba(0, 0, 0, 0.2);
-    max-width: 300px;
-    margin: auto;
     text-align: center;
-    float: left;
-    margin-left: 100px;
     background-color: dimgrey;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    max-width: 500px;
 
+}
+
+@media(max-width: 1440px){
+    .card{
+        max-width: 400px;
+    }
 }
 
 .sector{
@@ -53,19 +56,19 @@ img:hover {
     margin-bottom: 0px;
 }
 
-@media(max-width:800px){
-    .card{
-        float: none;
-        margin-left: 10%;
-        margin-top: 10%;
-    }
-}
+
 
 #ueberschrift{
-    color: white;
+    
     text-align: center;
     
 }
+
+.cardwrapper{
+    
+}
+
+
 
 .textme{
     margin-left: 10px;

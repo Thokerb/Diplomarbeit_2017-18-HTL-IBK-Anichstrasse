@@ -80,6 +80,7 @@ public class DataTableServlet extends HttpServlet {
 		String length = request.getParameter("length");
 System.out.println("Erstes Element:"+start+" Einträge pro Seite: "+length);
 
+
 		
 		String order =request.getParameter("order[0][column]");
 

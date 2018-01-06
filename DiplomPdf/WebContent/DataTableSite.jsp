@@ -378,7 +378,7 @@ if(session.getAttribute("username")== null){
 	<script type="text/javascript" src="dropzoneconfig.js" charset="UTF-8"></script>
 	<script src="modalconfig.js"></script>
 
-	<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse navbar-static-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -403,7 +403,7 @@ if(session.getAttribute("username")== null){
 		</div>
 	</div>
 	</nav>
-	<div class="container">
+	<div class="container-fluid">
 
 
 		<div class="row">
