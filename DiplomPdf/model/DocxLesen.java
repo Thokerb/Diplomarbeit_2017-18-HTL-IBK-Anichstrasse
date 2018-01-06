@@ -13,8 +13,9 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 public class DocxLesen { 	
 	
-	static String autor;
-	static Date datum;
+	static String text = null;
+	static String aut = null; 
+	static Date date = null; 
 
 	public static String lesenDocx(String filename){
 
@@ -22,33 +23,19 @@ public class DocxLesen {
 
 			FileInputStream fis = new FileInputStream(filename);
 
-//			POIFSFileSystem poifs = new POIFSFileSystem(fis);
-//
-//			DirectoryEntry dir = poifs.getRoot();
-//			SummaryInformation si;
-//			try {
-//				DocumentEntry siEntry = (DocumentEntry) dir.getEntry(SummaryInformation.DEFAULT_STREAM_NAME);
-//				DocumentInputStream dis = new DocumentInputStream(siEntry);
-//				PropertySet ps = new PropertySet(dis);
-//				dis.close();
-//				si = new SummaryInformation(ps);
-//			}catch (FileNotFoundException | UnexpectedPropertySetTypeException | NoPropertySetStreamException | MarkUnsupportedException ex)
-//			{
-//				si = PropertySetFactory.newSummaryInformation();
-//			}
-			
 			XWPFWordExtractor oleTextExtractor = new XWPFWordExtractor(new XWPFDocument(fis));
-			String text = null; 
+			
+			aut = oleTextExtractor.getCoreProperties().getCreator();
+			date = oleTextExtractor.getCoreProperties().getCreated();
 
 			text = oleTextExtractor.getText();
 			System.out.println("----------------- Text aus DOCX Lesen: -----------------");
 			System.out.println(text);
-			System.out.println("---------------- Text -----------------");
+			System.out.println("---------------- INFO -----------------");
 
-//
-//			autor = si.getAuthor();
-//			datum = si.getCreateDateTime();
-//			System.out.println("Autor: "+autor +"Datum: "+ datum);
+			System.out.println(aut);
+			System.out.println(date);
+			System.out.println("---------------- Text -----------------");
 
 			return text; 
 
@@ -65,6 +52,13 @@ public class DocxLesen {
 		return "Achtung - Fehler! Datei Konnte nicht gelesen werden"; 
 	}
 
+	public String getAuthor() {
+		return aut;
+	}
+	
+	public Date getDate() {
+		return date;
+	}
 
 	public static void main(String[] args) {
 		DocxLesen l1 = new DocxLesen();
