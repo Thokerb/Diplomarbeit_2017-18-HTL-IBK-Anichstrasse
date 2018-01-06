@@ -26,6 +26,10 @@ img{
     max-width: 100%;
 }
 
+.inhalt{
+    margin-bottom: 6vh;
+}
+
 .card {
     box-shadow: 20px 19px 2px 3px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -38,6 +42,14 @@ img{
     .card{
         max-width: 400px;
     }
+    
+
+}
+
+@media(max-width: 1200px){
+	.col-lg-4{
+		margin-bottom: 6vh;
+	}
 }
 
 .sector{
@@ -61,6 +73,8 @@ img:hover {
 #ueberschrift{
     
     text-align: center;
+    color: black;
+    font-weight: 500;
     
 }
 
