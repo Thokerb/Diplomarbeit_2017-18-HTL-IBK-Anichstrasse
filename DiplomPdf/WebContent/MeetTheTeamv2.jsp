@@ -40,7 +40,7 @@
     <div class="col-lg-6"><h1 id="ueberschrift">Unser Team</h1></div>
     <div class="col-lg-3"></div>
 </div>
-<div class="row">
+<div class="row inhalt">
  <div class="col-lg-4 col-md-6">   <div class="card center-block">
         <img src="TeamImages/sara.jpg">
         <h1>Namen Namen</h1>
