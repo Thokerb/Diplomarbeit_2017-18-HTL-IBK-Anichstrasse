@@ -98,7 +98,6 @@ public class DBManager {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
 
-			//System.out.println("HIIIIIII"); //zur Kontrolle
 
 			for (int i = 1; i <= 8; i++) {
 				if(i==6)

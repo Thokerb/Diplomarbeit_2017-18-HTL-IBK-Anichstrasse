@@ -18,29 +18,23 @@ public class LoginServlet extends HttpServlet {
 
 		String username = request.getParameter("username");
 		String pwd = request.getParameter("password");
-
-
+		boolean anmeldung; 
 		// Datenbank abfrage von Benutzer normal
 
 		//if(AnmeldungValidate.checkUser(username, pwd) || username.equals("user") && pwd.equals("1234"))
 		if(username.equals("user") && pwd.equals("1234"))
 		{
-			System.out.println("Anmeldung OK");
-			HttpSession session=request.getSession();  
-//			session.setAttribute("user",username);  
+			System.out.println("Anmeldung erfolgreich");
+			HttpSession session = request.getSession();  
+			session.setAttribute("user",username);  
 			response.sendRedirect("DataTableSite.jsp");
+			anmeldung = true; 
 
 		}else{
 
-			String error = "Achtung! Username oder Password stimmen nicht überein";
+			String error = "Achtung! Username oder Password sind nicht korrekt";
 			System.out.println(error);
-
-			PrintWriter out = response.getWriter();  
-			response.setContentType("text/html");  
-			out.println("<script type=\"text/javascript\">");  
-			out.println("alert(' \"Achtung! Username oder Passwort stimmen nicht überein\"');");  
-			out.println("</script>");
-
+			anmeldung = false; 
 			RequestDispatcher rs = request.getRequestDispatcher("Login.jsp");
 			rs.include(request, response);
 		}

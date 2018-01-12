@@ -4,14 +4,14 @@ public class PDFboxLesen {
 
 	public static String text = "text";
 
-//	public static void main(String[] args) throws IOException { 
+	public static void main(String[] args) throws IOException { 
 	
-//		PDFmanager pdfM = new PDFmanager();
-//		pdfM.setFilePath("C:\\Users\\Sara\\Desktop\\Einführung in das Projektmanagement.pdf");
-//		text = pdfM.pdfToText();
-//		PDFmanager.getInfoPDF();
-//		System.out.println(pdfM.pdfToText());     
-//	}
+		PDFmanager pdfM = new PDFmanager();
+		pdfM.setFilePath("C:\\Users\\Sara\\Desktop\\UFW-P.pdf");
+		text = pdfM.pdfToText();
+		PDFmanager.getInfoPDF();
+
+	}
 
 	public static String lesenPDF(String filename){
 		
@@ -26,11 +26,12 @@ public class PDFboxLesen {
 			System.out.println("--------------- TEXT -------------");
 			System.out.println("PDF Info: ");
 			PDFmanager.getInfoPDF();
+			System.out.println("aus");
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Achtung - Fehler! Die Datei konnte nicht gelesen werden ";
+			return "Achtung - Fehler! Die Datei konnte nicht gelesen werden (PDFboxLesen)";
 		}		
 		return text;	
 	}
