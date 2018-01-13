@@ -547,5 +547,35 @@ public class Datenbank3 {
 	}
 	
 	
+	public static String Stichtextgenerator(String wort) {
+		//System.out.print("Das Wort"+text+"wurde vereinfacht zu "+EasyText+". ");
+
+		String SEARCH_FOR_DATA_SQL_DATEN = "select to_tsvector(\'"+ wort +"\')";
+
+		try {
+			if(pstmt==null){
+				conn = DriverManager.getConnection(DB_URL,USER,PASS);
+				pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
+				//System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+
+					easyText = rs.getString(1);
+					System.out.print("Der Text Inhalttext wurde vereinfacht zu '"+easyText+"'.");
+					//System.out.println(easyText);
+
+					System.out.println();
+				}
+			}
+
+			rs.close();rs=null;
+			pstmt.close();pstmt=null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return easyText;
+	}
+	
 
 }

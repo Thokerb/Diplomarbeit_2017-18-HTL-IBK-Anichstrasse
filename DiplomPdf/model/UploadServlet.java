@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import model.DBManager;
 import model.FunktionenDB;
 import model.HineinschreibenDB;
 
@@ -73,13 +74,11 @@ public class UploadServlet extends HttpServlet {
 
 		case "PDF"  :{
 			String inhalttext = PDFboxLesen.lesenPDF("C://Temp//"+dateiname);
-			//			 TODO Verena ist am workn hier
+			//TODO Verena ist am workn hier
 									try {
-										FunktionenDB fdb=new FunktionenDB();
-										Connection conn1=fdb.getConnection();
-										HineinschreibenDB hdb=new HineinschreibenDB();
-										Connection conn2=hdb.getConnection();
-										String stichworttext=fdb.Stichtextgenerator(inhalttext);
+										DBManager dbm=new DBManager();
+										Connection conn1=dbm.getConnection();
+										String stichworttext=dbm.Stichtextgenerator(inhalttext);
 										//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 										String[] daten =new String[8];
 										daten[0]="tag";
@@ -95,9 +94,9 @@ public class UploadServlet extends HttpServlet {
 											System.out.print("Gelesen wurde: ");
 											 System.out.println(s);
 											}
-										HineinschreibenDB.writeDaten(daten);
-										fdb.releaseConnection(conn1);
-										fdb.releaseConnection(conn2);
+										DBManager.writeDaten(daten);
+										DBManager.Blobeinfuegen(inhalttext);
+										dbm.releaseConnection(conn1);
 			System.out.println(inhalttext);
 									} catch (InstantiationException e) {
 										// TODO Auto-generated catch block
