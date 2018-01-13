@@ -36,7 +36,6 @@ public class DataTableServlet extends HttpServlet {
 	 */
 	public DataTableServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -93,7 +92,7 @@ public class DataTableServlet extends HttpServlet {
 		//		
 
 		/**
-		 * TODO Hier sollte je nach dem welcher button zum sortieren der Daten die Antowrt anders sein, sortierparameter einstellen
+		 * Hier sollte je nach dem welcher button zum sortieren der Daten die Antowrt anders sein, sortierparameter einstellen
 		 */
 
 		//sortierparameter muss Spalte+ASC oder DESC sein

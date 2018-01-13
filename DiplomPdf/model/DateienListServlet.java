@@ -20,7 +20,6 @@ public class DateienListServlet extends HttpServlet {
 	 */
 	public DateienListServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -32,7 +31,6 @@ public class DateienListServlet extends HttpServlet {
 		 * Für ein Beipsiel siehe String[] namen
 		 */
 
-		// TODO Auto-generated method stub
 		String[] namen = new String[2];
 		namen[0] = "schule.pdf";
 		namen[1] = "warum.pdf";
@@ -49,7 +47,6 @@ public class DateienListServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
