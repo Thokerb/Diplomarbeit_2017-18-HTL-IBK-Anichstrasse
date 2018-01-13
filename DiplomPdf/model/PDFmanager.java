@@ -1,6 +1,7 @@
 import java.io.File;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -22,15 +23,15 @@ public class PDFmanager {
 
 	private String Text ;
 	private static String autor ;
-	private static String datum ;
+	private static String date ;
+	private static String d ;
 	private String filePath;
 	private File file;
 	String info;
 
 	public PDFmanager() {}
 
-
-	private String getDatum(Calendar cal){
+	private String convDatum(Calendar cal){
 
 		SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
 		String pD = d.format(cal.getTime());
@@ -54,16 +55,14 @@ public class PDFmanager {
 		PDDocumentInformation info = pdDoc.getDocumentInformation();
 		
 		autor = info.getAuthor();
-		datum =  getDatum(info.getCreationDate());
-		
-//		System.out.println( "Autor: " + info.getAuthor() );
-//		System.out.println( "Autor: " + info.getCreator()); gibt zB nur Microsoft zurück
-//		System.out.println("Erstelldatum: " + getDatum(info.getCreationDate()));
+		date =  convDatum(info.getCreationDate());
+		System.out.println(date);
 
 		pdfStripper.setStartPage(1);
 		pdfStripper.setEndPage(pdDoc.getNumberOfPages());
 
 		Text = pdfStripper.getText(pdDoc);
+		
 		pdDoc.close();
 		
 		System.out.println(Text);
@@ -76,8 +75,15 @@ public class PDFmanager {
 	}
 
 	public static void getInfoPDF(){
+		
+//		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+//		 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//	     d = formatter.format(date);
+	     
+//		d = format1.format(date);
+		
 		System.out.println("	Autor: "+ autor);
-		System.out.println("	Erstelldatum: "+ datum);
+		System.out.println("	Erstelldatum: "+ date);
 		
 	}
 	
@@ -86,7 +92,7 @@ public class PDFmanager {
 	}
 	
 	public static String getDatum(){ 
-		return datum; 
+		return date; 
 	}
 
 }

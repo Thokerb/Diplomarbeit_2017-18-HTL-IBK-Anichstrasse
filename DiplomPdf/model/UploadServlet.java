@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,28 +24,15 @@ import model.HineinschreibenDB;
 
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
+	
 	public UploadServlet() {
 		super();
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		//		begriffe = gson.fromJson(antwort, String[].class);
-
 		doPost(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/**
 		 * Aktuell wird die Datei temporär auf C:/Temp gespeichert --> später dann alles über DB
@@ -86,7 +74,8 @@ public class UploadServlet extends HttpServlet {
 										daten[2]=PDFmanager.getAutor();
 										daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
 										daten[4]=dateiname;
-										daten[5]=PDFmanager.getDatum();
+										daten[5]=PDFmanager.getDatum(); //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
+//										PDFmanager.convDatum(daten[5);]
 										daten[6]=stichworttext;
 										daten[7]=dateityp;
 										
@@ -108,7 +97,7 @@ public class UploadServlet extends HttpServlet {
 										e.printStackTrace();
 									}
 
-			System.out.println("PDF - Datei wurde in Text umgewandelt -> Weitergeben an DB");
+			System.out.println("PDF - Datei wurde in Text umgewandelt + Weitergabe an DB");
 			break;
 		}
 
@@ -153,7 +142,7 @@ public class UploadServlet extends HttpServlet {
 		 */
 		System.out.println("Datei fertig eingelesen (noch nicht ganz DB speicherung fehlt bis jetzt )");
 	}
-
+	
 	private void uploader(InputStream fileContent, String dateiname,int nummer){
 
 		String pfad = getInitParameter("Pfad");

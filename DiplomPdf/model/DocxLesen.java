@@ -1,4 +1,6 @@
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
@@ -27,14 +29,17 @@ public class DocxLesen {
 			
 			aut = oleTextExtractor.getCoreProperties().getCreator();
 			date = oleTextExtractor.getCoreProperties().getCreated();
-
+			
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		    String d = formatter.format(date);
+			
 			text = oleTextExtractor.getText();
 			System.out.println("----------------- Text aus DOCX Lesen: -----------------");
 			System.out.println(text);
 			System.out.println("---------------- INFO -----------------");
 
 			System.out.println(aut);
-			System.out.println(date);
+			System.out.println(d);
 			System.out.println("---------------- Text -----------------");
 
 			return text; 

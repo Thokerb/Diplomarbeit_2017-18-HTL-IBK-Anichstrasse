@@ -1,6 +1,8 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.poi.hwpf.HWPFDocument;
@@ -31,6 +33,9 @@ public class DocLesen {
 			aut = doc.getSummaryInformation().getAuthor();
 			date = doc.getSummaryInformation().getCreateDateTime();			
 		
+	        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        String d = formatter.format(date);
+			
 			WordExtractor extractor = new WordExtractor(doc);
 			String[] fileData = extractor.getParagraphText();
 			text = extractor.getText();
@@ -38,7 +43,7 @@ public class DocLesen {
 			System.out.println(text); 
 			System.out.println("----------------- INFO: -----------------");
 			System.out.println(aut);
-			System.out.println(date);
+			System.out.println(d);
 			System.out.println("----------------------------------");
 
 			return text;
