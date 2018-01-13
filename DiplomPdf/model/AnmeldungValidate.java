@@ -28,7 +28,7 @@ public class AnmeldungValidate {
 			ps.setString(1,  username);
 			ps.setString(2,  pwd);
 
-			ResultSet rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery(); // st boolean? 
 
 			st = rs.next();
 

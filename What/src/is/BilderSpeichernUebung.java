@@ -145,7 +145,7 @@ public class BilderSpeichernUebung {
 			conn= DriverManager.getConnection(DB_URL,USER,PASS);
 			lobj = ((org.postgresql.PGConnection)conn).getLargeObjectAPI();
 			PreparedStatement ps = conn.prepareStatement("SELECT bild FROM bilder WHERE bild = ?");
-			ps.setString(1, "bild2.jpg");
+			ps.setString(1, "Hallo.pdf");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 			    // Open the large object for reading
@@ -159,7 +159,7 @@ public class BilderSpeichernUebung {
 			    // Do something with the data read here
 			    
 			    String pfad = "C:/Temp";
-				File file = createFile(pfad, "bild2.jpg");
+				File file = createFile(pfad, "Hallo.pdf");
 				Files.copy(obj.getInputStream(), file.toPath());
 			
 			    
@@ -186,13 +186,13 @@ public class BilderSpeichernUebung {
 
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-            String query = "SELECT bild, LENGTH(bild) FROM bilder WHERE name = 'bild2.jpg'";
+            String query = "SELECT bild, LENGTH(bild) FROM bilder WHERE name = 'Hallo.pdf'";
             pstmt = conn.prepareStatement(query);
 
             ResultSet result = pstmt.executeQuery();
             result.next();
 
-            fos = new FileOutputStream("C:/Temp/woman2.jpg");
+            fos = new FileOutputStream("C:/Temp/PDF.pdf");
 
             int len = result.getInt(2);
             byte[] buf = result.getBytes("bild");
