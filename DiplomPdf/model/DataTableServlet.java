@@ -36,7 +36,6 @@ public class DataTableServlet extends HttpServlet {
 	 */
 	public DataTableServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -60,19 +59,19 @@ public class DataTableServlet extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 
-		//		Enumeration<String> en = request.getParameterNames();
-		//		System.out.println("Alle ELEMENTE");
-		//		while(en.hasMoreElements()){
-		//			System.out.println(en.nextElement());
-		//		}
+//				Enumeration<String> en = request.getParameterNames();
+//				System.out.println("Alle ELEMENTE");
+//				while(en.hasMoreElements()){
+//					System.out.println(en.nextElement());
+//				}
 
 
 
 		String search = request.getParameter("search[value]");
 		String draw = request.getParameter("draw");
-
 		String order_art = null;
-
+		String user = request.getParameter("user");
+		System.out.println("user: "+user);
 		String start = request.getParameter("start");
 		String length = request.getParameter("length");
 		System.out.println("Erstes Element:"+start+" Einträge pro Seite: "+length);
@@ -93,7 +92,7 @@ public class DataTableServlet extends HttpServlet {
 		//		
 
 		/**
-		 * TODO Hier sollte je nach dem welcher button zum sortieren der Daten die Antowrt anders sein, sortierparameter einstellen
+		 * Hier sollte je nach dem welcher button zum sortieren der Daten die Antowrt anders sein, sortierparameter einstellen
 		 */
 
 		//sortierparameter muss Spalte+ASC oder DESC sein
@@ -220,6 +219,8 @@ public class DataTableServlet extends HttpServlet {
 		}
 
 		String antwort = "{\"draw\":"+draw+",\"recordsTotal\":"+anzahl +",\"recordsFiltered\":"+anzahl +",\"data\":[";
+		antwort += "{\"DateiTyp\":\""+"PDF"+"\",\"Name\":\""+"NAME"+"\",\"Autor\":\""+"AUTOR"+"\",\"UploadDatum\":\""+"FREITAG"+"\",\"DokumentDatum\":\""+"SAMSTAG"+"\",\"ZUGANG\":\""+"public"+"\"}";
+
 		for(int i=0;i<daten.size();i++)
 		{
 			antwort += "{\"DateiTyp\":\""+daten.get(i)[0]+"\",\"Name\":\""+daten.get(i)[1]+"\",\"Autor\":\""+daten.get(i)[2]+"\",\"UploadDatum\":\""+daten.get(i)[3]+"\",\"DokumentDatum\":\""+daten.get(i)[4]+"\"}";
@@ -230,6 +231,7 @@ public class DataTableServlet extends HttpServlet {
 		}
 		antwort += "]}";
 
+		
 		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
 		System.out.println(antwort);
 		out.println(antwort);

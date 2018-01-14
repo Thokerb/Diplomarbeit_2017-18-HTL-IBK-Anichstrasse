@@ -34,6 +34,8 @@ pageEncoding="ISO-8859-1"%>
 if(session.getAttribute("username")== null){
 //response.sendRedirect("Login.jsp");
 }
+request.setAttribute("user", "Testuser");
+
 %>
 <body>
 
@@ -64,6 +66,9 @@ if(session.getAttribute("username")== null){
             "ajax" : {
 			"url" : '/DiplomPdf/DataTableServlet',
 			"type" : 'POST',
+			"data" : function(act){
+				act.user = '${user}';
+			},
 			"dataSrc": "data"
 			},
 			
@@ -213,6 +218,24 @@ if(session.getAttribute("username")== null){
 				{"data" : "Autor"},
 				{"data" : "UploadDatum"},
 				{"data" : "DokumentDatum"},
+				{"data" : function (Daten){
+	            //	console.log("drobn is es");
+	           // 	console.dir(Daten["ZUGANG"]);
+	            	var state = Daten["ZUGANG"];
+	            	var text="";
+	            	switch(state){
+	            	case "public":
+	            		text = "<select class=\"privacy\"><option value=\"public\" selected>Public</option><option value=\"private\">Private</option></select>"
+	            		break;
+	            	case "private":
+	            		text = "<select class=\"privacy\"><option value=\"public\">Public</option><option value=\"private\" selected>Private</option></select>"
+	            		break;
+	            	default:
+	            		text="ERROR";
+	            		break;
+	            	}
+	            	return text;
+	            }},
 				{"data" : "Download"},
 				{"data" : "Delete"}
 			
@@ -220,7 +243,8 @@ if(session.getAttribute("username")== null){
 			],
 			
 
-	        "columnDefs": [ {
+	        "columnDefs": [ 	        	
+	        	{
 	        	"targets": -2,
 	            "data": "null",
 	            "defaultContent": "<button class=\"downloadbutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Downloaden\"><span class=\"glyphicon glyphicon-arrow-down\" ></span></button>"
@@ -281,7 +305,7 @@ if(session.getAttribute("username")== null){
 		    },
 			
 			
-
+	
 		});
 
 	    $('.table tbody').on( 'click', '.downloadbutton', function () {
@@ -300,13 +324,13 @@ if(session.getAttribute("username")== null){
             },5000);
 
             
-            var data = table.row( $(this).parents("tr")).data();
-	         var str = JSON.stringify(data);
+			var sourcetable = getTableRow($(this));
+	 
 		     	var xhttp = new XMLHttpRequest();
 			
 	     	xhttp.open("POST", "DownloadServlet", true);
 	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	    	xhttp.send("download="+str);
+	    	xhttp.send("download="+sourcetable);
 	         
 
 	    	
@@ -316,29 +340,12 @@ if(session.getAttribute("username")== null){
 	    
 	    
 	    $(".table tbody").on("click",".deletebutton",function(){
-            var info2 = $(this).parents(".table").attr("id");
-        //aktuell primitiv gehardcoded,eventuell switch änderung. Je nach anzahl an tabellen    
-            if(info2 === "datatable"){
-                    var data = table.row( $(this).parents("tr")).data();
-            }
-            else{
-                if(info2 === "datatable2"){
-                      var data = table2.row( $(this).parents("tr")).data();
-                }
-                else{
-                    console.log("SCHWERER FEHLER !")
-                }
-            }
-            
-	    //    var data = table.row( $(this).parents("tr")).data();
-	        var str = JSON.stringify(data);
-            var sourcetable = JSON.stringify(info2);
-	        console.log(str);
+			var sourcetable = getTableRow($(this));
+  	        var str = JSON.stringify(data);
 	     	var xhttp = new XMLHttpRequest();
 	    	xhttp.open("POST","DeleteServlet",true);
 	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	    	xhttp.send("todelete="+str+sourcetable);
-            
 	    	refreshtables();
 	    });
 		
@@ -361,9 +368,46 @@ if(session.getAttribute("username")== null){
 			alert("TODO: UPLOAD MODAL ERSCHEINEN LASSEN")
 		});
 		
+		 $(".table tbody").on("change",".privacy",function(){
+			console.log("changed");
+			var sourcetable = getTableRow($(this));
+			
+			var state = $(this).val();
+			var xhttp = new XMLHttpRequest();
+	    	xhttp.open("POST","PrivChangeServlet",true);
+	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    	xhttp.send("tochange="+state+sourcetable);
+            
+	    	refreshtables();
+			
+		});
+		
+
+		
 		function refreshtables(){
 			table.draw();
 			table2.draw();
+		}
+		
+		function getTableRow(acttable){
+			var data;
+			//console.dir(acttable);
+			switch(acttable.parents(".table").attr("id")){
+			case "datatable":
+				data = table.row( $(acttable).parents("tr")).data();
+				break;
+				
+			case "datatable2":{
+				data = table2.row( $(acttable).parents("tr")).data();
+				break;
+			}
+			default:
+				data = "ERROR"
+				break;
+			}
+
+			var str = JSON.stringify(data);
+			return str;
 		}
 		
 		console.log("finished  js init");
@@ -419,6 +463,7 @@ if(session.getAttribute("username")== null){
 							<th>Autor</th>
 							<th>UploadDatum</th>
 							<th>DokumentDatum</th>
+							<th>Zugang</th>
 							<th>Download</th>
 							<th>Delete</th>
 						</tr>

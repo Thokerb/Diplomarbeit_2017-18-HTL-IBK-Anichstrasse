@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import model.DBManager;
+
 /**
  * Servlet implementation class DownloadServlet
  */
@@ -61,6 +63,17 @@ public class DownloadServlet extends HttpServlet {
 	        Connection conn = null; // connection to the database
 	         
 	        try {
+	        	
+	        	//Verena:
+	        	DBManager db=new DBManager();
+	        	conn=db.getConnection();
+	        	
+	        	//TODO den richtigen dateinamen angeben, Achtung in da Methode no speicherort ändern bzw vielleicht als Methodenparameter übergeben
+				db.BLOBauslesen("dateinamen");
+	        	
+	        	
+	        	
+	        	//Saras Werk
 	            // connects to the database
 	            DriverManager.registerDriver(new org.postgresql.Driver());
 	            conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
@@ -113,13 +126,20 @@ public class DownloadServlet extends HttpServlet {
 	                // no file found
 	                response.getWriter().print("Datei wurde nicht gefunden: " + uploadId);  
 	            }
+	            
+	            db.releaseConnection(conn);
 	        } catch (SQLException ex) {
 	            ex.printStackTrace();
 	            response.getWriter().print("SQL Error: " + ex.getMessage());
 	        } catch (IOException ex) {
 	            ex.printStackTrace();
 	            response.getWriter().print("IO Error: " + ex.getMessage());
-	        } finally {
+	        } catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
 	            if (conn != null) {
 	                // closes the database connection
 	                try {

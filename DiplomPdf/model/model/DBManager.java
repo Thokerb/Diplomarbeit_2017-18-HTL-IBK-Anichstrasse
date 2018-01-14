@@ -39,14 +39,15 @@ public class DBManager {
 	private static String easySuchwort2;
 
 	public static void main(String[] args) {
-		Stichtextgenerator("Wort");
+		//Stichtextgenerator("Wort");
 		//String wort="Skellette";
 		//VereinfachtesSuchwortgenerator(wort);
 		//writeStichwörter(wort);
 		
 		//fulltextsearch(easyText,easySuchwort2);
 		
-		ranking2("Zwiebel");
+		//ranking2("Zwiebel");
+		readDaten(conn);
 	}
 	
 	public DBManager() throws InstantiationException, IllegalAccessException{
@@ -259,13 +260,13 @@ public class DBManager {
 
 			//System.out.println(DatennachAutorASC.get(0)[0]);
 
-			for(int i=0;i<=3;i++)
-			{
-				System.out.println(DatennachAutorASC.get(i)[0]);
-				System.out.println(DatennachAutorASC.get(i)[1]);
-				System.out.println(DatennachAutorASC.get(i)[2]);
-				System.out.println(DatennachAutorASC.get(i)[3]);
-			}
+//			for(int i=0;i<=3;i++)
+//			{
+//				System.out.println(DatennachAutorASC.get(i)[0]);
+//				System.out.println(DatennachAutorASC.get(i)[1]);
+//				System.out.println(DatennachAutorASC.get(i)[2]);
+//				System.out.println(DatennachAutorASC.get(i)[3]);
+//			}
 
 			pstmt.close(); pstmt=null;
 			rs.close();rs=null;
@@ -320,8 +321,8 @@ public class DBManager {
 		return DatennachAutorDESC;
 
 	}
-
-	// TODO wieso gleich wie DESC
+	
+	
 	public static ArrayList<String[]> uploaddatumASC(Connection conn)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
@@ -392,7 +393,6 @@ public class DBManager {
 		return DatenUploaddatumDESC;
 	}
 
-	// TODO wieso gleich wie DESC
 	public static ArrayList<String[]> dateinameASC(Connection conn)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
@@ -657,12 +657,10 @@ public class DBManager {
 			pstmt.close();
 			fis.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -711,7 +709,7 @@ public class DBManager {
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//SQL-Abfrage
-		String READ_DATA_SQL_DATEN = "SELECT language, tag, blobdatei, stichworttext, inhalttext, uploader, autor, dateiname,uploadid,uploaddatum FROM uploaddaten";
+		String READ_DATA_SQL_DATEN = "SELECT tag, stichworttext, inhalttext, uploader, autor, dateiname,uploadid,uploaddatum,dateityp FROM uploaddaten where uploadid='1'";
 		//opens a connection, 
 		try { 
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -720,7 +718,7 @@ public class DBManager {
 			while (rs.next()) {
 				String[] zeile = new String[10];
 				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 10; i++) {
+				for (int i = 0; i < 9; i++) {
 					zeile[i] = rs.getString(i+1);
 					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
 				}
@@ -882,7 +880,6 @@ public class DBManager {
 			pstmt.close(); pstmt=null;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return benutzer;
@@ -907,7 +904,6 @@ public class DBManager {
 			pstmt.close(); pstmt=null;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return suchwoerter;
