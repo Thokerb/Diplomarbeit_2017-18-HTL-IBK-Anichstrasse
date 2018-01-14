@@ -20,6 +20,8 @@ public class DocLesen {
 	static String text;
 	static String aut; 
 	static Date date; 
+	static DateFormat formatter;
+	static String d; 
 	
 	public static String lesenDoc(String filename){
 
@@ -33,8 +35,8 @@ public class DocLesen {
 			aut = doc.getSummaryInformation().getAuthor();
 			date = doc.getSummaryInformation().getCreateDateTime();			
 		
-	        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	        String d = formatter.format(date);
+	        formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        d = formatter.format(date);
 			
 			WordExtractor extractor = new WordExtractor(doc);
 			String[] fileData = extractor.getParagraphText();
@@ -59,6 +61,14 @@ public class DocLesen {
 		}
 		return "Datei konnte nicht gelesen werden!";
 
+	}
+	
+	public static String getAutor() {
+		return aut; 
+	}
+	
+	public static String getDatum() {
+		return d; 
 	}
 
 		public static void main(String[] args) {
