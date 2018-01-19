@@ -39,6 +39,7 @@ public class BilderSpeichernUebung {
 		//BildAuslesen();
 		//Auslesen();
 		lesen();
+		//Bildeinfuegen();
 	}
 
 	public BilderSpeichernUebung() throws InstantiationException, IllegalAccessException{
@@ -84,11 +85,12 @@ public class BilderSpeichernUebung {
 	{
 		//File file = new File ((Knackquiz.class.getResource("/view/KnackQuizTransparent.png")));
 		//File file = new File("\\What\\src\\is\\bild.jpg");
-		Path path = FileSystems.getDefault().getPath("bilder", "bild2.jpg");
+		Path path = FileSystems.getDefault().getPath("bilder", "Zitat Thomas Kerber.pdf");
 		File file=path.toFile();
 		//File file = new File(getCacheDirectory() + "\\results.txt");
 		
-		String INSERT_DATA_SQL="INSERT INTO bilder VALUES (?, ?)";
+	//	String INSERT_DATA_SQL="INSERT INTO bilder VALUES (?, ?)";
+		String INSERT_DATA_SQL="UPDATE bilder set bild =? WHERE name = ?";
 		try {
 
 			FileInputStream fis= new FileInputStream(file);
@@ -96,8 +98,8 @@ public class BilderSpeichernUebung {
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
 			fis = new FileInputStream(file);
 			//pstmt = conn.prepareStatement("INSERT INTO bilder VALUES (?, ?)");
-			pstmt.setString(1, file.getName());
-			pstmt.setBinaryStream(2, fis, (int)file.length());
+			pstmt.setString(2, "Zitat Thomas Kerber");
+			pstmt.setBinaryStream(1, fis, (int)file.length());
 			pstmt.executeUpdate();
 
 			pstmt.close();
@@ -186,7 +188,7 @@ public class BilderSpeichernUebung {
 
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-            String query = "SELECT bild, LENGTH(bild) FROM bilder WHERE name = 'Hallo.pdf'";
+            String query = "SELECT bild, LENGTH(bild) FROM bilder WHERE name = 'Zitat Thomas Kerber.pdf'";
             pstmt = conn.prepareStatement(query);
 
             ResultSet result = pstmt.executeQuery();
