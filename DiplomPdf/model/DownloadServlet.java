@@ -97,6 +97,7 @@ public class DownloadServlet extends HttpServlet {
 	 
 	                // sets MIME type for the file download
 	                String mimeType = context.getMimeType(fileName);
+	                
 	                if (mimeType == null) {  
 	                	//TODO: wurde vonskypekopiert
 	                    mimeType = "\"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain";

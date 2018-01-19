@@ -111,10 +111,6 @@ public class DataTableServlet extends HttpServlet {
 			conn=db.getConnection();
 
 			//list = db.readDaten(conn);
-			if(search!=null&&!search.isEmpty())
-			{
-				sortierparameter="suchwort";
-			}
 			
 			switch(sortierparameter){
 
@@ -189,7 +185,7 @@ public class DataTableServlet extends HttpServlet {
 				}
 				break; 
 			}
-
+/*
 			case "suchwort" :{
 				daten=db.ranking2(search);
 				for(int i=0;i<daten.size();i++)
@@ -197,7 +193,7 @@ public class DataTableServlet extends HttpServlet {
 					System.out.println(daten.get(i)[1]);
 				}
 				break;
-			}
+			}*/
 			
 			default:{
 
@@ -206,9 +202,10 @@ public class DataTableServlet extends HttpServlet {
 				{
 					System.out.println(daten.get(i)[1]);
 				}
-				System.out.println("Die Daten wurden nach dem Dateinamen alphabetisch geordnet");
+				System.out.println("Die Daten wurden nach Autor alphabetisch geordnet");
 			}
 			}
+			
 			anzahl=db.AnzahlEinträge(conn);
 
 

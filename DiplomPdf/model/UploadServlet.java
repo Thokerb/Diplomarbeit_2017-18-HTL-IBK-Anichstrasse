@@ -106,13 +106,14 @@ public class UploadServlet extends HttpServlet {
 
 			//TODO in Datenbank speichern
 
-			System.out.println("Txt - Datei wurde in Text umgewandelt -> Weitergeben an DB");
+			System.out.println("Txt - Datei wurde in Text umgewandelt -> Weitergeben an DB (Achtung, keine Metadaten vorhanden)");
 			break; 
 		}
 
 		case "DOC"  :{
 
 			DocLesen.lesenDoc("C://Temp//"+dateiname);
+//			. getAutor() -- String -  .getDatum() -- String - für Infos verwenden
 
 			//TODO in Datenbank speichern
 
@@ -123,6 +124,7 @@ public class UploadServlet extends HttpServlet {
 		case "DOCX"  :{
 
 			DocxLesen.lesenDocx("C://Temp//"+dateiname);
+//			. getAutor() -- String -  .getDatum() -- String - für Infos verwenden
 
 			//TODO in Datenbank speichern
 
