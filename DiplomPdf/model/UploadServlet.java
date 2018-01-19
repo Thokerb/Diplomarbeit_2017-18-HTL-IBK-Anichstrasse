@@ -84,7 +84,7 @@ public class UploadServlet extends HttpServlet {
 					System.out.println(s);
 				}
 				DBManager.writeDaten(daten);
-				DBManager.Blobeinfuegen(dateiname);
+				DBManager.Blobeinfuegen(filePart);
 				
 				dbm.releaseConnection(conn1);
 				System.out.println(inhalttext);

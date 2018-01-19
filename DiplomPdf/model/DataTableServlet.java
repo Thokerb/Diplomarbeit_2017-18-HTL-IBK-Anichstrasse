@@ -185,7 +185,7 @@ public class DataTableServlet extends HttpServlet {
 				}
 				break; 
 			}
-/*
+
 			case "suchwort" :{
 				daten=db.ranking2(search);
 				for(int i=0;i<daten.size();i++)
@@ -193,7 +193,7 @@ public class DataTableServlet extends HttpServlet {
 					System.out.println(daten.get(i)[1]);
 				}
 				break;
-			}*/
+			}
 			
 			default:{
 
@@ -219,11 +219,11 @@ public class DataTableServlet extends HttpServlet {
 		}
 
 		String antwort = "{\"draw\":"+draw+",\"recordsTotal\":"+anzahl +",\"recordsFiltered\":"+anzahl +",\"data\":[";
-		antwort += "{\"DateiTyp\":\""+"PDF"+"\",\"Name\":\""+"NAME"+"\",\"Autor\":\""+"AUTOR"+"\",\"UploadDatum\":\""+"FREITAG"+"\",\"DokumentDatum\":\""+"SAMSTAG"+"\",\"ZUGANG\":\""+"public"+"\"}";
+	//	antwort += "{\"DateiTyp\":\""+"PDF"+"\",\"Name\":\""+"NAME"+"\",\"Autor\":\""+"AUTOR"+"\",\"UploadDatum\":\""+"FREITAG"+"\",\"DokumentDatum\":\""+"SAMSTAG"+"\",\"ZUGANG\":\""+"public"+"\"}";
 
 		for(int i=0;i<daten.size();i++)
 		{
-			antwort += "{\"DateiTyp\":\""+daten.get(i)[0]+"\",\"Name\":\""+daten.get(i)[1]+"\",\"Autor\":\""+daten.get(i)[2]+"\",\"UploadDatum\":\""+daten.get(i)[3]+"\",\"DokumentDatum\":\""+daten.get(i)[4]+"\"}";
+			antwort += "{\"DateiTyp\":\""+daten.get(i)[0]+"\",\"Name\":\""+daten.get(i)[1]+"\",\"Autor\":\""+daten.get(i)[2]+"\",\"UploadDatum\":\""+daten.get(i)[3]+"\",\"DokumentDatum\":\""+daten.get(i)[4]+"\",\"ZUGANG\":\""+daten.get(i)[5]+"\"}";
 			if(i!=daten.size()-1)
 			{
 				antwort+=",";
