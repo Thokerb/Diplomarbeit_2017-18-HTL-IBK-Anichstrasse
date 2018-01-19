@@ -43,7 +43,7 @@ public class UploadServlet extends HttpServlet {
 		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	    
 		InputStream fileContent = filePart.getInputStream();
 		System.out.println("was steht da: "+filePart.getHeader("content-disposition").substring(36));  //TODO substring 36?
-
+		
 		boolean overwrite = Boolean.parseBoolean(request.getParameter("overwrite"));	//nimmt den String und wandelt ihn in ein boolean um
 		String dateiname = request.getParameter("dateiname");
 		System.out.println("Name der Datei: "+dateiname+" overwrite: "+overwrite);

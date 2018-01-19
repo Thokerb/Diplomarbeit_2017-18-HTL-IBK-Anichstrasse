@@ -57,6 +57,155 @@ request.setAttribute("user", "Testuser");
 
 	$(document).ready(function() {
 
+		//Modalconfig
+			$("#saveModal").attr("data-backdrop","static");
+	$("#saveModal").attr("data-keyboard","false");
+
+	$("#bsbutton").click(function(){
+		$("#saveModal").modal("show");
+	});
+
+
+
+
+	$("#saveModal").on("show.bs.modal",function(){
+		var formdata = $("#text1").val();
+		//alert(formdata);
+		$("#modalinput").val(formdata);
+		$("#modaldatname").text(formdata);	//verwende .text anstatt .html da in diesem Fall die Formatierung des modals beibehalten wird
+	});
+
+
+	$("#saveModal").on("shown.bs.modal",function(){
+		$("#modalinput").select();
+	})
+
+	$("#modalinput").on("click", function () {
+		$(this).select();
+	})
+
+	$("#modalinputbutton").on("click",function(){
+		//modal WebElement - config finished, next step intregrating into Hauptseite
+	})
+
+	console.log("finished loading modalconfig.js");
+	
+	//Dropzoneconfig
+	Dropzone.myDropzone = false;
+		var size = 1;
+		var name;
+		Dropzone.options.myDropzone = {
+
+			init : function() {
+				var dropzone = this;
+				var filetogive;
+				var givename;
+				var tochange;
+				var overwrite = false;
+
+				function getDokumentNamen(namedatei) {
+
+					$.getJSON("DateienListServlet", function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+						var DokumentNamen = responseText;
+
+						console.log(DokumentNamen);
+						console.log(namedatei);
+						var vorhanden = $.inArray(namedatei, DokumentNamen);
+						console.log(vorhanden);
+
+						if (vorhanden === -1) {
+							console.log("nicht vorhanden");
+							sendfile();
+						} else {
+							console.log("vorhanden");
+							addChecker(DokumentNamen);
+							showModal(namedatei);
+							console.log(DokumentNamen);
+
+						}
+					});
+
+				}
+
+				this.on("addedfile", function(file) {
+					tochange = file.previewElement
+							.querySelector("[data-dz-name]");
+					givename = file.name;
+					console.log(givename);
+					getDokumentNamen(givename);
+					filetogive = file;
+					console.log(file);
+				});
+
+				$("#overwritebtn").on("click", function() {
+					overwrite = true;
+					sendfile();
+					$("#saveModal").modal("hide");
+				})
+
+				$("#modalinputbtn").on("click", function() {
+					console.log("filetogive");
+					givename = $("#modalinput").val();
+					tochange.innerHTML = givename;
+					dropzone.processFile(filetogive);
+					$("#saveModal").modal("hide");
+				});
+
+				function sendfile() {
+					console.log("sendingstatus");
+					console.log(filetogive.status);
+					if (filetogive.status != "error") {
+						dropzone.processFile(filetogive);
+					}
+
+				}
+
+				this.on("renameFile", function(file) {
+					alert("called renameFile");
+				});
+
+				this.on("sending", function(file, xhr, formData) {
+					console.log("sending called");
+					formData.append("dateiname", givename);
+					formData.append("overwrite", overwrite);
+					overwrite = false;
+				});
+				
+				this.on("success",function(file){
+					console.log("success");
+					refreshtables();
+				});
+				this.on("complete",function(file){
+					console.log("complete");
+					refreshtables();
+
+					
+					
+				});
+				this.on("uploadprogress",function(file,progress,bytesSent){
+					console.log("progress: "+progress+" | "+bytesSent);
+				});
+
+				
+			},
+			maxFilesize : size,
+			paramName : "pdffile",
+			url : "UploadServlet",
+			acceptedFiles : "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain",
+			parallelUploads : 1,
+			autoQueue : false,
+			autoProcessQueue : false,
+			dictDefaultMessage : "Ziehe Dateien hierhin zum Hochladen",
+			dictFallbackMessage : "Dieser Browser wird leider nicht unterstützt",
+			dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "
+					+ size + " MB",
+			dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
+
+		}
+
+		console.log("finished dropzone config javascript")
+		
+		
 		//aktiviert Tooltip
 	    $('[data-toggle="tooltip"]').tooltip(); 
         
@@ -104,6 +253,22 @@ request.setAttribute("user", "Testuser");
 				{"data" : "Autor"},
 				{"data" : "UploadDatum"},
 				{"data" : "DokumentDatum"},
+				{"data" : function (Daten){
+		            	var state = Daten["ZUGANG"];
+		            	var text="";
+		            	switch(state){
+		            	case "public":
+		            		text = "<select class=\"privacy form-control fa\"><option value=\"public\" selected><i>&#xf0ac;</i> Public</option><option value=\"private\"> <i>&#xf023;</i> Private</option></select>"
+		            		break;
+		            	case "private":
+		            		text = "<select class=\"privacy form-control fa\"><option value=\"public\"><i>&#xf0ac;</i> Public</option><option value=\"private\" selected><i>&#xf023;</i> Private</option></select>"
+		            		break;
+		            	default:
+		            		text="ERROR";
+		            		break;
+		            	}
+		            	return text;
+		            }},
 				{"data" : "Download"},
 				{"data" : "Delete"}
 			
@@ -225,10 +390,10 @@ request.setAttribute("user", "Testuser");
 	            	var text="";
 	            	switch(state){
 	            	case "public":
-	            		text = "<select class=\"privacy\"><option value=\"public\" selected>Public</option><option value=\"private\">Private</option></select>"
+	            		text = "<select class=\"privacy form-control fa\"><option value=\"public\" selected><i>&#xf0ac;</i> Public</option><option value=\"private\"><i>&#xf023;</i> Private</option></select>"
 	            		break;
 	            	case "private":
-	            		text = "<select class=\"privacy\"><option value=\"public\">Public</option><option value=\"private\" selected>Private</option></select>"
+	            		text = "<select class=\"privacy form-control fa\"><option value=\"public\"><i>&#xf0ac;</i> Public</option><option value=\"private\" selected><i>&#xf023;</i> Private</option></select>"
 	            		break;
 	            	default:
 	            		text="ERROR";
@@ -413,14 +578,50 @@ request.setAttribute("user", "Testuser");
 		console.log("finished  js init");
 	});
 	
+	function showModal(formdata){
 
+		$("#saveModal").modal("show");
+		$("#modalinput").val(formdata);
+		$("#modaldatname").text(formdata);	//verwende .text anstatt .html da in diesem Fall die Formatierung des modals beibehalten wird
+
+	}
+
+	function addChecker(DokumentNamen){
+		console.log("addkeypress");
+
+		$("#modalinput").keyup(function(){				// statt keypress da ansonst 1 char delay
+			console.log("keypressed!!!");
+			console.log(DokumentNamen);
+			var userinput = $("#modalinput").val();
+			console.log(userinput);
+			if($.inArray(userinput,DokumentNamen)==-1){
+				console.log("nicht vorhandener name");
+				if(userinput.match(".pdf$")){
+					console.log("Datei besitzt die richtige Endung");
+					$("#modalinputbtn").prop("disabled",false); //nicht mit attr
+					$("#modalinputbtn").attr("class","btn btn-primary active");
+				}
+				else{
+					console.log("Die neue Datei ist keine PDF");
+					$("#modalinputbtn").prop("disabled",true);	// nicht mit attr
+					$("#modalinputbtn").attr("class","btn btn-primary disabled");
+				}
+
+			}
+			else{
+				console.log(" vorhandener name");
+				$("#modalinputbtn").prop("disabled",true);	// nicht mit attr
+				$("#modalinputbtn").attr("class","btn btn-primary disabled");
+			}
+		});
+	}
 
 
 	
 </script>
 
-	<script type="text/javascript" src="dropzoneconfig.js" charset="UTF-8"></script>
-	<script src="modalconfig.js"></script>
+
+
 
 	<nav class="navbar navbar-inverse navbar-static-top">
 	<div class="container-fluid">
@@ -492,6 +693,7 @@ request.setAttribute("user", "Testuser");
 							<th>Autor</th>
 							<th>UploadDatum</th>
 							<th>DokumentDatum</th>
+							<th>Zugang</th>
 							<th>Download</th>
 							<th>Delete</th>
 						</tr>
