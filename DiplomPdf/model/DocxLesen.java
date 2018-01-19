@@ -17,7 +17,9 @@ public class DocxLesen {
 	
 	static String text = null;
 	static String aut = null; 
-	static Date date = null; 
+	static Date date = null;
+	static DateFormat formatter;
+	static String d; 
 
 	public static String lesenDocx(String filename){
 
@@ -30,8 +32,8 @@ public class DocxLesen {
 			aut = oleTextExtractor.getCoreProperties().getCreator();
 			date = oleTextExtractor.getCoreProperties().getCreated();
 			
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		    String d = formatter.format(date);
+			formatter = new SimpleDateFormat("yyyy-MM-dd");
+		    d = formatter.format(date);
 			
 			text = oleTextExtractor.getText();
 			System.out.println("----------------- Text aus DOCX Lesen: -----------------");
@@ -61,8 +63,8 @@ public class DocxLesen {
 		return aut;
 	}
 	
-	public Date getDate() {
-		return date;
+	public String getDate() {
+		return d;
 	}
 
 	public static void main(String[] args) {
