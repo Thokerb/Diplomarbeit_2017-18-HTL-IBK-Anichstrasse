@@ -219,7 +219,7 @@ public class DataTableServlet extends HttpServlet {
 		}
 
 		String antwort = "{\"draw\":"+draw+",\"recordsTotal\":"+anzahl +",\"recordsFiltered\":"+anzahl +",\"data\":[";
-	//	antwort += "{\"DateiTyp\":\""+"PDF"+"\",\"Name\":\""+"NAME"+"\",\"Autor\":\""+"AUTOR"+"\",\"UploadDatum\":\""+"FREITAG"+"\",\"DokumentDatum\":\""+"SAMSTAG"+"\",\"ZUGANG\":\""+"public"+"\"}";
+		antwort += "{\"ID\":\""+"1"+"\",\"DateiTyp\":\""+"PDF"+"\",\"Name\":\""+"NAME"+"\",\"Autor\":\""+"AUTOR"+"\",\"UploadDatum\":\""+"FREITAG"+"\",\"DokumentDatum\":\""+"SAMSTAG"+"\",\"ZUGANG\":\""+"public"+"\"}";
 
 		for(int i=0;i<daten.size();i++)
 		{

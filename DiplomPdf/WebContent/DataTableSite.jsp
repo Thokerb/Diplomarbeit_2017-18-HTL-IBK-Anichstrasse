@@ -2,7 +2,7 @@
 pageEncoding="ISO-8859-1"%>
 
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -211,6 +211,7 @@ request.setAttribute("user", "Testuser");
 		},
             
 			"columns" : [ 
+				{"data" : "ID"},
 				{"data" : "DateiTyp"},
 				{"data" : "Name"},
 				{"data" : "Autor"},
@@ -239,7 +240,13 @@ request.setAttribute("user", "Testuser");
 			],
 			
 
-	        "columnDefs": [ {
+	        "columnDefs": [ 
+	        	{
+	        		"targets": 0,
+	        		"visible": false,
+	        		"searchable": false
+	        	},
+	        {
 	        	"targets": -2,
 	            "data": "null",
 	            "defaultContent": "<button class=\"downloadbutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Downloaden\"><span class=\"glyphicon glyphicon-arrow-down\" ></span></button>"
@@ -249,7 +256,7 @@ request.setAttribute("user", "Testuser");
 	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
 	        },
 	        {
-	        	"targets": 0,
+	        	"targets": 1,
 	        	"render": function func(data){
 	        		console.log(data);
 	        		var text = "";
@@ -341,6 +348,7 @@ request.setAttribute("user", "Testuser");
 			
 
 			"columns" : [ 
+				{"data" : "ID"},
 				{"data" : "DateiTyp"},
 				{"data" : "Name"},
 				{"data" : "Autor"},
@@ -371,7 +379,12 @@ request.setAttribute("user", "Testuser");
 			],
 			
 
-	        "columnDefs": [ 	        	
+	        "columnDefs": [ 
+	        	{
+	        		"targets": 0,
+	        		"visible": false,
+	        		"searchable": false
+	        	},
 	        	{
 	        	"targets": -2,
 	            "data": "null",
@@ -382,7 +395,7 @@ request.setAttribute("user", "Testuser");
 	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
 	        },
 	        {
-	        	"targets": 0,
+	        	"targets": 1,
 	        	"render": function func(data){
 	        		console.log(data);
 	        		var text = "";
@@ -590,6 +603,7 @@ request.setAttribute("user", "Testuser");
 					cellspacing="0" width="100%">
 					<thead>
 						<tr>
+							<th>ID</th>
 							<th>DateiTyp</th>
 							<th>Name</th>
 							<th>Autor</th>
@@ -619,6 +633,7 @@ request.setAttribute("user", "Testuser");
 					cellspacing="0" width="100%">
 					<thead>
 						<tr>
+							<th>ID</th>
 							<th>DateiTyp</th>
 							<th>Name</th>
 							<th>Autor</th>
