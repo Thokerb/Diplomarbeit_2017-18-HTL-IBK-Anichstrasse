@@ -11,8 +11,8 @@ pageEncoding="ISO-8859-1"%>
 
 <title>Easy PDF - Files </title>
 
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
 <!-- font-awesome stylesheets -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -44,9 +44,8 @@ request.setAttribute("user", "Testuser");
 
 
 
-	<!-- bootstrap implementation -->
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- bootstrap javascript implementation -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<!-- jquery datatable javascript -->
 	<script type="text/javascript"
@@ -106,6 +105,10 @@ request.setAttribute("user", "Testuser");
 				sendfile();
 				$("#saveModal").modal("hide");
 			})
+			
+		$("#uploadModal").on("hidden.bs.modal",function(){
+			cleardropzone();
+		})
 
 			$("#modalinputbtn").on("click", function() {
 				console.log("filetogive");
@@ -122,6 +125,10 @@ request.setAttribute("user", "Testuser");
 					dropzone.processFile(filetogive);
 				}
 
+			}
+			
+			function cleardropzone(){
+				dropzone.removeAllFiles();
 			}
 
 			this.on("renameFile", function(file) {
@@ -154,6 +161,7 @@ request.setAttribute("user", "Testuser");
 		},
 		maxFilesize : size,
 		paramName : "pdffile",
+		addRemoveLinks: true,
 		url : "UploadServlet",
 		acceptedFiles : "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain",
 		parallelUploads : 1,
@@ -166,6 +174,8 @@ request.setAttribute("user", "Testuser");
 		dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
 
 	}
+	
+
 	
 	$(document).ready(function() {
 		
@@ -504,10 +514,6 @@ request.setAttribute("user", "Testuser");
 			console.log("called");
 			$(this).removeClass("iconeffect");
 		}); 
-		
-		$(".uploadmodalbtn").on("click",function(){
-			alert("TODO: UPLOAD MODAL ERSCHEINEN LASSEN")
-		});
 		
 		 $(".table tbody").on("change",".privacy",function(){
 			console.log("changed");

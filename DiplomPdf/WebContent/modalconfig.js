@@ -16,7 +16,7 @@ function addChecker(DokumentNamen){
 		console.log(userinput);
 		if($.inArray(userinput,DokumentNamen)==-1){
 			console.log("nicht vorhandener name");
-			if(userinput.match(".pdf$")){
+			if(userinput.match(".pdf$") ||userinput.match(".doc$") ||userinput.match(".docx$") ||userinput.match(".txt$")){
 				console.log("Datei besitzt die richtige Endung");
 				$("#modalinputbtn").prop("disabled",false); //nicht mit attr
 				$("#modalinputbtn").attr("class","btn btn-primary active");
@@ -55,10 +55,14 @@ $(document).ready(function() {
 		$("#modaldatname").text(formdata);	//verwende .text anstatt .html da in diesem Fall die Formatierung des modals beibehalten wird
 	});
 
+	$("#saveModal").on("hidden.bs.modal",function(){
+		console.log("modal hide");
+	})
 
 	$("#saveModal").on("shown.bs.modal",function(){
 		$("#modalinput").select();
 	})
+	
 
 	$("#modalinput").on("click", function () {
 		$(this).select();
