@@ -38,13 +38,13 @@ public class EmailPasswort extends HttpServlet {
 
 		Properties props = new Properties();
 
-		props.put("mail.smtp.user","username"); 
-		props.put("mail.smtp.host", "smtp.gmail.com"); 
-		props.put("mail.smtp.port", "25"); 
+		props.put("mail.smtps.user","username"); 
+		props.put("mail.smtps.host", "smtp.gmail.com"); 
+		props.put("mail.smtps.port", "587"); 
 		props.put("mail.debug", "true"); 
-		props.put("mail.smtp.auth", "true"); 
-		props.put("mail.smtp.starttls.enable","true"); 
-		props.put("mail.smtp.EnableSSL.enable","true");
+		props.put("mail.smtps.auth", "true"); 
+		props.put("mail.smtps.starttls.enable","true"); 
+		props.put("mail.smtps.EnableSSL.enable","true");
 
 		Session session2 = Session.getInstance(props, new GMailAuthenticator(username, password));
 
@@ -53,7 +53,7 @@ public class EmailPasswort extends HttpServlet {
 			Message message = new MimeMessage(session2);
 			message.setFrom(new InternetAddress("easypdf.help@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("usermail")); //TODO email von antwort
+					InternetAddress.parse("kerber.tom98@gmail.com")); //TODO email von antwort
 			message.setSubject("Passwort zurücksetzen EasyPDF");
 			message.setText("Lieber EasyPDF Nutzer, um dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
 					+ "\n\n http://localhost:8080/DiplomPdf/Login.jsp"
