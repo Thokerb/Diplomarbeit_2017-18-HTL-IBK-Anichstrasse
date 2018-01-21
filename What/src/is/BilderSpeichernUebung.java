@@ -38,8 +38,10 @@ public class BilderSpeichernUebung {
 		//Bildeinfuegen();
 		//BildAuslesen();
 		//Auslesen();
-		lesen();
+		//lesen();
 		//Bildeinfuegen();
+		
+		Bildeinfuegen2();
 	}
 
 	public BilderSpeichernUebung() throws InstantiationException, IllegalAccessException{
@@ -83,14 +85,15 @@ public class BilderSpeichernUebung {
 
 	public static void Bildeinfuegen()
 	{
+		String name="HalloPDF";
 		//File file = new File ((Knackquiz.class.getResource("/view/KnackQuizTransparent.png")));
 		//File file = new File("\\What\\src\\is\\bild.jpg");
-		Path path = FileSystems.getDefault().getPath("bilder", "Zitat Thomas Kerber.pdf");
+		Path path = FileSystems.getDefault().getPath("bilder", "Hallo.pdf");
 		File file=path.toFile();
 		//File file = new File(getCacheDirectory() + "\\results.txt");
 		
 	//	String INSERT_DATA_SQL="INSERT INTO bilder VALUES (?, ?)";
-		String INSERT_DATA_SQL="UPDATE bilder set bild =? WHERE name = ?";
+		String INSERT_DATA_SQL="UPDATE bilder set bild =? WHERE name = '"+name+"'";
 		try {
 
 			FileInputStream fis= new FileInputStream(file);
@@ -98,7 +101,7 @@ public class BilderSpeichernUebung {
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
 			fis = new FileInputStream(file);
 			//pstmt = conn.prepareStatement("INSERT INTO bilder VALUES (?, ?)");
-			pstmt.setString(2, "Zitat Thomas Kerber");
+			//pstmt.setString(2, "HalloPDF");
 			pstmt.setBinaryStream(1, fis, (int)file.length());
 			pstmt.executeUpdate();
 
@@ -116,6 +119,44 @@ public class BilderSpeichernUebung {
 
 		System.out.println("Daten in Datenbank gepeichert.");
 	}
+	
+	public static void Bildeinfuegen2()
+	{
+		String name="HalloPDF";
+		//File file = new File ((Knackquiz.class.getResource("/view/KnackQuizTransparent.png")));
+		//File file = new File("\\What\\src\\is\\bild.jpg");
+		Path path = FileSystems.getDefault().getPath("bilder", "Hallo.pdf");
+		File file=path.toFile();
+		//File file = new File(getCacheDirectory() + "\\results.txt");
+		
+		String INSERT_DATA_SQL="INSERT INTO bilder VALUES (?, ?)";
+		try {
+
+			FileInputStream fis= new FileInputStream(file);
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
+			fis = new FileInputStream(file);
+			//pstmt = conn.prepareStatement("INSERT INTO bilder VALUES (?, ?)");
+			pstmt.setString(1, "HalloPDF1");
+//			pstmt.setBinaryStream(2, fis, file.length());braucht ma nit wirklich
+			pstmt.setBinaryStream(2, fis, (int)file.length());
+			pstmt.executeUpdate();
+
+			pstmt.close();
+			fis.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println("Daten in Datenbank gepeichert.");
+	}
+	
 
 	public static void BildAuslesen()
 	{
@@ -212,6 +253,8 @@ public class BilderSpeichernUebung {
         } 
   
     }
+	
+	
 	
 	private static File createFile(String pfad, String name){
 		File uploads = new File(pfad);

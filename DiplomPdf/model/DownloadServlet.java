@@ -55,23 +55,23 @@ public class DownloadServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		Connection conn=null;
 		String antwort = request.getParameter("download");
 		System.out.println("DOWNLOADREQUEST: "+antwort);
 		// int uploadId = Integer.parseInt(request.getParameter("id"));
 //         System.out.println("id: "+uploadId);
-//	        Connection conn = null; // connection to the database
-//	         
-//	        try {
-//	        	
-//	        	//Verena:
-//	        	DBManager db=new DBManager();
-//	        	conn=db.getConnection();
-//	        	
-//	        	//TODO den richtigen dateinamen angeben, Achtung in da Methode no speicherort ändern bzw vielleicht als Methodenparameter übergeben
-//				db.BLOBauslesen("dateinamen");
-//	        	
-//	        	
-//	        	
+	         
+	        try {
+	        	
+	        	//Verena:
+	        	DBManager db=new DBManager();
+	        	conn=db.getConnection();
+	        	
+	        	//TODO den richtigen dateinamen angeben und inhalttext
+				db.BLOBauslesen("dateinamen","inhalttext");
+	        	
+	        	
+	        	
 //	        	//Saras Werk
 //	            // connects to the database
 //	            DriverManager.registerDriver(new org.postgresql.Driver());
@@ -126,27 +126,23 @@ public class DownloadServlet extends HttpServlet {
 //	                response.getWriter().print("Datei wurde nicht gefunden: " + uploadId);  
 //	            }
 //	            
-//	            db.releaseConnection(conn);
-//	        } catch (SQLException ex) {
-//	            ex.printStackTrace();
-//	            response.getWriter().print("SQL Error: " + ex.getMessage());
-//	        } catch (IOException ex) {
-//	            ex.printStackTrace();
-//	            response.getWriter().print("IO Error: " + ex.getMessage());
-//	        } catch (InstantiationException e) {
-//				e.printStackTrace();
-//			} catch (IllegalAccessException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} finally {
-//	            if (conn != null) {
-//	                // closes the database connection
-//	                try {
-//	                    conn.close();
-//	                } catch (SQLException ex) {
-//	                    ex.printStackTrace();
-//	                }
-//	            }          
-//	        }
+	            db.releaseConnection(conn);
+	        } catch (SQLException ex) {
+	            ex.printStackTrace();
+	            response.getWriter().print("SQL Error: " + ex.getMessage());
+	        } catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} finally {
+	            if (conn != null) {
+	                // closes the database connection
+	                try {
+	                    conn.close();
+	                } catch (SQLException ex) {
+	                    ex.printStackTrace();
+	                }
+	            }          
+	        }
 	    }
 	}
