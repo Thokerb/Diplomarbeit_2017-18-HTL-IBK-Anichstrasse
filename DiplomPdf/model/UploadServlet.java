@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import model.DBManager;
-import model.FunktionenDB;
-import model.HineinschreibenDB;
 
 /**
  * Servlet implementation class UploadServlet
@@ -40,7 +38,8 @@ public class UploadServlet extends HttpServlet {
 		 * TODO: übergabe in DATENBANK
 		 */
 		int nummer = 1;
-		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	    
+		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	
+		System.out.println(filePart);
 		InputStream fileContent = filePart.getInputStream();
 		System.out.println("was steht da: "+filePart.getHeader("content-disposition").substring(36));  //TODO substring 36?
 		
@@ -83,8 +82,8 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(daten);
-				DBManager.Blobeinfuegen(filePart);
+				DBManager.writeDaten(daten,filePart);
+				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);
 				System.out.println(inhalttext);

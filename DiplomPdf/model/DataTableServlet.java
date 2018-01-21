@@ -16,10 +16,8 @@ import com.google.gson.Gson;
 
 import model.DBManager;
 import model.Datenbank3;
-import model.FunktionenDB;
-import model.HineinschreibenDB;
 import model.Uploaddaten;
-import model.geordneteAusgabe;
+
 
 /**
  * Servlet implementation class DataTableServlet
@@ -219,11 +217,11 @@ public class DataTableServlet extends HttpServlet {
 		}
 
 		String antwort = "{\"draw\":"+draw+",\"recordsTotal\":"+anzahl +",\"recordsFiltered\":"+anzahl +",\"data\":[";
-		antwort += "{\"ID\":\""+"1"+"\",\"DateiTyp\":\""+"PDF"+"\",\"Name\":\""+"NAME"+"\",\"Autor\":\""+"AUTOR"+"\",\"UploadDatum\":\""+"FREITAG"+"\",\"DokumentDatum\":\""+"SAMSTAG"+"\",\"ZUGANG\":\""+"public"+"\"}";
+		//antwort += "{\"ID\":\""+"1"+"\",\"DateiTyp\":\""+"PDF"+"\",\"Name\":\""+"NAME"+"\",\"Autor\":\""+"AUTOR"+"\",\"UploadDatum\":\""+"FREITAG"+"\",\"DokumentDatum\":\""+"SAMSTAG"+"\",\"ZUGANG\":\""+"public"+"\"}";
 
 		for(int i=0;i<daten.size();i++)
 		{
-			antwort += "{\"DateiTyp\":\""+daten.get(i)[0]+"\",\"Name\":\""+daten.get(i)[1]+"\",\"Autor\":\""+daten.get(i)[2]+"\",\"UploadDatum\":\""+daten.get(i)[3]+"\",\"DokumentDatum\":\""+daten.get(i)[4]+"\",\"ZUGANG\":\""+daten.get(i)[5]+"\"}";
+			antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
 			if(i!=daten.size()-1)
 			{
 				antwort+=",";
