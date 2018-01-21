@@ -37,11 +37,16 @@ public class ResetPasswort extends HttpServlet {
 
 			if(pw.equals(pw2)) {
 				DBManager.PasswortNeuSetzen(username, pw);
+				
+				response.setContentType("text/plain");
+			    PrintWriter out = response.getWriter();
+			    out.print("pwok");
+			    
 			}
 			else {
 				response.setContentType("text/plain");
 			    PrintWriter out = response.getWriter();
-			    out.print("Passwoerter stimmen nicht ueberein");
+			    out.print("notsamesame");
 			}
 
 		}
