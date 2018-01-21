@@ -57,20 +57,20 @@ $(document).ready(function() {
 
 	$("#saveModal").on("hidden.bs.modal",function(){
 		console.log("modal hide");
-	})
+	});
 
 	$("#saveModal").on("shown.bs.modal",function(){
 		$("#modalinput").select();
-	})
+	});
 	
 
 	$("#modalinput").on("click", function () {
 		$(this).select();
-	})
+	});
 
 	$("#modalinputbutton").on("click",function(){
 		//modal WebElement - config finished, next step intregrating into Hauptseite
-	})
+	});
 
 	console.log("finished loading modalconfig.js");
 });

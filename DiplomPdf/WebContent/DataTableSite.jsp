@@ -56,7 +56,6 @@ request.setAttribute("user", "Testuser");
 
 	Dropzone.myDropzone = false;
 	var size = 1;
-	var name;
 	Dropzone.options.myDropzone = {
 
 		init : function() {
@@ -104,11 +103,11 @@ request.setAttribute("user", "Testuser");
 				overwrite = true;
 				sendfile();
 				$("#saveModal").modal("hide");
-			})
+			});
 			
 		$("#uploadModal").on("hidden.bs.modal",function(){
 			cleardropzone();
-		})
+		});
 
 			$("#modalinputbtn").on("click", function() {
 				console.log("filetogive");
@@ -169,11 +168,10 @@ request.setAttribute("user", "Testuser");
 		autoProcessQueue : false,
 		dictDefaultMessage : "Ziehe Dateien hierhin zum Hochladen",
 		dictFallbackMessage : "Dieser Browser wird leider nicht unterstützt",
-		dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "
-				+ size + " MB",
+		dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "+ size + " MB",
 		dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
 
-	}
+	};
 	
 
 	
@@ -232,10 +230,10 @@ request.setAttribute("user", "Testuser");
 		            	var text="";
 		            	switch(state){
 		            	case "public":
-		            		text = "<select class=\"privacy form-control fa\"><option value=\"public\" selected><i>&#xf0ac;</i> Public</option><option value=\"private\"> <i>&#xf023;</i> Private</option></select>"
+		            		text = "<select class=\"privacy form-control fa\"><option value=\"public\" selected><i>&#xf0ac;</i> Public</option><option value=\"private\"> <i>&#xf023;</i> Private</option></select>";
 		            		break;
 		            	case "private":
-		            		text = "<select class=\"privacy form-control fa\"><option value=\"public\"><i>&#xf0ac;</i> Public</option><option value=\"private\" selected><i>&#xf023;</i> Private</option></select>"
+		            		text = "<select class=\"privacy form-control fa\"><option value=\"public\"><i>&#xf0ac;</i> Public</option><option value=\"private\" selected><i>&#xf023;</i> Private</option></select>";
 		            		break;
 		            	default:
 		            		text="ERROR";
@@ -294,19 +292,19 @@ request.setAttribute("user", "Testuser");
 	        
 	        
 		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
-		        var input = $('#datatable2_wrapper .dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
-		           self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
+		        var input = $('#datatable2_wrapper .dataTables_filter input').off(); //Löscht alle existierenden Listener von der Inputbox
+		           self = this.api();			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
 		            $searchbutton = $('<button class=\"btn-success dttopbtn\" data-toggle=\"tooltip\" title =\"Suchen\">')	//erstellt ein Buttonobjekt
 		                       .html('<span class="glyphicon glyphicon-search"/>')		// Button - Text: Suchen
 		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
 		                        self.search(input.val()).draw();	//ruft die Search - Funktion des DataTables auf und aktualisiert
-		                       }),
+		                       });
 		            $deletebutton = $('<button class=\"btn-danger dttopbtn\"data-toggle=\"tooltip\" title =\"Löschen\">')	//erstellt ein Buttonobjekt
 		                       .html('<span class="glyphicon glyphicon-remove"></span>')		//Button - Text: Löschen
 		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
 		                          input.val('');	//Setzt den Input wieder leer
 		                          $searchbutton.click(); 	//Betätigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
-		                       }) 
+		                       }) ;
 		        $('#datatable2_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//Fügt beide Buttons zum DataTable hinzu
 		    },
             
@@ -371,10 +369,10 @@ request.setAttribute("user", "Testuser");
 	            	var text="";
 	            	switch(state){
 	            	case "public":
-	            		text = "<select class=\"privacy form-control fa\"><option value=\"public\" selected><i>&#xf0ac;</i> Public</option><option value=\"private\"><i>&#xf023;</i> Private</option></select>"
+	            		text = "<select class=\"privacy form-control fa\"><option value=\"public\" selected><i>&#xf0ac;</i> Public</option><option value=\"private\"><i>&#xf023;</i> Private</option></select>";
 	            		break;
 	            	case "private":
-	            		text = "<select class=\"privacy form-control fa\"><option value=\"public\"><i>&#xf0ac;</i> Public</option><option value=\"private\" selected><i>&#xf023;</i> Private</option></select>"
+	            		text = "<select class=\"privacy form-control fa\"><option value=\"public\"><i>&#xf0ac;</i> Public</option><option value=\"private\" selected><i>&#xf023;</i> Private</option></select>";
 	            		break;
 	            	default:
 	            		text="ERROR";
@@ -546,7 +544,7 @@ request.setAttribute("user", "Testuser");
 				break;
 			}
 			default:
-				data = "ERROR"
+				data = "ERROR";
 				break;
 			}
 
