@@ -52,7 +52,9 @@ public class DBManager {
 		//ranking2("Zwiebel");
 		//readDaten(conn);
 
-		autorASC(conn);
+		//autorASC(conn);
+		
+		PasswortNeuSetzen("Verena","mypassword");
 	}
 
 	public DBManager() throws InstantiationException, IllegalAccessException{
@@ -117,7 +119,7 @@ public class DBManager {
 			
 			for (int i = 1; i <=9; i++) {
 				if(i==1) entscheidungshilfe="normal";
-				//if(i==6) entscheidungshilfe="date";
+				if(i==6) entscheidungshilfe="date";
 				if(i==9) entscheidungshilfe="blob"; 
 					
 				
@@ -127,16 +129,16 @@ public class DBManager {
 					pstmt.setString(i, testzeile2[i-1]);
 					break;
 				}
-//				case "date" :{
-//					// dd-mm-yyyy
-//					// yyyy-mm-dd
-//					String[] datumsTeile = testzeile2[i-1].split("-");
-//					//Date datum=PDFmanager.getDatum(); 
-//					Date datum=	new Date(Integer.parseInt(datumsTeile[2]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[0]));
-//					System.out.println(datum);
-//					pstmt.setDate(i, datum);
-//					break;
-//				}
+				case "date" :{
+					// dd-mm-yyyy
+					// yyyy-mm-dd
+					String[] datumsTeile = testzeile2[i-1].split("-");
+					//Date datum=PDFmanager.getDatum(); 
+					Date datum=	new Date(Integer.parseInt(datumsTeile[2]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[0]));
+					System.out.println(datum);
+					pstmt.setDate(i, datum);
+					break;
+				}
 				case "blob" :{
 					System.out.print("Datei als Blob in DB speichern");
 					pstmt.setBinaryStream(9, fis, (int)filePart.getSize());
@@ -1039,6 +1041,26 @@ public class DBManager {
 		}
 	}
 
+	
+	public static boolean PasswortNeuSetzen(String username, String password)
+	{
+
+		String SQL="UPDATE benutzer set passwort ='"+password+"' WHERE benutzername = '"+username+"';";
+
+		try {
+
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			wert=false;
+		}
+
+		return wert;
+
+	}
 
 
 }
