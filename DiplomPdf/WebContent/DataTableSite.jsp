@@ -179,7 +179,7 @@ request.setAttribute("user", "Testuser");
 		
 		//aktiviert Tooltip
 	    $('[data-toggle="tooltip"]').tooltip(); 
-        
+  /*      
         var table2 = $("#datatable2").DataTable({
             "processing" : true,
 			"serverSide" : true,
@@ -309,7 +309,7 @@ request.setAttribute("user", "Testuser");
 		    },
             
             
-        });
+        }); */
         
 
 		var table = $('#datatable').DataTable({
@@ -629,35 +629,6 @@ request.setAttribute("user", "Testuser");
 			<div class="col-md-2 col-xs-0 col-lg-1"></div>
 		</div>
 
-		<div class="row">
-			<div class="col-xs-0 col-md-2 col-lg-1"></div>
-			<div class="col-xs-12 col-md-8 col-lg-10">
-				<h1 class="text-center">Zuletzt verwendet</h1>
-				<table id="datatable2" class="table table-striped table-bordered"
-					cellspacing="0" width="100%">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>DateiTyp</th>
-							<th>Name</th>
-							<th>Autor</th>
-							<th>UploadDatum</th>
-							<th>DokumentDatum</th>
-							<th>Zugang</th>
-							<th>Download</th>
-							<th>Delete</th>
-						</tr>
-
-					</thead>
-					<tbody>
-
-
-					</tbody>
-				</table>
-			</div>
-			<div class="col-xs-0 col-md-2 col-lg-1"></div>
-
-		</div>
 
 	</div>
 
