@@ -70,7 +70,7 @@ request.setAttribute("user", "Testuser");
 				$.getJSON("DateienListServlet", function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
 					var DokumentNamen = responseText;
 
-					console.log(DokumentNamen);
+					console.dir(DokumentNamen);
 					console.log(namedatei);
 					var vorhanden = $.inArray(namedatei, DokumentNamen);
 					console.log(vorhanden);

@@ -22,5 +22,57 @@ response.sendRedirect("Errorpage.jsp");
 <input type="submit" value="Change Password"> 
 
 </form>
+
+<!-- Modal -->
+<div id="statusModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Status</h4>
+      </div>
+      <div class="modal-body">
+        <p id="statustext"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+$.ajax({
+    type: 'POST',
+    url: 'ResetPasswort',
+    dataType: 'text/plain',
+    complete: function(data){
+       Console.log(data)
+       
+       switch(data){
+       case"pwok":
+    	   $("#statustext").text("Ihr Passwort wurde erfolgreich geändert!");
+    	   $("#statusModal").modal();
+    	   break;
+       case"notsamesame":
+    	   $("#statustext").text("Die Passwörter stimmen nicht überein!");
+    	   $("#statusModal").modal();
+    	   break;
+       default:
+    	   $("#statustext").text("Es gab einen Fehler mit Ihrer Anfrage.");
+		   $("#statusModal").modal();
+		   break;
+    	   
+       }
+    }
+ });
+
+</script>
+
+
 </body>
 </html>
