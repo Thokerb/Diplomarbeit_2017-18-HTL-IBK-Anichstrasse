@@ -114,7 +114,6 @@ public class RegisterServlet extends HttpServlet {
 //				out.println("<script type=\"text/javascript\">");  
 //				out.println("alert(' \"Achtung! Username oder Passwort sind nicht korrekt\"');");  
 //				out.println("</script>");
-
 				
 				System.out.println("Achtung es duerfen keine Sonderzeichen verwendet werden!");
 			}
