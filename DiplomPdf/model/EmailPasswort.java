@@ -30,30 +30,39 @@ public class EmailPasswort extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		final String username = "easypdf.help@gmail.com";
 		final String password = "htlanichstr";
-		
-		final String emailuser = "kerber.tom98@gmail.com ";
+
+		final String emailuser = "sari.hindelang@gmail.com ";
 
 		Properties props = new Properties();
 
-		props.put("mail.smtps.user","username"); 
-		props.put("mail.smtps.host", "smtp.gmail.com"); 
-		props.put("mail.smtps.port", "587"); 
+		props.put("mail.smtp.user","username"); 
+		props.put("mail.smtp.host", "smtp.gmail.com"); 
+		props.put("mail.smtp.port", "587"); 
 		props.put("mail.debug", "true"); 
-		props.put("mail.smtps.auth", "true"); 
-		props.put("mail.smtps.starttls.enable","true"); 
-		props.put("mail.smtps.EnableSSL.enable","true");
+		props.put("mail.smtp.auth", "true"); 
+		props.put("mail.smtp.starttls.enable","true"); 
+		props.put("mail.smtp.EnableSSL.enable","true");
 
-		Session session2 = Session.getInstance(props, new GMailAuthenticator(username, password));
+//		Session session2 = Session.getInstance(props, new GMailAuthenticator(username, password));
 
+		 Session session = Session.getDefaultInstance(props,
+		            new Authenticator() {
+		                protected PasswordAuthentication getPasswordAuthentication() {
+		                    return new PasswordAuthentication(username, password);
+		                }
+		            });
+
+		
+		
 		try {
 
-			Message message = new MimeMessage(session2);
+			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("easypdf.help@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("kerber.tom98@gmail.com")); //TODO email von antwort
+					InternetAddress.parse("sari.hindelang@gmail.com")); //TODO email von antwort
 			message.setSubject("Passwort zurücksetzen EasyPDF");
 			message.setText("Lieber EasyPDF Nutzer, um dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
 					+ "\n\n http://localhost:8080/DiplomPdf/Login.jsp"

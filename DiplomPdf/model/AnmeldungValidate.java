@@ -34,7 +34,7 @@ public class AnmeldungValidate {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("Connecting nicht erfolgreich");
+			System.out.println("Connecting not successful");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
