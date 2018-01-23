@@ -55,6 +55,7 @@ public class DownloadServlet extends HttpServlet {
 
 		String fileName = "";
 		String fileType = ""; //mehrere arten? 
+		byte[] buffer;
 
 		Connection conn=null;
 
@@ -66,7 +67,24 @@ public class DownloadServlet extends HttpServlet {
 
 		jobj = gsn.fromJson(antwort, JsonObject.class);
 		String idObj = jobj.get("ID").getAsString();
+		fileName = jobj.get("Name").getAsString();
 		System.out.println("ID: "+ idObj);
+		
+		try {
+			DBManager dbm = new DBManager();
+			Connection con = dbm.getConnection();
+			fileType = dbm.getDateiTyp(idObj,con);
+			buffer = dbm.getBlob(idObj,con);
+			
+			
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		switch(fileType){
 
 		case "PDF"  :{
@@ -93,54 +111,20 @@ public class DownloadServlet extends HttpServlet {
 		}
 
 
-
-		try {
-
-			//Verena:
-			DBManager db=new DBManager();
-			conn = db.getConnection();
-
-			//TODO den richtigen dateinamen angeben und inhalttext
-			//file?? header setzen des ausiflusehn
-
-
-			//			db.BLOBauslesen("dateinamen","inhalttext"); //TODO können diese Parameter auch so hergeholt werden für weiterverarbetiung? 
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			response.getWriter().print("SQL Error: " + ex.getMessage());
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} finally {
-			if (conn != null) {
-				// closes the database connection
-				try {
-					conn.close();
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-			}          
-		}
-
-
-
 		File my_file = new File(fileName); //dateinamen?  https://stackoverflow.com/questions/1442893/implementing-a-simple-file-download-servlet
 
 		OutputStream out = response.getOutputStream();
 		FileInputStream in = new FileInputStream(my_file);
-		//		byte[] buffer = db.BLOBauslesen("dateinamen","inhalttext");
-		//		byte[] buffer = db.getBLOB();;
-		//		int length;
-		//
-		//		while ((length = in.read(buffer)) > 0){
-		//			out.write(buffer, 0, length);
-		//		}
-		//
-		//		out.flush();
-		//		in.close();
 
+				int length;
+		
+				while ((length = in.read(buffer)) > 0){
+					out.write(buffer, 0, length);
+				}
+		
+				out.flush();
+				in.close();
+//out close ?
 
 		}
 

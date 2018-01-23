@@ -71,23 +71,23 @@
 	        if($("#pwinput").attr('type') == 'password'){
 	        	var input = $("#pwinput");
 	        	var pw = input.val();
-	        	input.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput\" placeholder=\"Passwort\" class=\"form-control\" value=\""+pw+"\" required>");
+	        	input.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput\" placeholder=\"Passwort\" data-minlength=\"8\" class=\"form-control\" value=\""+pw+"\" required>");
                 $(this).html("<span class=\"glyphicon glyphicon-eye-close\"></span>")
                 
                 var input2 = $("#pwinput2");
                 var pw2 = input2.val();
-	        	input2.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput2\" placeholder=\"Passwort wiederholen\" class=\"form-control\" value=\""+pw2+"\" required>");
+	        	input2.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput2\" placeholder=\"Passwort wiederholen\" class=\"form-control\" data-match=\"#pwinput\" data-match-error=\"Passwörter stimmen nicht überein\" value=\""+pw2+"\" required>");
      	     
 	        }
 	        else{
 	        	var input = $("#pwinput");
 	        	var pw = input.val();
-	        	input.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput\" class=\"form-control\" placeholder=\"Passwort\" value=\""+pw+"\" required>");
+	        	input.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput\" class=\"form-control\" data-minlength=\"8\" placeholder=\"Passwort\" value=\""+pw+"\" required>");
                                 $(this).html("<span class=\"glyphicon glyphicon-eye-open\"></span>");
                 
                 var input2 = $("#pwinput2");
                 var pw2 = input2.val();
-	        	input2.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput2\" class=\"form-control\" placeholder=\"Passwort wiederholen\" value=\""+pw2+"\" required>");
+	        	input2.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput2\" class=\"form-control\" placeholder=\"Passwort wiederholen\" data-match=\"#pwinput\" data-match-error=\"Passwörter stimmen nicht überein\" value=\""+pw2+"\" required>");
 	     	       }
 
 	          });
