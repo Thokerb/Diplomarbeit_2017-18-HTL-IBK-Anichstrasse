@@ -53,7 +53,7 @@ public class DBManager {
 		//readDaten(conn);
 
 		//autorASC(conn);
-		
+
 		PasswortNeuSetzen("Verena","mypassword");
 	}
 
@@ -103,10 +103,10 @@ public class DBManager {
 	 * @return
 	 */
 	public static boolean writeDaten(String[] testzeile2, Part filePart){
-		
+
 		InputStream fis;
 		String entscheidungshilfe=null;
-	
+
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
 		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
@@ -116,13 +116,13 @@ public class DBManager {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
 			fis = filePart.getInputStream();
-			
+
 			for (int i = 1; i <=9; i++) {
 				if(i==1) entscheidungshilfe="normal";
 				if(i==6) entscheidungshilfe="date";
 				if(i==9) entscheidungshilfe="blob"; 
-					
-				
+
+
 				switch(entscheidungshilfe)
 				{case "normal" :{
 					System.out.print("Dateiinformationen in DB speichern");
@@ -150,8 +150,8 @@ public class DBManager {
 					break;
 				}
 				}
-					//pstmt.setString(i, testzeile2[i-1]);
-			
+				//pstmt.setString(i, testzeile2[i-1]);
+
 				//System.out.println(" '" + testzeile2[i-1] + "'");
 			}
 			//pstmt.setDate(id, getSQLDate(lDate));
@@ -795,7 +795,7 @@ public class DBManager {
 
 			ResultSet result = pstmt.executeQuery();
 			result.next();
-			
+
 			//TODO verallgemeinern
 			fos = new FileOutputStream("C:/Users/veren/Downloads/\'"+dateiname+"\'");
 
@@ -1024,24 +1024,24 @@ public class DBManager {
 		}
 		return suchwoerter;
 	}
-	
-	
+
+
 	public void Datenlöschen(int id)
 	{
 		String SQL="delete  from uploaddaten where '"+id+"'";
-		
+
 		try {
 			conn=DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(SQL);
-			
-			
+
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	
+
 	public static boolean PasswortNeuSetzen(String username, String password)
 	{
 
@@ -1062,6 +1062,75 @@ public class DBManager {
 
 	}
 
+	public String getEmailByUser(String user) {
+		{
+			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
+			String SQL="select email from benutzer";
+			String email=null;
+
+			try {
+				PreparedStatement pstmt=conn.prepareStatement(SQL);
+				ResultSet rs=pstmt.executeQuery();
+				while(rs.next())
+				{
+					email=rs.getString(1);
+				}
+				rs.close(); rs=null;
+				pstmt.close(); pstmt=null;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return email;
+		}
+
+	}
+
+	public String getUserByEmail(String emailuser) {
+		ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
+		String SQL="select benutzername from benutzer";
+		String benutzername=null;
+
+		try {
+			PreparedStatement pstmt=conn.prepareStatement(SQL);
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next())
+			{
+				benutzername=rs.getString(1);
+			}
+			rs.close(); rs=null;
+			pstmt.close(); pstmt=null;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return benutzername;
+	}
+	
+	
+	public String getUser(String username) {
+		{
+			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
+			String SQL="select benutzername from benutzer where='"+username+"'";
+			String user=null;
+
+			try {
+				PreparedStatement pstmt=conn.prepareStatement(SQL);
+				ResultSet rs=pstmt.executeQuery();
+				while(rs.next())
+				{
+					user=rs.getString(1);
+				}
+				rs.close(); rs=null;
+				pstmt.close(); pstmt=null;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return user;
+		}
+
+	}
 
 }
 

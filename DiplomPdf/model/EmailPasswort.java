@@ -35,17 +35,19 @@ public class EmailPasswort extends HttpServlet {
 
 		final String username = "easypdf.help@gmail.com";
 		final String password = "htlanichstr";
-
-		String emailuser = "vatte99@gmail.com";
+		
 		try {
 			DBManager db = new DBManager();
-			//			String user = request.getParameter("username");
-			//		String email = request.getParameter("email");
-			//		String checkemail = db.getEmailByUser(user); muss noch geschrieben werden
-			//		String checkuser = db.getUserByEmail(email); muss noch geschrieben werden 
-			//		String getuser = db.getUser(user);
-			//		String getemail = db.getEmail(email);
+			String user = request.getParameter("username");
+			String emailuser = request.getParameter("email");
+			
+			String checkemail = db.getEmailByUser(user); 
+			String checkuser = db.getUserByEmail(emailuser);
+			String getuser = db.getUser(user);
+			String getemail = db.getEmail(email);
 
+			emailuser = "sari.hindelang@gmail.com";
+			
 		} catch (InstantiationException | IllegalAccessException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
