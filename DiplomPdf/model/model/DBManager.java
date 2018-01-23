@@ -54,7 +54,7 @@ public class DBManager {
 
 		//autorASC(conn);
 		
-		PasswortNeuSetzen("Verena","mypassword");
+		//PasswortNeuSetzen("Verena","mypassword1");
 	}
 
 	public DBManager() throws InstantiationException, IllegalAccessException{
@@ -102,14 +102,14 @@ public class DBManager {
 	 * @param testzeile2
 	 * @return
 	 */
-	public static boolean writeDaten(String[] testzeile2, Part filePart){
+	public static boolean writeDaten(String[] testzeile2, Part filePart, Date date){
 		
 		InputStream fis;
 		String entscheidungshilfe=null;
 	
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
-		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
+		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, uploaddatum, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)";
 
 		//connection Aufbau
 		try {
@@ -117,43 +117,54 @@ public class DBManager {
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
 			fis = filePart.getInputStream();
 			
-			for (int i = 1; i <=9; i++) {
-				if(i==1) entscheidungshilfe="normal";
-				if(i==6) entscheidungshilfe="date";
-				if(i==9) entscheidungshilfe="blob"; 
-					
-				
-				switch(entscheidungshilfe)
-				{case "normal" :{
-					System.out.print("Dateiinformationen in DB speichern");
-					pstmt.setString(i, testzeile2[i-1]);
-					break;
-				}
-				case "date" :{
-					// dd-mm-yyyy
-					// yyyy-mm-dd
-					String[] datumsTeile = testzeile2[i-1].split("-");
-					//Date datum=PDFmanager.getDatum(); 
-					Date datum=	new Date(Integer.parseInt(datumsTeile[2]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[0]));
-					System.out.println(datum);
-					pstmt.setDate(i, datum);
-					break;
-				}
-				case "blob" :{
-					System.out.print("Datei als Blob in DB speichern");
-					pstmt.setBinaryStream(9, fis, (int)filePart.getSize());
-					break;
-				}
-				default :{
-					System.out.println("Fehler ALARM");
-					//pstmt.setString(i, testzeile2[i-1]);
-					break;
-				}
-				}
+			pstmt.setString(1, testzeile2[0]);
+			pstmt.setString(2, testzeile2[1]);
+			pstmt.setString(3, testzeile2[2]);
+			pstmt.setString(4, testzeile2[3]);
+			pstmt.setString(5, testzeile2[4]);
+			pstmt.setString(6, testzeile2[5]);
+			pstmt.setString(7, testzeile2[6]);
+			pstmt.setString(8, "private");			
+			pstmt.setDate(9, date);
+			pstmt.setBinaryStream(10, fis, (int)filePart.getSize());
+			
+//			for (int i = 1; i <=9; i++) {
+//				if(i==1) entscheidungshilfe="normal";
+//				if(i==6) entscheidungshilfe="date";
+//				if(i==9) entscheidungshilfe="blob"; 
+//					
+//				
+//				switch(entscheidungshilfe)
+//				{case "normal" :{
+//					System.out.print("Dateiinformationen in DB speichern");
+//					pstmt.setString(i, testzeile2[i-1]);
+//					break;
+//				}
+//				case "date" :{
+//					// dd-mm-yyyy
+//					// yyyy-mm-dd
+//					String[] datumsTeile = testzeile2[i-1].split("-");
+//					//Date datum=PDFmanager.getDatum(); 
+//					Date datum=	new Date(Integer.parseInt(datumsTeile[2]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[0]));
+//					System.out.println(datum);
+//					pstmt.setDate(i, datum);
+//					break;
+//				}
+//				case "blob" :{
+//					System.out.print("Datei als Blob in DB speichern");
+//					pstmt.setBinaryStream(9, fis, (int)filePart.getSize());
+//					break;
+//				}
+//				default :{
+//					System.out.println("Fehler ALARM");
+//					//pstmt.setString(i, testzeile2[i-1]);
+//					break;
+//				}
+//				}
 					//pstmt.setString(i, testzeile2[i-1]);
 			
 				//System.out.println(" '" + testzeile2[i-1] + "'");
-			}
+//			}
 			//pstmt.setDate(id, getSQLDate(lDate));
 			pstmt.executeUpdate();
 
@@ -371,6 +382,10 @@ public class DBManager {
 				String[] zeile = new String[10];
 				System.out.print("Gelesen wurde: ");
 				for (int i = 0; i < 7; i++) {
+//					if(i==5)
+//					{
+//						zeile[i] = rs.getInt(i+1);
+//					}
 					zeile[i] = rs.getString(i+1);
 					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
 				}
@@ -538,7 +553,7 @@ public class DBManager {
 
 	}
 
-	public static int AnzahlEinträge(Connection conn)
+	public int AnzahlEinträge(Connection conn)
 	{
 		String SQL="select count(uploadid) from uploaddaten";
 
@@ -675,6 +690,7 @@ public class DBManager {
 		return relevanz;
 	}
 
+	//TODO verwendetetags Joinen
 	public static ArrayList<String[]> ranking2(String wort) {
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//Tabellenzeilen aus Datenbank einlesen
@@ -712,42 +728,42 @@ public class DBManager {
 		return daten;
 	}
 
-	public static void Blobeinfuegen2()
-	{
-		String name="HalloPDF";
-		//File file = new File ((Knackquiz.class.getResource("/view/KnackQuizTransparent.png")));
-		//File file = new File("\\What\\src\\is\\bild.jpg");
-		Path path = FileSystems.getDefault().getPath("bilder", "Hallo.pdf");
-		File file=path.toFile();
-		//File file = new File(getCacheDirectory() + "\\results.txt");
-
-		//	String INSERT_DATA_SQL="INSERT INTO bilder VALUES (?, ?)";
-		String INSERT_DATA_SQL="UPDATE bilder set bild =? WHERE name = '"+name+"'";
-		try {
-
-			FileInputStream fis= new FileInputStream(file);
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
-			fis = new FileInputStream(file);
-			//pstmt = conn.prepareStatement("INSERT INTO bilder VALUES (?, ?)");
-			//pstmt.setString(2, "HalloPDF");
-			pstmt.setBinaryStream(1, fis, (int)file.length());
-			pstmt.executeUpdate();
-
-			pstmt.close();
-			fis.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		System.out.println("Daten in Datenbank gepeichert.");
-	}
+//	public static void Blobeinfuegen2()
+//	{
+//		String name="HalloPDF";
+//		//File file = new File ((Knackquiz.class.getResource("/view/KnackQuizTransparent.png")));
+//		//File file = new File("\\What\\src\\is\\bild.jpg");
+//		Path path = FileSystems.getDefault().getPath("bilder", "Hallo.pdf");
+//		File file=path.toFile();
+//		//File file = new File(getCacheDirectory() + "\\results.txt");
+//
+//		//	String INSERT_DATA_SQL="INSERT INTO bilder VALUES (?, ?)";
+//		String INSERT_DATA_SQL="UPDATE bilder set bild =? WHERE name = '"+name+"'";
+//		try {
+//
+//			FileInputStream fis= new FileInputStream(file);
+//			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+//			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
+//			fis = new FileInputStream(file);
+//			//pstmt = conn.prepareStatement("INSERT INTO bilder VALUES (?, ?)");
+//			//pstmt.setString(2, "HalloPDF");
+//			pstmt.setBinaryStream(1, fis, (int)file.length());
+//			pstmt.executeUpdate();
+//
+//			pstmt.close();
+//			fis.close();
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}catch (SQLException e) {
+//			e.printStackTrace();
+//		}catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		System.out.println("Daten in Datenbank gepeichert.");
+//	}
 
 	public static void Blobeinfuegen(Part filePart,String text)
 	{
@@ -757,7 +773,7 @@ public class DBManager {
 
 
 		//String INSERT_DATA_SQL="INSERT INTO uploaddaten (blobdatei) VALUES (?)";
-		String INSERT_DATA_SQL="UPDATE uploaddaten set blobdatei =? WHERE stichworttext = '"+text+"'";
+		String INSERT_DATA_SQL="UPDATE uploaddaten set blobdatei =? WHERE inhalttext = '"+text+"'";
 		try {
 
 			InputStream fis = filePart.getInputStream();
@@ -783,24 +799,25 @@ public class DBManager {
 	}
 
 
-	public static void BLOBauslesen(String dateiname,String inhalttext)
+	public byte[] BLOBauslesen(String dateiname,int id)
 	{
 		FileOutputStream fos = null;
+		byte[] buf=null;
 		try {
 
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-			String query = "SELECT blobdatei, LENGTH(blobdatei) FROM uploaddaten WHERE inhalttext = \'"+inhalttext+"\'";
+			String query = "SELECT blobdatei, LENGTH(blobdatei) FROM uploaddaten WHERE inhalttext = \'"+id+"\'";
 			pstmt = conn.prepareStatement(query);
 
 			ResultSet result = pstmt.executeQuery();
 			result.next();
 
 			//TODO verallgemeinern
-			fos = new FileOutputStream("C:/Users/veren/Downloads/\'"+dateiname+"\'");
+			//fos = new FileOutputStream("C:/Users/veren/Downloads/\'"+dateiname+"\'");
 
 			int len = result.getInt(2);
-			byte[] buf = result.getBytes("bild");
+			buf = result.getBytes("bild");
 			fos.write(buf, 0, len);
 
 			//          String pfad = "C:/Temp";
@@ -812,7 +829,8 @@ public class DBManager {
 			ex.printStackTrace();
 
 
-		} 
+		}
+		return buf; 
 
 	}
 
@@ -1028,12 +1046,12 @@ public class DBManager {
 	
 	public void Datenlöschen(int id)
 	{
-		String SQL="delete  from uploaddaten where '"+id+"'";
+		String SQL="delete from uploaddaten where '"+id+"'";
 		
 		try {
 			conn=DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(SQL);
-			
+			pstmt.executeUpdate(SQL);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1042,7 +1060,7 @@ public class DBManager {
 	}
 
 	
-	public static boolean PasswortNeuSetzen(String username, String password)
+	public static void PasswortNeuSetzen(String username, String password)
 	{
 
 		String SQL="UPDATE benutzer set passwort ='"+password+"' WHERE benutzername = '"+username+"';";
@@ -1058,10 +1076,41 @@ public class DBManager {
 			wert=false;
 		}
 
-		return wert;
 
 	}
 
+	public String[] Dateiname(Connection conn)
+	{
+		
+		String SQL="select dateiname from uploaddaten;";
+		int anzahl=AnzahlEinträge(conn);
+		String[] spalten = new String[anzahl];
+		
+		try {
+			conn=DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt=conn.prepareStatement(SQL);
+			rs = pstmt.executeQuery();
+
+			int counter=0;
+			while (rs.next()) {
+				
+				
+				System.out.print("Gelesen wurde: ");
+				spalten[counter] = rs.getString(1);
+				counter++;
+			}
+
+			rs.close(); rs=null;
+			pstmt.close(); pstmt=null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return spalten;
+		
+	}
+	
+	
 
 }
 

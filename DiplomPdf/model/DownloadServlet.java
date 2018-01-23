@@ -67,8 +67,8 @@ public class DownloadServlet extends HttpServlet {
 	        	DBManager db=new DBManager();
 	        	conn=db.getConnection();
 	        	
-	        	//TODO den richtigen dateinamen angeben und inhalttext
-				db.BLOBauslesen("dateinamen","inhalttext");
+	        	//TODO den richtigen dateinamen und uploadid angeben
+				db.BLOBauslesen("Hallo.pdf",39);
 	        	
 	        	
 	        	
