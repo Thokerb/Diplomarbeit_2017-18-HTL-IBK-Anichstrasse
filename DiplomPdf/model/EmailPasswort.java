@@ -41,7 +41,6 @@ public class EmailPasswort extends HttpServlet {
 		
 		try {
 			DBManager db = new DBManager();
-			user = request.getParameter("username");
 			emailuser = request.getParameter("email");
 			
 //			String checkEMail = db.getEmailByUser(user); 
@@ -49,9 +48,13 @@ public class EmailPasswort extends HttpServlet {
 //			String getUser = db.getUser(user);
 //			String getEMail = db.getEmail(emailuser);
 
-			emailuser = "sari.hindelang@gmail.com";
+			//emailuser = "sari.hindelang@gmail.com";
 			
-	
+			TokenGenerator tg = new TokenGenerator();
+			String authcode = tg.generateCode();
+			
+			DBManager dbm = new DBManager();
+			dbm.saveHash(authcode,emailuser);
 	
 		response.setContentType("text/html");
 
@@ -90,6 +93,7 @@ public class EmailPasswort extends HttpServlet {
 			message.setSubject("Passwort zurücksetzen EasyPDF");
 			message.setText("Lieber EasyPDF Nutzer, um dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
 					+ "\n\n http://localhost:8080/DiplomPdf/Login.jsp"
+					+"\n\n Hier klicken für Reset: CheckReset?authcode="+authcode
 					+"\n\n  Viel Spaß bei der weiteren Nutzung von EasyPDF wünscht das TEAM: "
 					+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang"); //TODO noch ändern in JSP PWzuruck
 

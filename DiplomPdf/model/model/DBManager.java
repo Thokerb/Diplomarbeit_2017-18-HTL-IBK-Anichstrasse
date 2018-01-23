@@ -313,7 +313,7 @@ public class DBManager {
 		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, tag, uploaddatum, status from uploaddaten order by Autor ASC";
+		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by Autor ASC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -376,7 +376,7 @@ public class DBManager {
 		ArrayList<String[]> DatennachAutorDESC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORDESC="select uploadid, dateityp, dateiname, autor, tag, uploaddatum, status from uploaddaten order by Autor DESC";
+		String READ_DATEN_AUTORDESC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by Autor DESC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -425,7 +425,7 @@ public class DBManager {
 		ArrayList<String[]> DatenuploaddatumASC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_UPLOADDATUMASC="select uploadid, dateityp, dateiname, autor, tag, uploaddatum, status from uploaddaten order by uploaddatum ASC";
+		String READ_DATEN_UPLOADDATUMASC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by uploaddatum ASC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -461,7 +461,7 @@ public class DBManager {
 		ArrayList<String[]> DatenUploaddatumDESC = new ArrayList<String[]>();
 		//ArrayList<String> list = new ArrayList<String>();
 		//SQL-Abfrage
-		String READ_DATEN_UPLOADDATUMDESC="select uploadid, dateityp, dateiname, autor, tag, uploaddatum, stauts from uploaddaten order by uploaddatum DESC";
+		String READ_DATEN_UPLOADDATUMDESC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, stauts from uploaddaten order by uploaddatum DESC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -495,7 +495,7 @@ public class DBManager {
 		ArrayList<String[]> DatennachDateinameASC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_DATEINAMEASC="select uploadid, dateityp, dateiname, autor, tag, uploaddatum, status from uploaddaten order by dateiname ASC";
+		String READ_DATEN_DATEINAMEASC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by dateiname ASC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -530,7 +530,7 @@ public class DBManager {
 		ArrayList<String[]> DatennachDateinameDESC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_DATEINAMEDESC="select uploadid, dateityp, dateiname, autor, tag, uploaddatum, status from uploaddaten order by dateiname DESC";
+		String READ_DATEN_DATEINAMEDESC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by dateiname DESC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -1237,6 +1237,61 @@ public class DBManager {
 
 	}
 	
+
+	public void saveHash(String authcode, String emailuser) {
+
+		String Insert_Hash="UPDATE benutzer set authcode ='"+authcode+"' WHERE email ='"+emailuser+"';";
+
+		//connection Aufbau
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(Insert_Hash);
+			pstmt.executeUpdate();
+			conn.close();
+			pstmt.close();
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+
+	public static boolean CodeCheck(String hashcode)
+	{
+		// TODO Auto-generated method stub
+		
+		List<String> vorhandeneHash = new ArrayList<String>();
+
+		//SQL-Abfrage
+		String ReadHash="select authcode from benutzer;";
+
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(ReadHash);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				String code = rs.getString(1);
+				System.out.println(code);
+				vorhandeneHash.add(code);
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		for(int i = 0;i<= vorhandeneHash.size();i++){
+			System.out.println(vorhandeneHash.get(i));
+		}
+
+		if(vorhandeneHash.contains(hashcode)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 
 
 

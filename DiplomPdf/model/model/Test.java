@@ -75,7 +75,7 @@ public class Test {
 //			e.printStackTrace();
 //		}
 		
-		GregorianCalendar now = new GregorianCalendar(); 
+//		GregorianCalendar now = new GregorianCalendar(); 
 //		
 //		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
 //		System.out.println("Datum vom Typ Calender");
@@ -96,10 +96,10 @@ public class Test {
 		
 		
 		
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-		 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	     d = formatter.format(now);
-	     System.out.println(d);
+//		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+//		 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//	     d = formatter.format(now);
+//	     System.out.println(d);
 	     
 //		d = format1.format(now);
 //		System.out.println(d);
@@ -115,6 +115,9 @@ public class Test {
 //		Date datum=PDFmanager.getDatum(); 
 //		Date datum=	new Date(Integer.parseInt(datumsTeile[2]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[0]));
 //		System.out.println(datum);
+		
+		
+		Date date =  calendar.getTime();
 
 	}
 	

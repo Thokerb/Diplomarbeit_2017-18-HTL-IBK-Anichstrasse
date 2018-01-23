@@ -7,7 +7,7 @@ public class PDFboxLesen {
 	public static void main(String[] args) throws IOException { 
 	
 		PDFmanager pdfM = new PDFmanager();
-		pdfM.setFilePath("C:\\Users\\Sara\\Desktop\\UFW-P.pdf");
+		pdfM.setFilePath("D:\\Diplomarbeit\\TestPDFs\\Allgemeines.pdf");
 		text = pdfM.pdfToText();
 		PDFmanager.getInfoPDF();
 

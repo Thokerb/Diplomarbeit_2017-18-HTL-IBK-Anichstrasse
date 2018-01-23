@@ -16,7 +16,7 @@ response.sendRedirect("Errorpage.jsp");
 <body>
 <h1>Willkommen auf der RESET PASSWORT SEITE</h1>
 
-<form>
+<form action="ResetPassword" method="post">
 <input type = "text" name="password">
 <input type = "text" name="password2">
 <input type="submit" value="Change Password"> 
