@@ -1231,43 +1231,32 @@ public class DBManager {
 
 	}
 	
-	public static boolean CodeCheck()
-	{
-		boolean erfolg = false;
-		return erfolg;
-		
-	}
-
-	public static String getBenutzerviaHashcode(String hashcode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public void saveHash(String authcode, String emailuser) {
-		
-		String Insert_Hash = "INSERT INTO benutzer (AuthCode) VALUES (?) Where email='"+emailuser+"';";
+
+		String Insert_Hash="UPDATE benutzer set authcode ='"+authcode+"' WHERE email ='"+emailuser+"';";
 
 		//connection Aufbau
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(Insert_Hash);
-			pstmt.setString(1, authcode);
 			pstmt.executeUpdate();
+			conn.close();
+			pstmt.close();
 		}
 		catch (Exception e) {
 			// TODO: handle exception
 		}
-		
 		
 	}
 
 	public static boolean CodeCheck(String hashcode) {
 		// TODO Auto-generated method stub
 		
-		ArrayList<String> vorhandeneHash = new ArrayList<String>();
+		List<String> vorhandeneHash = new ArrayList<String>();
 
 		//SQL-Abfrage
-		String ReadHash="select AuthCode from benutzer";
+		String ReadHash="select authcode from benutzer;";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -1276,11 +1265,17 @@ public class DBManager {
 			while(rs.next())
 			{
 				String code = rs.getString(1);
+				System.out.println(code);
 				vorhandeneHash.add(code);
 			}
 		}
 		catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		for(int i = 0;i<= vorhandeneHash.size();i++){
+			System.out.println(vorhandeneHash.get(i));
 		}
 
 		if(vorhandeneHash.contains(hashcode)){
