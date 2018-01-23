@@ -169,7 +169,7 @@ request.setAttribute("user", "Testuser");
 		dictDefaultMessage : "Ziehe Dateien hierhin zum Hochladen",
 		dictFallbackMessage : "Dieser Browser wird leider nicht unterstützt",
 		dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "+ size + " MB",
-		dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF, DOC, DOCX & TXT -Dateien unterstützt"
+		dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
 
 	};
 	

@@ -95,9 +95,9 @@ public class DataTableServlet extends HttpServlet {
 
 		//sortierparameter muss Spalte+ASC oder DESC sein
 		
-
-
-
+		
+		
+		
 		Connection conn=null;
 		List<Uploaddaten> list = null;
 
@@ -109,6 +109,11 @@ public class DataTableServlet extends HttpServlet {
 			conn=db.getConnection();
 
 			//list = db.readDaten(conn);
+			
+			if(search!=null&&!search.isEmpty())
+			{
+				sortierparameter="suchwort";
+			}
 			
 			switch(sortierparameter){
 
@@ -185,9 +190,11 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "suchwort" :{
+				System.out.println("Suchwortsuche aktiv");
 				daten=db.ranking2(search);
 				for(int i=0;i<daten.size();i++)
 				{
+					System.out.println("Suchwortsuche aktiv");
 					System.out.println(daten.get(i)[1]);
 				}
 				break;

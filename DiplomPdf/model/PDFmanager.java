@@ -1,6 +1,7 @@
 import java.io.File;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,7 +24,7 @@ public class PDFmanager {
 
 	private String Text ;
 	private static String autor ;
-	private static String date ;
+	private static Date date ;
 	private static String d ;
 	private String filePath;
 	private File file;
@@ -31,11 +32,17 @@ public class PDFmanager {
 
 	public PDFmanager() {}
 
-	private String convDatum(Calendar cal){
+	private Date convDatum(Calendar cal){
 
+		
 		SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
 		String pD = d.format(cal.getTime());
-		return pD;
+		
+		String[] datumsTeile = pD.split("-");
+		//Date datum=PDFmanager.getDatum(); 
+		Date datum=	new Date(Integer.parseInt(datumsTeile[0]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[2]));
+		
+		return datum;
 	}
 
 	public String pdfToText() throws IOException {
@@ -91,7 +98,7 @@ public class PDFmanager {
 		return autor; 
 	}
 	
-	public static String getDatum(){ 
+	public static Date getDatum(){ 
 		return date; 
 	}
 

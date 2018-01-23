@@ -73,16 +73,15 @@ public class UploadServlet extends HttpServlet {
 				daten[2]=PDFmanager.getAutor();
 				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
 				daten[4]=dateiname;
-				daten[5]=PDFmanager.getDatum(); //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
+				daten[5]=stichworttext; //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
 				//PDFmanager.convDatum(daten[5);]
-				daten[6]=stichworttext;
-				daten[7]=dateityp;
+				daten[6]=dateityp;
 
 				for(String s : daten) {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(daten,filePart);
+				DBManager.writeDaten(daten,filePart,PDFmanager.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);
@@ -114,7 +113,39 @@ public class UploadServlet extends HttpServlet {
 			DocLesen.lesenDoc("C://Temp//"+dateiname);
 //			. getAutor() -- String -  .getDatum() -- String - für Infos verwenden
 
-			//TODO in Datenbank speichern
+			//TODO alles ausbessern
+			try {
+				DBManager dbm=new DBManager();
+				Connection conn1=dbm.getConnection();
+				String stichworttext=dbm.Stichtextgenerator("inhalttext");
+				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
+				String[] daten =new String[8];
+				daten[0]="tag";
+				daten[1]="inhalttext";
+				daten[2]=PDFmanager.getAutor();
+				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
+				daten[4]=dateiname;
+				daten[5]=stichworttext; //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
+				//PDFmanager.convDatum(daten[5);]
+				daten[6]=dateityp;
+
+				for(String s : daten) {
+					System.out.print("Gelesen wurde: ");
+					System.out.println(s);
+				}
+				DBManager.writeDaten(daten,filePart,PDFmanager.getDatum());
+				//DBManager.Blobeinfuegen(filePart,stichworttext);
+				
+				dbm.releaseConnection(conn1);
+				System.out.println("inhalttext");
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+
 
 			System.out.println("Doc - Datei wurde in Text umgewandelt -> Weitergeben an DB");
 			break; 
@@ -125,7 +156,38 @@ public class UploadServlet extends HttpServlet {
 			DocxLesen.lesenDocx("C://Temp//"+dateiname);
 //			. getAutor() -- String -  .getDatum() -- String - für Infos verwenden
 
-			//TODO in Datenbank speichern
+			//TODO alles ausbessern
+			try {
+				DBManager dbm=new DBManager();
+				Connection conn1=dbm.getConnection();
+				String stichworttext=dbm.Stichtextgenerator("inhalttext");
+				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
+				String[] daten =new String[8];
+				daten[0]="tag";
+				daten[1]="inhalttext";
+				daten[2]=PDFmanager.getAutor();
+				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
+				daten[4]=dateiname;
+				daten[5]=stichworttext; //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
+				//PDFmanager.convDatum(daten[5);]
+				daten[6]=dateityp;
+
+				for(String s : daten) {
+					System.out.print("Gelesen wurde: ");
+					System.out.println(s);
+				}
+				DBManager.writeDaten(daten,filePart,PDFmanager.getDatum());
+				//DBManager.Blobeinfuegen(filePart,stichworttext);
+				
+				dbm.releaseConnection(conn1);
+				System.out.println("inhalttext");
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
 
 			System.out.println("Docx - Datei wurde in Text umgewandelt -> Weitergeben an DB");
 			break; 
