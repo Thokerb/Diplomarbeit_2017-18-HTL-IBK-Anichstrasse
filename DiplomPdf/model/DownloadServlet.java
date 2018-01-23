@@ -177,7 +177,7 @@ public class DownloadServlet extends HttpServlet {
 		}
 		
 	    response.setContentType("application/octet-stream");
-	    response.setHeader("Content-Disposition","attachment;filename=Allgemeines.pdf");
+	    response.setHeader("Content-Disposition","attachment;filename=Allgemeinesh.pdf");
 	    System.out.println("fick"+byteData);
 	    ServletOutputStream out = response.getOutputStream();
 	    out.write(byteData);
