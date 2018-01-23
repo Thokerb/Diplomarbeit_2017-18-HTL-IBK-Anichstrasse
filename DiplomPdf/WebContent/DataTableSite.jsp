@@ -475,11 +475,15 @@ request.setAttribute("user", "Testuser");
             
 			var sourcetable = getTableRow($(this));
 	 
-		     	var xhttp = new XMLHttpRequest();
 			
-	     	xhttp.open("POST", "DownloadServlet", true);
-	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	    	xhttp.send("download="+sourcetable);
+			window.location="DownloadServlet?download="+sourcetable;
+			
+			
+		  //   	var xhttp = new XMLHttpRequest();
+			
+	     //	xhttp.open("POST", "DownloadServlet", true);
+	    //	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    //	xhttp.send("download="+sourcetable);
 	         
 
 	    	
@@ -490,11 +494,11 @@ request.setAttribute("user", "Testuser");
 	    
 	    $(".table tbody").on("click",".deletebutton",function(){
 			var sourcetable = getTableRow($(this));
-  	        var str = JSON.stringify(data);
+  	    //    var str = JSON.stringify(data);
 	     	var xhttp = new XMLHttpRequest();
 	    	xhttp.open("POST","DeleteServlet",true);
 	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	    	xhttp.send("todelete="+str+sourcetable);
+	    	xhttp.send("todelete="+sourcetable);
 	    	refreshtables();
 	    });
 		
