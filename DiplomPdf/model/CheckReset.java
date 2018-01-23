@@ -30,6 +30,8 @@ public class CheckReset extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		doPost(request, response);
+
 	}
 
 	/**
@@ -37,26 +39,49 @@ public class CheckReset extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("CheckReset called");
 		String Hashcode = request.getParameter("authcode");
-		
+		System.out.println("empf code:"+Hashcode);
 		//TODO check datenbank auf Code
-		boolean check =DBManager.CodeCheck();
+		Boolean check = false;
+		DBManager dbm = null;
+		try {
+			dbm = new DBManager();
+			 check = dbm.CodeCheck(Hashcode);
+
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(check);
+
 		if(check){
-			HttpSession session = request.getSession();
+			System.out.println("isch okey");
+			HttpSession session = request.getSession(true);
 			session.setAttribute("authcode", Hashcode);
 			
+			String user = "";
+			try{
+				user = dbm.getUserbyHash(Hashcode);
+			}
+			catch (Exception e) {
+				// TODO: handle exception
+			}
+			session.setAttribute("username", user);
+			
+			
 			//TODO von Datenbank Benutzernamen bekommen
-			String username = DBManager.getBenutzerviaHashcode(Hashcode);
+			session.setAttribute("hashcodeverified", "yes");
+
+			response.sendRedirect("NewPassword.jsp");
 			
-			session.setAttribute("username", username);
-			
-			response.sendRedirect("localhost:8080/DiplomPdf/NewPassword.jsp");
-			
-			session.setAttribute("hashcodeverified", true);
 
 		}
 		else{
-			
+			response.sendRedirect("ErrorPage.html");
 		}
 		
 	}

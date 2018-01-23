@@ -20,5 +20,9 @@ public class TokenGenerator {
     	}
     	return code;
     }
+    
+    public String generateCode(){
+    	return generateCode(20);
+    }
 
 }

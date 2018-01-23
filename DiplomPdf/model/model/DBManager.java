@@ -55,6 +55,8 @@ public class DBManager {
 		//autorASC(conn);
 
 		//PasswortNeuSetzen("Verena","mypassword1");
+		
+		//writeDaten(String[] testzeile2, Part filePart, Date date)
 	}
 
 	public DBManager() throws InstantiationException, IllegalAccessException{
@@ -109,8 +111,11 @@ public class DBManager {
 
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
-		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, uploaddatum, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
 
+		Date datum = new Date(2018, 04, 03);
+		System.out.println(datum);
+		
 		//connection Aufbau
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -124,9 +129,10 @@ public class DBManager {
 			pstmt.setString(5, testzeile2[4]);
 			pstmt.setString(6, testzeile2[5]);
 			pstmt.setString(7, testzeile2[6]);
-			pstmt.setString(8, "private");			
-			pstmt.setDate(9, date);
-			pstmt.setBinaryStream(10, fis, (int)filePart.getSize());
+			pstmt.setString(8, "private");
+			pstmt.setDate(9, datum);
+			pstmt.setDate(10, date);
+			pstmt.setBinaryStream(11, fis, (int)filePart.getSize());
 
 			//			for (int i = 1; i <=9; i++) {
 			//				if(i==1) entscheidungshilfe="normal";
@@ -307,7 +313,7 @@ public class DBManager {
 		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, tag, uploaddatum, status from uploaddaten order by Autor ASC";
+		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by Autor ASC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -370,7 +376,7 @@ public class DBManager {
 		ArrayList<String[]> DatennachAutorDESC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORDESC="select uploadid, dateityp, dateiname, autor, tag, uploaddatum, status from uploaddaten order by Autor DESC";
+		String READ_DATEN_AUTORDESC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by Autor DESC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -419,7 +425,7 @@ public class DBManager {
 		ArrayList<String[]> DatenuploaddatumASC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_UPLOADDATUMASC="select uploadid, dateityp, dateiname, autor, tag, uploaddatum, status from uploaddaten order by uploaddatum ASC";
+		String READ_DATEN_UPLOADDATUMASC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by uploaddatum ASC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -455,7 +461,7 @@ public class DBManager {
 		ArrayList<String[]> DatenUploaddatumDESC = new ArrayList<String[]>();
 		//ArrayList<String> list = new ArrayList<String>();
 		//SQL-Abfrage
-		String READ_DATEN_UPLOADDATUMDESC="select uploadid, dateityp, dateiname, autor, tag, uploaddatum, stauts from uploaddaten order by uploaddatum DESC";
+		String READ_DATEN_UPLOADDATUMDESC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, stauts from uploaddaten order by uploaddatum DESC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -489,7 +495,7 @@ public class DBManager {
 		ArrayList<String[]> DatennachDateinameASC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_DATEINAMEASC="select uploadid, dateityp, dateiname, autor, tag, uploaddatum, status from uploaddaten order by dateiname ASC";
+		String READ_DATEN_DATEINAMEASC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by dateiname ASC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -524,7 +530,7 @@ public class DBManager {
 		ArrayList<String[]> DatennachDateinameDESC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_DATEINAMEDESC="select uploadid, dateityp, dateiname, autor, tag, uploaddatum, status from uploaddaten order by dateiname DESC";
+		String READ_DATEN_DATEINAMEDESC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by dateiname DESC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -1231,16 +1237,80 @@ public class DBManager {
 
 	}
 	
-	public static boolean CodeCheck()
-	{
-		boolean erfolg = false;
-		return erfolg;
+
+	public void saveHash(String authcode, String emailuser) {
+
+		String Insert_Hash="UPDATE benutzer set authcode ='"+authcode+"' WHERE email ='"+emailuser+"';";
+
+		//connection Aufbau
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(Insert_Hash);
+			pstmt.executeUpdate();
+			conn.close();
+			pstmt.close();
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 	}
 
-	public static String getBenutzerviaHashcode(String hashcode) {
+
+
+	public  boolean CodeCheck(String hashcode) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		List<String> vorhandeneHash = new ArrayList<String>();
+
+		//SQL-Abfrage
+		String ReadHash="select authcode from benutzer;";
+
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(ReadHash);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				String code = rs.getString(1);
+				System.out.println(code);
+				vorhandeneHash.add(code);
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+		if(vorhandeneHash.contains(hashcode)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public String getUserbyHash(String hashcode) {
+		
+		//SQL-Abfrage
+		String ReadUserbyHash="select benutzername from benutzer where authcode ='"+hashcode+"';";
+		String user = "";
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(ReadUserbyHash);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				 user = rs.getString(1);
+
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		// TODO Auto-generated method stub
+		return user;
 	}
 
 
