@@ -1256,8 +1256,9 @@ public class DBManager {
 		
 	}
 
-	public static boolean CodeCheck(String hashcode)
-	{
+
+
+	public  boolean CodeCheck(String hashcode) {
 		// TODO Auto-generated method stub
 		
 		List<String> vorhandeneHash = new ArrayList<String>();
@@ -1280,10 +1281,6 @@ public class DBManager {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
-		for(int i = 0;i<= vorhandeneHash.size();i++){
-			System.out.println(vorhandeneHash.get(i));
-		}
 
 		if(vorhandeneHash.contains(hashcode)){
 			return true;
@@ -1291,6 +1288,29 @@ public class DBManager {
 		else{
 			return false;
 		}
+	}
+
+	public String getUserbyHash(String hashcode) {
+		
+		//SQL-Abfrage
+		String ReadUserbyHash="select benutzername from benutzer where authcode ='"+hashcode+"';";
+		String user = "";
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(ReadUserbyHash);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				 user = rs.getString(1);
+
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		// TODO Auto-generated method stub
+		return user;
 	}
 
 
