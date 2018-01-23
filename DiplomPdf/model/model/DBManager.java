@@ -132,8 +132,8 @@ public class DBManager {
 				case "date" :{
 					// dd-mm-yyyy
 					// yyyy-mm-dd
-					String[] datumsTeile = testzeile2[i-1].split("-");
 					//Date datum=PDFmanager.getDatum(); 
+					String[] datumsTeile = testzeile2[i-1].split("-");
 					Date datum=	new Date(Integer.parseInt(datumsTeile[2]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[0]));
 					System.out.println(datum);
 					pstmt.setDate(i, datum);
@@ -169,6 +169,7 @@ public class DBManager {
 
 	}
 
+	
 
 	//TODO Bolbdatei einfügen
 	public static boolean writeDaten2(String[] testzeile2, Part filePart) {
@@ -1060,6 +1061,28 @@ public class DBManager {
 
 		return wert;
 
+	}
+
+	//TODO WIP
+	public String getDateiTyp(String idObj) {
+		String SQL = "Select dateityp from uploaddaten where id ='"+idObj+"';";
+		String typ = "";
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(SQL);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				typ = rs.getString(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		return typ;
 	}
 
 

@@ -56,6 +56,7 @@ public class DownloadServlet extends HttpServlet {
 		String fileName = "";
 		String fileType = ""; //mehrere arten? 
 		byte[] buffer;
+		int length;
 
 		Connection conn=null;
 
@@ -70,11 +71,12 @@ public class DownloadServlet extends HttpServlet {
 		fileName = jobj.get("Name").getAsString();
 		System.out.println("ID: "+ idObj);
 		
+		
 		try {
 			DBManager dbm = new DBManager();
 			Connection con = dbm.getConnection();
-			fileType = dbm.getDateiTyp(idObj,con);
-			buffer = dbm.getBlob(idObj,con);
+			fileType = dbm.getDateiTyp(idObj);
+			buffer = dbm.BLOBauslesen(idObj);
 			
 			
 		} catch (InstantiationException e1) {
@@ -116,7 +118,6 @@ public class DownloadServlet extends HttpServlet {
 		OutputStream out = response.getOutputStream();
 		FileInputStream in = new FileInputStream(my_file);
 
-				int length;
 		
 				while ((length = in.read(buffer)) > 0){
 					out.write(buffer, 0, length);
