@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import model.DBManager;
 
@@ -29,6 +30,15 @@ import model.DBManager;
 public class DownloadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	//	// size of byte buffer to send file
+	//	private static final int BUFFER_SIZE = 4096;   
+	//
+	//	// database connection settings
+	//	static final String JDBC_DRIVER = "org.postgresql.Driver"; 
+	//	private String dbURL =  "jdbc:postgresql://localhost/diplomarbeit";
+	//	private String dbUser = "postgres";
+	//	private String dbPass = "password";
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -37,151 +47,86 @@ public class DownloadServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		Connection conn=null;
 
-		String antwort = request.getParameter("download");
-		System.out.println("DOWNLOADREQUEST: "+antwort);
-		// int uploadId = Integer.parseInt(request.getParameter("id"));
-//         System.out.println("id: "+uploadId);
-	         
-	        try {
-	        	
-	        	//Verena:
-	        	DBManager db=new DBManager();
-	        	conn=db.getConnection();
-	        	
-	        	//TODO den richtigen dateinamen und uploadid angeben
-				db.BLOBauslesen("Hallo.pdf",39);
-	        	
-	        	
-	        	
-//	        	//Saras Werk
-//	            // connects to the database
-//	            DriverManager.registerDriver(new org.postgresql.Driver());
-//	            conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
-//	 
-//	            // queries the database TODO wie schaut tabelle aus
-//	            String sql = "SELECT * FROM files_upload WHERE upload_id = ?";
-//	            PreparedStatement statement = conn.prepareStatement(sql);
-//	            statement.setInt(1, uploadId);
-//	 
-//	            ResultSet result = statement.executeQuery();
-//	            if (result.next()) {
-//	                // gets file name and file blob data
-//	                String fileName = result.getString("file_name");
-//	                Blob blob = result.getBlob("file_data");
-//	                InputStream inputStream = blob.getBinaryStream();
-//	                int fileLength = inputStream.available();
-//	                 
-//	                System.out.println("fileLength = " + fileLength);
-//	 
-//	                ServletContext context = getServletContext();
-//	 
-//	                // sets MIME type for the file download
-//	                String mimeType = context.getMimeType(fileName);
-//	                
-//	                if (mimeType == null) {  
-//	                	//TODO: wurde vonskypekopiert
-//	                    mimeType = "\"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain";
-//	                }              
-//	                 
-//	                // set content properties and header attributes for the response
-//	                response.setContentType(mimeType);
-//	                response.setContentLength(fileLength);
-//	                String headerKey = "Content-Disposition";
-//	                String headerValue = String.format("attachment; filename=\"%s\"", fileName);
-//	                response.setHeader(headerKey, headerValue);
-//	 
-//	                // writes the file to the client
-//	                OutputStream outStream = response.getOutputStream();
-//	                 
-//	                byte[] buffer = new byte[BUFFER_SIZE];
-//	                int bytesRead = -1;
-//	                 
-//	                while ((bytesRead = inputStream.read(buffer)) != -1) {
-//	                    outStream.write(buffer, 0, bytesRead);
-//	                }
-//	                 
-//	                inputStream.close();
-//	                outStream.close();             
-//	            } else {
-//	                // no file found
-//	                response.getWriter().print("Datei wurde nicht gefunden: " + uploadId);  
-//	            }
-//	            
-	            db.releaseConnection(conn);
-	        } catch (SQLException ex) {
-	            ex.printStackTrace();
-	            response.getWriter().print("SQL Error: " + ex.getMessage());
-	        } catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} finally {
-	            if (conn != null) {
-	                // closes the database connection
-	                try {
-	                    conn.close();
-	                } catch (SQLException ex) {
-	                    ex.printStackTrace();
-	                }
-	            }          
-	        }
-	    }
-	}
-
-		String fileName = "";
-		String fileType = ""; //mehrere arten? 
-
-		try {
-
-			//Verena:
-			DBManager db=new DBManager();
-			conn=db.getConnection();
-
-			//TODO den richtigen dateinamen angeben und inhalttext
-			//file?? header setzen des ausiflusehn
-
-
-			db.BLOBauslesen("dateinamen","inhalttext"); //TODO können diese Parameter auch so hergeholt werden für weiterverarbetiung? 
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			response.getWriter().print("SQL Error: " + ex.getMessage());
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} finally {
-			if (conn != null) {
-				// closes the database connection
-				try {
-					conn.close();
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-			}          
-		}
-
-		response.setContentType(fileType);
+		response.setHeader("Content-Disposition",
+				"attachment;filename=downloadname.txt");
 
 		response.setHeader("Content-disposition","attachment; filename=yourcustomfilename.pdf");
 
-		File my_file = new File(fileName); //dateinamen?  https://stackoverflow.com/questions/1442893/implementing-a-simple-file-download-servlet
-				
-		OutputStream out = response.getOutputStream();
-		FileInputStream in = new FileInputStream(my_file);
-		byte[] buffer = new byte[4096];
-		int length;
+		String fileName = "";
+		String fileType = ""; //mehrere arten? 
+		byte[] buffer;
+
+		Connection conn=null;
+
+		String antwort = request.getParameter("download");
+		System.out.println("DownloadRequest: "+antwort);
+
+		Gson gsn = new Gson();
+		JsonObject jobj; 
+
+		jobj = gsn.fromJson(antwort, JsonObject.class);
+		String idObj = jobj.get("ID").getAsString();
+		fileName = jobj.get("Name").getAsString();
+		System.out.println("ID: "+ idObj);
 		
-		while ((length = in.read(buffer)) > 0){
-			out.write(buffer, 0, length);
+		try {
+			DBManager dbm = new DBManager();
+			Connection con = dbm.getConnection();
+			fileType = dbm.getDateiTyp(idObj,con);
+			buffer = dbm.getBlob(idObj,con);
+			
+			
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
-		in.close();
-		out.flush();
+		switch(fileType){
 
+		case "PDF"  :{
+			response.setContentType("application/pdf");
+			break;
+		}
+		case "DOCX"  :{
+
+			response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+			break;
+		}
+		case "DOC"  :{
+
+			response.setContentType("application/msword");
+			break;
+		}
+		case "TXT"  :{
+			response.setContentType("text/plain");
+			break;
+		}
+		default:{
+
+			System.out.println("Datei kann nicht gespeichert werden, Dateityp "+ fileType +"wird nicht unterstützt");
+		}
+
+
+		File my_file = new File(fileName); //dateinamen?  https://stackoverflow.com/questions/1442893/implementing-a-simple-file-download-servlet
+
+		OutputStream out = response.getOutputStream();
+		FileInputStream in = new FileInputStream(my_file);
+
+				int length;
+		
+				while ((length = in.read(buffer)) > 0){
+					out.write(buffer, 0, length);
+				}
+		
+				out.flush();
+				in.close();
+//out close ?
+
+		}
 
 	}
-
 }

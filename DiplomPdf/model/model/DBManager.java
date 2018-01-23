@@ -812,7 +812,7 @@ public class DBManager {
 
 			ResultSet result = pstmt.executeQuery();
 			result.next();
-
+			
 			//TODO verallgemeinern
 			//fos = new FileOutputStream("C:/Users/veren/Downloads/\'"+dateiname+"\'");
 
