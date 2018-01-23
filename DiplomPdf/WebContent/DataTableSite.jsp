@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="UTF-8"%>
 
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html>
@@ -167,9 +166,9 @@ request.setAttribute("user", "Testuser");
 		autoQueue : false,
 		autoProcessQueue : false,
 		dictDefaultMessage : "Ziehe Dateien hierhin zum Hochladen",
-		dictFallbackMessage : "Dieser Browser wird leider nicht unterstützt",
-		dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "+ size + " MB",
-		dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
+		dictFallbackMessage : "Dieser Browser wird leider nicht unterstÃ¼tzt",
+		dictFileTooBig : "Die Datei ist leider zu groÃŸ. Erlaubtes Maximum sind "+ size + " MB",
+		dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstÃ¼tzt"
 
 	};
 	
@@ -195,20 +194,20 @@ request.setAttribute("user", "Testuser");
 			"language": {
 				
 				"sEmptyTable":   	"Keine Daten in der Tabelle vorhanden",
-				"sInfo":         	"_START_ bis _END_ von _TOTAL_ Einträgen",
-				"sInfoEmpty":    	"0 bis 0 von 0 Einträgen",
-				"sInfoFiltered": 	"(gefiltert von _MAX_ Einträgen)",
+				"sInfo":         	"_START_ bis _END_ von _TOTAL_ EintrÃ¤gen",
+				"sInfoEmpty":    	"0 bis 0 von 0 EintrÃ¤gen",
+				"sInfoFiltered": 	"(gefiltert von _MAX_ EintrÃ¤gen)",
 				"sInfoPostFix":  	"",
 				"sInfoThousands":  	".",
 				"sLengthMenu":   	"_MENU_",
 				"sLoadingRecords": 	"Wird geladen...",
 				"sProcessing":   	"Bitte warten...",
 				"sSearch":       	"<span class=\"glyphicon glyphicon-search\"></span>",
-				"sZeroRecords":  	"Keine Einträge vorhanden.",
+				"sZeroRecords":  	"Keine EintrÃ¤ge vorhanden.",
 				"oPaginate": {
 					"sFirst":    	"Erste",
 					"sPrevious": 	"<span class=\"glyphicon glyphicon-circle-arrow-left arrowpagenav\" data-toggle=\"tooltip\" title =\"Vorherige Seite\"></span>",
-					"sNext":     	"<span class=\"glyphicon glyphicon-circle-arrow-right arrowpagenav\" data-toggle=\"tooltip\" title =\"Nächste Seite\"></span>",
+					"sNext":     	"<span class=\"glyphicon glyphicon-circle-arrow-right arrowpagenav\" data-toggle=\"tooltip\" title =\"NÃ¤chste Seite\"></span>",
 					"sLast":     	"Letzte"    
 				},
 				"oAria": {
@@ -261,7 +260,7 @@ request.setAttribute("user", "Testuser");
 	        }, {
 	            "targets": -1,
 	            "data": "null",
-	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
+	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum LÃ¶schen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
 	        },
 	        {
 	        	"targets": 1,
@@ -292,20 +291,20 @@ request.setAttribute("user", "Testuser");
 	        
 	        
 		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
-		        var input = $('#datatable2_wrapper .dataTables_filter input').off(); //Löscht alle existierenden Listener von der Inputbox
+		        var input = $('#datatable2_wrapper .dataTables_filter input').off(); //LÃ¶scht alle existierenden Listener von der Inputbox
 		           self = this.api();			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
 		            $searchbutton = $('<button class=\"btn-success dttopbtn\" data-toggle=\"tooltip\" title =\"Suchen\">')	//erstellt ein Buttonobjekt
 		                       .html('<span class="glyphicon glyphicon-search"/>')		// Button - Text: Suchen
-		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+		                       .click(function() {	//Funktion welche bei drÃ¼cken des Buttons aufgerufen wird
 		                        self.search(input.val()).draw();	//ruft die Search - Funktion des DataTables auf und aktualisiert
 		                       });
-		            $deletebutton = $('<button class=\"btn-danger dttopbtn\"data-toggle=\"tooltip\" title =\"Löschen\">')	//erstellt ein Buttonobjekt
-		                       .html('<span class="glyphicon glyphicon-remove"></span>')		//Button - Text: Löschen
-		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+		            $deletebutton = $('<button class=\"btn-danger dttopbtn\"data-toggle=\"tooltip\" title =\"LÃ¶schen\">')	//erstellt ein Buttonobjekt
+		                       .html('<span class="glyphicon glyphicon-remove"></span>')		//Button - Text: LÃ¶schen
+		                       .click(function() {	//Funktion welche bei drÃ¼cken des Buttons aufgerufen wird
 		                          input.val('');	//Setzt den Input wieder leer
-		                          $searchbutton.click(); 	//Betätigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
+		                          $searchbutton.click(); 	//BetÃ¤tigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
 		                       }) ;
-		        $('#datatable2_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//Fügt beide Buttons zum DataTable hinzu
+		        $('#datatable2_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//FÃ¼gt beide Buttons zum DataTable hinzu
 		    },
             
             
@@ -328,20 +327,20 @@ request.setAttribute("user", "Testuser");
 			"language": {
 				
 					"sEmptyTable":   	"Keine Daten in der Tabelle vorhanden",
-					"sInfo":         	"_START_ bis _END_ von _TOTAL_ Einträgen",
-					"sInfoEmpty":    	"0 bis 0 von 0 Einträgen",
-					"sInfoFiltered": 	"(gefiltert von _MAX_ Einträgen)",
+					"sInfo":         	"_START_ bis _END_ von _TOTAL_ EintrÃ¤gen",
+					"sInfoEmpty":    	"0 bis 0 von 0 EintrÃ¤gen",
+					"sInfoFiltered": 	"(gefiltert von _MAX_ EintrÃ¤gen)",
 					"sInfoPostFix":  	"",
 					"sInfoThousands":  	".",
 					"sLengthMenu":   	"_MENU_",
 					"sLoadingRecords": 	"Wird geladen...",
 					"sProcessing":   	"Bitte warten...",
 					"sSearch":       	"<span class=\"glyphicon glyphicon-search\"></span>",
-					"sZeroRecords":  	"Keine Einträge vorhanden.",
+					"sZeroRecords":  	"Keine EintrÃ¤ge vorhanden.",
 					"oPaginate": {
 						"sFirst":    	"Erste",
 						"sPrevious": 	"<span class=\"glyphicon glyphicon-circle-arrow-left arrowpagenav\" data-toggle=\"tooltip\" title =\"Vorherige Seite\"></span>",
-						"sNext":     	"<span class=\"glyphicon glyphicon-circle-arrow-right arrowpagenav\" data-toggle=\"tooltip\" title =\"Nächste Seite\"></span>",
+						"sNext":     	"<span class=\"glyphicon glyphicon-circle-arrow-right arrowpagenav\" data-toggle=\"tooltip\" title =\"NÃ¤chste Seite\"></span>",
 						"sLast":     	"Letzte"    
 					},
 					"oAria": {
@@ -400,7 +399,7 @@ request.setAttribute("user", "Testuser");
 	        }, {
 	            "targets": -1,
 	            "data": "null",
-	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
+	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum LÃ¶schen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
 	        },
 	        {
 	        	"targets": 1,
@@ -430,27 +429,21 @@ request.setAttribute("user", "Testuser");
 	        }
 	        ],
 
-	        
-
-	        
-	        
-			
-			
 		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
-		        var input = $('#datatable_wrapper .dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
+		        var input = $('#datatable_wrapper .dataTables_filter input').off(), //LÃ¶scht alle existierenden Listener von der Inputbox
 		           self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
 		            $searchbutton = $('<button class=\"btn-success dttopbtn\" data-toggle=\"tooltip\" title =\"Suchen\">')	//erstellt ein Buttonobjekt
 		                       .html('<span class="glyphicon glyphicon-search"/>')		// Button - Text: Suchen
-		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+		                       .click(function() {	//Funktion welche bei drÃ¼cken des Buttons aufgerufen wird
 		                        self.search(input.val()).draw();	//ruft die Search - Funktion des DataTables auf und aktualisiert
 		                       }),
-		            $deletebutton = $('<button class=\"btn-danger dttopbtn\"data-toggle=\"tooltip\" title =\"Löschen\">')	//erstellt ein Buttonobjekt
-		                       .html('<span class="glyphicon glyphicon-remove"></span>')		//Button - Text: Löschen
-		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+		            $deletebutton = $('<button class=\"btn-danger dttopbtn\"data-toggle=\"tooltip\" title =\"LÃ¶schen\">')	//erstellt ein Buttonobjekt
+		                       .html('<span class="glyphicon glyphicon-remove"></span>')		//Button - Text: LÃ¶schen
+		                       .click(function() {	//Funktion welche bei drÃ¼cken des Buttons aufgerufen wird
 		                          input.val('');	//Setzt den Input wieder leer
-		                          $searchbutton.click(); 	//Betätigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
+		                          $searchbutton.click(); 	//BetÃ¤tigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
 		                       }) 
-		        $('#datatable_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//Fügt beide Buttons zum DataTable hinzu
+		        $('#datatable_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//FÃ¼gt beide Buttons zum DataTable hinzu
 		    },
 			
 			
@@ -490,7 +483,7 @@ request.setAttribute("user", "Testuser");
 	    
 	    $(".table tbody").on("click",".deletebutton",function(){
 			var sourcetable = getTableRow($(this));
-  	        var str = JSON.stringify(data);
+  	       var str = JSON.stringify(data);
 	     	var xhttp = new XMLHttpRequest();
 	    	xhttp.open("POST","DeleteServlet",true);
 	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -583,9 +576,9 @@ request.setAttribute("user", "Testuser");
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
-				<li><a href="#">Gelöschte Dokumente</a></li>
+				<li><a href="#">GelÃ¶schte Dokumente</a></li>
 				<li><a href="#">Verlauf</a></li>
-				<li><a href="MeetTheTeam.jsp">Über EasyPDF</a></li>
+				<li><a href="MeetTheTeam.jsp">Ãœber EasyPDF</a></li>
 			</ul>
 			<button type="button" class="btn btn-info  navbar-btn"
 				data-toggle="modal" data-target="#uploadModal">UPLOAD</button>
@@ -678,7 +671,7 @@ request.setAttribute("user", "Testuser");
 					<input id="modalinput" />
 					<button disabled="true" class="btn btn-primary disabled"
 						id="modalinputbtn">OK</button>
-					<button id="overwritebtn" class="btn btn-primary">Überschreibe
+					<button id="overwritebtn" class="btn btn-primary">Ãœberschreibe
 						die Datei</button>
 				</div>
 				<div class="modal-footer"></div>

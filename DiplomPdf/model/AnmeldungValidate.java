@@ -19,7 +19,7 @@ public class AnmeldungValidate {
 
 		try {
 
-			Class.forName("JDBC_DRIVER");
+			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			System.out.println("Connecting successful");
 
