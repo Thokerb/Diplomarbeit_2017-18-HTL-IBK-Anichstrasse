@@ -32,6 +32,7 @@ public class DeleteServlet extends HttpServlet {
 		 * Hier werden die Daten der Datei geschickt, welche gelöscht werden sollen
 		 * Für ein Beispiel testjquery.html öffnen und auf den delete button klicken4
 		 * TODO: aus DB löschen aber darauf achten, dass nicht zu schnell gelöscht wird.
+		 * evtl reihenfolge vorgeben zuerst db dann aus seite löschen? 
 		 */
 		String todelete = request.getParameter("todelete");
 		System.out.println("todelete: "+todelete);
