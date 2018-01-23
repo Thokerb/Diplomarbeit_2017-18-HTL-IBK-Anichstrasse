@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.DBManager;
 
@@ -28,11 +29,12 @@ public class ResetPasswort extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("reseter called");
-		String username = ((ServletRequest) request.getSession()).getParameter("username"); //Username wird schon vom vorherigen Servlet genommen
+		HttpSession ses = request.getSession(false);
+		String username = (String) ses.getAttribute("username"); //Username wird schon vom vorherigen Servlet genommen
 		String pw = request.getParameter("password");
 		String pw2 = request.getParameter("password2");
-		String auth = ((ServletRequest) request.getSession()).getParameter("hashcodeverified");
-
+		String auth = (String) ses.getAttribute("hashcodeverified");
+		
 		if(auth.equalsIgnoreCase("yes")) {
 
 			if(pw.equals(pw2)) {

@@ -43,16 +43,40 @@ public class CheckReset extends HttpServlet {
 		String Hashcode = request.getParameter("authcode");
 		System.out.println("empf code:"+Hashcode);
 		//TODO check datenbank auf Code
-		System.out.println(DBManager.CodeCheck(Hashcode));
-		if(DBManager.CodeCheck(Hashcode)){
+		Boolean check = false;
+		DBManager dbm = null;
+		try {
+			dbm = new DBManager();
+			 check = dbm.CodeCheck(Hashcode);
+
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(check);
+
+		if(check){
 			System.out.println("isch okey");
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(true);
 			session.setAttribute("authcode", Hashcode);
+			
+			String user = "";
+			try{
+				user = dbm.getUserbyHash(Hashcode);
+			}
+			catch (Exception e) {
+				// TODO: handle exception
+			}
+			session.setAttribute("username", user);
+			
 			
 			//TODO von Datenbank Benutzernamen bekommen
 			session.setAttribute("hashcodeverified", "yes");
 
-			response.sendRedirect("localhost:8080/DiplomPdf/NewPassword.jsp");
+			response.sendRedirect("NewPassword.jsp");
 			
 
 		}

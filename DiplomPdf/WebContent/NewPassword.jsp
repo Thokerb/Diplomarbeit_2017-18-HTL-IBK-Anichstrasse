@@ -8,15 +8,15 @@
 </head>
 
 <%
-if(session.getAttribute("hashcodeverified")==null || session.getAttribute("username")== null){
-response.sendRedirect("Errorpage.jsp");
+if(session.getAttribute("hashcodeverified")==null){
+response.sendRedirect("Errorpage.html");
 }
 %>
 
 <body>
 <h1>Willkommen auf der RESET PASSWORT SEITE</h1>
 
-<form action="ResetPassword" method="post">
+<form action="ResetPasswort" method="post">
 <input type = "text" name="password">
 <input type = "text" name="password2">
 <input type="submit" value="Change Password"> 
