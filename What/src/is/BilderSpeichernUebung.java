@@ -38,10 +38,10 @@ public class BilderSpeichernUebung {
 		//Bildeinfuegen();
 		//BildAuslesen();
 		//Auslesen();
-		//lesen();
+		lesen();
 		//Bildeinfuegen();
 		
-		Bildeinfuegen2();
+		//Bildeinfuegen2();
 	}
 
 	public BilderSpeichernUebung() throws InstantiationException, IllegalAccessException{
@@ -92,8 +92,8 @@ public class BilderSpeichernUebung {
 		File file=path.toFile();
 		//File file = new File(getCacheDirectory() + "\\results.txt");
 		
-	//	String INSERT_DATA_SQL="INSERT INTO bilder VALUES (?, ?)";
-		String INSERT_DATA_SQL="UPDATE bilder set bild =? WHERE name = '"+name+"'";
+		String INSERT_DATA_SQL="INSERT INTO bilder VALUES (?, ?)";
+		//String INSERT_DATA_SQL="UPDATE bilder set bild =? WHERE name = '"+name+"'";
 		try {
 
 			FileInputStream fis= new FileInputStream(file);
@@ -235,10 +235,10 @@ public class BilderSpeichernUebung {
             ResultSet result = pstmt.executeQuery();
             result.next();
 
-            fos = new FileOutputStream("C:/Temp/PDF.pdf");
+            fos = new FileOutputStream("C:/Temp/Thomas.pdf");
 
             int len = result.getInt(2);
-            byte[] buf = result.getBytes("bild");
+            byte[] buf = result.getBytes(1);
             fos.write(buf, 0, len);
             
 //          String pfad = "C:/Temp";
