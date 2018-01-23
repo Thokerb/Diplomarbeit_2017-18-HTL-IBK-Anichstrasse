@@ -807,17 +807,21 @@ public class DBManager {
 
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-			String query = "SELECT blobdatei, LENGTH(blobdatei) FROM uploaddaten WHERE inhalttext = \'"+id+"\'";
+			String query = "SELECT blobdatei, LENGTH(blobdatei) FROM uploaddaten WHERE uploadid = \'"+id+"\'";
 			pstmt = conn.prepareStatement(query);
 
 			ResultSet result = pstmt.executeQuery();
 			result.next();
+			
+				int len = result.getInt(2);
+				buf = result.getBytes("blobdatei");
+				System.out.println("buf"+buf);
+			
 
 			//TODO verallgemeinern
 			//fos = new FileOutputStream("C:/Users/veren/Downloads/\'"+dateiname+"\'");
 
-			int len = result.getInt(2);
-			buf = result.getBytes("bild");
+			
 			//	fos.write(buf, 0, len);
 
 			//          String pfad = "C:/Temp";
@@ -1176,7 +1180,7 @@ public class DBManager {
 	
 	//TODO WIP
 	public String getDateiTyp(String idObj) {
-		String SQL = "Select dateityp from uploaddaten where id ='"+idObj+"';";
+		String SQL = "Select dateityp from uploaddaten where uploadid ='"+idObj+"';";
 		String typ = "";
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -1225,6 +1229,18 @@ public class DBManager {
 		}
 		return spalten;
 
+	}
+	
+	public static boolean CodeCheck()
+	{
+		boolean erfolg = false;
+		return erfolg;
+		
+	}
+
+	public static String getBenutzerviaHashcode(String hashcode) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

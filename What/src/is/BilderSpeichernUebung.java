@@ -223,36 +223,38 @@ public class BilderSpeichernUebung {
 	}
 	
 	public static void lesen()
-	{
-		FileOutputStream fos = null;
-		try {
-
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            String query = "SELECT bild, LENGTH(bild) FROM bilder WHERE name = 'Zitat Thomas Kerber.pdf'";
-            pstmt = conn.prepareStatement(query);
-
-            ResultSet result = pstmt.executeQuery();
-            result.next();
-
-            fos = new FileOutputStream("C:/Temp/Thomas.pdf");
-
-            int len = result.getInt(2);
-            byte[] buf = result.getBytes(1);
-            fos.write(buf, 0, len);
-            
-//          String pfad = "C:/Temp";
-//			File file = createFile(pfad, "bild2.jpg");
-//			Files.copy(file.toPath(), fos);
-
-
-        } catch (Exception ex) {
-        	ex.printStackTrace();
-            
-
-        } 
-  
-    }
+ 	{
+ 		FileOutputStream fos = null;
+ 		try {
+ 
+             conn = DriverManager.getConnection(DB_URL, USER, PASS);
+ 
+            String query = "SELECT bild, LENGTH(bild) FROM bilder WHERE name = 'Hallo.pdf'";
+             pstmt = conn.prepareStatement(query);
+ 
+             ResultSet result = pstmt.executeQuery();
+             result.next();
+ 
+   //          fos = new FileOutputStream("C:/Temp/Thomas1.pdf");
+ 
+             int len = result.getInt(2);
+             byte[] buf = result.getBytes("bild");
+    //         fos.write(buf, 0, len);
+             
+             System.out.println("Bytes ausgeben:");
+             System.out.println(buf);
+ //          String pfad = "C:/Temp";
+ //			File file = createFile(pfad, "bild2.jpg");
+ //			Files.copy(file.toPath(), fos);
+ 
+ 
+         } catch (Exception ex) {
+         	ex.printStackTrace();
+             
+ 
+         } 
+   
+     }
 	
 	
 	

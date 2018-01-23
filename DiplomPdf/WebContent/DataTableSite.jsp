@@ -469,10 +469,17 @@ request.setAttribute("user", "Testuser");
 			var sourcetable = getTableRow($(this));
 	 
 		     	var xhttp = new XMLHttpRequest();
+			/**
+			** TODO änderung vom tom
+			**/
+			window.location="DownloadServlet?download="+sourcetable;
 			
-	     	xhttp.open("POST", "DownloadServlet", true);
-	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	    	xhttp.send("download="+sourcetable);
+			
+		  //   	var xhttp = new XMLHttpRequest();
+			
+	     //	xhttp.open("POST", "DownloadServlet", true);
+	    //	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    //	xhttp.send("download="+sourcetable);
 	         
 
 	    	
