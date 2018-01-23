@@ -30,6 +30,8 @@ public class CheckReset extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		doPost(request, response);
+
 	}
 
 	/**
@@ -37,25 +39,23 @@ public class CheckReset extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("CheckReset called");
 		String Hashcode = request.getParameter("authcode");
 		
 		//TODO check datenbank auf Code
-		if(DBManager.CodeCheck){
+		if(DBManager.CodeCheck(Hashcode)){
 			HttpSession session = request.getSession();
 			session.setAttribute("authcode", Hashcode);
 			
 			//TODO von Datenbank Benutzernamen bekommen
-			String username = DBManager.getBenutzerviaHashcode(Hashcode);
-			
-			session.setAttribute("username", username);
-			
+						
 			response.sendRedirect("localhost:8080/DiplomPdf/NewPassword.jsp");
 			
-			session.setAttribute("hashcodeverified", true);
+			session.setAttribute("hashcodeverified", "yes");
 
 		}
 		else{
-			
+			response.sendRedirect("ErrorPage.html");
 		}
 		
 	}

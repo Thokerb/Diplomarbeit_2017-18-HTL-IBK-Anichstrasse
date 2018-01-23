@@ -1231,6 +1231,54 @@ public class DBManager {
 
 	}
 
+	public void saveHash(String authcode, String emailuser) {
+		
+		String Insert_Hash = "INSERT INTO benutzer (AuthCode) VALUES (?) Where email='"+emailuser+"';";
+
+		//connection Aufbau
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(Insert_Hash);
+			pstmt.setString(1, authcode);
+			pstmt.executeUpdate();
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+	}
+
+	public static boolean CodeCheck(String hashcode) {
+		// TODO Auto-generated method stub
+		
+		ArrayList<String> vorhandeneHash = new ArrayList<String>();
+
+		//SQL-Abfrage
+		String ReadHash="select AuthCode from benutzer";
+
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(ReadHash);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				String code = rs.getString(1);
+				vorhandeneHash.add(code);
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		if(vorhandeneHash.contains(hashcode)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
 
 
 
