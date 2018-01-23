@@ -67,22 +67,29 @@ public class RegisterServlet extends HttpServlet {
 			
 			if (pwdIsValid(pwd)) {
 				ps.setString(3,pwd);  
+				 out.print("pwok"); /** pwok --> passwort okay**/
 			}
 			else {
-				//Ajax an thomas weil pw falsch response.
-//				response.setContentType("text/plain"); // googlen / header auch mitgeben?  content type + headerinformieren
-//			    PrintWriter out = response.getWriter();
-//			    out.print("pwok"); so zB 
+				
+			    out.print("pwx"); /** pwx --> passwort nicht okay**/
+			    
 			}
 			ps.setString(2,email); 
 
 
 			int i = ps.executeUpdate(); 
 
-			if(i>0)  out.print("Sie wurden erfolgreich angemeldet...");  
+			if(i>0)  {
+				out.print("Sie wurden erfolgreich registriert...");  
+				response.sendRedirect("Login.jsp");
+			}else {
+				out.print("Registrieren fehlgeschlagen!");
+			}
+			
+			
 
 		}catch (Exception e) {
-
+			out.print("Registrier - Fehlermeldung: " +e); 
 			System.out.println("Registrier - Fehlermeldung: " +e);
 		}  
 
@@ -115,12 +122,6 @@ public class RegisterServlet extends HttpServlet {
 			
 			if(specialUN < 0 ) {
 				
-//				PrintWriter out = response.getWriter();  
-//				response.setContentType("text/html");  
-//				out.println("<script type=\"text/javascript\">");  
-//				out.println("alert(' \"Achtung! Username oder Passwort sind nicht korrekt\"');");  
-//				out.println("</script>");
-				
 				System.out.println("Achtung es duerfen keine Sonderzeichen verwendet werden!");
 			}
 			System.out.println("Username ungueltig, bitte ernuet eingeben");
@@ -137,20 +138,20 @@ public class RegisterServlet extends HttpServlet {
 				char c = password.charAt(i);
 				
 				if(Character.isUpperCase(c)){
-					System.out.println("Is upper: "+c);
+//					System.out.println("Is upper: "+c);
 					upCount++;
 				}
 				if(Character.isLowerCase(c)){
-					System.out.println("Is low: "+ c);
+//					System.out.println("Is low: "+ c);
 					loCount++;
 				}
 				if(Character.isDigit(c)){
-					System.out.println("Is digit: "+c);
+//					System.out.println("Is digit: "+c);
 					digit++;
 				}
 			}
 
-			if(loCount >= 1 && upCount >= 0 && digit >= 1){ //TODO Änderung zu kein Großbuchstabe
+			if(loCount >= 1 && upCount >= 0 && digit >= 0){ //TODO Änderung zu kein Großbuchstabe + zahl
 				
 				System.out.println("Passwort ist OK lo: "+ loCount + "up:"+ upCount +"digit: " +digit);
 				return true; 
