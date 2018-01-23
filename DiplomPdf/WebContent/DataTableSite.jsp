@@ -486,7 +486,7 @@ request.setAttribute("user", "Testuser");
 	    });
 	    
         
-	    
+	    //TODO ohne data und str bei tom? 
 	    
 	    $(".table tbody").on("click",".deletebutton",function(){
 			var sourcetable = getTableRow($(this));
