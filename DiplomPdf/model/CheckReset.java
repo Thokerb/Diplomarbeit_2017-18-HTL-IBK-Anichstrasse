@@ -44,6 +44,7 @@ public class CheckReset extends HttpServlet {
 		
 		//TODO check datenbank auf Code
 		if(DBManager.CodeCheck(Hashcode)){
+		
 			HttpSession session = request.getSession();
 			session.setAttribute("authcode", Hashcode);
 			

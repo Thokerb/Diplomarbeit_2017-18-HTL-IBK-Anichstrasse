@@ -1230,6 +1230,18 @@ public class DBManager {
 		return spalten;
 
 	}
+	
+	public static boolean CodeCheck()
+	{
+		boolean erfolg = false;
+		return erfolg;
+		
+	}
+
+	public static String getBenutzerviaHashcode(String hashcode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	public void saveHash(String authcode, String emailuser) {
 		

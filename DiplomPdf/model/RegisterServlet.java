@@ -30,11 +30,11 @@ public class RegisterServlet extends HttpServlet {
 	static int minPW = 8; 
 	static int maxPW = 16; 
 
-	static int digit = 2;
-	static int upCount = 1;
-	static int loCount = 1;
+	static int digit;
+	static int upCount;
+	static int loCount;
 
-	static int specialUN = 0;
+	static int specialUN;
 
 	public RegisterServlet() {
 		super();
@@ -56,25 +56,30 @@ public class RegisterServlet extends HttpServlet {
 		response.setContentType("text/html");  
 
 		try{  
-			Class.forName("JDBC_DRIVER");
+			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			
 			System.out.println("Connecting DB successful");
 
-			PreparedStatement ps = conn.prepareStatement( "INSERT into registeruser values(?,?,?,?)");  
+			PreparedStatement ps = conn.prepareStatement( "INSERT into benutzer (benutzername,email,passwort) values(?,?,?)");  
 
 			ps.setString(1,username);  
 			
 			if (pwdIsValid(pwd)) {
-				ps.setString(2,pwd);  
-				ps.setString(3,pwdwh); 
+				ps.setString(3,pwd);  
 			}
+			else {
+				//Ajax an thomas weil pw falsch response.
+//				response.setContentType("text/plain"); // googlen / header auch mitgeben?  content type + headerinformieren
+//			    PrintWriter out = response.getWriter();
+//			    out.print("pwok"); so zB 
+			}
+			ps.setString(2,email); 
 
 
 			int i = ps.executeUpdate(); 
 
-			if(i>0)  
-				out.print("Sie wurden erfolgreich angemeldet...");  
+			if(i>0)  out.print("Sie wurden erfolgreich angemeldet...");  
 
 		}catch (Exception e) {
 
@@ -128,66 +133,33 @@ public class RegisterServlet extends HttpServlet {
 		if(password.length() >= minPW && password.length() <= maxPW){
 
 			for(int i = 0; i < password.length(); i++){
+				
 				char c = password.charAt(i);
 				
 				if(Character.isUpperCase(c)){
+					System.out.println("Is upper: "+c);
 					upCount++;
 				}
 				if(Character.isLowerCase(c)){
+					System.out.println("Is low: "+ c);
 					loCount++;
 				}
 				if(Character.isDigit(c)){
+					System.out.println("Is digit: "+c);
 					digit++;
 				}
 			}
 
 			if(loCount >= 1 && upCount >= 0 && digit >= 1){ //TODO Änderung zu kein Großbuchstabe
 				
-				System.out.println("Passwort ist OK ");
+				System.out.println("Passwort ist OK lo: "+ loCount + "up:"+ upCount +"digit: " +digit);
 				return true; 
 			}
 
 		}else {
-			System.out.println("Passwortlaenge stimmt nicht");
+			System.out.println("Passwortlaenge stimmt nicht; lo: "+ loCount + "up:"+ upCount +"digit: " +digit);
 			return false;
 		}
-
-//		if(password.length() < minPW){
-//
-//			for(int i = 0;i < password.length(); i++){
-//				char c = password.charAt(i);
-//				if(Character.isLowerCase(c)){
-//					loCount++;
-//				}
-//			}
-//
-//			if(loCount > 0){
-//				System.out.println(" Password must be atleast "+minPW+" characters:");
-//				System.out.println(" You need atleast one upper case chracter:");
-//				System.out.println(" You need atleast one digit:");
-//			}
-//		}
-
-//		else if(password.length() < minPW && upCount > 1){
-//
-//			for(int i = 0; i < password.length(); i++){
-//				
-//				char c = password.charAt(i);
-//				
-//				if(Character.isLowerCase(c)){
-//					loCount++;
-//				}
-//				if(Character.isUpperCase(c)){
-//					upCount++;
-//
-//				}
-//			}
-//			if(loCount > 0 && upCount > 0){
-//				System.out.println(" Password must be atleast "+minPW+" chracters:");
-//				System.out.println(" You need atleast one digit:");
-//				return false;
-//			}
-//		}
 
 		if(password.length() > maxPW || password.length() >= maxPW /*&& upCount > 1 && loCount > 1 && digit > 1*/){
 
@@ -196,7 +168,7 @@ public class RegisterServlet extends HttpServlet {
 		}
 
 		if(password.length() >= minPW && password.length() <= maxPW && loCount > 0 && upCount > 0 && digit == 0){
-			System.out.println(" You need atleast one digit:");
+			System.out.println(" You need atleast one digit: "+ digit);
 			return false;
 		}
 			
