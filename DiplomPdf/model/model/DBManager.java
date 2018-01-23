@@ -55,6 +55,8 @@ public class DBManager {
 		//autorASC(conn);
 
 		//PasswortNeuSetzen("Verena","mypassword1");
+		
+		//writeDaten(String[] testzeile2, Part filePart, Date date)
 	}
 
 	public DBManager() throws InstantiationException, IllegalAccessException{
@@ -109,8 +111,11 @@ public class DBManager {
 
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
-		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, uploaddatum, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
 
+		Date datum = new Date(2018, 04, 03);
+		System.out.println(datum);
+		
 		//connection Aufbau
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -124,9 +129,10 @@ public class DBManager {
 			pstmt.setString(5, testzeile2[4]);
 			pstmt.setString(6, testzeile2[5]);
 			pstmt.setString(7, testzeile2[6]);
-			pstmt.setString(8, "private");			
-			pstmt.setDate(9, date);
-			pstmt.setBinaryStream(10, fis, (int)filePart.getSize());
+			pstmt.setString(8, "private");
+			pstmt.setDate(9, datum);
+			pstmt.setDate(10, date);
+			pstmt.setBinaryStream(11, fis, (int)filePart.getSize());
 
 			//			for (int i = 1; i <=9; i++) {
 			//				if(i==1) entscheidungshilfe="normal";
@@ -1231,17 +1237,6 @@ public class DBManager {
 
 	}
 	
-	public static boolean CodeCheck()
-	{
-		boolean erfolg = false;
-		return erfolg;
-		
-	}
-
-	public static String getBenutzerviaHashcode(String hashcode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 
