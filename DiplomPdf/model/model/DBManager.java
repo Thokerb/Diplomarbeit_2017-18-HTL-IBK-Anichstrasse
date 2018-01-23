@@ -694,8 +694,8 @@ public class DBManager {
 	public static ArrayList<String[]> ranking2(String wort) {
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//Tabellenzeilen aus Datenbank einlesen
-		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT dateityp, dateiname, autor, tag, uploaddatum, status FROM (SELECT uploaddaten.dateityp as dateityp, "
-				+ "uploaddaten.dateiname as dateiname, uploaddaten.autor as autor, uploaddaten.tag as tag, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status"
+		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, uploaddatum, status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
+				+ "uploaddaten.dateiname as dateiname, uploaddaten.autor as autor, uploaddaten.tag as tag, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status,"
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.dateiname), 'A') || "
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.inhalttext), 'B') ||"
 				+ " setweight(to_tsvector('simple', uploaddaten.autor), 'C') ||"
@@ -712,7 +712,7 @@ public class DBManager {
 			while (rs.next()) {
 				String[] zeile = new String[10];
 				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 6; i++) {
+				for (int i = 0; i < 7; i++) {
 					zeile[i] = rs.getString(i+1);
 					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
 				}
@@ -799,9 +799,9 @@ public class DBManager {
 	}
 
 
-	public byte[] BLOBauslesen(String dateiname,int id)
+	public byte[] BLOBauslesen(String id)
 	{
-		FileOutputStream fos = null;
+		//FileOutputStream fos = null;
 		byte[] buf=null;
 		try {
 
@@ -818,7 +818,7 @@ public class DBManager {
 
 			int len = result.getInt(2);
 			buf = result.getBytes("bild");
-			fos.write(buf, 0, len);
+		//	fos.write(buf, 0, len);
 
 			//          String pfad = "C:/Temp";
 			//			File file = createFile(pfad, "bild2.jpg");

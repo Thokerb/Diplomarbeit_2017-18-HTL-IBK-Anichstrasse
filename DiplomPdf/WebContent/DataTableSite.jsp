@@ -70,7 +70,7 @@ request.setAttribute("user", "Testuser");
 				$.getJSON("DateienListServlet", function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
 					var DokumentNamen = responseText;
 
-					console.log(DokumentNamen);
+					console.dir(DokumentNamen);
 					console.log(namedatei);
 					var vorhanden = $.inArray(namedatei, DokumentNamen);
 					console.log(vorhanden);
@@ -169,7 +169,7 @@ request.setAttribute("user", "Testuser");
 		dictDefaultMessage : "Ziehe Dateien hierhin zum Hochladen",
 		dictFallbackMessage : "Dieser Browser wird leider nicht unterstützt",
 		dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "+ size + " MB",
-		dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
+		dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF, DOC, DOCX & TXT -Dateien unterstützt"
 
 	};
 	

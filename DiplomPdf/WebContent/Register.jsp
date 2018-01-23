@@ -12,6 +12,9 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
+	
 </head>
 <body>
 
@@ -25,7 +28,7 @@
 					<img src="Images/logo_placeholder.png" class="imglogo" alt="LOGO">
 				</h1>
 
-				<form action="LoginServlet" method="get">
+				<form action="LoginServlet" method="get" data-toggle="validator">
 					<div class="form-group">
 						<label class="sr-only" for="uninput">Benutzername</label> 
 						<input type="text" class="form-control" name="username" id="uninput" placeholder="Benutzername" required>
@@ -38,7 +41,7 @@
 					<div class="form-group">
 						<div class="input-group">
 							<label class="sr-only" for="pwinput">Passwort</label> 
-							<input type="password" class="form-control" name="password" id="pwinput" placeholder="Passwort" required>
+							<input type="password" class="form-control" name="password" id="pwinput" placeholder="Passwort" data-minlength="8" required>
 							<span class="input-group-btn">
 								<button class="btn-link btnpw form-control" type="button" id="unmaskbtn">
 									<span class="glyphicon glyphicon-eye-open"></span>
@@ -49,7 +52,8 @@
 
 					<div class="form-group">
 						<label class="sr-only" for="pwinput2">Passwort wiederholen</label>
-						<input type="password" class="form-control" name="passwordrepeat" id="pwinput2" placeholder="Passwort wiederholen" required>
+						<input type="password" class="form-control" name="passwordrepeat" id="pwinput2" placeholder="Passwort wiederholen" data-match="#pwinput" data-match-error="Passwörter stimmen nicht überein" required>
+						<div class="help-block with-errors"></div>
 					</div>
 					<div class="form-group">
 						<hr />

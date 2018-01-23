@@ -71,9 +71,4 @@ public class Benutzer {
 		return "Benutzer [benutzername=" + benutzername + ", email=" + email + ", vorname=" + vorname + ", nachname="
 				+ nachname + ", passwort=" + passwort + "]";
 	}
-
-	
-	
-	
-	
 }

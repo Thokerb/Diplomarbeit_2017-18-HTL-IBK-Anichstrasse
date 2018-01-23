@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.DBManager;
+
 /**
  * Servlet implementation class EmailPasswort
  */
@@ -30,44 +32,77 @@ public class EmailPasswort extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		final String username = "easypdf.help@gmail.com";
 		final String password = "htlanichstr";
-		
-		final String emailuser = "kerber.tom98@gmail.com ";
+
+		String emailuser = "vatte99@gmail.com";
+		try {
+			DBManager db = new DBManager();
+			//			String user = request.getParameter("username");
+			//		String email = request.getParameter("email");
+			//		String checkemail = db.getEmailByUser(user); muss noch geschrieben werden
+			//		String checkuser = db.getUserByEmail(email); muss noch geschrieben werden 
+			//		String getuser = db.getUser(user);
+			//		String getemail = db.getEmail(email);
+
+		} catch (InstantiationException | IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		//		
+		response.setContentType("text/html");
+
+		//		if((getuser == null) || (getemail == null)){
+		//			request.getSession().setAttribute("false", "Email und Userkennung stimmen nich Überein!");
+		//		System.out.println("User existiert nicht, Mail kann nicht versendet werden. . . ");
+		//			response.sendRedirect("checkforgotpassword.jsp");
+		//		}else{
+
+		System.out.println("User existiert, Mail kann versendet werden. . . ");
 
 		Properties props = new Properties();
 
 		props.put("mail.smtp.user","username"); 
 		props.put("mail.smtp.host", "smtp.gmail.com"); 
-		props.put("mail.smtp.port", "25"); 
-		props.put("mail.debug", "true"); 
 		props.put("mail.smtp.auth", "true"); 
 		props.put("mail.smtp.starttls.enable","true"); 
 		props.put("mail.smtp.EnableSSL.enable","true");
 
-		Session session2 = Session.getInstance(props, new GMailAuthenticator(username, password));
+		props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");   
+		props.setProperty("mail.smtp.socketFactory.fallback", "false");   
+		props.setProperty("mail.smtp.port", "465");   
+		props.setProperty("mail.smtp.socketFactory.port", "465"); 
 
+		Session session = Session.getInstance(props,
+				new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
 		try {
 
-			Message message = new MimeMessage(session2);
+			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("easypdf.help@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("usermail")); //TODO email von antwort
+					InternetAddress.parse(emailuser));
 			message.setSubject("Passwort zurücksetzen EasyPDF");
 			message.setText("Lieber EasyPDF Nutzer, um dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
 					+ "\n\n http://localhost:8080/DiplomPdf/Login.jsp"
-					+"\n\n  Viel Spaß bei der weiteren Nutzun von EasyPDF wünscht das TEAM: "
+					+"\n\n  Viel Spaß bei der weiteren Nutzung von EasyPDF wünscht das TEAM: "
 					+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang"); //TODO noch ändern in JSP PWzuruck
 
 			Transport.send(message);
 
-			System.out.println("Done");
+			System.out.println("Email wurde versendet");
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
 	}
+
+	//	}
 
 	class GMailAuthenticator extends Authenticator {
 		String user;
@@ -80,6 +115,7 @@ public class EmailPasswort extends HttpServlet {
 		}
 		public PasswordAuthentication getPasswordAuthentication()
 		{
+			System.out.println("GMail Auth OK");
 			return new PasswordAuthentication(user, pw);
 		}
 	}
