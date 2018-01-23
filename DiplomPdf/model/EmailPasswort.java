@@ -36,24 +36,23 @@ public class EmailPasswort extends HttpServlet {
 		final String username = "easypdf.help@gmail.com";
 		final String password = "htlanichstr";
 		
+		String emailuser;
+		String user;
+		
 		try {
 			DBManager db = new DBManager();
-			String user = request.getParameter("username");
-			String emailuser = request.getParameter("email");
+			user = request.getParameter("username");
+			emailuser = request.getParameter("email");
 			
-			String checkemail = db.getEmailByUser(user); 
-			String checkuser = db.getUserByEmail(emailuser);
-			String getuser = db.getUser(user);
-			String getemail = db.getEmail(email);
+//			String checkEMail = db.getEmailByUser(user); 
+//			String checkUser = db.getUserByEmail(emailuser);
+//			String getUser = db.getUser(user);
+//			String getEMail = db.getEmail(emailuser);
 
 			emailuser = "sari.hindelang@gmail.com";
 			
-		} catch (InstantiationException | IllegalAccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		//		
+	
+	
 		response.setContentType("text/html");
 
 		//		if((getuser == null) || (getemail == null)){
@@ -83,7 +82,6 @@ public class EmailPasswort extends HttpServlet {
 				return new PasswordAuthentication(username, password);
 			}
 		});
-		try {
 
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("easypdf.help@gmail.com"));
@@ -101,7 +99,14 @@ public class EmailPasswort extends HttpServlet {
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	
 	}
 
 	//	}

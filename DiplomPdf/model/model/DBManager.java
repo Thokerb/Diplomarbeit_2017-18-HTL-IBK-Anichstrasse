@@ -1149,6 +1149,31 @@ public class DBManager {
 
 	}
 
+	
+	public String getEmail(String em) {
+		{
+			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
+			String SQL="select email from benutzer where='"+em+"'";
+			String email=null;
+
+			try {
+				PreparedStatement pstmt=conn.prepareStatement(SQL);
+				ResultSet rs=pstmt.executeQuery();
+				while(rs.next())
+				{
+					email=rs.getString(1);
+				}
+				rs.close(); rs=null;
+				pstmt.close(); pstmt=null;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return email;
+		}
+
+	}
+	
 	//TODO WIP
 	public String getDateiTyp(String idObj) {
 		String SQL = "Select dateityp from uploaddaten where id ='"+idObj+"';";
