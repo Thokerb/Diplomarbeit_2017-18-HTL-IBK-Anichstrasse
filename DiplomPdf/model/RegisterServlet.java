@@ -69,13 +69,13 @@ public class RegisterServlet extends HttpServlet {
 
 			ps.setString(1,username);  
 			
-			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
 			
 			
 			if (pwdIsValid(pwd)) {
 				ps.setString(3,pwd);  
 				request.setAttribute("message", "Du wurdest erfolgreich registriert");
-				rd.include(request, response);/** pwok --> passwort okay**/
+				//rd.include(request, response);/** pwok --> passwort okay**/
 			}
 			else {
 				
@@ -88,16 +88,20 @@ public class RegisterServlet extends HttpServlet {
 			int i = ps.executeUpdate(); 
 
 			if(i>0)  {
-				out.print("Sie wurden erfolgreich registriert...");  
+		//		out.print("Sie wurden erfolgreich registriert...");  
 			//	response.sendRedirect("Login.jsp");
 			}else {
-				out.print("Registrieren fehlgeschlagen!");
+			//	out.print("Registrieren fehlgeschlagen!");
 			}
 			
 			
 
 		}catch (Exception e) {
-			out.print("Registrier - Fehlermeldung: " +e); 
+			String info = "Registrier - Fehlermeldung: " +e;
+			request.setAttribute("message", info );
+			RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
+			rd.include(request, response); 
+			//out.print("Registrier - Fehlermeldung: " +e); 
 			System.out.println("Registrier - Fehlermeldung: " +e);
 		}  
 

@@ -75,7 +75,7 @@
         <h4 class="modal-title">Status</h4>
       </div>
       <div class="modal-body">
-        <p>${message}</p>
+        <p id="statusmessage">${message}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -87,6 +87,11 @@
 
 	<script>
 	$(document).ready(function() {
+		var status = $("#statusmessage").text();
+		console.log(status);
+		if(status!=""){
+			$("#statusModal").modal("show");
+		}
 		
 		$("#registerform").submit(function(){
 			$("#statusModal").modal("show");
