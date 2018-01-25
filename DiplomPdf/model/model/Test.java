@@ -75,14 +75,25 @@ public class Test {
 //			e.printStackTrace();
 //		}
 		
-//		GregorianCalendar now = new GregorianCalendar(); 
-//		
-//		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-//		System.out.println("Datum vom Typ Calender");
-//		System.out.println(df.format(now.getTime())); 
-//		String datumcool=df.format(now.getTime());
-//		System.out.println("Datum vom Typ String");
-//		System.out.println(datumcool);
+		GregorianCalendar now = new GregorianCalendar(); 
+		
+		  SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+		  String pD = d.format(now.getTime());
+		  System.out.println(pD);
+		
+		
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+		System.out.println("Datum vom Typ Calender");
+		System.out.println(df.format(now.getTime())); 
+		String datumcool=df.format(now.getTime());
+		System.out.println("Datum vom Typ String");
+		System.out.println(datumcool);
+		
+	//	SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+
+//	     d = formatter.format(now);
+//	     System.out.println(d);
 //		
 //		String[] datum = new String[1];
 //		datum[0]=datumcool;
@@ -117,7 +128,7 @@ public class Test {
 //		System.out.println(datum);
 		
 		
-		Date date =  calendar.getTime();
+		//Date date =  calendar.getTime();
 
 	}
 	
@@ -129,12 +140,12 @@ public class Test {
         System.out.println(df.format(now.getTime())); 
     } 
 	
-	static void printSimpleDateFormat() { 
-        GregorianCalendar now = new GregorianCalendar(); 
-        SimpleDateFormat formatter = new SimpleDateFormat( 
-                "yyyy-MM-dd"); 
-        Date currentTime = new Date(now); 
-        System.out.println(formatter.format(currentTime));        // 2012.04.14 - 21:34:07  
-    } 
+//	static void printSimpleDateFormat() { 
+//        GregorianCalendar now = new GregorianCalendar(); 
+//        SimpleDateFormat formatter = new SimpleDateFormat( 
+//                "yyyy-MM-dd"); 
+//        Date currentTime = new Date(); 
+//        System.out.println(formatter.format(currentTime));        // 2012.04.14 - 21:34:07  
+//    } 
 
 }

@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.http.Part;
@@ -57,6 +58,10 @@ public class DBManager {
 		//PasswortNeuSetzen("Verena","mypassword1");
 		
 		//writeDaten(String[] testzeile2, Part filePart, Date date)
+		
+		//Datenlöschen(61);
+		
+		PasswortNeuSetzen("Verena", "passwoert12");
 	}
 
 	public DBManager() throws InstantiationException, IllegalAccessException{
@@ -104,7 +109,7 @@ public class DBManager {
 	 * @param testzeile2
 	 * @return
 	 */
-	public static boolean writeDaten(String[] testzeile2, Part filePart, Date date){
+	public static boolean writeDaten(String[] testzeile2, Part filePart, String date){
 
 		InputStream fis;
 		String entscheidungshilfe=null;
@@ -130,8 +135,8 @@ public class DBManager {
 			pstmt.setString(6, testzeile2[5]);
 			pstmt.setString(7, testzeile2[6]);
 			pstmt.setString(8, "private");
-			pstmt.setDate(9, datum);
-			pstmt.setDate(10, date);
+			pstmt.setString(9, getaktuellesDatum());
+			pstmt.setString(10, date);
 			pstmt.setBinaryStream(11, fis, (int)filePart.getSize());
 
 			//			for (int i = 1; i <=9; i++) {
@@ -184,6 +189,16 @@ public class DBManager {
 		}
 		return erfolg;
 
+	}
+	
+	public static String getaktuellesDatum(){
+		GregorianCalendar now = new GregorianCalendar(); 
+		
+		  SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+		  String pD = d.format(now.getTime());
+		  System.out.println(pD);
+		  
+		  return pD;
 	}
 
 
@@ -419,7 +434,7 @@ public class DBManager {
 	}
 
 
-	public static ArrayList<String[]> uploaddatumASC(Connection conn)
+	public ArrayList<String[]> uploaddatumASC(Connection conn)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> DatenuploaddatumASC = new ArrayList<String[]>();
@@ -461,7 +476,7 @@ public class DBManager {
 		ArrayList<String[]> DatenUploaddatumDESC = new ArrayList<String[]>();
 		//ArrayList<String> list = new ArrayList<String>();
 		//SQL-Abfrage
-		String READ_DATEN_UPLOADDATUMDESC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, stauts from uploaddaten order by uploaddatum DESC";
+		String READ_DATEN_UPLOADDATUMDESC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by uploaddatum DESC";
 
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -570,7 +585,7 @@ public class DBManager {
 			while(rs.next())
 			{
 				anzahl=rs.getInt(1);
-				System.out.println(anzahl);
+				System.out.println("Anzahl der Einträge in DB: "+anzahl);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1054,9 +1069,9 @@ public class DBManager {
 	}
 
 
-	public void Datenlöschen(int id)
+	public static void Datenlöschen(int id)
 	{
-		String SQL="delete from uploaddaten where '"+id+"'";
+		String SQL="delete from uploaddaten where uploaddaten.uploadid='"+id+"'";
 
 		try {
 			conn=DriverManager.getConnection(DB_URL,USER,PASS);
@@ -1312,6 +1327,26 @@ public class DBManager {
 		// TODO Auto-generated method stub
 		return user;
 	}
+	
+	public static void Blobeinfuegen(int id)
+	{
+		String status="public";
+		String INSERT_DATA_SQL="UPDATE uploaddaten set status =? WHERE inhalttext = '"+id+"'";
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
+			pstmt.setString(2, status);
+			pstmt.executeUpdate();
+
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("Daten in Datenbank gepeichert.");
+	}
+
 
 
 
