@@ -49,7 +49,7 @@ public class TestServlet extends javax.servlet.http.HttpServlet implements javax
 				
 			} else if ("forward".equalsIgnoreCase(action)) {
 				
-				request.setAttribute("action", TITTEN);
+				request.setAttribute("action", anmeldungnitok);
 				rd.forward(request, response);
 			}
 		}
