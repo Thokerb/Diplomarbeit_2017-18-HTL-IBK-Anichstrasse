@@ -1,10 +1,8 @@
 import java.io.File;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.io.RandomAccessFile;
 import org.apache.pdfbox.pdfparser.PDFParser;
@@ -20,13 +18,13 @@ public class PDFmanager {
 	private PDFTextStripper pdfStripper;
 	private PDDocument pdDoc ;
 	private COSDocument cosDoc ;
-
 	private String Text ;
 	private static String autor ;
 	private static String date ;
 	private static String d ;
 	private String filePath;
 	private File file;
+
 	String info;
 
 	public PDFmanager() {}
@@ -76,14 +74,14 @@ public class PDFmanager {
 
 	public static void getInfoPDF(){
 
-		//		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-		//		 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		//	     d = formatter.format(date);
+		//  SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		//   DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		//      d = formatter.format(date);
 
-		//		d = format1.format(date);
+		//  d = format1.format(date);
 
-		System.out.println("	Autor: "+ autor);
-		System.out.println("	Erstelldatum: "+ date);
+		System.out.println(" Autor: "+ autor);
+		System.out.println(" Erstelldatum: "+ date);
 
 	}
 
@@ -94,4 +92,5 @@ public class PDFmanager {
 	public static String getDatum(){ 
 		return date; 
 	}
+
 }

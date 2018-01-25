@@ -20,11 +20,11 @@ public class LoginServlet extends HttpServlet {
 
 		String username = request.getParameter("username");
 		String pwd = request.getParameter("password");
+		System.out.println(username);
 		boolean anmeldung; 
 		// Datenbank abfrage von Benutzer normal
 
 		if(AnmeldungValidate.checkUser(username, pwd) || username.equals("user") && pwd.equals("1234"))
-//		if(username.equals("user") && pwd.equals("1234"))
 		{
 			System.out.println("Anmeldung erfolgreich");
 			HttpSession session = request.getSession();  

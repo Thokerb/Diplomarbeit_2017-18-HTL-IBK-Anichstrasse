@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -52,6 +53,9 @@ public class RegisterServlet extends HttpServlet {
 		String pwd = request.getParameter("password");
 		String pwdwh = request.getParameter("passwordrepeat");
 
+		String pw = "hi";
+		String pwx = "bye";
+		
 		PrintWriter out = response.getWriter();  
 		response.setContentType("text/html");  
 
@@ -65,14 +69,18 @@ public class RegisterServlet extends HttpServlet {
 
 			ps.setString(1,username);  
 			
+			RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
+			
+			
 			if (pwdIsValid(pwd)) {
 				ps.setString(3,pwd);  
-				 out.print("pwok"); /** pwok --> passwort okay**/
+				request.setAttribute("message", "Du wurdest erfolgreich registriert");
+				//rd.include(request, response);/** pwok --> passwort okay**/
 			}
 			else {
 				
-			    out.print("pwx"); /** pwx --> passwort nicht okay**/
-			    
+				request.setAttribute("message", "Registrieren fehlgeschlagen" );
+				rd.include(request, response); 
 			}
 			ps.setString(2,email); 
 
@@ -80,16 +88,20 @@ public class RegisterServlet extends HttpServlet {
 			int i = ps.executeUpdate(); 
 
 			if(i>0)  {
-				out.print("Sie wurden erfolgreich registriert...");  
-				response.sendRedirect("Login.jsp");
+		//		out.print("Sie wurden erfolgreich registriert...");  
+			//	response.sendRedirect("Login.jsp");
 			}else {
-				out.print("Registrieren fehlgeschlagen!");
+			//	out.print("Registrieren fehlgeschlagen!");
 			}
 			
 			
 
 		}catch (Exception e) {
-			out.print("Registrier - Fehlermeldung: " +e); 
+			String info = "Registrier - Fehlermeldung: " +e;
+			request.setAttribute("message", info );
+			RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
+			rd.include(request, response); 
+			//out.print("Registrier - Fehlermeldung: " +e); 
 			System.out.println("Registrier - Fehlermeldung: " +e);
 		}  
 
