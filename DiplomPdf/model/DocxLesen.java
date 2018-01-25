@@ -69,7 +69,7 @@ public class DocxLesen {
 
 	public static void main(String[] args) {
 		DocxLesen l1 = new DocxLesen();
-		l1.lesenDocx("D://Schuljahr2017_18//BET-Q//1. test.docx");
+		l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//TestfälleSara.docx");
 	}
 
 }

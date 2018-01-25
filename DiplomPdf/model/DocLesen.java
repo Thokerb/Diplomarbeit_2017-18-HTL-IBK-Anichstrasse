@@ -33,7 +33,9 @@ public class DocLesen {
 			HWPFDocument doc = new HWPFDocument(fis);
 			
 			aut = doc.getSummaryInformation().getAuthor();
-			date = doc.getSummaryInformation().getCreateDateTime();			
+			date = doc.getSummaryInformation().getCreateDateTime();
+			
+			System.out.println(date);
 		
 	        formatter = new SimpleDateFormat("yyyy-MM-dd");
 	        d = formatter.format(date);

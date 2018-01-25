@@ -1,7 +1,6 @@
 import java.io.File;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,70 +16,86 @@ import org.apache.pdfbox.text.PDFTextStripper;
 
 public class PDFmanager {
 
-	private PDFParser parser;
-	private PDFTextStripper pdfStripper;
-	private PDDocument pdDoc ;
-	private COSDocument cosDoc ;
+ private PDFParser parser;
+ private PDFTextStripper pdfStripper;
+ private PDDocument pdDoc ;
+ private COSDocument cosDoc ;
 
+<<<<<<< HEAD
 	private String Text ;
 	private static String autor ;
-	private static Date date ;
+	private static String date ;
 	private static String d ;
 	private String filePath;
 	private File file;
 	String info;
+=======
+ private String Text ;
+ private static String autor ;
+ private static String date ;
+ private static String d ;
+ private String filePath;
+ private File file;
+ String info;
+>>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 
-	public PDFmanager() {}
+ public PDFmanager() {}
 
-	private Date convDatum(Calendar cal){
+<<<<<<< HEAD
+	private String convDatum(Calendar cal){
+=======
+ private String convDatum(Calendar cal){
+>>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 
-		
+<<<<<<< HEAD
 		SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
 		String pD = d.format(cal.getTime());
-		
-		String[] datumsTeile = pD.split("-");
-		//Date datum=PDFmanager.getDatum(); 
-		Date datum=	new Date(Integer.parseInt(datumsTeile[0]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[2]));
-		
-		return datum;
+		return pD;
 	}
+=======
+  SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+  String pD = d.format(cal.getTime());
+  return pD;
+ }
+>>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 
-	public String pdfToText() throws IOException {
+ public String pdfToText() throws IOException {
 
-		this.pdfStripper = null;
-		this.pdDoc = null;
-		this.cosDoc = null;
+  this.pdfStripper = null;
+  this.pdDoc = null;
+  this.cosDoc = null;
 
-		file = new File(filePath);
-		parser = new PDFParser(new RandomAccessFile(file,"r")); // update for PDFBox V 2.0
-		parser.parse();
-		cosDoc = parser.getDocument();
-		pdfStripper = new PDFTextStripper();
-		pdDoc = new PDDocument(cosDoc);
-		pdDoc.getNumberOfPages();
+  file = new File(filePath);
+  parser = new PDFParser(new RandomAccessFile(file,"r")); // update for PDFBox V 2.0
+  parser.parse();
+  cosDoc = parser.getDocument();
+  pdfStripper = new PDFTextStripper();
+  pdDoc = new PDDocument(cosDoc);
+  pdDoc.getNumberOfPages();
 
-		PDDocumentInformation info = pdDoc.getDocumentInformation();
-		
-		autor = info.getAuthor();
-		date =  convDatum(info.getCreationDate());
-		System.out.println(date);
+  PDDocumentInformation info = pdDoc.getDocumentInformation();
+  
+  autor = info.getAuthor();
+  date =  convDatum(info.getCreationDate());
+  System.out.println(date);
 
-		pdfStripper.setStartPage(1);
-		pdfStripper.setEndPage(pdDoc.getNumberOfPages());
+  pdfStripper.setStartPage(1);
+  pdfStripper.setEndPage(pdDoc.getNumberOfPages());
 
-		Text = pdfStripper.getText(pdDoc);
-		
-		pdDoc.close();
-		
-		System.out.println(Text);
-		
-		return Text;
-	}
+  Text = pdfStripper.getText(pdDoc);
+  
+  pdDoc.close();
+  
+  System.out.println(Text);
+  
+  return Text;
+ }
 
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
+ public void setFilePath(String filePath) {
+  this.filePath = filePath;
+ }
 
+<<<<<<< HEAD
 	public static void getInfoPDF(){
 		
 //		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -98,8 +113,30 @@ public class PDFmanager {
 		return autor; 
 	}
 	
-	public static Date getDatum(){ 
+	public static String getDatum(){ 
 		return date; 
 	}
+=======
+ public static void getInfoPDF(){
+  
+//  SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+//   DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//      d = formatter.format(date);
+      
+//  d = format1.format(date);
+  
+  System.out.println(" Autor: "+ autor);
+  System.out.println(" Erstelldatum: "+ date);
+  
+ }
+ 
+ public static String getAutor(){ 
+  return autor; 
+ }
+ 
+ public static String getDatum(){ 
+  return date; 
+ }
+>>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 
 }
