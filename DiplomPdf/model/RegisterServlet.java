@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -52,6 +53,9 @@ public class RegisterServlet extends HttpServlet {
 		String pwd = request.getParameter("password");
 		String pwdwh = request.getParameter("passwordrepeat");
 
+		String pw = "hi";
+		String pwx = "bye";
+		
 		PrintWriter out = response.getWriter();  
 		response.setContentType("text/html");  
 
@@ -65,14 +69,18 @@ public class RegisterServlet extends HttpServlet {
 
 			ps.setString(1,username);  
 			
+			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+			
+			
 			if (pwdIsValid(pwd)) {
 				ps.setString(3,pwd);  
-				 out.print("pwok"); /** pwok --> passwort okay**/
+				request.setAttribute("message", "Du wurdest erfolgreich registriert");
+				rd.include(request, response);/** pwok --> passwort okay**/
 			}
 			else {
 				
-			    out.print("pwx"); /** pwx --> passwort nicht okay**/
-			    
+				request.setAttribute("message", "Registrieren fehlgeschlagen" );
+				rd.include(request, response); 
 			}
 			ps.setString(2,email); 
 

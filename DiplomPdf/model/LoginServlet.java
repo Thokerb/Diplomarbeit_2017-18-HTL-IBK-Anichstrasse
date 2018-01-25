@@ -24,7 +24,6 @@ public class LoginServlet extends HttpServlet {
 		// Datenbank abfrage von Benutzer normal
 
 		if(AnmeldungValidate.checkUser(username, pwd) || username.equals("user") && pwd.equals("1234"))
-//		if(username.equals("user") && pwd.equals("1234"))
 		{
 			System.out.println("Anmeldung erfolgreich");
 			HttpSession session = request.getSession();  

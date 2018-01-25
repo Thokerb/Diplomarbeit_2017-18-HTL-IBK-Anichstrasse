@@ -35,85 +35,85 @@ public class EmailPasswort extends HttpServlet {
 
 		final String username = "easypdf.help@gmail.com";
 		final String password = "htlanichstr";
-		
-		String emailuser;
+
+		String emailuser = "";
 		String user;
-		
+
 		try {
 			DBManager db = new DBManager();
 			emailuser = request.getParameter("email");
-			
-//			String checkEMail = db.getEmailByUser(user); 
-//			String checkUser = db.getUserByEmail(emailuser);
-//			String getUser = db.getUser(user);
-//			String getEMail = db.getEmail(emailuser);
+			user = request.getParameter("user");
 
-			//emailuser = "sari.hindelang@gmail.com";
-			
+			String checkEMail = db.getEmailByUser(user); 
+			String checkUser = db.getUserByEmail(emailuser);
+			String getUser = db.getUser(user);
+			String getEMail = db.getEmail(emailuser);
+
 			TokenGenerator tg = new TokenGenerator();
 			String authcode = tg.generateCode();
-			
+
 			DBManager dbm = new DBManager();
 			dbm.saveHash(authcode,emailuser);
-	
-		response.setContentType("text/html");
 
-		//		if((getuser == null) || (getemail == null)){
-		//			request.getSession().setAttribute("false", "Email und Userkennung stimmen nich Überein!");
-		//		System.out.println("User existiert nicht, Mail kann nicht versendet werden. . . ");
-		//			response.sendRedirect("checkforgotpassword.jsp");
-		//		}else{
+			response.setContentType("text/html");
 
-		System.out.println("User existiert, Mail kann versendet werden. . . ");
+//			if((getUser == null) || (getEMail == null)){
+//				//				request.getSession().setAttribute("false", "Email und Userkennung stimmen nich Überein!");
+//
+//				System.out.println("User existiert nicht, Mail kann nicht versendet werden. . . ");
+//				response.sendRedirect("ErrorPage.jsp");
+//			}else{
 
-		Properties props = new Properties();
+				System.out.println("User existiert, Mail kann versendet werden. . . ");
 
-		props.put("mail.smtp.user","username"); 
-		props.put("mail.smtp.host", "smtp.gmail.com"); 
-		props.put("mail.smtp.auth", "true"); 
-		props.put("mail.smtp.starttls.enable","true"); 
-		props.put("mail.smtp.EnableSSL.enable","true");
+				Properties props = new Properties();
 
-		props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");   
-		props.setProperty("mail.smtp.socketFactory.fallback", "false");   
-		props.setProperty("mail.smtp.port", "465");   
-		props.setProperty("mail.smtp.socketFactory.port", "465"); 
+				props.put("mail.smtp.user","username"); 
+				props.put("mail.smtp.host", "smtp.gmail.com"); 
+				props.put("mail.smtp.auth", "true"); 
+				props.put("mail.smtp.starttls.enable","true"); 
+				props.put("mail.smtp.EnableSSL.enable","true");
 
-		Session session = Session.getInstance(props,
-				new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		});
+				props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");   
+				props.setProperty("mail.smtp.socketFactory.fallback", "false");   
+				props.setProperty("mail.smtp.port", "465");   
+				props.setProperty("mail.smtp.socketFactory.port", "465"); 
 
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("easypdf.help@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(emailuser));
-			message.setSubject("Passwort zurücksetzen EasyPDF");
-			message.setText("Lieber EasyPDF Nutzer, um dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
-					+ "\n\n http://localhost:8080/DiplomPdf/Login.jsp"
-					+"\n\n Hier klicken für Reset: CheckReset?authcode="+authcode
+				Session session = Session.getInstance(props,
+						new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(username, password);
+					}
+				});
+
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress("easypdf.help@gmail.com"));
+				message.setRecipients(Message.RecipientType.TO,
+						InternetAddress.parse(emailuser));
+				message.setSubject("Passwort zurücksetzen EasyPDF");
+				message.setText("Lieber EasyPDF Nutzer, um dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
+
+					+"\n\n http://localhost:8080/DiplomPdf/CheckReset?authcode="+authcode
 					+"\n\n  Viel Spaß bei der weiteren Nutzung von EasyPDF wünscht das TEAM: "
 					+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang"); //TODO noch ändern in JSP PWzuruck
 
-			Transport.send(message);
+				Transport.send(message);
 
-			System.out.println("Email wurde versendet");
+				System.out.println("Email wurde versendet");
 
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			} catch (MessagingException e) {
+				throw new RuntimeException(e);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+//			}
+
 		}
-	
-	}
 
-	//	}
+	}
 
 	class GMailAuthenticator extends Authenticator {
 		String user;
