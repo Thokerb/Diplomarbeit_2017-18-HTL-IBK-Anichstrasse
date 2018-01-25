@@ -20,6 +20,7 @@ public class LoginServlet extends HttpServlet {
 
 		String username = request.getParameter("username");
 		String pwd = request.getParameter("password");
+		System.out.println(username);
 		boolean anmeldung; 
 		// Datenbank abfrage von Benutzer normal
 

@@ -5,23 +5,52 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
+<link rel="stylesheet" href="StyleHeroImage.css">
+<link rel="stylesheet" href="styleLogin.css">
 </head>
 
 <%
-if(session.getAttribute("hashcodeverified")==null){
-response.sendRedirect("Errorpage.html");
+if(session.getAttribute("hashcodeverified")!="yes"){
+//response.sendRedirect("Errorpage.html"); 			//auskommentiert für design TODO: dekommentieren
 }
 %>
 
 <body>
-<h1>Willkommen auf der RESET PASSWORT SEITE</h1>
+	<div class="heroimage">
 
-<form action="ResetPasswort" method="post">
-<input type = "text" name="password">
-<input type = "text" name="password2">
-<input type="submit" value="Change Password"> 
+		<div class="container">
+			<div class="center-content">
+			<h1>Gib dein neues Passwort ein</h1>
 
+<form action="ResetPasswort" method="post" id="registerform" data-toggle="validator">
+<div class="form-group">
+<div class="input-group">
+<input class="form-control" type = "password" data-minlength="8" id="pwinput" name="password" data-minlength-error="Passwort muss mindestens 8 Zeichen haben" required>
+							<span class="input-group-btn">
+								<button class="btn-link btnpw form-control" type="button" id="unmaskbtn">
+									<span class="glyphicon glyphicon-eye-open"></span>
+								</button>
+							</span>
+</div>
+<div class="help-block with-errors"></div>
+
+</div>
+<div class="form-group">
+<input class="form-control" type = "password" id="pwinput2" name="password" data-match="#pwinput" data-match-error="Passwörter stimmen nicht überein" required>
+<div class="help-block with-errors"></div>
+</div>
+<div class="form-group">
+<input type="submit" class="form-control btn btn-primary" value="Change Password"> 
+</div>
 </form>
+
+		</div>
+	</div>
 
 <!-- Modal -->
 <div id="statusModal" class="modal fade" role="dialog">
@@ -43,33 +72,42 @@ response.sendRedirect("Errorpage.html");
 
   </div>
 </div>
-
+</div>
 <script>
 
-$.ajax({
-    type: 'POST',
-    url: 'ResetPasswort',
-    dataType: 'text/plain',
-    complete: function(data){
-       Console.log(data)
-       
-       switch(data){
-       case"pwok":
-    	   $("#statustext").text("Ihr Passwort wurde erfolgreich geändert!");
-    	   $("#statusModal").modal();
-    	   break;
-       case"notsamesame":
-    	   $("#statustext").text("Die Passwörter stimmen nicht überein!");
-    	   $("#statusModal").modal();
-    	   break;
-       default:
-    	   $("#statustext").text("Es gab einen Fehler mit Ihrer Anfrage.");
-		   $("#statusModal").modal();
-		   break;
-    	   
-       }
-    }
- });
+$(document).ready(function() {
+	var register = $("#registerform");
+
+    $("#unmaskbtn").on('click',function(){
+        if($("#pwinput").attr('type') == 'password'){
+        	var input = $("#pwinput");
+        	var pw = input.val();
+        	input.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput\" placeholder=\"Passwort\" data-minlength=\"8\" class=\"form-control\" value=\""+pw+"\" required>");
+            $(this).html("<span class=\"glyphicon glyphicon-eye-close\"></span>")
+
+            
+            var input2 = $("#pwinput2");
+            var pw2 = input2.val();
+        	input2.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput2\" placeholder=\"Passwort wiederholen\" class=\"form-control\" data-match=\"#pwinput\" data-match-error=\"Passwörter stimmen nicht überein\" value=\""+pw2+"\" required>");
+			
+        	register.validator('update');
+        }
+        else{
+        	var input = $("#pwinput");
+        	var pw = input.val();
+        	input.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput\" class=\"form-control\" data-minlength=\"8\" placeholder=\"Passwort\" value=\""+pw+"\" required>");
+                            $(this).html("<span class=\"glyphicon glyphicon-eye-open\"></span>");
+            
+            var input2 = $("#pwinput2");
+            var pw2 = input2.val();
+        	input2.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput2\" class=\"form-control\" placeholder=\"Passwort wiederholen\" data-match=\"#pwinput\" data-match-error=\"Passwörter stimmen nicht überein\" value=\""+pw2+"\" required>");
+
+
+        	register.validator('update');
+        }
+
+          });
+}) 
 
 </script>
 
