@@ -89,7 +89,7 @@ public class RegisterServlet extends HttpServlet {
 
 			if(i>0)  {
 				out.print("Sie wurden erfolgreich registriert...");  
-				response.sendRedirect("Login.jsp");
+			//	response.sendRedirect("Login.jsp");
 			}else {
 				out.print("Registrieren fehlgeschlagen!");
 			}
