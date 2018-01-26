@@ -78,6 +78,7 @@
         <p id="statusmessage">${message}</p>
       </div>
       <div class="modal-footer">
+      	        <button type="button" class="btn btn-default" onclick="location.href = 'Startseite.jsp';">Startseite</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>

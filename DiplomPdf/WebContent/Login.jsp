@@ -41,6 +41,10 @@
 						<input type="submit" class="form-control btn btn-primary"
 							value="Login">
 					</div>
+					<div class="form-group">
+												<a href="PasswordHelp.jsp">Passwort vergessen ?</a>
+					
+					</div>
 				</form>
 
 

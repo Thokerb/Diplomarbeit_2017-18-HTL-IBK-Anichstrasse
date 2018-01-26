@@ -44,10 +44,10 @@ public class EmailPasswort extends HttpServlet {
 			emailuser = request.getParameter("email");
 			user = request.getParameter("user");
 
-			String checkEMail = db.getEmailByUser(user); 
-			String checkUser = db.getUserByEmail(emailuser);
-			String getUser = db.getUser(user);
-			String getEMail = db.getEmail(emailuser);
+//			String checkEMail = db.getEmailByUser(user); 
+//			String checkUser = db.getUserByEmail(emailuser);
+//			String getUser = db.getUser(user);
+//			String getEMail = db.getEmail(emailuser);
 
 			TokenGenerator tg = new TokenGenerator();
 			String authcode = tg.generateCode();

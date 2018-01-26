@@ -52,8 +52,7 @@ if(session.getAttribute("hashcodeverified")!="yes"){
 		</div>
 	</div>
 
-<!-- Modal -->
-<div id="statusModal" class="modal fade" role="dialog">
+	<div id="statusModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -63,16 +62,18 @@ if(session.getAttribute("hashcodeverified")!="yes"){
         <h4 class="modal-title">Status</h4>
       </div>
       <div class="modal-body">
-        <p id="statustext"></p>
+        <p id="statusmessage">${message}</p>
       </div>
       <div class="modal-footer">
+      	        <button type="button" class="btn btn-default" onclick="location.href = 'Startseite.jsp';">Startseite</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
 
   </div>
-</div>
-</div>
+	</div>
+
+
 <script>
 
 $(document).ready(function() {
