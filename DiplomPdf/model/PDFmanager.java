@@ -18,13 +18,13 @@ public class PDFmanager {
 	private PDFTextStripper pdfStripper;
 	private PDDocument pdDoc ;
 	private COSDocument cosDoc ;
-
 	private String Text ;
 	private static String autor ;
 	private static String date ;
 	private static String d ;
 	private String filePath;
 	private File file;
+
 	String info;
 
 	public PDFmanager() {}
