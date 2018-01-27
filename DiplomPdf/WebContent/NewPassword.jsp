@@ -16,7 +16,7 @@
 
 <%
 if(session.getAttribute("hashcodeverified")!="yes"){
-//response.sendRedirect("Errorpage.html"); 			//auskommentiert für design TODO: dekommentieren
+response.sendRedirect("Errorpage.html"); 			
 }
 %>
 

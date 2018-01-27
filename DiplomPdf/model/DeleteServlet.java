@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import model.DBManager;
+
 /**
  * Servlet implementation class DeleteServlet
  */
@@ -25,6 +30,25 @@ public class DeleteServlet extends HttpServlet {
 		 */
 		String todelete = request.getParameter("todelete");
 		System.out.println("todelete: "+todelete);
+		
+		Gson gsn = new Gson();
+		JsonObject jobj; 
+
+		jobj = gsn.fromJson(todelete, JsonObject.class);
+		String idObj = jobj.get("ID").getAsString();
+		int id = Integer.parseInt(idObj);
+		System.out.println("todeleted:"+id);
+		try {
+			DBManager db = new DBManager();
+			db.Datenlöschen(id);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**

@@ -490,11 +490,10 @@ request.setAttribute("user", "Testuser");
 	    
 	    $(".table tbody").on("click",".deletebutton",function(){
 			var sourcetable = getTableRow($(this));
-  	       var str = JSON.stringify(data);
 	     	var xhttp = new XMLHttpRequest();
 	    	xhttp.open("POST","DeleteServlet",true);
 	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	    	xhttp.send("todelete="+str+sourcetable);
+	    	xhttp.send("todelete="+sourcetable);
 	    	refreshtables();
 	    });
 		

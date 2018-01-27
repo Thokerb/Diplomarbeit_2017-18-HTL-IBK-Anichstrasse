@@ -1071,12 +1071,12 @@ public class DBManager {
 
 	public static void Datenlöschen(int id)
 	{
-		String SQL="delete from uploaddaten where uploaddaten.uploadid='"+id+"'";
+		String SQL="delete from uploaddaten where uploaddaten.uploadid='"+id+"';";
 
 		try {
 			conn=DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.executeUpdate(SQL);
+			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

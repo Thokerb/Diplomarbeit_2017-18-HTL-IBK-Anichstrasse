@@ -86,7 +86,7 @@
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/LoginServlet</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>EmailPasswort</servlet-name>
     <servlet-class>EmailPasswort</servlet-class>
   </servlet>
