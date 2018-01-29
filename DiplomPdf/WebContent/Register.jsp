@@ -58,7 +58,7 @@
 					</div>
 					<div class="form-group">
 						<hr />
-						<input type="submit" class="form-control btn btn-primary" value="Registrieren">
+						<input type="submit" id="submitbtn" class="form-control btn btn-primary" value="Registrieren">
 					</div>
 				</form>
 			</div>
@@ -77,7 +77,7 @@
       <div class="modal-body">
         <p id="statusmessage">${message}</p>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer center-content">
       	        <button type="button" class="btn btn-default" onclick="location.href = 'Startseite.jsp';">Startseite</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
@@ -94,10 +94,35 @@
 			$("#statusModal").modal("show");
 		}
 		
-		$("#registerform").submit(function(){
-			$("#statusModal").modal("show");
+		$("#registerform").submit(function(event){
+			event.preventDefault();
+
+			
+			if(form_validate("registerform")){				
+				$("#registerform")[0].submit(); //only calls once, no infinite loop
+				console.log("yeah");
+				$("#statusModal").modal("show");
+			}
+			else{
+				console.log("nope");
+
+			
+			}
+
 			
 		});
+		
+		function form_validate(attr_id){
+		    var result = true;
+		    $('#'+attr_id).validator('validate');
+		    $('#'+attr_id+' .form-group').each(function(){
+		        if($(this).hasClass('has-error')){
+		            result = false;
+		            return false;
+		        }
+		    });
+		    return result;
+		}
 		
     	var register = $("#registerform");
 

@@ -43,8 +43,10 @@ public class DateienListServlet extends HttpServlet {
 			Connection conn=dbm.getConnection();
 			anzahl=dbm.AnzahlEinträge(conn);
 
+			if(anzahl != 0)
 			namen = new String[anzahl-1];
-
+			else
+				namen = new String[anzahl];
 			namen=dbm.Dateiname(conn);
 
 		}catch (InstantiationException e) {
