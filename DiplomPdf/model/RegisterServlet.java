@@ -29,8 +29,6 @@ public class RegisterServlet extends HttpServlet {
 	static final String USER = "postgres";
 	static final String PASS = "password";
 
-	static Connection conn = null;
-
 	static int minPW = 8; 
 	static int maxPW = 16; 
 
@@ -62,7 +60,8 @@ public class RegisterServlet extends HttpServlet {
 				try {
 					
 					DBManager m = new DBManager();
-					m.RegisterBenutzer(username, email, pwd);
+					Connection conn=m.getConnection();
+					m.RegisterBenutzer(conn,username, email, pwd);
 					code = 0;
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
@@ -157,7 +156,7 @@ public class RegisterServlet extends HttpServlet {
 		boolean userDB = false; 
 		try {
 			DBManager dbm = new DBManager();
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			Connection conn = dbm.getConnection();
 
 			try {
 				Class.forName(JDBC_DRIVER);
@@ -168,7 +167,7 @@ public class RegisterServlet extends HttpServlet {
 
 			
 
-			if( dbm.getUser(username, conn) != null) {
+			if( dbm.getUser(conn, username) != null) {
 				System.out.println("Username "+ username +" darf nicht verwendet werden, er existiert bereits!");
 				userDB = true; 
 				return userDB;

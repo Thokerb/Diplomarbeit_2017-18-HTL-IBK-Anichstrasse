@@ -1,6 +1,9 @@
 
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,11 +43,15 @@ public class DeleteServlet extends HttpServlet {
 		System.out.println("todeleted:"+id);
 		try {
 			DBManager db = new DBManager();
-			db.Datenlöschen(id);
+			Connection conn=db.getConnection();
+			db.Datenlöschen(conn,id);
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

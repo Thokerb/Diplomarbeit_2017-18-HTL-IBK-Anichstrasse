@@ -28,7 +28,7 @@
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
-						<li><a href="#">Platzhalter</a></li>
+						<li><a href="DataTableSite.jsp">Dokumente</a></li>
 					</ul>
 
 				</div>

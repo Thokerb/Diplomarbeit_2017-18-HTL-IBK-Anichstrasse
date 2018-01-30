@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -49,23 +50,27 @@ public class EmailPasswort extends HttpServlet {
 
 		try {
 			DBManager db = new DBManager();
+
 			Class.forName(JDBC_DRIVER);
+			Connection conn=db.getConnection();
 			emailuser = request.getParameter("email");
 			user = request.getParameter("user");
 
-			String checkEMail = db.getEmailByUser(user); 
-			String checkUser = db.getUserByEmail(emailuser);
+			//			String checkEMail = db.getEmailByUser(conn, user); 
+			//			String checkUser = db.getUserByEmail(conn, emailuser);
 
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
-			String getUser = db.getUser(user, conn);
-			String getEMail = db.getEmail(emailuser);
+			String getUser = db.getUser(conn, user);
+			String getEMail = db.getEmail(conn, emailuser);
+
+			String subject = "Passwort zurücksetzen EasyDocs";
+			String message = "";
 
 			TokenGenerator tg = new TokenGenerator();
 			String authcode = tg.generateCode();
 
-			DBManager dbm = new DBManager();
-			dbm.saveHash(authcode,emailuser);
+			db.saveHash(conn,authcode,emailuser);
 
 			response.setContentType("text/html");
 
@@ -79,17 +84,38 @@ public class EmailPasswort extends HttpServlet {
 
 				System.out.println("User existiert, Mail kann versendet werden. . . ");
 
-				 SendEMail mailer = new SendEMail();
-				 
-			        try {
-			            mailer.sendPlainTextEmail(host, port, username, password, emailuser, subject, message);
-			            System.out.println("Email sent.");
-			        } catch (Exception ex) {
-			            System.out.println("Failed to sent email.");
-			            ex.printStackTrace();
-			        }
-				
+				SendEMail mailer = new SendEMail();
+
+				try {
+					message = "Lieber EasyPDF Nutzer, um dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
+
+					+"\n\n http://localhost:8080/DiplomPdf/CheckReset?authcode="+authcode
+					+"\n\n  Viel Spaß bei der weiteren Nutzung von EasyPDF wünscht das TEAM: "
+					+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang";
+
+					mailer.sendPlainTextEmail( emailuser, subject, message);
+					System.out.println("Email wurde gesendet.");
+				} catch (Exception ex) {
+					System.out.println("Email konnte nicht gesnendet werden");
+					ex.printStackTrace();
+				}
+
 			}
+
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			//			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

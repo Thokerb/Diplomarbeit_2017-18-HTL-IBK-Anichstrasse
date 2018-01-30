@@ -68,7 +68,7 @@ public class UploadServlet extends HttpServlet {
 			try {
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
-				String stichworttext=dbm.Stichtextgenerator(inhalttext);
+				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				String[] daten =new String[8];
 				daten[0]="tag";
@@ -84,7 +84,7 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(daten,filePart,PDFmanager.getDatum());
+				DBManager.writeDaten(conn1,daten,filePart,PDFmanager.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);
@@ -120,7 +120,7 @@ public class UploadServlet extends HttpServlet {
 			try {
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
-				String stichworttext=dbm.Stichtextgenerator("inhalttext");
+				String stichworttext=dbm.Stichtextgenerator(conn1,"inhalttext");
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				String[] daten =new String[8];
 				daten[0]="tag";
@@ -136,7 +136,7 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(daten,filePart,PDFmanager.getDatum());
+				DBManager.writeDaten(conn1,daten,filePart,PDFmanager.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);
@@ -163,7 +163,7 @@ public class UploadServlet extends HttpServlet {
 			try {
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
-				String stichworttext=dbm.Stichtextgenerator("inhalttext");
+				String stichworttext=dbm.Stichtextgenerator(conn1,"inhalttext");
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				String[] daten =new String[8];
 				daten[0]="tag";
@@ -179,7 +179,7 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(daten,filePart,PDFmanager.getDatum());
+				DBManager.writeDaten(conn1,daten,filePart,PDFmanager.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);

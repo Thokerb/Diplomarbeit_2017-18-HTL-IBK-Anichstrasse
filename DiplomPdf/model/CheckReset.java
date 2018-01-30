@@ -1,6 +1,9 @@
 
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,15 +47,18 @@ public class CheckReset extends HttpServlet {
 		System.out.println("empf code:"+Hashcode);
 		//TODO check datenbank auf Code
 		Boolean check = false;
-		DBManager dbm = null;
 		try {
-			dbm = new DBManager();
-			 check = dbm.CodeCheck(Hashcode);
+			DBManager dbm = new DBManager();
+			Connection conn=dbm.getConnection();
+			 check = dbm.CodeCheck(conn,Hashcode);
 
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -65,7 +71,9 @@ public class CheckReset extends HttpServlet {
 			
 			String user = "";
 			try{
-				user = dbm.getUserbyHash(Hashcode);
+				DBManager dbm=new DBManager();
+				Connection conn=dbm.getConnection();
+				user = dbm.getUserbyHash(conn,Hashcode);
 			}
 			catch (Exception e) {
 				// TODO: handle exception
