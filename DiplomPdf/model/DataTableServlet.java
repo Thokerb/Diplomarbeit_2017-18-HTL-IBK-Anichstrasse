@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import model.DBManager;
-import model.Datenbank3;
 import model.Uploaddaten;
 
 
