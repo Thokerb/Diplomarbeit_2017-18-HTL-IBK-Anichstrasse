@@ -69,6 +69,8 @@ public class DataTableServlet extends HttpServlet {
 		String draw = request.getParameter("draw");
 		String order_art = null;
 		String user = request.getParameter("user");
+		String table = request.getParameter("table");
+		System.out.println(table);
 		System.out.println("user: "+user);
 		String start = request.getParameter("start");
 		String length = request.getParameter("length");
