@@ -56,8 +56,8 @@ public class EmailPasswort extends HttpServlet {
 			emailuser = request.getParameter("email");
 			user = request.getParameter("user");
 
-			//			String checkEMail = db.getEmailByUser(conn, user); 
-			//			String checkUser = db.getUserByEmail(conn, emailuser);
+			String checkEMail = db.getEmailByUser(conn, user); 
+			String checkUser = db.getUserByEmail(conn, emailuser);
 
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 

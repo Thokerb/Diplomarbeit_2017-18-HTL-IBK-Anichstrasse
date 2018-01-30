@@ -51,14 +51,14 @@ public class RegisterServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String email = request.getParameter("email");
 		String pwd = request.getParameter("password");
- 
+
 		response.setContentType("text/html");  
 		boolean registerok = false;
-		
+
 		if(pwdIsValid(pwd) && usernIsValid(username)) {
 			if(userDB(username)) {
 				try {
-					
+
 					DBManager m = new DBManager();
 					Connection conn=m.getConnection();
 					m.RegisterBenutzer(conn,username, email, pwd);
@@ -84,18 +84,32 @@ public class RegisterServlet extends HttpServlet {
 		else {
 			code = 2;
 		}
-		
 
-
-
-
-		
 		RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
 
 		switch(code) {
 		case 0: 
 			request.setAttribute("message", "Du wurdest erfolgreich registriert");
 			rd.include(request, response);
+			
+			String subject = "Passwort zurücksetzen EasyDocs";
+			String message = "";
+			
+			SendEMail mailer = new SendEMail();
+
+			try {
+				message = "Herzlich willkommen lieber neuer EasyPDF Nutzer, "
+				+"\n\n  Viel Spaß bei der Nutzung von EasyPDF wünscht das TEAM: "
+				+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang";
+
+				mailer.sendPlainTextEmail( email, subject, message);
+				System.out.println("Email wurde gesendet.");
+			} catch (Exception ex) {
+				System.out.println("Email konnte nicht gesnendet werden");
+				ex.printStackTrace();
+			}
+			
+			
 			break;
 		case 1: 
 			System.out.println("Fehlercode von Servlet: "+ code);
@@ -110,18 +124,13 @@ public class RegisterServlet extends HttpServlet {
 			request.setAttribute("message", "Registrieren fehlgeschlagen, Email oder Username bereits registriert" );
 			rd.include(request, response); 
 			break;
-		
+
 		default:
 			request.setAttribute("message", "Ein unbekannter Fehler ist aufgetreten");
 			rd.include(request, response);
 			break;
-
-
 		}
 	}
-
-
-
 
 	public static boolean usernIsValid(String username) {
 		boolean unok; 
@@ -164,9 +173,6 @@ public class RegisterServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			
-
 			if( dbm.getUser(conn, username) != null) {
 				System.out.println("Username "+ username +" darf nicht verwendet werden, er existiert bereits!");
 				userDB = true; 
@@ -186,19 +192,16 @@ public class RegisterServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		return userDB; // ?????? nit user DB
-		//		return userDB;
+		return userDB; 
 	}
 
 	public static boolean pwdIsValid(String password) {
 
 		boolean pwvalid; 
 		if(password.length() >= minPW && password.length() <= maxPW){ // länge nötig? 
-
-
 			for(int i = 0; i < password.length(); i++){
 				char c = password.charAt(i);
-			
+
 				if(Character.isDigit(c)){
 					digit++;
 				}
@@ -208,7 +211,6 @@ public class RegisterServlet extends HttpServlet {
 				pwvalid = true; 
 				return pwvalid; 
 			}
-
 		}
 		else if(password.length() > maxPW || password.length() >= maxPW ){
 

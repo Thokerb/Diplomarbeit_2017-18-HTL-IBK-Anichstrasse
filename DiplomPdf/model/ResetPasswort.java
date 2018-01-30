@@ -36,15 +36,10 @@ public class ResetPasswort extends HttpServlet {
 		String username = ((ServletRequest) request.getSession()).getParameter("username"); //Username wird schon vom vorherigen Servlet genommen
 		String pw = request.getParameter("password");
 		String pw2 = request.getParameter("password2");
-		String auth = (String) ses.getAttribute("hashcodeverified");
+		String auth = (String) request.getAttribute("hashcodeverified");
 
 		if(auth.equalsIgnoreCase("yes")) {
-
-			// TODO: aus Register servlet methoden? 
-
-
 			if(pw.equals(pw2)) {
-
 
 				if(RegisterServlet.pwdIsValid(pw)) {
 
@@ -78,7 +73,6 @@ public class ResetPasswort extends HttpServlet {
 					response.setContentType("text/plain");
 					PrintWriter out = response.getWriter();
 					out.print("pwok");
-
 				}
 				else {
 					response.setContentType("text/plain");
@@ -88,7 +82,6 @@ public class ResetPasswort extends HttpServlet {
 					RequestDispatcher rd = request.getRequestDispatcher("ErrorPage.jsp");
 					rd.forward(request, response);
 				}
-
 			}
 			else {
 
@@ -97,11 +90,6 @@ public class ResetPasswort extends HttpServlet {
 				rd.forward(request, response);
 
 			}
-
-
-
-
 		}
-
 	}
 }
