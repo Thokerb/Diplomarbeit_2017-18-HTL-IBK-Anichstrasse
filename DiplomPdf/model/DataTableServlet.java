@@ -122,7 +122,7 @@ public class DataTableServlet extends HttpServlet {
 			switch(sortierparameter){
 
 			case "2asc"  :{
-				daten=db.datenASC(conn,user,"dateiname","ASC");
+				daten=db.datenASC(conn,username,"dateiname","ASC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -131,7 +131,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "2desc"  :{
-				daten=db.datenASC(conn,user,"dateiname","DESC");
+				daten=db.datenASC(conn,username,"dateiname","DESC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -140,7 +140,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "3asc"  :{
-				daten=db.datenASC(conn,user,"autor","ASC");
+				daten=db.datenASC(conn,username,"autor","ASC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -149,7 +149,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "3desc"  :{
-				daten=db.datenASC(conn,user,"autor","DESC");
+				daten=db.datenASC(conn,username,"autor","DESC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -158,7 +158,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "4asc"  :{
-				daten=db.datenASC(conn,user,"uploaddatum","ASC");
+				daten=db.datenASC(conn,username,"uploaddatum","ASC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -167,7 +167,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "4desc"  :{
-				daten=db.datenASC(conn,user,"uploaddatum","DESC");
+				daten=db.datenASC(conn,username,"uploaddatum","DESC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -176,7 +176,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "5asc"  :{
-				daten=db.datenASC(conn,user,"dokumentdatum","ASC");
+				daten=db.datenASC(conn,username,"dokumentdatum","ASC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -185,7 +185,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "5desc"  :{
-				daten=db.datenASC(conn,user,"dokumentdatum","DESC");
+				daten=db.datenASC(conn,username,"dokumentdatum","DESC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -206,7 +206,7 @@ public class DataTableServlet extends HttpServlet {
 
 			default:{
 
-				daten=db.datenASC(conn,user,"dateiname","ASC");
+				daten=db.datenASC(conn,username,"dateiname","ASC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
