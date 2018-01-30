@@ -58,23 +58,22 @@ public class DataTableServlet extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 
-		//				Enumeration<String> en = request.getParameterNames();
-		//				System.out.println("Alle ELEMENTE");
-		//				while(en.hasMoreElements()){
-		//					System.out.println(en.nextElement());
-		//				}
+//						Enumeration<String> en = request.getParameterNames();
+//						System.out.println("Alle ELEMENTE");
+//						while(en.hasMoreElements()){
+//							System.out.println(en.nextElement());
+//						}
 
 
 		HttpSession ses = request.getSession(false);
 		String username = (String) ses.getAttribute("user"); //Username wird schon vom vorherigen Servlet genommen
-		System.out.println(username);
 		String search = request.getParameter("search[value]");
 		String draw = request.getParameter("draw");
 		String order_art = null;
 	//	String user = request.getParameter("user");
 		String table = request.getParameter("table");
 		System.out.println(table);
-		System.out.println("user: "+user);
+		System.out.println("user: "+username);
 		String start = request.getParameter("start");
 		String length = request.getParameter("length");
 		System.out.println("Erstes Element:"+start+" Einträge pro Seite: "+length);
