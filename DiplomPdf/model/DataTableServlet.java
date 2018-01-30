@@ -96,14 +96,22 @@ public class DataTableServlet extends HttpServlet {
 		/**
 		 * Hier sollte je nach dem welcher button zum sortieren der Daten die Antowrt anders sein, sortierparameter einstellen
 		 */
+		
+		String sortierspalte="";
+		String sortierdings="";
+		if(table.equals("table1"))
+		{
+			sortierspalte="uploader";
+			sortierdings=username;
+		}
+		else
+		{
+			sortierspalte="status";
+			sortierdings="public";
+		}
 
 		//sortierparameter muss Spalte+ASC oder DESC sein
-
-
-
-
 		Connection conn=null;
-		List<Uploaddaten> list = null;
 
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		int anzahl = 0;
@@ -122,7 +130,7 @@ public class DataTableServlet extends HttpServlet {
 			switch(sortierparameter){
 
 			case "2asc"  :{
-				daten=db.datenASC(conn,username,"dateiname","ASC");
+				daten=db.meineDaten(conn,sortierdings,"dateiname","ASC",sortierspalte);
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -131,7 +139,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "2desc"  :{
-				daten=db.datenASC(conn,username,"dateiname","DESC");
+				daten=db.meineDaten(conn,sortierdings,"dateiname","DESC",sortierspalte);
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -140,7 +148,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "3asc"  :{
-				daten=db.datenASC(conn,username,"autor","ASC");
+				daten=db.meineDaten(conn,sortierdings,"autor","ASC",sortierspalte);
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -149,7 +157,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "3desc"  :{
-				daten=db.datenASC(conn,username,"autor","DESC");
+				daten=db.meineDaten(conn,sortierdings,"autor","DESC",sortierspalte);
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -158,7 +166,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "4asc"  :{
-				daten=db.datenASC(conn,username,"uploaddatum","ASC");
+				daten=db.meineDaten(conn,sortierdings,"uploaddatum","ASC",sortierspalte);
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -167,7 +175,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "4desc"  :{
-				daten=db.datenASC(conn,username,"uploaddatum","DESC");
+				daten=db.meineDaten(conn,sortierdings,"uploaddatum","DESC",sortierspalte);
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -176,7 +184,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "5asc"  :{
-				daten=db.datenASC(conn,username,"dokumentdatum","ASC");
+				daten=db.meineDaten(conn,sortierdings,"dokumentdatum","ASC",sortierspalte);
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -185,7 +193,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "5desc"  :{
-				daten=db.datenASC(conn,username,"dokumentdatum","DESC");
+				daten=db.meineDaten(conn,sortierdings,"dokumentdatum","DESC",sortierspalte);
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -206,7 +214,7 @@ public class DataTableServlet extends HttpServlet {
 
 			default:{
 
-				daten=db.datenASC(conn,username,"dateiname","ASC");
+				daten=db.meineDaten(conn,sortierdings,"dateiname","ASC",sortierspalte);
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -215,7 +223,20 @@ public class DataTableServlet extends HttpServlet {
 			}
 			}
 
-			anzahl=db.AnzahlEinträge(conn);
+			String spalte="";
+			String spalteninhalt="";
+			
+			if(table.equals("table1"))
+			{
+				spalte="uploader";
+				spalteninhalt=username;
+			}
+			else
+			{
+				spalte="status";
+				spalteninhalt="public";
+			}
+			anzahl=db.AnzahlEinträge1(conn,spalte,spalteninhalt);
 
 
 			db.releaseConnection(conn);
