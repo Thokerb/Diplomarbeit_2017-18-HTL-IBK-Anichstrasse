@@ -258,7 +258,14 @@ if(session.getAttribute("username")== null){
 	        	"targets": -2,
 	            "data": "null",
 	            "defaultContent": "<button class=\"downloadbutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Downloaden\"><span class=\"glyphicon glyphicon-arrow-down\" ></span></button>"
-	        }, {
+	        },
+	        {
+	        	"targets": -3,
+	        	"visible": false,
+	            "searchable": false
+	        	
+	        },
+	        {
 	            "targets": -1,
 	            "visible": false,
 	            "searchable": false,
