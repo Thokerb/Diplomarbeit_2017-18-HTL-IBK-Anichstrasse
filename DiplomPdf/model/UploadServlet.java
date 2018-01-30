@@ -59,6 +59,23 @@ public class UploadServlet extends HttpServlet {
 		System.out.println("Es handelt sich um eine ' "+ dateityp +" ' Datei: ");
 		System.out.println("-----------------------------------------");
 		
+		if(overwrite){
+			try {
+				DBManager dbm = new DBManager();
+				Connection conn = dbm.getConnection();	//TODO: OVERWRITE TESTEN
+				dbm.deletebyname(dateiname,conn);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 
 		switch(dateityp){
 
