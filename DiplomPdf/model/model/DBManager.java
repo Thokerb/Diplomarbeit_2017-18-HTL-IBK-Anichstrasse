@@ -978,5 +978,19 @@ public class DBManager {
 		System.out.println("Daten in Datenbank gepeichert.");
 	}
 
+	public void deletebyname(String dateiname,Connection conn) {
+		String SQL = "delete from uploaddaten where dateiname ='"+dateiname+"';";
+		
+		try {
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
 
 }
