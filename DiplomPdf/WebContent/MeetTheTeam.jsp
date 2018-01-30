@@ -24,7 +24,7 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">EasyPDF</a>
+					<a class="navbar-brand" href="DataTableSite.jsp">EasyDocs</a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">

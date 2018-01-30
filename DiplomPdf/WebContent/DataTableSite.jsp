@@ -401,11 +401,12 @@ if(session.getAttribute("username")== null){
 	        	"targets": -2,
 	            "data": "null",
 	            "defaultContent": "<button class=\"downloadbutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Downloaden\"><span class=\"glyphicon glyphicon-arrow-down\" ></span></button>"
-	        }, {
-	            "targets": -1,
-	            "data": "null",
-	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
-	        },
+	        }, 
+	    //    {
+	    //        "targets": -1,
+	    //        "data": "null",
+	    //        "defaultContent": "<span class=></span>"
+	    //    },
 	        {
 	        	"targets": 1,
 	        	"render": function func(data){
@@ -649,7 +650,6 @@ if(session.getAttribute("username")== null){
 							<th>DokumentDatum</th>
 							<th>Zugang</th>
 							<th>Download</th>
-							<th>Delete</th>
 						</tr>
 
 					</thead>
