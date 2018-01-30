@@ -73,13 +73,7 @@ public class PDFmanager {
 	}
 
 	public static void getInfoPDF(){
-
-		//  SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-		//   DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		//      d = formatter.format(date);
-
-		//  d = format1.format(date);
-
+		
 		System.out.println(" Autor: "+ autor);
 		System.out.println(" Erstelldatum: "+ date);
 

@@ -825,8 +825,7 @@ public class DBManager {
 	public String getEmailByUser(Connection conn,String user) {
 		{
 
-			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
-			String SQL="select email from benutzer";
+			String SQL="SELECT email from benutzer WHERE benutzername = '"+user+"'";
 			String email=null;
 
 			try {
@@ -847,8 +846,8 @@ public class DBManager {
 	}
 
 	public String getUserByEmail(Connection conn,String emailuser) {
-		ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
-		String SQL="select benutzername from benutzer";
+	
+		String SQL="select benutzername from benutzer where email ='"+emailuser+"'";
 		String benutzername=null;
 
 		try {
@@ -869,8 +868,7 @@ public class DBManager {
 
 	public String getUser(Connection conn,String username) {
 
-		ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
-		String SQL="select benutzername from benutzer where benutzername='"+username+"'"; //TODO: für Verena
+		String SQL="select benutzername from benutzer where benutzername='"+username+"'";
 		String user=null;
 
 		try {
@@ -895,8 +893,8 @@ public class DBManager {
 
 	public String getEmail(Connection conn,String em) {
 		{
-			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
-			String SQL="select email from benutzer where='"+em+"'";
+			
+			String SQL="select email from benutzer where email='"+em+"'";
 			String email=null;
 
 			try {

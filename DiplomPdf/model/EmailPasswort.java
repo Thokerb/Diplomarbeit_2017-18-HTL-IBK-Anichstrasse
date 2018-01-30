@@ -53,16 +53,16 @@ public class EmailPasswort extends HttpServlet {
 
 			Class.forName(JDBC_DRIVER);
 			Connection conn=db.getConnection();
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			
 			emailuser = request.getParameter("email");
 			user = request.getParameter("user");
-
-			String checkEMail = db.getEmailByUser(conn, user); 
+ 
 			String checkUser = db.getUserByEmail(conn, emailuser);
-
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
-			String getUser = db.getUser(conn, user);
-			String getEMail = db.getEmail(conn, emailuser);
+			String checkMail = db.getEmailByUser(conn, user);
+			
+			String getUser = db.getUser(conn, checkUser);
+			String getMail = db.getEmail(conn, checkMail);
 
 			String subject = "Passwort zurücksetzen EasyDocs";
 			String message = "";
@@ -70,20 +70,20 @@ public class EmailPasswort extends HttpServlet {
 			TokenGenerator tg = new TokenGenerator();
 			String authcode = tg.generateCode();
 
-			db.saveHash(conn,authcode,emailuser);
+			db.saveHash(conn,authcode,getMail);
 
 			response.setContentType("text/html");
 
-			if((getUser == null) || (getEMail == null)){
+			if((getUser == null) || (getMail == null)){
 
-				request.getSession().setAttribute("false", "Email und Userkennung stimmen nich Überein!");
-				System.out.println("User existiert nicht, Mail kann nicht versendet werden. . . ");
+				request.getSession().setAttribute("message", "Email und Userkennung können nicht verwendet werden!");
+				System.out.println("Email und Userkennung können nicht verwendet werden!");
 				response.sendRedirect("ErrorPage.jsp");
 
 			}else{
 
 				System.out.println("User existiert, Mail kann versendet werden. . . ");
-
+				request.getSession().setAttribute("message", "Die EMail wurde versendet");
 				SendEMail mailer = new SendEMail();
 
 				try {
@@ -96,7 +96,7 @@ public class EmailPasswort extends HttpServlet {
 					mailer.sendPlainTextEmail( emailuser, subject, message);
 					System.out.println("Email wurde gesendet.");
 				} catch (Exception ex) {
-					System.out.println("Email konnte nicht gesnendet werden");
+					System.out.println("Email konnte nicht gesendet werden");
 					ex.printStackTrace();
 				}
 

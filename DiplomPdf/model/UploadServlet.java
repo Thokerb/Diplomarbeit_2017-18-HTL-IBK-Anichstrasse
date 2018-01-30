@@ -80,7 +80,7 @@ public class UploadServlet extends HttpServlet {
 		switch(dateityp){
 
 		case "PDF"  :{
-			String inhalttext = PDFboxLesen.lesenPDF("C://Temp//"+dateiname);
+			String inhalttext = PDFboxLesen.lesenPDF("C://Temp//"+dateiname); //file objekt mit dems
 			//TODO Autor und Datum ausbessern
 			try {
 				DBManager dbm=new DBManager();
