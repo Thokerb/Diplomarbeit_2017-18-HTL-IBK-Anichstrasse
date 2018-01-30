@@ -115,7 +115,7 @@ request.setAttribute("user", "Testuser");
 				dropzone.processFile(filetogive);
 				$("#saveModal").modal("hide");
 			});
-	
+
 			function sendfile() {
 				console.log("sendingstatus");
 				console.log(filetogive.status);
@@ -187,7 +187,7 @@ request.setAttribute("user", "Testuser");
 			"type" : 'POST',
 			"data" : function(act){
 				act.user = '${user}';
-				act.table =  "table2";
+				act.table = "table2";
 			},
 			"dataSrc": "data"
 			},

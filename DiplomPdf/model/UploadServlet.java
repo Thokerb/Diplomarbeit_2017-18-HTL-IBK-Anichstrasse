@@ -42,6 +42,8 @@ public class UploadServlet extends HttpServlet {
 		System.out.println(filePart);
 		InputStream fileContent = filePart.getInputStream();
 		System.out.println("was steht da: "+filePart.getHeader("content-disposition").substring(36));  //TODO substring 36?
+		String user = request.getParameter("username");
+		System.out.println(user);
 		
 		boolean overwrite = Boolean.parseBoolean(request.getParameter("overwrite"));	//nimmt den String und wandelt ihn in ein boolean um
 		String dateiname = request.getParameter("dateiname");
@@ -56,6 +58,7 @@ public class UploadServlet extends HttpServlet {
 		dateityp = dateityp.toUpperCase();
 		System.out.println("Es handelt sich um eine ' "+ dateityp +" ' Datei: ");
 		System.out.println("-----------------------------------------");
+		
 
 		switch(dateityp){
 
@@ -71,7 +74,7 @@ public class UploadServlet extends HttpServlet {
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=PDFmanager.getAutor();
-				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
+				daten[3]=user; //Uploader von Thomas Seite
 				daten[4]=dateiname;
 				daten[5]=stichworttext; //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
 				//PDFmanager.convDatum(daten[5);]
