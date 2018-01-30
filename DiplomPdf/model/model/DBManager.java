@@ -242,13 +242,48 @@ public class DBManager {
 	 * @return
 	 */
 
-	public ArrayList<String[]> datenASC(Connection conn,String user,String spalte,String reihung)
+	public ArrayList<String[]> meineDaten(Connection conn,String sortierparameter,String spalte,String reihung,String sortierspalte)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten where status='private' and uploader='"+user+"' order by "+spalte+" "+ reihung+";";
+		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, uploader, dokumentdatum, uploaddatum, status from uploaddaten where "+sortierspalte+"='"+sortierparameter+"' order by "+spalte+" "+ reihung+";";
+
+		System.out.println(READ_DATEN_AUTORASC);
+		try {
+			pstmt = conn.prepareStatement(READ_DATEN_AUTORASC);
+			rs = pstmt.executeQuery();
+			System.out.println("yoo");
+			while(rs.next())
+			{
+				String[] zeile = new String[10];
+				System.out.print("Gelesen wurde: ");
+				for (int i = 0; i < 7; i++) {
+					zeile[i] = rs.getString(i+1);
+					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
+				}
+				DatennachAutorASC.add(zeile);
+				System.out.println();
+			}
+
+			pstmt.close(); pstmt=null;
+			rs.close();rs=null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return DatennachAutorASC;
+
+	}
+	
+	public ArrayList<String[]> publicDaten(Connection conn,String user,String spalte,String reihung)
+	{
+		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
+		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
+
+		//SQL-Abfrage
+		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten where status='public' order by "+spalte+" "+ reihung+";";
 
 		System.out.println(READ_DATEN_AUTORASC);
 		try {
@@ -291,6 +326,27 @@ public class DBManager {
 				System.out.println("Anzahl der Einträge in DB: "+anzahl);
 			}
 
+			pstmt.close(); pstmt=null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return anzahl;
+	}
+	
+	public int AnzahlEinträge1(Connection conn,String spalte,String spalteninhalt)
+	{
+		String SQL="select count(uploadid) from uploaddaten where "+spalte+"='"+spalteninhalt+"'";
+
+		try {
+			pstmt=conn.prepareStatement(SQL);
+			rs=pstmt.executeQuery();
+			while(rs.next())
+			{
+				anzahl=rs.getInt(1);
+				System.out.println("Anzahl der Einträge in DB: "+anzahl);
+			}
+			
 			pstmt.close(); pstmt=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
