@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -64,11 +65,13 @@ public class DataTableServlet extends HttpServlet {
 		//				}
 
 
-
+		HttpSession ses = request.getSession(false);
+		String username = (String) ses.getAttribute("user"); //Username wird schon vom vorherigen Servlet genommen
+		System.out.println(username);
 		String search = request.getParameter("search[value]");
 		String draw = request.getParameter("draw");
 		String order_art = null;
-		String user = request.getParameter("user");
+	//	String user = request.getParameter("user");
 		String table = request.getParameter("table");
 		System.out.println(table);
 		System.out.println("user: "+user);
