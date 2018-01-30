@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import model.DBManager;
@@ -59,6 +60,9 @@ public class UploadServlet extends HttpServlet {
 		System.out.println("Es handelt sich um eine ' "+ dateityp +" ' Datei: ");
 		System.out.println("-----------------------------------------");
 		
+		HttpSession ses = request.getSession(false);
+		String username = (String) ses.getAttribute("user");
+		
 		if(overwrite){
 			try {
 				DBManager dbm = new DBManager();
@@ -90,8 +94,8 @@ public class UploadServlet extends HttpServlet {
 				String[] daten =new String[8];
 				daten[0]="tag";
 				daten[1]=inhalttext;
-				daten[2]=PDFmanager.getAutor();
-				daten[3]=user; //Uploader von Thomas Seite
+				daten[2]=username;
+				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
 				daten[4]=dateiname;
 				daten[5]=stichworttext; //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
 				//PDFmanager.convDatum(daten[5);]
