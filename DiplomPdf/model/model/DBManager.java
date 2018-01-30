@@ -808,13 +808,18 @@ public class DBManager {
 
 		System.out.println("Connecting DB successful");
 
-		PreparedStatement ps = conn.prepareStatement( "INSERT into benutzer (benutzername,email,passwort) values(?,?,?)");  
+		String SQL = "INSERT into benutzer (benutzername,email,passwort) values(?,?,?);";
+		PreparedStatement ps = conn.prepareStatement( SQL);  
 
 		ps.setString(1,username);
 		ps.setString(2,email); 
 		ps.setString(3,pwd); 
 
-		ps.executeUpdate();
+		int i = ps.executeUpdate();
+		System.out.println(SQL);
+		
+		if(i > 0 ) System.out.println("error");
+		
 	}
 
 	public String getEmailByUser(Connection conn,String user) {
