@@ -318,6 +318,9 @@ request.setAttribute("user", "Testuser");
 			"serverSide" : true,
             "ajax" : {
 			"url" : '/DiplomPdf/DataTableServlet',
+			"data" : function(act){
+				act.user = '${user}';
+			},
 			"type" : 'POST',
 				"dataSrc": "data"
 			},

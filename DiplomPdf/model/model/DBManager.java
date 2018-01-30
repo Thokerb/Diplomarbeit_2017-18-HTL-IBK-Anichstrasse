@@ -61,7 +61,11 @@ public class DBManager {
 		
 		//Datenlöschen(61);
 		
-		PasswortNeuSetzen("Verena", "passwoert12");
+		//PasswortNeuSetzen("Verena", "passwoert12");
+		
+		//UpdateStatus(66,"public");
+		
+		Datenlöschen(64);
 	}
 
 	public DBManager() throws InstantiationException, IllegalAccessException{
@@ -1328,14 +1332,12 @@ public class DBManager {
 		return user;
 	}
 	
-	public static void Blobeinfuegen(int id)
+	public static void UpdateStatus(int id, String status)
 	{
-		String status="public";
-		String INSERT_DATA_SQL="UPDATE uploaddaten set status =? WHERE inhalttext = '"+id+"'";
+		String INSERT_DATA_SQL="UPDATE uploaddaten set status ='"+status+"' WHERE uploadid = '"+id+"'";
 		try {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
-			pstmt.setString(2, status);
 			pstmt.executeUpdate();
 
 			pstmt.close();
