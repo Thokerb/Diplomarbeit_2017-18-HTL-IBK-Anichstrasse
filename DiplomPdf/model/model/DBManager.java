@@ -55,15 +55,15 @@ public class DBManager {
 		//autorASC(conn);
 
 		//PasswortNeuSetzen("Verena","mypassword1");
-		
+
 		//writeDaten(String[] testzeile2, Part filePart, Date date)
-		
+
 		//Datenlöschen(61);
-		
+
 		//PasswortNeuSetzen("Verena", "passwoert12");
-		
+
 		//UpdateStatus(66,"public");
-		
+
 		//Datenlöschen(64);
 	}
 
@@ -121,7 +121,7 @@ public class DBManager {
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
 		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
-		
+
 		//connection Aufbau
 		try {
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
@@ -139,7 +139,7 @@ public class DBManager {
 			pstmt.setString(10, date);
 			pstmt.setBinaryStream(11, fis, (int)filePart.getSize());
 
-			
+
 			pstmt.executeUpdate();
 
 			pstmt.close();pstmt=null;
@@ -152,15 +152,15 @@ public class DBManager {
 		return erfolg;
 
 	}
-	
+
 	public static String getaktuellesDatum(){
 		GregorianCalendar now = new GregorianCalendar(); 
-		
-		  SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
-		  String pD = d.format(now.getTime());
-		  System.out.println(pD);
-		  
-		  return pD;
+
+		SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+		String pD = d.format(now.getTime());
+		System.out.println(pD);
+
+		return pD;
 	}
 
 	//TODO was wollt i mit der Methode?
@@ -290,7 +290,7 @@ public class DBManager {
 				anzahl=rs.getInt(1);
 				System.out.println("Anzahl der Einträge in DB: "+anzahl);
 			}
-			
+
 			pstmt.close(); pstmt=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -384,7 +384,7 @@ public class DBManager {
 
 				System.out.println();
 			}
-			
+
 			pstmt.close(); pstmt=null;
 			rs.close(); rs=null;
 		} catch (SQLException e) {
@@ -473,7 +473,7 @@ public class DBManager {
 
 			pstmt.close();
 			fis.close();
-			
+
 			pstmt.close(); pstmt=null;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -497,10 +497,10 @@ public class DBManager {
 
 			ResultSet result = pstmt.executeQuery();
 			result.next();
-			
-				int len = result.getInt(2);
-				buf = result.getBytes("blobdatei");
-				System.out.println("buf"+buf);
+
+			int len = result.getInt(2);
+			buf = result.getBytes("blobdatei");
+			System.out.println("buf"+buf);
 
 			pstmt.close(); pstmt=null;
 		} catch (Exception ex) {
@@ -748,8 +748,22 @@ public class DBManager {
 
 	}
 
+	public void RegisterBenutzer(Connection conn,String username, String email, String pwd) throws ClassNotFoundException, SQLException {
+
+		System.out.println("Connecting DB successful");
+
+		PreparedStatement ps = conn.prepareStatement( "INSERT into benutzer (benutzername,email,passwort) values(?,?,?)");  
+
+		ps.setString(1,username);
+		ps.setString(2,email); 
+		ps.setString(3,pwd); 
+
+		ps.executeUpdate();
+	}
+
 	public String getEmailByUser(Connection conn,String user) {
 		{
+
 			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
 			String SQL="select email from benutzer";
 			String email=null;
@@ -793,29 +807,31 @@ public class DBManager {
 
 
 	public String getUser(Connection conn,String username) {
-		{
-			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
-			String SQL="select benutzername from benutzer where='"+username+"'";
-			String user=null;
 
-			try {
-				pstmt=conn.prepareStatement(SQL);
-				rs=pstmt.executeQuery();
-				while(rs.next())
-				{
-					user=rs.getString(1);
-				}
-				rs.close(); rs=null;
-				pstmt.close(); pstmt=null;
-			} catch (SQLException e) {
-				e.printStackTrace();
+		ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
+		String SQL="select benutzername from benutzer where benutzername='"+username+"'"; //TODO: für Verena
+		String user=null;
+
+		try {
+			PreparedStatement pstmt=conn.prepareStatement(SQL);
+			ResultSet rs=pstmt.executeQuery();
+			pstmt=conn.prepareStatement(SQL);
+			rs=pstmt.executeQuery();
+
+			while(rs.next())
+			{
+				user=rs.getString(1);
 			}
-			return user;
+			rs.close(); rs=null;
+			pstmt.close(); pstmt=null;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-
+		return user;
 	}
 
-	
+
+
 	public String getEmail(Connection conn,String em) {
 		{
 			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
@@ -838,7 +854,7 @@ public class DBManager {
 		}
 
 	}
-	
+
 	//TODO WIP
 	public String getDateiTyp(Connection conn,String idObj) {
 		String SQL = "Select dateityp from uploaddaten where uploadid ='"+idObj+"';";
@@ -886,7 +902,7 @@ public class DBManager {
 		return spalten;
 
 	}
-	
+
 
 	public void saveHash(Connection conn,String authcode, String emailuser) {
 
@@ -896,19 +912,19 @@ public class DBManager {
 		try {
 			pstmt = conn.prepareStatement(Insert_Hash);
 			pstmt.executeUpdate();
-			
+
 			pstmt.close();pstmt=null;
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+
 	}
 
 
 
 	public  boolean CodeCheck(Connection conn,String hashcode) {
-		
+
 		List<String> vorhandeneHash = new ArrayList<String>();
 
 		//SQL-Abfrage
@@ -923,7 +939,7 @@ public class DBManager {
 				System.out.println(code);
 				vorhandeneHash.add(code);
 			}
-			
+
 			rs.close(); rs=null;
 			pstmt.close(); pstmt=null;
 		}catch (Exception e) {
@@ -940,7 +956,7 @@ public class DBManager {
 	}
 
 	public String getUserbyHash(Connection conn,String hashcode) {
-		
+
 		//SQL-Abfrage
 		String ReadUserbyHash="select benutzername from benutzer where authcode ='"+hashcode+"';";
 		String user = "";
@@ -949,19 +965,19 @@ public class DBManager {
 			rs = pstmt.executeQuery();
 			while(rs.next())
 			{
-				 user = rs.getString(1);
+				user = rs.getString(1);
 
 			}
-			
+
 			rs.close(); rs=null;
 			pstmt.close(); pstmt=null;
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 		return user;
 	}
-	
+
 	public void UpdateStatus(Connection conn,int id, String status)
 	{
 		String INSERT_DATA_SQL="UPDATE uploaddaten set status ='"+status+"' WHERE uploadid = '"+id+"'";

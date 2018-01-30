@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import model.DBManager;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -26,14 +29,11 @@ public class RegisterServlet extends HttpServlet {
 	static final String USER = "postgres";
 	static final String PASS = "password";
 
-	static Connection conn = null;
-
 	static int minPW = 8; 
 	static int maxPW = 16; 
 
 	static int digit;
-	static int upCount;
-	static int loCount;
+	static int code;
 
 	static int specialUN;
 
@@ -51,67 +51,89 @@ public class RegisterServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String email = request.getParameter("email");
 		String pwd = request.getParameter("password");
-		String pwdwh = request.getParameter("passwordrepeat");
 
-		String pw = "hi";
-		String pwx = "bye";
-		
-		PrintWriter out = response.getWriter();  
 		response.setContentType("text/html");  
+		boolean registerok = false;
 
-		try{  
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			
-			System.out.println("Connecting DB successful");
+		if(pwdIsValid(pwd) && usernIsValid(username)) {
+			if(userDB(username)) {
+				try {
 
-			PreparedStatement ps = conn.prepareStatement( "INSERT into benutzer (benutzername,email,passwort) values(?,?,?)");  
-
-			ps.setString(1,username);  
-			
-			RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
-			
-			
-			if (pwdIsValid(pwd)) {
-				ps.setString(3,pwd);  
-				request.setAttribute("message", "Du wurdest erfolgreich registriert");
-				//rd.include(request, response);/** pwok --> passwort okay**/
+					DBManager m = new DBManager();
+					Connection conn=m.getConnection();
+					m.RegisterBenutzer(conn,username, email, pwd);
+					code = 0;
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					code = 1;
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					code = 3;
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			else {
-				
-				request.setAttribute("message", "Registrieren fehlgeschlagen" );
-				rd.include(request, response); 
-			}
-			ps.setString(2,email); 
 
+		}
+		else {
+			code = 2;
+		}
 
-			int i = ps.executeUpdate(); 
+		RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
 
-			if(i>0)  {
-		//		out.print("Sie wurden erfolgreich registriert...");  
-			//	response.sendRedirect("Login.jsp");
-			}else {
-			//	out.print("Registrieren fehlgeschlagen!");
+		switch(code) {
+		case 0: 
+			request.setAttribute("message", "Du wurdest erfolgreich registriert");
+			rd.include(request, response);
+			
+			String subject = "Passwort zurücksetzen EasyDocs";
+			String message = "";
+			
+			SendEMail mailer = new SendEMail();
+
+			try {
+				message = "Herzlich willkommen lieber neuer EasyPDF Nutzer, "
+				+"\n\n  Viel Spaß bei der Nutzung von EasyPDF wünscht das TEAM: "
+				+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang";
+
+				mailer.sendPlainTextEmail( email, subject, message);
+				System.out.println("Email wurde gesendet.");
+			} catch (Exception ex) {
+				System.out.println("Email konnte nicht gesnendet werden");
+				ex.printStackTrace();
 			}
 			
 			
-
-		}catch (Exception e) {
-			String info = "Registrier - Fehlermeldung: " +e;
-			request.setAttribute("message", info );
-			RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
+			break;
+		case 1: 
+			System.out.println("Fehlercode von Servlet: "+ code);
+			request.setAttribute("message", "Registrieren fehlgeschlagen, DB Fehler" );
 			rd.include(request, response); 
-			//out.print("Registrier - Fehlermeldung: " +e); 
-			System.out.println("Registrier - Fehlermeldung: " +e);
-		}  
+			break;
+		case 2:
+			request.setAttribute("message", "Registrieren fehlgeschlagen, Passwort inkorrekt" );
+			rd.include(request, response); 
+			break;
+		case 3: 
+			request.setAttribute("message", "Registrieren fehlgeschlagen, Email oder Username bereits registriert" );
+			rd.include(request, response); 
+			break;
 
-		out.close();  
-	}  
-
+		default:
+			request.setAttribute("message", "Ein unbekannter Fehler ist aufgetreten");
+			rd.include(request, response);
+			break;
+		}
+	}
 
 	public static boolean usernIsValid(String username) {
-
-		//TODO Aus DB abfragen, bereits vorhanden
+		boolean unok; 
 
 		for(int i = 0; i < username.length(); i++){
 
@@ -121,71 +143,90 @@ public class RegisterServlet extends HttpServlet {
 
 				specialUN++;
 				System.out.println("Achtung, bitte keine Sonderzeichen im Benutzername verwenden");
-				return false;
+				unok = false; 
+				break;
 			}
 		}
 
-		if(username.length() >= 3 && username.length() <= 15 && specialUN == 0 )
+		if(username.length() >= 3 && username.length() <= 15 && specialUN == 0) //null ok? laut DBManager zuerst null 
 		{
 			System.out.println("Username "+ username +" darf verwendet werden!");
-			return true; 
+			unok = true;
 
 		}else {
-			
-			if(specialUN < 0 ) {
-				
-				System.out.println("Achtung es duerfen keine Sonderzeichen verwendet werden!");
-			}
 			System.out.println("Username ungueltig, bitte ernuet eingeben");
-			return false;
+			unok = false;
 		}
+
+		return unok; 
+	}
+
+	public static boolean userDB(String username) {
+		boolean userDB = false; 
+		try {
+			DBManager dbm = new DBManager();
+			Connection conn = dbm.getConnection();
+
+			try {
+				Class.forName(JDBC_DRIVER);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if( dbm.getUser(conn, username) != null) {
+				System.out.println("Username "+ username +" darf nicht verwendet werden, er existiert bereits!");
+				userDB = true; 
+				return userDB;
+			}
+			else{
+				userDB = false; 
+				return userDB;
+			}
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return userDB; 
 	}
 
 	public static boolean pwdIsValid(String password) {
 
-		if(password.length() >= minPW && password.length() <= maxPW){
-
+		boolean pwvalid; 
+		if(password.length() >= minPW && password.length() <= maxPW){ // länge nötig? 
 			for(int i = 0; i < password.length(); i++){
-				
 				char c = password.charAt(i);
-				
-				if(Character.isUpperCase(c)){
-//					System.out.println("Is upper: "+c);
-					upCount++;
-				}
-				if(Character.isLowerCase(c)){
-//					System.out.println("Is low: "+ c);
-					loCount++;
-				}
+
 				if(Character.isDigit(c)){
-//					System.out.println("Is digit: "+c);
 					digit++;
 				}
 			}
 
-			if(loCount >= 1 && upCount >= 0 && digit >= 0){ //TODO Änderung zu kein Großbuchstabe + zahl
-				
-				System.out.println("Passwort ist OK lo: "+ loCount + "up:"+ upCount +"digit: " +digit);
-				return true; 
+			if( digit >= 1){
+				pwvalid = true; 
+				return pwvalid; 
 			}
-
-		}else {
-			System.out.println("Passwortlaenge stimmt nicht; lo: "+ loCount + "up:"+ upCount +"digit: " +digit);
-			return false;
 		}
-
-		if(password.length() > maxPW || password.length() >= maxPW /*&& upCount > 1 && loCount > 1 && digit > 1*/){
+		else if(password.length() > maxPW || password.length() >= maxPW ){
 
 			System.out.println(" Passwort ist zu lang, es darf nur "+maxPW+" Zeichen haben!");
-			return false;
+			pwvalid = false; 
+			return pwvalid; 
 		}
 
-		if(password.length() >= minPW && password.length() <= maxPW && loCount > 0 && upCount > 0 && digit == 0){
+		else if(password.length() >= minPW && password.length() <= maxPW /*&& loCount > 0 && upCount > 0*/ && digit == 0){
 			System.out.println(" You need atleast one digit: "+ digit);
-			return false;
+			//message setzen? also generell pw und alles in servlet selber und nicht ausgelagerte metoden prüfen
+			pwvalid = false; 
+			return pwvalid; 
 		}
-			
-		return false;
+
+		return false; //alle raus? - false? 
 	}
 
 }
