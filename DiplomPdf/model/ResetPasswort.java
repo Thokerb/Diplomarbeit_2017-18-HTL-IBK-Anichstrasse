@@ -3,6 +3,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
@@ -34,26 +35,46 @@ public class ResetPasswort extends HttpServlet {
 		String pw = request.getParameter("password");
 		String pw2 = request.getParameter("password2");
 		String auth = (String) ses.getAttribute("hashcodeverified");
-		
+
 		if(auth.equalsIgnoreCase("yes")) {
 
+			// TODO: aus Register servlet methoden? 
+
+
 			if(pw.equals(pw2)) {
-				DBManager.PasswortNeuSetzen(username, pw);
-				
-				response.setContentType("text/plain");
-			    PrintWriter out = response.getWriter();
-			    out.print("pwok");
-			    
+
+				if(RegisterServlet.pwdIsValid(pw)) {
+					
+					DBManager.PasswortNeuSetzen(username, pw);
+
+					response.setContentType("text/plain");
+					PrintWriter out = response.getWriter();
+					out.print("pwok");
+					
+					//TODO message muss no in seite zugordnet werdn
+					
+					request.setAttribute("message", "Passwort konnte erfolgreich geändert werden ");
+		            RequestDispatcher rd = request.getRequestDispatcher("DataTableSite.jsp");
+		            rd.forward(request, response);
+					
+				}
 			}
 			else {
 				response.setContentType("text/plain");
-			    PrintWriter out = response.getWriter();
-			    out.print("notsamesame");
+				PrintWriter out = response.getWriter();
+				out.print("notsamesame");
+				request.setAttribute("message", "Passwörter stimmen nicht überein");
+	            RequestDispatcher rd = request.getRequestDispatcher("ErrorPage.jsp");
+	            rd.forward(request, response);
 			}
 
 		}
 		else {
-			response.sendRedirect("ErrorPage.jsp");
+			
+			request.setAttribute("message", "Passwort konnte nicht geändert werden ");
+            RequestDispatcher rd = request.getRequestDispatcher("ErrorPage.jsp");
+            rd.forward(request, response);
+		
 		}
 
 

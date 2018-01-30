@@ -1,4 +1,7 @@
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -24,6 +27,14 @@ import model.DBManager;
 public class EmailPasswort extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	static final String JDBC_DRIVER = "org.postgresql.Driver";  
+	static final String DB_URL = "jdbc:postgresql://localhost/diplomarbeit";
+
+	static final String USER = "postgres";
+	static final String PASS = "password";
+
+	static Connection conn = null;
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
@@ -33,21 +44,22 @@ public class EmailPasswort extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		final String username = "easypdf.help@gmail.com";
-		final String password = "htlanichstr";
-
 		String emailuser = "";
 		String user;
 
 		try {
 			DBManager db = new DBManager();
+			Class.forName(JDBC_DRIVER);
 			emailuser = request.getParameter("email");
 			user = request.getParameter("user");
 
-//			String checkEMail = db.getEmailByUser(user); 
-//			String checkUser = db.getUserByEmail(emailuser);
-//			String getUser = db.getUser(user);
-//			String getEMail = db.getEmail(emailuser);
+			String checkEMail = db.getEmailByUser(user); 
+			String checkUser = db.getUserByEmail(emailuser);
+
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+			String getUser = db.getUser(user, conn);
+			String getEMail = db.getEmail(emailuser);
 
 			TokenGenerator tg = new TokenGenerator();
 			String authcode = tg.generateCode();
@@ -57,77 +69,27 @@ public class EmailPasswort extends HttpServlet {
 
 			response.setContentType("text/html");
 
-//			if((getUser == null) || (getEMail == null)){
-//				//				request.getSession().setAttribute("false", "Email und Userkennung stimmen nich Überein!");
-//
-//				System.out.println("User existiert nicht, Mail kann nicht versendet werden. . . ");
-//				response.sendRedirect("ErrorPage.jsp");
-//			}else{
+			if((getUser == null) || (getEMail == null)){
+
+				request.getSession().setAttribute("false", "Email und Userkennung stimmen nich Überein!");
+				System.out.println("User existiert nicht, Mail kann nicht versendet werden. . . ");
+				response.sendRedirect("ErrorPage.jsp");
+
+			}else{
 
 				System.out.println("User existiert, Mail kann versendet werden. . . ");
 
-				Properties props = new Properties();
-
-				props.put("mail.smtp.user","username"); 
-				props.put("mail.smtp.host", "smtp.gmail.com"); 
-				props.put("mail.smtp.auth", "true"); 
-				props.put("mail.smtp.starttls.enable","true"); 
-				props.put("mail.smtp.EnableSSL.enable","true");
-
-				props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");   
-				props.setProperty("mail.smtp.socketFactory.fallback", "false");   
-				props.setProperty("mail.smtp.port", "465");   
-				props.setProperty("mail.smtp.socketFactory.port", "465"); 
-
-				Session session = Session.getInstance(props,
-						new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(username, password);
-					}
-				});
-
-				Message message = new MimeMessage(session);
-				message.setFrom(new InternetAddress("easypdf.help@gmail.com"));
-				message.setRecipients(Message.RecipientType.TO,
-						InternetAddress.parse(emailuser));
-				message.setSubject("Passwort zurücksetzen EasyPDF");
-				message.setText("Lieber EasyPDF Nutzer, um dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
-
-					+"\n\n http://localhost:8080/DiplomPdf/CheckReset?authcode="+authcode
-					+"\n\n  Viel Spaß bei der weiteren Nutzung von EasyPDF wünscht das TEAM: "
-					+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang"); //TODO noch ändern in JSP PWzuruck
-
-				Transport.send(message);
-
-				System.out.println("Email wurde versendet");
-
-			} catch (MessagingException e) {
-				throw new RuntimeException(e);
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-//			}
-
-		}
-
-	}
-
-	class GMailAuthenticator extends Authenticator {
-		String user;
-		String pw;
-		public GMailAuthenticator (String username, String password)
-		{
-			super();
-			this.user = username;
-			this.pw = password;
-		}
-		public PasswordAuthentication getPasswordAuthentication()
-		{
-			System.out.println("GMail Auth OK");
-			return new PasswordAuthentication(user, pw);
+				 SendEMail mailer = new SendEMail();
+				 
+			        try {
+			            mailer.sendPlainTextEmail(host, port, username, password, emailuser, subject, message);
+			            System.out.println("Email sent.");
+			        } catch (Exception ex) {
+			            System.out.println("Failed to sent email.");
+			            ex.printStackTrace();
+			        }
+				
+			}
 		}
 	}
 }

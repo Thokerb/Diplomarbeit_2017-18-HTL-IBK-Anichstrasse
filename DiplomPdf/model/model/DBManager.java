@@ -1107,9 +1107,25 @@ public class DBManager {
 
 
 	}
+	
+	public void RegisterBenutzer(String username, String email, String pwd) throws ClassNotFoundException, SQLException {
+		Class.forName(JDBC_DRIVER);
+		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+		System.out.println("Connecting DB successful");
+
+		PreparedStatement ps = conn.prepareStatement( "INSERT into benutzer (benutzername,email,passwort) values(?,?,?)");  
+
+		ps.setString(1,username);
+		ps.setString(2,email); 
+		ps.setString(3,pwd); 
+		
+		ps.executeUpdate();
+	}
 
 	public String getEmailByUser(String user) {
 		{
+
 			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
 			String SQL="select email from benutzer";
 			String email=null;
@@ -1154,14 +1170,15 @@ public class DBManager {
 	}
 
 
-	public String getUser(String username) {
+	public String getUser(String username, Connection conn2) {
 		{
+			
 			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
-			String SQL="select benutzername from benutzer where='"+username+"'";
+			String SQL="select benutzername from benutzer where benutzername='"+username+"'"; //TODO: für Verena
 			String user=null;
 
 			try {
-				PreparedStatement pstmt=conn.prepareStatement(SQL);
+				PreparedStatement pstmt=conn2.prepareStatement(SQL);
 				ResultSet rs=pstmt.executeQuery();
 				while(rs.next())
 				{
