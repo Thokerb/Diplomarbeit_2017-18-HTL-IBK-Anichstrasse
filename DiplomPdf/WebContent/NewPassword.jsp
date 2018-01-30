@@ -16,7 +16,7 @@
 
 <%
 if(session.getAttribute("hashcodeverified")!="yes"){
-response.sendRedirect("Errorpage.html"); 			
+response.sendRedirect("ErrorPage.html"); 			
 }
 %>
 
@@ -78,6 +78,39 @@ response.sendRedirect("Errorpage.html");
 
 $(document).ready(function() {
 	var register = $("#registerform");
+	
+	
+	$("#registerform").submit(function(event){
+		event.preventDefault();
+
+		
+		if(form_validate("registerform")){				
+			$("#registerform")[0].submit(); //only calls once, no infinite loop
+			console.log("yeah");
+			$("#statusModal").modal("show");
+		}
+		else{
+			console.log("nope");
+
+		
+		}
+
+		
+	});
+	
+	function form_validate(attr_id){
+	    var result = true;
+	    $('#'+attr_id).validator('validate');
+	    $('#'+attr_id+' .form-group').each(function(){
+	        if($(this).hasClass('has-error')){
+	            result = false;
+	            return false;
+	        }
+	    });
+	    return result;
+	}
+	
+	
 
     $("#unmaskbtn").on('click',function(){
         if($("#pwinput").attr('type') == 'password'){

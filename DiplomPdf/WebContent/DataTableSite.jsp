@@ -115,7 +115,7 @@ request.setAttribute("user", "Testuser");
 				dropzone.processFile(filetogive);
 				$("#saveModal").modal("hide");
 			});
-
+	
 			function sendfile() {
 				console.log("sendingstatus");
 				console.log(filetogive.status);
@@ -178,7 +178,7 @@ request.setAttribute("user", "Testuser");
 		
 		//aktiviert Tooltip
 	    $('[data-toggle="tooltip"]').tooltip(); 
-  /*      
+        
         var table2 = $("#datatable2").DataTable({
             "processing" : true,
 			"serverSide" : true,
@@ -187,6 +187,7 @@ request.setAttribute("user", "Testuser");
 			"type" : 'POST',
 			"data" : function(act){
 				act.user = '${user}';
+				act.table =  "table2";
 			},
 			"dataSrc": "data"
 			},
@@ -308,7 +309,7 @@ request.setAttribute("user", "Testuser");
 		    },
             
             
-        }); */
+        }); 
         
 
 		var table = $('#datatable').DataTable({
@@ -318,6 +319,10 @@ request.setAttribute("user", "Testuser");
 			"serverSide" : true,
             "ajax" : {
 			"url" : '/DiplomPdf/DataTableServlet',
+			"data" : function(act){
+				act.user = '${user}';
+				act.table = 'table1';
+			},
 			"type" : 'POST',
 				"dataSrc": "data"
 			},
@@ -603,6 +608,36 @@ request.setAttribute("user", "Testuser");
 			<div class="col-md-8 col-xs-12 col-lg-10">
 				<h1 class="text-center">Meine Dokumente</h1>
 				<table id="datatable" class="table table-striped table-bordered"
+					cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>DateiTyp</th>
+							<th>Name</th>
+							<th>Autor</th>
+							<th>UploadDatum</th>
+							<th>DokumentDatum</th>
+							<th>Zugang</th>
+							<th>Download</th>
+							<th>Delete</th>
+						</tr>
+
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+
+
+			</div>
+			<div class="col-md-2 col-xs-0 col-lg-1"></div>
+		</div>
+		
+				<div class="row">
+			<div class="col-md-2 col-xs-0 col-lg-1"></div>
+			<div class="col-md-8 col-xs-12 col-lg-10">
+				<h1 class="text-center">Öffentliche Dokumente</h1>
+				<table id="datatable2" class="table table-striped table-bordered"
 					cellspacing="0" width="100%">
 					<thead>
 						<tr>
