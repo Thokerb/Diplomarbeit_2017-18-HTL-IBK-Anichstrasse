@@ -258,8 +258,17 @@ if(session.getAttribute("username")== null){
 	        	"targets": -2,
 	            "data": "null",
 	            "defaultContent": "<button class=\"downloadbutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Downloaden\"><span class=\"glyphicon glyphicon-arrow-down\" ></span></button>"
-	        }, {
+	        },
+	        {
+	        	"targets": -3,
+	        	"visible": false,
+	            "searchable": false
+	        	
+	        },
+	        {
 	            "targets": -1,
+	            "visible": false,
+	            "searchable": false,
 	            "data": "null",
 	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
 	        },
@@ -518,14 +527,14 @@ if(session.getAttribute("username")== null){
 		}); 
 		
 		 $(".table tbody").on("change",".privacy",function(){
-			console.log("changed");
+			console.log("changed"); 
 			var sourcetable = getTableRow($(this));
 			
 			var state = $(this).val();
 			var xhttp = new XMLHttpRequest();
 	    	xhttp.open("POST","PrivChangeServlet",true);
 	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	    	xhttp.send("tochange="+state+sourcetable);
+	    	xhttp.send("tochange="+sourcetable+"&howto="+state);
             
 	    	refreshtables();
 			

@@ -1,11 +1,19 @@
 
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import model.DBManager;
 
 /**
  * Servlet implementation class PrivChangeServlet
@@ -36,7 +44,37 @@ public class PrivChangeServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String antwort = request.getParameter("tochange");
-		//TODO Verena
+		
+		Gson gsn = new Gson();
+		JsonObject jobj; 
+
+		jobj = gsn.fromJson(antwort, JsonObject.class);
+		String idObj = jobj.get("ID").getAsString();
+		String status = request.getParameter("howto");
+		int id = Integer.parseInt(idObj);
+
+//		if(status.equals("private"))
+//		{
+//			status="public";
+//		}
+//		else
+//		{
+//			status="private";
+//		}
+		
+		DBManager dbm;
+		try {
+			dbm = new DBManager();
+			Connection conn=dbm.getConnection();
+			dbm.UpdateStatus(conn, id, status);
+			
+			dbm.releaseConnection(conn);
+		} catch (InstantiationException | IllegalAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		System.out.println("ToChange: "+antwort);
 	
 	}
