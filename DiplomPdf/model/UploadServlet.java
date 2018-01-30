@@ -146,7 +146,7 @@ public class UploadServlet extends HttpServlet {
 				String[] daten =new String[8];
 				daten[0]="tag";
 				daten[1]="inhalttext";
-				daten[2]=PDFmanager.getAutor();
+				daten[2]=username;
 				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
 				daten[4]=dateiname;
 				daten[5]=stichworttext; //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
@@ -189,7 +189,7 @@ public class UploadServlet extends HttpServlet {
 				String[] daten =new String[8];
 				daten[0]="tag";
 				daten[1]="inhalttext";
-				daten[2]=PDFmanager.getAutor();
+				daten[2]=username;
 				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
 				daten[4]=dateiname;
 				daten[5]=stichworttext; //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
