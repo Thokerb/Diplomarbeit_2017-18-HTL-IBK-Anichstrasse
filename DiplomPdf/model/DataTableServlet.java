@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -57,21 +58,22 @@ public class DataTableServlet extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 
-		//				Enumeration<String> en = request.getParameterNames();
-		//				System.out.println("Alle ELEMENTE");
-		//				while(en.hasMoreElements()){
-		//					System.out.println(en.nextElement());
-		//				}
+//						Enumeration<String> en = request.getParameterNames();
+//						System.out.println("Alle ELEMENTE");
+//						while(en.hasMoreElements()){
+//							System.out.println(en.nextElement());
+//						}
 
 
-
+		HttpSession ses = request.getSession(false);
+		String username = (String) ses.getAttribute("user"); //Username wird schon vom vorherigen Servlet genommen
 		String search = request.getParameter("search[value]");
 		String draw = request.getParameter("draw");
 		String order_art = null;
-		String user = request.getParameter("user");
+	//	String user = request.getParameter("user");
 		String table = request.getParameter("table");
 		System.out.println(table);
-		System.out.println("user: "+user);
+		System.out.println("user: "+username);
 		String start = request.getParameter("start");
 		String length = request.getParameter("length");
 		System.out.println("Erstes Element:"+start+" Einträge pro Seite: "+length);
