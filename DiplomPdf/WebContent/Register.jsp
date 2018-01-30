@@ -42,13 +42,15 @@
 					<div class="form-group">
 						<div class="input-group">
 							<label class="sr-only" for="pwinput">Passwort</label> 
-							<input type="password" class="form-control" name="password" id="pwinput" placeholder="Passwort" data-minlength="8" required>
+							<input type="password" class="form-control" name="password" id="pwinput" placeholder="Passwort" data-maxlength="16" data-minlength="8" required>
 							<span class="input-group-btn">
 								<button class="btn-link btnpw form-control" type="button" id="unmaskbtn">
 									<span class="glyphicon glyphicon-eye-open"></span>
 								</button>
 							</span>
 						</div>
+												<div class="help-block with-errors"></div>
+					
 					</div>
 
 					<div class="form-group">
@@ -125,12 +127,30 @@
 		}
 		
     	var register = $("#registerform");
+    	
+    	register.validator({
+        	
+        			custom: {
+        				maxlength: function($el){
+        					console.log("called custom");
+        				    var matchValue = $el.data("maxlength") // bekommt die angegebene maxlänge
+        				    console.log($el.val().length);
+							if($el.val().length > matchValue){
+								return "Das Passwort ist zu lang."
+								register.validator('update');
+							}
+        					
+        				}
+        			}
+        	
+    	});
+    	
 
 	    $("#unmaskbtn").on('click',function(){
 	        if($("#pwinput").attr('type') == 'password'){
 	        	var input = $("#pwinput");
 	        	var pw = input.val();
-	        	input.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput\" placeholder=\"Passwort\" data-minlength=\"8\" class=\"form-control\" value=\""+pw+"\" required>");
+	        	input.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput\" data-maxlength=\"16\" placeholder=\"Passwort\" data-minlength=\"8\" class=\"form-control\" value=\""+pw+"\" required>");
                 $(this).html("<span class=\"glyphicon glyphicon-eye-close\"></span>")
 
                 
@@ -143,7 +163,7 @@
 	        else{
 	        	var input = $("#pwinput");
 	        	var pw = input.val();
-	        	input.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput\" class=\"form-control\" data-minlength=\"8\" placeholder=\"Passwort\" value=\""+pw+"\" required>");
+	        	input.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput\" class=\"form-control\" data-maxlength=\"16\" data-minlength=\"8\" placeholder=\"Passwort\" value=\""+pw+"\" required>");
                                 $(this).html("<span class=\"glyphicon glyphicon-eye-open\"></span>");
                 
                 var input2 = $("#pwinput2");
