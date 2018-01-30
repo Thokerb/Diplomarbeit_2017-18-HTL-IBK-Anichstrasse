@@ -29,7 +29,6 @@ public class DBManager {
 	static final String USER = "postgres";
 	static final String PASS = "password";
 	//private static String dbUrl = "jdbc:postgresql://localhost:5432/diplomarbeit?user=postgres&password=password";
-	static Connection conn = null;
 	static Statement stmt = null;
 	static PreparedStatement pstmt = null;
 	static ResultSet rs = null;
@@ -65,7 +64,7 @@ public class DBManager {
 		
 		//UpdateStatus(66,"public");
 		
-		Datenlöschen(64);
+		//Datenlöschen(64);
 	}
 
 	public DBManager() throws InstantiationException, IllegalAccessException{
@@ -98,6 +97,7 @@ public class DBManager {
 
 	public void releaseConnection(Connection conn)
 	{
+		//Connection löschen
 		try {
 			conn.close();
 		} catch (SQLException e) {
@@ -113,7 +113,7 @@ public class DBManager {
 	 * @param testzeile2
 	 * @return
 	 */
-	public static boolean writeDaten(String[] testzeile2, Part filePart, String date){
+	public static boolean writeDaten(Connection conn,String[] testzeile2, Part filePart, String date){
 
 		InputStream fis;
 		String entscheidungshilfe=null;
@@ -121,13 +121,9 @@ public class DBManager {
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
 		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
-
-		Date datum = new Date(2018, 04, 03);
-		System.out.println(datum);
 		
 		//connection Aufbau
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
 			fis = filePart.getInputStream();
 
@@ -143,44 +139,7 @@ public class DBManager {
 			pstmt.setString(10, date);
 			pstmt.setBinaryStream(11, fis, (int)filePart.getSize());
 
-			//			for (int i = 1; i <=9; i++) {
-			//				if(i==1) entscheidungshilfe="normal";
-			//				if(i==6) entscheidungshilfe="date";
-			//				if(i==9) entscheidungshilfe="blob"; 
-			//					
-			//				
-			//				switch(entscheidungshilfe)
-			//				{case "normal" :{
-			//					System.out.print("Dateiinformationen in DB speichern");
-			//					pstmt.setString(i, testzeile2[i-1]);
-			//					break;
-			//				}
-			//				case "date" :{
-			//					// dd-mm-yyyy
-			//					// yyyy-mm-dd
-			//					String[] datumsTeile = testzeile2[i-1].split("-");
-			//					//Date datum=PDFmanager.getDatum(); 
-			//					Date datum=	new Date(Integer.parseInt(datumsTeile[2]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[0]));
-			//					System.out.println(datum);
-			//					pstmt.setDate(i, datum);
-			//					break;
-			//				}
-			//				case "blob" :{
-			//					System.out.print("Datei als Blob in DB speichern");
-			//					pstmt.setBinaryStream(9, fis, (int)filePart.getSize());
-			//					break;
-			//				}
-			//				default :{
-			//					System.out.println("Fehler ALARM");
-			//					//pstmt.setString(i, testzeile2[i-1]);
-			//					break;
-			//				}
-			//				}
-			//pstmt.setString(i, testzeile2[i-1]);
-
-			//System.out.println(" '" + testzeile2[i-1] + "'");
-			//			}
-			//pstmt.setDate(id, getSQLDate(lDate));
+			
 			pstmt.executeUpdate();
 
 			pstmt.close();pstmt=null;
@@ -188,7 +147,6 @@ public class DBManager {
 			e.printStackTrace();
 			erfolg = false;
 		}catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return erfolg;
@@ -205,49 +163,8 @@ public class DBManager {
 		  return pD;
 	}
 
-
-	//TODO Bolbdatei einfügen
-	public static boolean writeDaten2(String[] testzeile2, Part filePart) {
-
-		boolean erfolg = true;
-		//SQL-Abfrag zum hineinschreiben neuer Daten
-		String INSERT_DATA_SQL = "INSERT INTO uploaddaten ( tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-		//connection Aufbau
-		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
-
-
-			for (int i = 1; i <= 8; i++) {
-				if(i==6)
-				{
-					// dd-mm-yyyy
-					// yyyy-mm-dd
-					String[] datumsTeile = testzeile2[i-1].split("-");
-					//Date datum=PDFmanager.getDatum(); 
-					Date datum=	new Date(Integer.parseInt(datumsTeile[2]), Integer.parseInt(datumsTeile[1]), Integer.parseInt(datumsTeile[0]));
-					pstmt.setDate(i, datum);
-				}
-				else
-				{
-					pstmt.setString(i, testzeile2[i-1]);
-				}
-				System.out.println(" '" + testzeile2[i-1] + "'");
-			}
-			//pstmt.setDate(id, getSQLDate(lDate));
-			pstmt.executeUpdate();
-
-			pstmt.close();pstmt=null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			erfolg = false;
-		}
-		return erfolg;
-
-	}
-
-	static String Suchwort(String name){
+	//TODO was wollt i mit der Methode?
+	public String Suchwort(String name){
 		easySuchwort2 = name;
 		easySuchwort2 = name.substring(0,name.length()-2);
 		System.out.println(easySuchwort2);
@@ -256,13 +173,12 @@ public class DBManager {
 	}
 
 
-	public static void writeStichwörter(String wort)
+	public void writeStichwörter(Connection conn,String wort)
 	{
 		String SQL2="Insert into suchwoerter (Suchwort) VALUES (?)";
 		//String SQL2="Insert into verwendSuchwort (Suchwort) VALUES (?) ON DUPLICATE KEY UPDATE 'suchwort' = 'suchwort';";
 
 		try {
-			conn=DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt=conn.prepareStatement(SQL2);
 
 			pstmt.setString(1, wort);
@@ -277,7 +193,7 @@ public class DBManager {
 	}
 
 
-	public static void convertDate(String s){
+	public void convertDate(String s){
 		// Print out the inserted string
 		System.out.println(s);
 
@@ -326,16 +242,16 @@ public class DBManager {
 	 * @return
 	 */
 
-	public static ArrayList<String[]> autorASC(Connection conn)
+	public ArrayList<String[]> datenASC(Connection conn,String user,String spalte,String reihung)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by Autor ASC";
+		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten where status='private' and uploader='"+user+"' order by "+spalte+" "+ reihung+";";
 
+		System.out.println(READ_DATEN_AUTORASC);
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(READ_DATEN_AUTORASC);
 			rs = pstmt.executeQuery();
 			System.out.println("yoo");
@@ -351,34 +267,6 @@ public class DBManager {
 				System.out.println();
 			}
 
-			//						try {
-			//							//conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			//							pstmt = conn.prepareStatement(READ_DATEN_AUTORASC);
-			//							rs = pstmt.executeQuery();
-			//							
-			//							while(rs.next())
-			//							{
-			//								String dateityp = rs.getString(1);
-			//								String dateiname = rs.getString(2);
-			//								String autor = rs.getString(3);
-			//								String tag = rs.getString(4);
-			//								String uploaddatum = rs.getString(5);
-			//								
-			//								Uploaddaten zeile = new Uploaddaten();
-			//								DatennachAutorASC.add(zeile);
-			//								System.out.println();
-			//							}
-
-			//System.out.println(DatennachAutorASC.get(0)[0]);
-
-			//			for(int i=0;i<=3;i++)
-			//			{
-			//				System.out.println(DatennachAutorASC.get(i)[0]);
-			//				System.out.println(DatennachAutorASC.get(i)[1]);
-			//				System.out.println(DatennachAutorASC.get(i)[2]);
-			//				System.out.println(DatennachAutorASC.get(i)[3]);
-			//			}
-
 			pstmt.close(); pstmt=null;
 			rs.close();rs=null;
 		} catch (SQLException e) {
@@ -389,201 +277,12 @@ public class DBManager {
 
 	}
 
-	public static ArrayList<String[]> autorDESC(Connection conn)
-	{
-		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
-		ArrayList<String[]> DatennachAutorDESC = new ArrayList<String[]>();
-
-		//SQL-Abfrage
-		String READ_DATEN_AUTORDESC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by Autor DESC";
-
-		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			pstmt = conn.prepareStatement(READ_DATEN_AUTORDESC);
-			rs = pstmt.executeQuery();
-
-			while(rs.next())
-			{
-				String[] zeile = new String[10];
-				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 7; i++) {
-					//					if(i==5)
-					//					{
-					//						zeile[i] = rs.getInt(i+1);
-					//					}
-					zeile[i] = rs.getString(i+1);
-					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
-				}
-				DatennachAutorDESC.add(zeile);
-				System.out.println();
-			}
-			/*
-			for(int i=0;i<=3;i++)
-			{
-				System.out.println(DatennachAutorDESC.get(i)[0]);
-				System.out.println(DatennachAutorDESC.get(i)[1]);
-				System.out.println(DatennachAutorDESC.get(i)[2]);
-				System.out.println(DatennachAutorDESC.get(i)[3]);
-			}
-			 */
-
-			pstmt.close(); pstmt=null;
-			rs.close();rs=null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return DatennachAutorDESC;
-
-	}
-
-
-	public ArrayList<String[]> uploaddatumASC(Connection conn)
-	{
-		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
-		ArrayList<String[]> DatenuploaddatumASC = new ArrayList<String[]>();
-
-		//SQL-Abfrage
-		String READ_DATEN_UPLOADDATUMASC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by uploaddatum ASC";
-
-		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			pstmt = conn.prepareStatement(READ_DATEN_UPLOADDATUMASC);
-			rs = pstmt.executeQuery();
-
-			while(rs.next())
-			{
-				String[] zeile = new String[10];
-				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 7; i++) {
-					zeile[i] = rs.getString(i+1);
-					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
-				}
-				DatenuploaddatumASC.add(zeile);
-				System.out.println();
-			}
-
-			pstmt.close(); pstmt=null;
-			rs.close();rs=null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return DatenuploaddatumASC;
-
-	}
-
-
-	public static ArrayList<String[]> uploaddatumDESC(Connection conn)
-	{
-		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
-		ArrayList<String[]> DatenUploaddatumDESC = new ArrayList<String[]>();
-		//ArrayList<String> list = new ArrayList<String>();
-		//SQL-Abfrage
-		String READ_DATEN_UPLOADDATUMDESC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by uploaddatum DESC";
-
-		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			pstmt = conn.prepareStatement(READ_DATEN_UPLOADDATUMDESC);
-			rs = pstmt.executeQuery();
-
-			while(rs.next())
-			{
-				String[] zeile = new String[10];
-				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 7; i++) {
-					zeile[i] = rs.getString(i+1);
-					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
-				}
-				DatenUploaddatumDESC.add(zeile);
-				System.out.println();
-			}
-
-			pstmt.close(); pstmt=null;
-			rs.close();rs=null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return DatenUploaddatumDESC;
-	}
-
-	public static ArrayList<String[]> dateinameASC(Connection conn)
-	{
-		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
-		ArrayList<String[]> DatennachDateinameASC = new ArrayList<String[]>();
-
-		//SQL-Abfrage
-		String READ_DATEN_DATEINAMEASC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by dateiname ASC";
-
-		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			pstmt = conn.prepareStatement(READ_DATEN_DATEINAMEASC);
-			rs = pstmt.executeQuery();
-
-			while(rs.next())
-			{
-				String[] zeile = new String[10];
-				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 7; i++) {
-					zeile[i] = rs.getString(i+1);
-					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
-				}
-				DatennachDateinameASC.add(zeile);
-				System.out.println();
-			}
-
-			pstmt.close(); pstmt=null;
-			rs.close();rs=null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return DatennachDateinameASC;
-
-	}
-
-	public static ArrayList<String[]> dateinameDESC(Connection conn)
-	{
-		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
-		ArrayList<String[]> DatennachDateinameDESC = new ArrayList<String[]>();
-
-		//SQL-Abfrage
-		String READ_DATEN_DATEINAMEDESC="select uploadid, dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten order by dateiname DESC";
-
-		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			pstmt = conn.prepareStatement(READ_DATEN_DATEINAMEDESC);
-			rs = pstmt.executeQuery();
-
-			while(rs.next())
-			{
-				String[] zeile = new String[10];
-				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 7; i++) {
-					zeile[i] = rs.getString(i+1);
-					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
-				}
-				DatennachDateinameDESC.add(zeile);
-				System.out.println();
-			}
-
-			pstmt.close(); pstmt=null;
-			rs.close();rs=null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return DatennachDateinameDESC;
-
-	}
 
 	public int AnzahlEinträge(Connection conn)
 	{
 		String SQL="select count(uploadid) from uploaddaten";
 
 		try {
-			conn=DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt=conn.prepareStatement(SQL);
 			rs=pstmt.executeQuery();
 			while(rs.next())
@@ -591,6 +290,8 @@ public class DBManager {
 				anzahl=rs.getInt(1);
 				System.out.println("Anzahl der Einträge in DB: "+anzahl);
 			}
+			
+			pstmt.close(); pstmt=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -604,14 +305,13 @@ public class DBManager {
 	 */
 
 	//Methode zum generieren eines vereinfachten Text zur 
-	public static String Stichtextgenerator(String wort) {
+	public String Stichtextgenerator(Connection conn,String wort) {
 		//System.out.print("Das Wort"+text+"wurde vereinfacht zu "+EasyText+". ");
 
 		String SEARCH_FOR_DATA_SQL_DATEN = "select to_tsvector(\'"+ wort +"\')";
 
 		try {
 			if(pstmt==null){
-				conn = DriverManager.getConnection(DB_URL,USER,PASS);
 				pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
 				//System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
 				rs = pstmt.executeQuery();
@@ -635,7 +335,7 @@ public class DBManager {
 	}
 
 
-	public static String VereinfachtesSuchwortgenerator(String wort) {
+	public String VereinfachtesSuchwortgenerator(Connection conn, String wort) {
 		/**
 		 * Methode zur vereinfachung des Suchwortes und Speicherung in der Datenbank
 		 * @param wort
@@ -647,7 +347,6 @@ public class DBManager {
 
 		try {
 			if(pstmt==null){
-				conn = DriverManager.getConnection(DB_URL,USER,PASS);
 				pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
 				rs = pstmt.executeQuery();
 				while (rs.next()) {
@@ -670,13 +369,12 @@ public class DBManager {
 	}
 
 	//Überprüft ob angegebnes wort im text ist
-	public static boolean fulltextsearch(String wort,String wort2) {
+	public boolean fulltextsearch(Connection conn,String wort,String wort2) {
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//Tabellenzeilen aus Datenbank einlesen
 		String SEARCH_FOR_DATA_SQL_DATEN = "select (\'"+wort+"\')@@(\'"+wort2+"\')";
 		//System.out.print(easySuchwort);
 		try {	
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -686,6 +384,9 @@ public class DBManager {
 
 				System.out.println();
 			}
+			
+			pstmt.close(); pstmt=null;
+			rs.close(); rs=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -693,13 +394,12 @@ public class DBManager {
 	}
 
 	// TODO
-	public static float ranking(String wort,String wort2) {
+	public float ranking(Connection conn,String wort,String wort2) {
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//Tabellenzeilen aus Datenbank einlesen
 		String SEARCH_FOR_DATA_SQL_DATEN = "select ts_rank((\'"+wort+"\')@@ to_tsquery(\'"+wort2+"\')) as relevancy";
 		System.out.print(SEARCH_FOR_DATA_SQL_DATEN);
 		try {	
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -709,17 +409,19 @@ public class DBManager {
 
 				System.out.println();
 			}
+			pstmt.close(); pstmt=null;
+			rs.close(); rs=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return relevanz;
 	}
 
-	//TODO verwendetetags Joinen
-	public static ArrayList<String[]> ranking2(String wort) {
+	//TODO mit count(uploadid) 
+	public ArrayList<String[]> ranking2(Connection conn, String wort) {
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//Tabellenzeilen aus Datenbank einlesen
-		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, uploaddatum, status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
+		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT count(uploadid) uploadid, dateityp, dateiname, autor, uploaddatum, uploaddatum, status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
 				+ "uploaddaten.dateiname as dateiname, uploaddaten.autor as autor, uploaddaten.tag as tag, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status,"
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.dateiname), 'A') || "
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.inhalttext), 'B') ||"
@@ -731,7 +433,6 @@ public class DBManager {
 				+ " ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
 		System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
 		try {	
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -747,63 +448,23 @@ public class DBManager {
 
 				System.out.println();
 			}
+			pstmt.close(); pstmt=null;
+			rs.close(); rs=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return daten;
 	}
 
-	//	public static void Blobeinfuegen2()
-	//	{
-	//		String name="HalloPDF";
-	//		//File file = new File ((Knackquiz.class.getResource("/view/KnackQuizTransparent.png")));
-	//		//File file = new File("\\What\\src\\is\\bild.jpg");
-	//		Path path = FileSystems.getDefault().getPath("bilder", "Hallo.pdf");
-	//		File file=path.toFile();
-	//		//File file = new File(getCacheDirectory() + "\\results.txt");
-	//
-	//		//	String INSERT_DATA_SQL="INSERT INTO bilder VALUES (?, ?)";
-	//		String INSERT_DATA_SQL="UPDATE bilder set bild =? WHERE name = '"+name+"'";
-	//		try {
-	//
-	//			FileInputStream fis= new FileInputStream(file);
-	//			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-	//			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
-	//			fis = new FileInputStream(file);
-	//			//pstmt = conn.prepareStatement("INSERT INTO bilder VALUES (?, ?)");
-	//			//pstmt.setString(2, "HalloPDF");
-	//			pstmt.setBinaryStream(1, fis, (int)file.length());
-	//			pstmt.executeUpdate();
-	//
-	//			pstmt.close();
-	//			fis.close();
-	//		} catch (FileNotFoundException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		}catch (SQLException e) {
-	//			e.printStackTrace();
-	//		}catch (IOException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		}
-	//
-	//		System.out.println("Daten in Datenbank gepeichert.");
-	//	}
 
-	public static void Blobeinfuegen(Part filePart,String text)
+	public void Blobeinfuegen(Connection conn,Part filePart,String text)
 	{
-		//TODO: richtigen Pfad angeben 
-		//		Path path = FileSystems.getDefault().getPath("bilder", "bild2.jpg");
-		//		File file=path.toFile();
-
-
 		//String INSERT_DATA_SQL="INSERT INTO uploaddaten (blobdatei) VALUES (?)";
 		String INSERT_DATA_SQL="UPDATE uploaddaten set blobdatei =? WHERE inhalttext = '"+text+"'";
 		try {
 
 			InputStream fis = filePart.getInputStream();
 			//			FileInputStream fis= new FileInputStream(file);
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
 			//			fis = new FileInputStream(file);
 			//			pstmt.setString(1, file.getName());
@@ -812,6 +473,8 @@ public class DBManager {
 
 			pstmt.close();
 			fis.close();
+			
+			pstmt.close(); pstmt=null;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}catch (SQLException e) {
@@ -824,14 +487,11 @@ public class DBManager {
 	}
 
 
-	public byte[] BLOBauslesen(String id)
+	public byte[] BLOBauslesen(Connection conn,String id)
 	{
 		//FileOutputStream fos = null;
 		byte[] buf=null;
 		try {
-
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
 			String query = "SELECT blobdatei, LENGTH(blobdatei) FROM uploaddaten WHERE uploadid = \'"+id+"\'";
 			pstmt = conn.prepareStatement(query);
 
@@ -841,19 +501,8 @@ public class DBManager {
 				int len = result.getInt(2);
 				buf = result.getBytes("blobdatei");
 				System.out.println("buf"+buf);
-			
 
-			//TODO verallgemeinern
-			//fos = new FileOutputStream("C:/Users/veren/Downloads/\'"+dateiname+"\'");
-
-			
-			//	fos.write(buf, 0, len);
-
-			//          String pfad = "C:/Temp";
-			//			File file = createFile(pfad, "bild2.jpg");
-			//			Files.copy(file.toPath(), fos);
-
-
+			pstmt.close(); pstmt=null;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 
@@ -868,14 +517,12 @@ public class DBManager {
 	 */
 
 	//Auslesen aller Daten in der Tabelle Uploaddaten
-	public static ArrayList<String[]> readDaten(Connection conn) {
+	public ArrayList<String[]> readDaten(Connection conn) {
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//SQL-Abfrage
-		String READ_DATA_SQL_DATEN = "SELECT tag, stichworttext, inhalttext, uploader, autor, dateiname,uploadid,uploaddatum,dateityp FROM uploaddaten where uploadid='1'";
-		//opens a connection, 
+		String READ_DATA_SQL_DATEN = "SELECT tag, stichworttext, inhalttext, uploader, autor, dateiname,uploadid,uploaddatum,dateityp FROM uploaddaten where uploadid='1'"; 
 		try { 
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(READ_DATA_SQL_DATEN);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -897,14 +544,13 @@ public class DBManager {
 	}
 
 
-	public static List<Uploaddaten> readDaten2(Connection conn) {
+	public List<Uploaddaten> readDaten2(Connection conn) {
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		List<Uploaddaten> daten = new ArrayList<>();
 		//SQL-Abfrage
 		String READ_DATA_SQL_DATEN = "SELECT language, tag, blobdatei, stichworttext, inhalttext, uploader, autor, dateiname,uploadid,uploaddatum FROM uploaddaten";
 		//opens a connection, 
 		try { 
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(READ_DATA_SQL_DATEN);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -935,13 +581,12 @@ public class DBManager {
 
 
 
-	public static ArrayList<String[]> readAutoren() {
+	public ArrayList<String[]> readAutoren(Connection conn) {
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> Autoren = new ArrayList<String[]>();
 		//SQL-Abfrage
 		String READ_DATA_SQL_AUTOREN = "select autor from uploaddaten group by autor";
 		try { 
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(READ_DATA_SQL_AUTOREN);
 			rs = pstmt.executeQuery();
 
@@ -963,13 +608,12 @@ public class DBManager {
 
 	}
 
-	public static ArrayList<String[]> readDateinamen() {
+	public ArrayList<String[]> readDateinamen(Connection conn) {
 
 		ArrayList<String[]> dateinamen = new ArrayList<String[]>();
 		//SQL-Abfrage
 		String READ_DATA_SQL_DATEINAMEN = "select dateiname from uploaddaten group by dateiname";
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(READ_DATA_SQL_DATEINAMEN);
 			rs = pstmt.executeQuery();
 
@@ -991,13 +635,12 @@ public class DBManager {
 
 	}
 
-	public static ArrayList<String[]> readTags() {
+	public ArrayList<String[]> readTags(Connection conn) {
 
 		ArrayList<String[]> Tags = new ArrayList<String[]>();
 		//SQL-Abfrage
 		String READ_DATA_SQL_AUTOREN = "select tag from uploaddaten group by tag";
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(READ_DATA_SQL_AUTOREN);
 			rs = pstmt.executeQuery();
 
@@ -1026,8 +669,8 @@ public class DBManager {
 		String SQL="select * from benutzer";
 
 		try {
-			PreparedStatement pstmt=conn.prepareStatement(SQL);
-			ResultSet rs=pstmt.executeQuery();
+			pstmt=conn.prepareStatement(SQL);
+			rs=pstmt.executeQuery();
 			while(rs.next())
 			{
 				String benutzername=rs.getString(1);
@@ -1054,8 +697,8 @@ public class DBManager {
 		String SQL="select * from suchwoerter";
 
 		try {
-			PreparedStatement pstmt=conn.prepareStatement(SQL);
-			ResultSet rs=pstmt.executeQuery();
+			pstmt=conn.prepareStatement(SQL);
+			rs=pstmt.executeQuery();
 			while(rs.next())
 			{
 				String suchwoert=rs.getString(1);
@@ -1065,7 +708,6 @@ public class DBManager {
 			}
 			rs.close(); rs=null;
 			pstmt.close(); pstmt=null;
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -1073,33 +715,31 @@ public class DBManager {
 	}
 
 
-	public static void Datenlöschen(int id)
+	public void Datenlöschen(Connection conn,int id)
 	{
 		String SQL="delete from uploaddaten where uploaddaten.uploadid='"+id+"';";
 
 		try {
-			conn=DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.executeUpdate();
 
+			pstmt.close(); pstmt=null;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 
-	public static void PasswortNeuSetzen(String username, String password)
+	public void PasswortNeuSetzen(Connection conn,String username, String password)
 	{
 
 		String SQL="UPDATE benutzer set passwort ='"+password+"' WHERE benutzername = '"+username+"';";
 
 		try {
-
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.executeUpdate();
 
+			pstmt.close(); pstmt=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			wert=false;
@@ -1108,22 +748,21 @@ public class DBManager {
 
 	}
 
-	public String getEmailByUser(String user) {
+	public String getEmailByUser(Connection conn,String user) {
 		{
 			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
 			String SQL="select email from benutzer";
 			String email=null;
 
 			try {
-				PreparedStatement pstmt=conn.prepareStatement(SQL);
-				ResultSet rs=pstmt.executeQuery();
+				pstmt=conn.prepareStatement(SQL);
+				rs=pstmt.executeQuery();
 				while(rs.next())
 				{
 					email=rs.getString(1);
 				}
 				rs.close(); rs=null;
 				pstmt.close(); pstmt=null;
-
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -1132,21 +771,20 @@ public class DBManager {
 
 	}
 
-	public String getUserByEmail(String emailuser) {
+	public String getUserByEmail(Connection conn,String emailuser) {
 		ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
 		String SQL="select benutzername from benutzer";
 		String benutzername=null;
 
 		try {
-			PreparedStatement pstmt=conn.prepareStatement(SQL);
-			ResultSet rs=pstmt.executeQuery();
+			pstmt=conn.prepareStatement(SQL);
+			rs=pstmt.executeQuery();
 			while(rs.next())
 			{
 				benutzername=rs.getString(1);
 			}
 			rs.close(); rs=null;
 			pstmt.close(); pstmt=null;
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -1154,22 +792,21 @@ public class DBManager {
 	}
 
 
-	public String getUser(String username) {
+	public String getUser(Connection conn,String username) {
 		{
 			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
 			String SQL="select benutzername from benutzer where='"+username+"'";
 			String user=null;
 
 			try {
-				PreparedStatement pstmt=conn.prepareStatement(SQL);
-				ResultSet rs=pstmt.executeQuery();
+				pstmt=conn.prepareStatement(SQL);
+				rs=pstmt.executeQuery();
 				while(rs.next())
 				{
 					user=rs.getString(1);
 				}
 				rs.close(); rs=null;
 				pstmt.close(); pstmt=null;
-
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -1179,22 +816,21 @@ public class DBManager {
 	}
 
 	
-	public String getEmail(String em) {
+	public String getEmail(Connection conn,String em) {
 		{
 			ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
 			String SQL="select email from benutzer where='"+em+"'";
 			String email=null;
 
 			try {
-				PreparedStatement pstmt=conn.prepareStatement(SQL);
-				ResultSet rs=pstmt.executeQuery();
+				pstmt=conn.prepareStatement(SQL);
+				rs=pstmt.executeQuery();
 				while(rs.next())
 				{
 					email=rs.getString(1);
 				}
 				rs.close(); rs=null;
 				pstmt.close(); pstmt=null;
-
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -1204,11 +840,10 @@ public class DBManager {
 	}
 	
 	//TODO WIP
-	public String getDateiTyp(String idObj) {
+	public String getDateiTyp(Connection conn,String idObj) {
 		String SQL = "Select dateityp from uploaddaten where uploadid ='"+idObj+"';";
 		String typ = "";
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(SQL);
 			rs = pstmt.executeQuery();
 
@@ -1216,8 +851,9 @@ public class DBManager {
 				typ = rs.getString(1);
 			}
 
+			pstmt.close(); pstmt=null;
+			rs.close(); rs=null;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -1227,20 +863,16 @@ public class DBManager {
 
 	public String[] Dateiname(Connection conn)
 	{
-
 		String SQL="select dateiname from uploaddaten;";
 		int anzahl=AnzahlEinträge(conn);
 		String[] spalten = new String[anzahl];
 
 		try {
-			conn=DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt=conn.prepareStatement(SQL);
 			rs = pstmt.executeQuery();
 
 			int counter=0;
 			while (rs.next()) {
-
-
 				System.out.print("Gelesen wurde: ");
 				spalten[counter] = rs.getString(1);
 				counter++;
@@ -1249,7 +881,6 @@ public class DBManager {
 			rs.close(); rs=null;
 			pstmt.close(); pstmt=null;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return spalten;
@@ -1257,28 +888,26 @@ public class DBManager {
 	}
 	
 
-	public void saveHash(String authcode, String emailuser) {
+	public void saveHash(Connection conn,String authcode, String emailuser) {
 
 		String Insert_Hash="UPDATE benutzer set authcode ='"+authcode+"' WHERE email ='"+emailuser+"';";
 
 		//connection Aufbau
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(Insert_Hash);
 			pstmt.executeUpdate();
-			conn.close();
-			pstmt.close();
-		}
-		catch (Exception e) {
+			
+			pstmt.close();pstmt=null;
+		}catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 	}
 
 
 
-	public  boolean CodeCheck(String hashcode) {
-		// TODO Auto-generated method stub
+	public  boolean CodeCheck(Connection conn,String hashcode) {
 		
 		List<String> vorhandeneHash = new ArrayList<String>();
 
@@ -1286,7 +915,6 @@ public class DBManager {
 		String ReadHash="select authcode from benutzer;";
 
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(ReadHash);
 			rs = pstmt.executeQuery();
 			while(rs.next())
@@ -1295,8 +923,10 @@ public class DBManager {
 				System.out.println(code);
 				vorhandeneHash.add(code);
 			}
-		}
-		catch (Exception e) {
+			
+			rs.close(); rs=null;
+			pstmt.close(); pstmt=null;
+		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -1309,13 +939,12 @@ public class DBManager {
 		}
 	}
 
-	public String getUserbyHash(String hashcode) {
+	public String getUserbyHash(Connection conn,String hashcode) {
 		
 		//SQL-Abfrage
 		String ReadUserbyHash="select benutzername from benutzer where authcode ='"+hashcode+"';";
 		String user = "";
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(ReadUserbyHash);
 			rs = pstmt.executeQuery();
 			while(rs.next())
@@ -1323,34 +952,31 @@ public class DBManager {
 				 user = rs.getString(1);
 
 			}
-		}
-		catch (Exception e) {
+			
+			rs.close(); rs=null;
+			pstmt.close(); pstmt=null;
+		}catch (Exception e) {
 			// TODO: handle exception
 		}
 		
-		// TODO Auto-generated method stub
 		return user;
 	}
 	
-	public static void UpdateStatus(int id, String status)
+	public void UpdateStatus(Connection conn,int id, String status)
 	{
 		String INSERT_DATA_SQL="UPDATE uploaddaten set status ='"+status+"' WHERE uploadid = '"+id+"'";
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
 			pstmt.executeUpdate();
 
-			pstmt.close();
-			conn.close();
+			rs.close(); rs=null;
+			pstmt.close(); pstmt=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		System.out.println("Daten in Datenbank gepeichert.");
 	}
-
-
-
 
 
 }

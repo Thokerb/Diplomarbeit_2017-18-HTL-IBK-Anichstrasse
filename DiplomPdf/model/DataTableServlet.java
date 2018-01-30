@@ -120,7 +120,7 @@ public class DataTableServlet extends HttpServlet {
 			switch(sortierparameter){
 
 			case "2asc"  :{
-				daten=db.dateinameASC(conn);
+				daten=db.datenASC(conn,user,"dateiname","ASC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -129,7 +129,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "2desc"  :{
-				daten=db.dateinameDESC(conn);
+				daten=db.datenASC(conn,user,"dateiname","DESC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -138,7 +138,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "3asc"  :{
-				daten=db.autorASC(conn);
+				daten=db.datenASC(conn,user,"autor","ASC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -147,7 +147,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "3desc"  :{
-				daten=db.autorDESC(conn);
+				daten=db.datenASC(conn,user,"autor","DESC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -156,7 +156,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "4asc"  :{
-				daten=db.uploaddatumASC(conn);
+				daten=db.datenASC(conn,user,"uploaddatum","ASC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -165,7 +165,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "4desc"  :{
-				daten=db.uploaddatumDESC(conn);
+				daten=db.datenASC(conn,user,"uploaddatum","DESC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -174,7 +174,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "5asc"  :{
-				daten=db.uploaddatumASC(conn);
+				daten=db.datenASC(conn,user,"dokumentdatum","ASC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -183,7 +183,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "5desc"  :{
-				daten=db.uploaddatumDESC(conn);
+				daten=db.datenASC(conn,user,"dokumentdatum","DESC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -193,7 +193,7 @@ public class DataTableServlet extends HttpServlet {
 
 			case "suchwort" :{
 				System.out.println("Suchwortsuche aktiv");
-				daten=db.ranking2(search);
+				daten=db.ranking2(conn,search);
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println("Suchwortsuche aktiv");
@@ -204,12 +204,12 @@ public class DataTableServlet extends HttpServlet {
 
 			default:{
 
-				daten=db.dateinameASC(conn);
+				daten=db.datenASC(conn,user,"dateiname","ASC");
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
 				}
-				System.out.println("Die Daten wurden nach Autor alphabetisch geordnet");
+				System.out.println("Die Daten wurden nach dem Dateiname alphabetisch geordnet");
 			}
 			}
 

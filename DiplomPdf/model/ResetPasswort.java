@@ -2,6 +2,9 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -38,7 +41,20 @@ public class ResetPasswort extends HttpServlet {
 		if(auth.equalsIgnoreCase("yes")) {
 
 			if(pw.equals(pw2)) {
-				DBManager.PasswortNeuSetzen(username, pw);
+				try{
+					DBManager dbm=new DBManager();
+					Connection conn=dbm.getConnection();
+					dbm.PasswortNeuSetzen(conn,username, pw);
+				}catch(SQLException e){
+					e.printStackTrace();
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				
 				response.setContentType("text/plain");
 			    PrintWriter out = response.getWriter();

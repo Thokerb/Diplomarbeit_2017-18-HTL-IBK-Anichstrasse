@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -41,6 +43,7 @@ public class EmailPasswort extends HttpServlet {
 
 		try {
 			DBManager db = new DBManager();
+			Connection conn=db.getConnection();
 			emailuser = request.getParameter("email");
 			user = request.getParameter("user");
 
@@ -52,8 +55,7 @@ public class EmailPasswort extends HttpServlet {
 			TokenGenerator tg = new TokenGenerator();
 			String authcode = tg.generateCode();
 
-			DBManager dbm = new DBManager();
-			dbm.saveHash(authcode,emailuser);
+			db.saveHash(conn,authcode,emailuser);
 
 			response.setContentType("text/html");
 
@@ -111,7 +113,10 @@ public class EmailPasswort extends HttpServlet {
 				e.printStackTrace();
 //			}
 
-		}
+		} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 	}
 
