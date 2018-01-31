@@ -57,12 +57,14 @@ public class EmailPasswort extends HttpServlet {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
 			emailuser = request.getParameter("email");
-			user = request.getParameter("user");
+//			user = request.getParameter("user");
 
 			String checkUser = db.getUserByEmail(conn, emailuser);
-			String checkMail = db.getEmailByUser(conn, user);
+//			String checkMail = db.getEmailByUser(conn, user);
 
 			String getUser = db.getUser(conn, checkUser);
+//			String getMail = db.getEmail(conn, checkMail);
+			String checkMail = db.getEmailByUser(conn, getUser);
 			String getMail = db.getEmail(conn, checkMail);
 
 			String subject = "Passwort zurücksetzen EasyDocs";
@@ -78,7 +80,7 @@ public class EmailPasswort extends HttpServlet {
 			if( (getMail != null)){
 
 
-				System.out.println("User existiert, Mail kann versendet werden. . . "); // BEi erstaufruf jsp seite kein modal? 
+				System.out.println("User existiert, Mail kann versendet werden. . . "); // Bei erstaufruf jsp seite kein modal? 
 				SendEMail mailer = new SendEMail();
 
 				try {
@@ -89,8 +91,9 @@ public class EmailPasswort extends HttpServlet {
 					+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang";
 
 					mailer.sendPlainTextEmail( emailuser, subject, message);
-					System.out.println("Email wurde gesendet.");
 					request.setAttribute("message", "Die Email wurde versendet, bitte öffne dein Postfach" );
+					System.out.println("Email wurde gesendet.");
+					
 				} catch (Exception ex) {
 					System.out.println("Email konnte nicht gesendet werden");
 					ex.printStackTrace();
