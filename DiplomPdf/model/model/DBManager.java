@@ -847,7 +847,7 @@ public class DBManager {
 
 	public String getUserByEmail(Connection conn,String emailuser) {
 	
-		String SQL="select benutzername from benutzer where email ='"+emailuser+"'";
+		String SQL="SELECT benutzername FROM benutzer WHERE email ='"+emailuser+"'";
 		String benutzername=null;
 
 		try {

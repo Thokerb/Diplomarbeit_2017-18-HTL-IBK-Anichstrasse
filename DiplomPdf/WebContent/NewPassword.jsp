@@ -15,8 +15,8 @@
 </head>
 
 <%
-if(session.getAttribute("hashcodeverified")!="yes"){
-response.sendRedirect("ErrorPage.html"); 			
+	if(session.getAttribute("hashcodeverified")!="yes"){
+	response.sendRedirect("ErrorPage.html"); 			
 }
 %>
 
