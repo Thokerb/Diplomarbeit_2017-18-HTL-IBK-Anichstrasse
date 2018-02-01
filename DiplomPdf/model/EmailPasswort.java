@@ -46,6 +46,7 @@ public class EmailPasswort extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		RequestDispatcher rd = request.getRequestDispatcher("PasswordHelp.jsp");
 		String emailuser = "";
 		String user;
 
@@ -92,17 +93,21 @@ public class EmailPasswort extends HttpServlet {
 
 					mailer.sendPlainTextEmail( emailuser, subject, message);
 					request.setAttribute("message", "Die Email wurde versendet, bitte öffne dein Postfach" );
+					rd.include(request, response); 
 					System.out.println("Email wurde gesendet.");
 					
 				} catch (Exception ex) {
 					System.out.println("Email konnte nicht gesendet werden");
+					request.setAttribute("message", "Unsere Server sind derzeit nicht erreichbar. Bitte versuche es später noch einmal." );
+					rd.include(request, response); 
+
 					ex.printStackTrace();
 				}
 
-			}else{
-
+			}else{				
 				request.setAttribute("message", "Email kann nicht verwendet werden!");
 				System.out.println("Email kann nicht verwendet werden!");
+				rd.include(request, response); 
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
