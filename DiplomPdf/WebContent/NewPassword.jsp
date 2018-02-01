@@ -41,7 +41,7 @@
 
 </div>
 <div class="form-group">
-<input class="form-control" type = "password" id="pwinput2" name="password" data-match="#pwinput" data-match-error="Passwörter stimmen nicht überein" required>
+<input class="form-control" type = "password" id="pwinput2" name="password2" data-match="#pwinput" data-match-error="Passwörter stimmen nicht überein" required>
 <div class="help-block with-errors"></div>
 </div>
 <div class="form-group">
