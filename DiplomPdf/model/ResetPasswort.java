@@ -3,12 +3,10 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,12 +31,11 @@ public class ResetPasswort extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String username = ( (ServletRequest) request.getSession()).getParameter("username"); 
-		System.out.println("Username von vorherigem Servlet:"+ username);
-		//Username wird schon vom vorherigen Servlet genommen
+		HttpSession ses = request.getSession(false);
+		String username = (String) ses.getAttribute("username"); //Username wird schon vom vorherigen Servlet genommen
 		String pw = request.getParameter("password");
 		String pw2 = request.getParameter("password2");
-		String auth = (String) request.getAttribute("hashcodeverified");
+		String auth = (String) ses.getAttribute("hashcodeverified");
 
 		if(auth.equalsIgnoreCase("yes")) {
 			if(pw.equals(pw2)) {
