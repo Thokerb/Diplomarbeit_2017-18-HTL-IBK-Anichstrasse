@@ -84,7 +84,7 @@ $(document).ready(function() {
 		custom: {
 			maxlength: function($el){
 				console.log("called custom");
-			    var matchValue = $el.data(20) // TODO bekommt die angegebene maxlänge
+			    var matchValue = $el.data("maxlength");
 			    console.log($el.val().length);
 				if($el.val().length > matchValue){
 					return "Das Passwort ist zu lang."
