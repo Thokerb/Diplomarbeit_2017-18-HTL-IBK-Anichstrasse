@@ -48,7 +48,7 @@ public class DocxLesen {
 			System.out.println("---------------- Text -----------------");
 
 //			oleTextExtractor.close();
-//			fis.close();
+			fis.close();
 			
 			return text; 
 
