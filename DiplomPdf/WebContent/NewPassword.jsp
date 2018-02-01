@@ -30,7 +30,7 @@
 <form action="ResetPasswort" method="post" id="registerform" data-toggle="validator">
 <div class="form-group">
 <div class="input-group">
-<input class="form-control" type = "password" data-minlength="8" data-maxlength="8" id="pwinput" name="password" data-minlength-error="Passwort muss mindestens 8 Zeichen haben" required>
+<input class="form-control" type = "password" data-minlength="8" data-maxlength="20" id="pwinput" name="password" data-minlength-error="Passwort muss mindestens 8 Zeichen haben" required>
 							<span class="input-group-btn">
 								<button class="btn-link btnpw form-control" type="button" id="unmaskbtn">
 									<span class="glyphicon glyphicon-eye-open"></span>
