@@ -236,7 +236,8 @@ public class UploadServlet extends HttpServlet {
         }
 		 */
 		System.out.println("Datei fertig eingelesen (noch nicht ganz DB speicherung fehlt bis jetzt )");
-		f.delete();
+		if(f.delete())System.out.println("file deleted");
+		else System.out.println("ERROR");
 	}
 
 	private void uploader(InputStream fileContent, String dateiname,int nummer){

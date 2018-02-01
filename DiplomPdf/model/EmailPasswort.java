@@ -46,6 +46,7 @@ public class EmailPasswort extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		RequestDispatcher rd = request.getRequestDispatcher("PasswordHelp.jsp");
 		String emailuser = "";
 		String user;
 
@@ -57,13 +58,13 @@ public class EmailPasswort extends HttpServlet {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
 			emailuser = request.getParameter("email");
-//			user = request.getParameter("user");
+			//			user = request.getParameter("user");
 
 			String checkUser = db.getUserByEmail(conn, emailuser);
-//			String checkMail = db.getEmailByUser(conn, user);
+			//			String checkMail = db.getEmailByUser(conn, user);
 
 			String getUser = db.getUser(conn, checkUser);
-//			String getMail = db.getEmail(conn, checkMail);
+			//			String getMail = db.getEmail(conn, checkMail);
 			String checkMail = db.getEmailByUser(conn, getUser);
 			String getMail = db.getEmail(conn, checkMail);
 
@@ -79,12 +80,12 @@ public class EmailPasswort extends HttpServlet {
 
 			if( (getMail != null)){
 
-		
+
 
 				System.out.println("User existiert, Mail kann versendet werden. . . "); // Bei erstaufruf jsp seite kein modal? 
 				SendEMail mailer = new SendEMail();
-				
-				
+
+
 
 				try {
 					message = "Lieber EasyPDF Nutzer, um dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
@@ -94,23 +95,23 @@ public class EmailPasswort extends HttpServlet {
 					+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang";
 
 					mailer.sendPlainTextEmail( emailuser, subject, message);
-					
-					RequestDispatcher rd = request.getRequestDispatcher("MeetTheTeam.jsp");
+
 					request.setAttribute("message", "Die Email wurde versendet, bitte öffne dein Postfach" );
 					rd.include(request, response);
 
-					
+					rd.include(request, response); 
+					System.out.println("Email wurde gesendet.");
+
 				} catch (Exception ex) {
 					System.out.println("Email konnte nicht gesendet werden");
+					request.setAttribute("message", "Unsere Server sind derzeit nicht erreichbar. Bitte versuche es später noch einmal." );
 					ex.printStackTrace();
 				}
 
 			}else{
 
-				RequestDispatcher rd = request.getRequestDispatcher("MeetTheTeam.jsp");
 				request.setAttribute("message", "Email kann nicht verwendet werden, Email nicht registriert!");
 				rd.include(request, response);
-				System.out.println("Email kann nicht verwendet werden!");
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
