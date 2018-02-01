@@ -51,7 +51,7 @@ public class PDFmanager {
 		pdDoc.getNumberOfPages();
 
 		PDDocumentInformation info = pdDoc.getDocumentInformation();
-
+		
 		autor = info.getAuthor();
 		date =  convDatum(info.getCreationDate());
 		System.out.println(date);

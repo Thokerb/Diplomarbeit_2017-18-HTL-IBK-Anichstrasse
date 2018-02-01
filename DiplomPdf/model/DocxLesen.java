@@ -23,18 +23,21 @@ public class DocxLesen {
 
 	public static String lesenDocx(String filename){
 
+		FileInputStream fis;
+		XWPFWordExtractor oleTextExtractor;
+		
 		try {
 
-			FileInputStream fis = new FileInputStream(filename);
-
-			XWPFWordExtractor oleTextExtractor = new XWPFWordExtractor(new XWPFDocument(fis));
+			fis = new FileInputStream(filename);
+		
+			oleTextExtractor = new XWPFWordExtractor(new XWPFDocument(fis));
 			
 			aut = oleTextExtractor.getCoreProperties().getCreator();
 			date = oleTextExtractor.getCoreProperties().getCreated();
 			
 			formatter = new SimpleDateFormat("yyyy-MM-dd");
 		    d = formatter.format(date);
-			
+		    
 			text = oleTextExtractor.getText();
 			System.out.println("----------------- Text aus DOCX Lesen: -----------------");
 			System.out.println(text);
@@ -44,8 +47,10 @@ public class DocxLesen {
 			System.out.println(d);
 			System.out.println("---------------- Text -----------------");
 
+//			oleTextExtractor.close();
+//			fis.close();
+			
 			return text; 
-
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -56,6 +61,7 @@ public class DocxLesen {
 			e.printStackTrace();
 			System.out.println("Fehler! Datei konnte nicht gelesen werden!");
 		}
+		
 		return "Achtung - Fehler! Datei Konnte nicht gelesen werden"; 
 	}
 

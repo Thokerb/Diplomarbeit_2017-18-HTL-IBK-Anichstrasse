@@ -487,6 +487,7 @@ public class DBManager {
 				+ " GROUP BY uploaddaten.uploadid, uploaddaten.autor) p_search"
 				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\')"
 				+ " ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
+		
 		System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
 		try {	
 			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);

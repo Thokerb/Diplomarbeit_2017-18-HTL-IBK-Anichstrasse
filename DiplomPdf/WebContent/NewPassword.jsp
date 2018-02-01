@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Passwort Zurücksetzen</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -84,7 +84,7 @@ $(document).ready(function() {
 		custom: {
 			maxlength: function($el){
 				console.log("called custom");
-			    var matchValue = $el.data("maxlength") // bekommt die angegebene maxlänge
+			    var matchValue = $el.data(20) // TODO bekommt die angegebene maxlänge
 			    console.log($el.val().length);
 				if($el.val().length > matchValue){
 					return "Das Passwort ist zu lang."

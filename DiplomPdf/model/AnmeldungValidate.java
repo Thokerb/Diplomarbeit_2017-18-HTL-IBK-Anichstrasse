@@ -40,8 +40,5 @@ public class AnmeldungValidate {
 			e.printStackTrace();
 		}
 		return st; 
-
 	}
-
-
 }

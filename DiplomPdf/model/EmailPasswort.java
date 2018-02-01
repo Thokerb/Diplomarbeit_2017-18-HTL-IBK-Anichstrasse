@@ -79,9 +79,12 @@ public class EmailPasswort extends HttpServlet {
 
 			if( (getMail != null)){
 
+		
 
 				System.out.println("User existiert, Mail kann versendet werden. . . "); // Bei erstaufruf jsp seite kein modal? 
 				SendEMail mailer = new SendEMail();
+				
+				
 
 				try {
 					message = "Lieber EasyPDF Nutzer, um dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
@@ -91,8 +94,11 @@ public class EmailPasswort extends HttpServlet {
 					+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang";
 
 					mailer.sendPlainTextEmail( emailuser, subject, message);
+					
+					RequestDispatcher rd = request.getRequestDispatcher("MeetTheTeam.jsp");
 					request.setAttribute("message", "Die Email wurde versendet, bitte öffne dein Postfach" );
-					System.out.println("Email wurde gesendet.");
+					rd.include(request, response);
+
 					
 				} catch (Exception ex) {
 					System.out.println("Email konnte nicht gesendet werden");
@@ -101,7 +107,9 @@ public class EmailPasswort extends HttpServlet {
 
 			}else{
 
-				request.setAttribute("message", "Email kann nicht verwendet werden!");
+				RequestDispatcher rd = request.getRequestDispatcher("MeetTheTeam.jsp");
+				request.setAttribute("message", "Email kann nicht verwendet werden, Email nicht registriert!");
+				rd.include(request, response);
 				System.out.println("Email kann nicht verwendet werden!");
 			}
 		} catch (ClassNotFoundException e) {
