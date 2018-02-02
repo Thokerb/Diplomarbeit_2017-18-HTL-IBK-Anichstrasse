@@ -4,6 +4,8 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import model.DBManager;
 
 //@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -23,14 +27,18 @@ public class LoginServlet extends HttpServlet {
 		System.out.println(username);
 		boolean anmeldung; 
 		// Datenbank abfrage von Benutzer normal
-
-		if(AnmeldungValidate.checkUser(username, pwd) || username.equals("user") && pwd.equals("1234"))
+		try {
+			DBManager dbm=new DBManager();
+			Connection conn1=dbm.getConnection();
+			
+		if(DBManager.checkUser(conn1, username, pwd) || username.equals("user") && pwd.equals("1234"))
 		{
 			System.out.println("Anmeldung erfolgreich");
 			HttpSession session = request.getSession();  
 			session.setAttribute("user",username);  
 			response.sendRedirect("DataTableSite.jsp");
 			anmeldung = true; 
+			dbm.releaseConnection(conn1);
 
 		}else{
 
@@ -40,7 +48,13 @@ public class LoginServlet extends HttpServlet {
 			RequestDispatcher rs = request.getRequestDispatcher("Login.jsp");
 			rs.include(request, response);
 		}
-
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
 
 	}
 
