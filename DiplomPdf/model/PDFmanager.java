@@ -63,8 +63,12 @@ public class PDFmanager {
 		
 		cosDoc.close();
 		pdDoc.close();
+<<<<<<< HEAD
 		
 		System.out.println(Text);
+=======
+		cosDoc.close();
+>>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 
 		return Text;
 	}

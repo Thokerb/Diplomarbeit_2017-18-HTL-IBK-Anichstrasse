@@ -102,6 +102,7 @@ public class UploadServlet extends HttpServlet {
 				//PDFmanager.convDatum(daten[5);]
 				daten[6]=dateityp;
 
+				
 				for(String s : daten) {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
