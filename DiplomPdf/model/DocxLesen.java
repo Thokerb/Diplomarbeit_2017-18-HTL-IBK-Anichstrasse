@@ -49,7 +49,7 @@ public class DocxLesen {
 
 //			oleTextExtractor.close();
 			fis.close();
-			
+			fis = null;
 			return text; 
 
 		} catch (FileNotFoundException e) {

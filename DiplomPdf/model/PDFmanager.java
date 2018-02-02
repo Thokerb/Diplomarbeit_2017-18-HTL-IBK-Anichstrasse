@@ -60,9 +60,10 @@ public class PDFmanager {
 		pdfStripper.setEndPage(pdDoc.getNumberOfPages());
 
 		Text = pdfStripper.getText(pdDoc);
-
+		
+		cosDoc.close();
 		pdDoc.close();
-
+		
 		System.out.println(Text);
 
 		return Text;
@@ -85,6 +86,12 @@ public class PDFmanager {
 
 	public static String getDatum(){ 
 		return date; 
+	}
+	
+	public void deleteFile(){
+		System.out.println("was steht da"+file.exists()+ file.canRead()+ file.canWrite()+ file.canExecute());
+		System.gc();
+		System.out.println(this.file.delete());
 	}
 
 }

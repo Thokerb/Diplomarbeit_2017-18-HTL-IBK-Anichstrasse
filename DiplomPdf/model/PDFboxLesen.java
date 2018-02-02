@@ -33,6 +33,7 @@ public class PDFboxLesen {
 			e.printStackTrace();
 			return "Achtung - Fehler! Die Datei konnte nicht gelesen werden (PDFboxLesen)";
 		}		
+		pdfM.deleteFile();
 		return text;	
 	}
 }

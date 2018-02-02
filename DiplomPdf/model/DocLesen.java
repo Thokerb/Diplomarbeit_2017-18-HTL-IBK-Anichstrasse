@@ -49,7 +49,7 @@ public class DocLesen {
 			System.out.println(aut);
 			System.out.println(d);
 			System.out.println("----------------------------------");
-
+			
 			return text;
 
 		} catch (FileNotFoundException e) {
