@@ -62,8 +62,7 @@ public class PDFmanager {
 		Text = pdfStripper.getText(pdDoc);
 
 		pdDoc.close();
-
-		System.out.println(Text);
+		cosDoc.close();
 
 		return Text;
 	}

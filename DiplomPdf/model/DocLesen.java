@@ -26,18 +26,15 @@ public class DocLesen {
 	public static String lesenDoc(String filename){
 
 		try {
-			
-//			System.out.println("Verwendete Datei: "+filename);  //Kontrolle
-			FileInputStream fis = new FileInputStream(filename); //allgemein		
+
+			FileInputStream fis = new FileInputStream(filename);		
 
 			HWPFDocument doc = new HWPFDocument(fis);
 			
 			aut = doc.getSummaryInformation().getAuthor();
 			date = doc.getSummaryInformation().getCreateDateTime();
-			
-			System.out.println(date);
 		
-	        formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        formatter = new SimpleDateFormat("dd.MM.yyyy");
 	        d = formatter.format(date);
 			
 			WordExtractor extractor = new WordExtractor(doc);
@@ -48,8 +45,12 @@ public class DocLesen {
 			System.out.println("----------------- INFO: -----------------");
 			System.out.println(aut);
 			System.out.println(d);
-			System.out.println("----------------------------------");
+			System.out.println("----------------ENDE DOC -----------------");
 
+			
+			fis.close();
+			extractor.close();
+			
 			return text;
 
 		} catch (FileNotFoundException e) {
@@ -73,9 +74,9 @@ public class DocLesen {
 		return d; 
 	}
 
-		public static void main(String[] args) {
-			DocLesen l1 = new DocLesen();
-			l1.lesenDoc("C://Users//Sara//Dropbox//Diplomarbeit//Doc.doc");
-		}
+//		public static void main(String[] args) {
+//			DocLesen l1 = new DocLesen();
+//			l1.lesenDoc("C://Users//Sara//Dropbox//Diplomarbeit//Doc.doc");
+//		}
 	
 }

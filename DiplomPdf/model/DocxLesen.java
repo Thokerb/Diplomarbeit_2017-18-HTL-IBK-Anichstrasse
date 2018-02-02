@@ -29,25 +29,24 @@ public class DocxLesen {
 		try {
 
 			fis = new FileInputStream(filename);
-		
 			oleTextExtractor = new XWPFWordExtractor(new XWPFDocument(fis));
 			
 			aut = oleTextExtractor.getCoreProperties().getCreator();
 			date = oleTextExtractor.getCoreProperties().getCreated();
 			
-			formatter = new SimpleDateFormat("yyyy-MM-dd");
+			formatter = new SimpleDateFormat("dd.MM.yyyy");
 		    d = formatter.format(date);
 		    
 			text = oleTextExtractor.getText();
 			System.out.println("----------------- Text aus DOCX Lesen: -----------------");
 			System.out.println(text);
-			System.out.println("---------------- INFO -----------------");
+			System.out.println("---------------- INFO: -----------------");
 
 			System.out.println(aut);
 			System.out.println(d);
-			System.out.println("---------------- Text -----------------");
+			System.out.println("---------------- ENDE DOCX -----------------");
 
-//			oleTextExtractor.close();
+			oleTextExtractor.close();
 			fis.close();
 			
 			return text; 
@@ -73,9 +72,9 @@ public class DocxLesen {
 		return d;
 	}
 
-	public static void main(String[] args) {
-		DocxLesen l1 = new DocxLesen();
-		l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//TestfälleSara.docx");
-	}
+//	public static void main(String[] args) {
+//		DocxLesen l1 = new DocxLesen();
+//		l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//TestfälleSara.docx");
+//	}
 
 }
