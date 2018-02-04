@@ -51,7 +51,8 @@ public class UploadServlet extends HttpServlet {
 		System.out.println("Name der Datei: "+dateiname+" overwrite: "+overwrite);
 
 		uploader(fileContent,dateiname,0);
-
+		fileContent.close();
+		fileContent = null;
 		File f = new File(dateiname);
 		String name = f.getName();
 
@@ -101,6 +102,7 @@ public class UploadServlet extends HttpServlet {
 				//PDFmanager.convDatum(daten[5);]
 				daten[6]=dateityp;
 
+				
 				for(String s : daten) {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
@@ -236,7 +238,17 @@ public class UploadServlet extends HttpServlet {
         }
 		 */
 		System.out.println("Datei fertig eingelesen (noch nicht ganz DB speicherung fehlt bis jetzt )");
-		f.delete();
+		f.mkdir();
+		f.setExecutable(true, false);
+		f.setReadable(true, false);
+		f.setWritable(true, false);
+		System.out.println("was steht da333"+f.exists()+ f.canRead()+ f.canWrite()+ f.canExecute());
+		System.gc();
+		System.out.println("löschen geht:"+f.delete());
+		System.gc();
+	//	f.deleteOnExit();
+		
+	
 	}
 
 	private void uploader(InputStream fileContent, String dateiname,int nummer){
@@ -253,6 +265,15 @@ public class UploadServlet extends HttpServlet {
 			System.out.println("ERROR DATEI BEREITS VORHANDEN");
 			nummer++;
 			uploader(fileContent, NamensNummerierer(dateiname,nummer),nummer);
+		}
+		finally {
+			try {
+				fileContent.close();
+				fileContent = null;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

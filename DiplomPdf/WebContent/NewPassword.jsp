@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Passwort Zurücksetzen</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -15,8 +15,8 @@
 </head>
 
 <%
-if(session.getAttribute("hashcodeverified")!="yes"){
-response.sendRedirect("ErrorPage.html"); 			
+	if(session.getAttribute("hashcodeverified")!="yes"){
+	response.sendRedirect("ErrorPage.html"); 			
 }
 %>
 
@@ -30,7 +30,7 @@ response.sendRedirect("ErrorPage.html");
 <form action="ResetPasswort" method="post" id="registerform" data-toggle="validator">
 <div class="form-group">
 <div class="input-group">
-<input class="form-control" type = "password" data-minlength="8" data-maxlength="8" id="pwinput" name="password" data-minlength-error="Passwort muss mindestens 8 Zeichen haben" required>
+<input class="form-control" type = "password" data-minlength="8" data-maxlength="20" id="pwinput" name="password" data-minlength-error="Passwort muss mindestens 8 Zeichen haben" required>
 							<span class="input-group-btn">
 								<button class="btn-link btnpw form-control" type="button" id="unmaskbtn">
 									<span class="glyphicon glyphicon-eye-open"></span>
@@ -41,7 +41,7 @@ response.sendRedirect("ErrorPage.html");
 
 </div>
 <div class="form-group">
-<input class="form-control" type = "password" id="pwinput2" name="password" data-match="#pwinput" data-match-error="Passwörter stimmen nicht überein" required>
+<input class="form-control" type = "password" id="pwinput2" name="password2" data-match="#pwinput" data-match-error="Passwörter stimmen nicht überein" required>
 <div class="help-block with-errors"></div>
 </div>
 <div class="form-group">
@@ -84,7 +84,7 @@ $(document).ready(function() {
 		custom: {
 			maxlength: function($el){
 				console.log("called custom");
-			    var matchValue = $el.data("maxlength") // bekommt die angegebene maxlänge
+			    var matchValue = $el.data("maxlength");
 			    console.log($el.val().length);
 				if($el.val().length > matchValue){
 					return "Das Passwort ist zu lang."

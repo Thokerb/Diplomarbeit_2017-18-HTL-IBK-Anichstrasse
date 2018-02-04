@@ -487,6 +487,7 @@ public class DBManager {
 				+ " GROUP BY uploaddaten.uploadid, uploaddaten.autor) p_search"
 				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\')"
 				+ " ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
+		
 		System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
 		try {	
 			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
@@ -847,7 +848,7 @@ public class DBManager {
 
 	public String getUserByEmail(Connection conn,String emailuser) {
 	
-		String SQL="select benutzername from benutzer where email ='"+emailuser+"'";
+		String SQL="SELECT benutzername FROM benutzer WHERE email ='"+emailuser+"'";
 		String benutzername=null;
 
 		try {
@@ -1063,9 +1064,37 @@ public class DBManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
+	
+	public static boolean checkUser(Connection conn, String username, String pwd) {
 
+		boolean st = false; 
+		String sql = "SELECT * FROM benutzer where benutzername=? and passwort=?";
 
+		System.out.println("Connecting to database...");
+
+		try {
+
+			Class.forName(JDBC_DRIVER);
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			System.out.println("Connecting successful");
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setString(1,  username);
+			ps.setString(2,  pwd);
+
+			ResultSet rs = ps.executeQuery(); // st boolean? 
+
+			st = rs.next();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Connecting not successful");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return st; 
+	}
 }

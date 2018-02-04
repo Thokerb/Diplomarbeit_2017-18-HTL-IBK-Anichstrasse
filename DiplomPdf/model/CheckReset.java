@@ -83,7 +83,7 @@ public class CheckReset extends HttpServlet {
 			
 			//TODO von Datenbank Benutzernamen bekommen
 			session.setAttribute("hashcodeverified", "yes");
-
+			
 			response.sendRedirect("NewPassword.jsp");
 			
 

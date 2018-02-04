@@ -482,7 +482,7 @@ if(session.getAttribute("username")== null){
             
 			var sourcetable = getTableRow($(this));
 	 
-		     	var xhttp = new XMLHttpRequest();
+		  //   	var xhttp = new XMLHttpRequest();
 			/**
 			** TODO änderung vom tom
 			**/
@@ -504,11 +504,22 @@ if(session.getAttribute("username")== null){
 	    
 	    $(".table tbody").on("click",".deletebutton",function(){
 			var sourcetable = getTableRow($(this));
-	     	var xhttp = new XMLHttpRequest();
-	    	xhttp.open("POST","DeleteServlet",true);
-	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	    	xhttp.send("todelete="+sourcetable);
-	    	refreshtables();
+//	     	var xhttp = new XMLHttpRequest();
+//	    	xhttp.open("POST","DeleteServlet",true);
+//	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//	    	xhttp.send("todelete="+sourcetable);
+//	    	refreshtables();
+	    	
+	    	$.ajax({
+	    		method:"POST",
+	    		url:"DeleteServlet",
+	    		data: {todelete: sourcetable}
+	    	})
+	    	.done(function(){
+	    		refreshtables();
+	    	})
+	    	
+	    	
 	    });
 		
 	    

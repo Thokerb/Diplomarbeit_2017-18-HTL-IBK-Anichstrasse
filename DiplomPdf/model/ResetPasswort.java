@@ -3,12 +3,10 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,21 +31,22 @@ public class ResetPasswort extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String username = ((ServletRequest) request.getSession()).getParameter("username"); //Username wird schon vom vorherigen Servlet genommen
+		HttpSession ses = request.getSession(false);
+		String username = (String) ses.getAttribute("username"); //Username wird schon vom vorherigen Servlet genommen
 		String pw = request.getParameter("password");
 		String pw2 = request.getParameter("password2");
-		String auth = (String) request.getAttribute("hashcodeverified");
+		String auth = (String) ses.getAttribute("hashcodeverified");
+		System.out.println(pw+" "+pw2);
 
 		if(auth.equalsIgnoreCase("yes")) {
 			if(pw.equals(pw2)) {
-
 				if(RegisterServlet.pwdIsValid(pw)) {
 
 					try {
 						DBManager db = new DBManager();
 						Connection conn=db.getConnection();
 
-						db.PasswortNeuSetzen(null, username, pw);
+						db.PasswortNeuSetzen(conn, username, pw);
 
 						response.setContentType("text/plain");
 						PrintWriter out = response.getWriter();
@@ -56,7 +55,7 @@ public class ResetPasswort extends HttpServlet {
 						//TODO message muss no in seite zugordnet werdn
 
 						request.setAttribute("message", "Passwort konnte erfolgreich geändert werden ");
-						RequestDispatcher rd = request.getRequestDispatcher("DataTableSite.jsp");
+						RequestDispatcher rd = request.getRequestDispatcher("Startseite.jsp");
 						rd.forward(request, response);
 
 					}catch(SQLException e){
@@ -68,16 +67,14 @@ public class ResetPasswort extends HttpServlet {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-
-
-					response.setContentType("text/plain");
-					PrintWriter out = response.getWriter();
-					out.print("pwok");
+//					response.setContentType("text/plain");
+//					PrintWriter out = response.getWriter();
+//					out.print("pwok");
 				}
 				else {
-					response.setContentType("text/plain");
-					PrintWriter out = response.getWriter();
-					out.print("notsamesame");
+//					response.setContentType("text/plain");
+//					PrintWriter out = response.getWriter();
+//					out.print("notsamesame");
 					request.setAttribute("message", "Passwörter stimmen nicht überein");
 					RequestDispatcher rd = request.getRequestDispatcher("ErrorPage.jsp");
 					rd.forward(request, response);
@@ -86,6 +83,7 @@ public class ResetPasswort extends HttpServlet {
 			else {
 
 				request.setAttribute("message", "Passwort konnte nicht geändert werden ");
+				System.out.println("pw nix mit ändern");
 				RequestDispatcher rd = request.getRequestDispatcher("ErrorPage.jsp");
 				rd.forward(request, response);
 

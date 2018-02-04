@@ -51,7 +51,7 @@ public class PDFmanager {
 		pdDoc.getNumberOfPages();
 
 		PDDocumentInformation info = pdDoc.getDocumentInformation();
-
+		
 		autor = info.getAuthor();
 		date =  convDatum(info.getCreationDate());
 		System.out.println(date);
@@ -60,10 +60,15 @@ public class PDFmanager {
 		pdfStripper.setEndPage(pdDoc.getNumberOfPages());
 
 		Text = pdfStripper.getText(pdDoc);
-
+		
+		cosDoc.close();
 		pdDoc.close();
-
+<<<<<<< HEAD
+		
 		System.out.println(Text);
+=======
+		cosDoc.close();
+>>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 
 		return Text;
 	}
@@ -85,6 +90,12 @@ public class PDFmanager {
 
 	public static String getDatum(){ 
 		return date; 
+	}
+	
+	public void deleteFile(){
+		System.out.println("was steht da"+file.exists()+ file.canRead()+ file.canWrite()+ file.canExecute());
+		System.gc();
+		System.out.println(this.file.delete());
 	}
 
 }
