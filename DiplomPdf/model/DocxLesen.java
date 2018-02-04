@@ -63,7 +63,7 @@ public class DocxLesen {
 		return aut;
 	}
 	
-	public String getDate() {
+	public static String getDate() {
 		return d;
 	}
 

@@ -134,18 +134,18 @@ public class UploadServlet extends HttpServlet {
 
 		case "DOC"  :{
 
-			DocLesen.lesenDoc("C://Temp//"+dateiname);
+			String inhalttext=DocLesen.lesenDoc("C://Temp//"+dateiname);
 //			. getAutor() -- String -  .getDatum() -- String - für Infos verwenden
 
 			//TODO alles ausbessern
 			try {
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
-				String stichworttext=dbm.Stichtextgenerator(conn1,"inhalttext");
+				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				String[] daten =new String[8];
 				daten[0]="tag";
-				daten[1]="inhalttext";
+				daten[1]=inhalttext;
 				daten[2]=username;
 				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
 				daten[4]=dateiname;
@@ -157,7 +157,7 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(conn1,daten,filePart,PDFmanager.getDatum());
+				DBManager.writeDaten(conn1,daten,filePart,DocLesen.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);
@@ -177,18 +177,18 @@ public class UploadServlet extends HttpServlet {
 
 		case "DOCX"  :{
 
-			DocxLesen.lesenDocx("C://Temp//"+dateiname);
+			String inhalttext=DocxLesen.lesenDocx("C://Temp//"+dateiname);
 //			. getAutor() -- String -  .getDatum() -- String - für Infos verwenden
 
 			//TODO alles ausbessern
 			try {
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
-				String stichworttext=dbm.Stichtextgenerator(conn1,"inhalttext");
+				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				String[] daten =new String[8];
 				daten[0]="tag";
-				daten[1]="inhalttext";
+				daten[1]=inhalttext;
 				daten[2]=username;
 				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
 				daten[4]=dateiname;
@@ -200,7 +200,7 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(conn1,daten,filePart,PDFmanager.getDatum());
+				DBManager.writeDaten(conn1,daten,filePart,DocxLesen.getDate());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);
