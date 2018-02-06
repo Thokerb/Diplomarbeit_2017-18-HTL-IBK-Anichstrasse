@@ -61,14 +61,11 @@ public class PDFmanager {
 
 		Text = pdfStripper.getText(pdDoc);
 		
-		cosDoc.close();
-		pdDoc.close();
-<<<<<<< HEAD
+//		cosDoc.close();
+//		pdDoc.close();
 		
 		System.out.println(Text);
-=======
-		cosDoc.close();
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
+
 
 		return Text;
 	}
@@ -92,10 +89,10 @@ public class PDFmanager {
 		return date; 
 	}
 	
-	public void deleteFile(){
-		System.out.println("was steht da"+file.exists()+ file.canRead()+ file.canWrite()+ file.canExecute());
-		System.gc();
-		System.out.println(this.file.delete());
-	}
+//	public void deleteFile(){
+//		System.out.println("was steht da"+file.exists()+ file.canRead()+ file.canWrite()+ file.canExecute());
+//		System.gc();
+//		System.out.println(this.file.delete());
+//	}
 
 }

@@ -46,7 +46,7 @@ public class DocxLesen {
 			System.out.println(d);
 			System.out.println("---------------- ENDE DOCX -----------------");
 
-			oleTextExtractor.close();
+			oleTextExtractor.close(); //os.filesystem.delete file, mit pfad
 			fis.close();
 			fis = null;
 			return text; 
@@ -64,11 +64,11 @@ public class DocxLesen {
 		return "Achtung - Fehler! Datei Konnte nicht gelesen werden"; 
 	}
 
-	public String getAuthor() {
+	public static String getAuthor() {
 		return aut;
 	}
 	
-	public String getDate() {
+	public static String getDatum() {
 		return d;
 	}
 

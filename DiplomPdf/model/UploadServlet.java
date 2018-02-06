@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,7 +62,7 @@ public class UploadServlet extends HttpServlet {
 		System.out.println("Es handelt sich um eine ' "+ dateityp +" ' Datei: ");
 		System.out.println("-----------------------------------------");
 		
-		HttpSession ses = request.getSession(false);
+		HttpSession ses = request.getSession(false); //TODO: if 
 		String username = (String) ses.getAttribute("user");
 		
 		if(overwrite){
@@ -98,10 +99,9 @@ public class UploadServlet extends HttpServlet {
 				daten[2]=username;
 				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
 				daten[4]=dateiname;
-				daten[5]=stichworttext; //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
+				daten[5]= PDFmanager.getDatum(); //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
 				//PDFmanager.convDatum(daten[5);]
 				daten[6]=dateityp;
-
 				
 				for(String s : daten) {
 					System.out.print("Gelesen wurde: ");
@@ -192,11 +192,12 @@ public class UploadServlet extends HttpServlet {
 				daten[0]="tag";
 				daten[1]="inhalttext";
 				daten[2]=username;
-				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
+				daten[3]=PDFmanager.getAutor(); 
 				daten[4]=dateiname;
-				daten[5]=stichworttext; //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
-				//PDFmanager.convDatum(daten[5);]
+				daten[5]=stichworttext;
 				daten[6]=dateityp;
+//				daten[8]= DocxLesen.getDatum();
+//				daten[9]= DocxLesen.getDatum();
 
 				for(String s : daten) {
 					System.out.print("Gelesen wurde: ");
@@ -237,15 +238,18 @@ public class UploadServlet extends HttpServlet {
         	System.out.println("ERROR DATEI BEREITS VORHANDEN");
         }
 		 */
-		System.out.println("Datei fertig eingelesen (noch nicht ganz DB speicherung fehlt bis jetzt )");
-		f.mkdir();
-		f.setExecutable(true, false);
-		f.setReadable(true, false);
-		f.setWritable(true, false);
-		System.out.println("was steht da333"+f.exists()+ f.canRead()+ f.canWrite()+ f.canExecute());
-		System.gc();
-		System.out.println("löschen geht:"+f.delete());
-		System.gc();
+		
+		Files.deleteIfExists(Paths.get("C://Temp//"+dateiname));
+		
+//		System.out.println("Datei fertig eingelesen (noch nicht ganz DB speicherung fehlt bis jetzt )");
+//		f.mkdir();
+//		f.setExecutable(true, false);
+//		f.setReadable(true, false);
+//		f.setWritable(true, false);
+//		System.out.println("was steht da333"+f.exists()+ f.canRead()+ f.canWrite()+ f.canExecute());
+//		System.gc();
+//		System.out.println("löschen geht:"+f.delete()); // ture zurück, tdm vorhanden
+//		System.gc();
 	//	f.deleteOnExit();
 		
 	
