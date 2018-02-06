@@ -61,11 +61,21 @@ public class PDFmanager {
 
 		Text = pdfStripper.getText(pdDoc);
 		
+<<<<<<< HEAD
 //		cosDoc.close();
 //		pdDoc.close();
+=======
+		cosDoc.close();
+		pdDoc.close();
+>>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 		
+<<<<<<< HEAD
 		System.out.println(Text);
 
+=======
+		System.out.println(Text);
+		cosDoc.close();
+>>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 
 		return Text;
 	}

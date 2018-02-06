@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -52,6 +53,10 @@ public class PrivChangeServlet extends HttpServlet {
 		String idObj = jobj.get("ID").getAsString();
 		String status = request.getParameter("howto");
 		int id = Integer.parseInt(idObj);
+		String autor = jobj.get("Autor").getAsString();
+		HttpSession ses = request.getSession(false);
+		String username = (String) ses.getAttribute("user"); //Username wird schon vom vorherigen Servlet genommen
+
 
 //		if(status.equals("private"))
 //		{
@@ -62,17 +67,24 @@ public class PrivChangeServlet extends HttpServlet {
 //			status="private";
 //		}
 		
-		DBManager dbm;
-		try {
-			dbm = new DBManager();
-			Connection conn=dbm.getConnection();
-			dbm.UpdateStatus(conn, id, status);
-			
-			dbm.releaseConnection(conn);
-		} catch (InstantiationException | IllegalAccessException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(autor.equals(username)){
+			DBManager dbm;
+			try {
+				dbm = new DBManager();
+				Connection conn=dbm.getConnection();
+				dbm.UpdateStatus(conn, id, status);
+				
+				dbm.releaseConnection(conn);
+			} catch (InstantiationException | IllegalAccessException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		else{
+			System.out.println("ERROR fremder User ändert Privacy-Settings");
+		}
+		
+
 		
 		
 		System.out.println("ToChange: "+antwort);

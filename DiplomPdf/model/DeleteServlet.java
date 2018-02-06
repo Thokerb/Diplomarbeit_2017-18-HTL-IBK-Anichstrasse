@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -41,20 +42,30 @@ public class DeleteServlet extends HttpServlet {
 		String idObj = jobj.get("ID").getAsString();
 		int id = Integer.parseInt(idObj);
 		System.out.println("todeleted:"+id);
-		try {
-			DBManager db = new DBManager();
-			Connection conn=db.getConnection();
-			db.Datenlöschen(conn,id);
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String autor = jobj.get("Autor").getAsString();
+		HttpSession ses = request.getSession(false);
+		String username = (String) ses.getAttribute("user"); //Username wird schon vom vorherigen Servlet genommen
+
+		if(username.equals(autor)){
+			try {
+				DBManager db = new DBManager();
+				Connection conn=db.getConnection();
+				db.Datenlöschen(conn,id);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		else{
+			System.out.println("Löschen nicht erlaubt");
+		}
+
 		
 	}
 
