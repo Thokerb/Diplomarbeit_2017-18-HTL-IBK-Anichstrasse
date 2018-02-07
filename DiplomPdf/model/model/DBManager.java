@@ -154,9 +154,10 @@ public class DBManager {
 	}
 
 	public static String getaktuellesDatum(){
+		
 		GregorianCalendar now = new GregorianCalendar(); 
 
-		SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat d = new SimpleDateFormat("dd.MM.yyyy");
 		String pD = d.format(now.getTime());
 		System.out.println(pD);
 
@@ -381,8 +382,11 @@ public class DBManager {
 				}
 			}
 
-			rs.close();rs=null;
-			pstmt.close();pstmt=null;
+			rs.close();
+			rs=null;
+			pstmt.close();
+			pstmt=null;
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

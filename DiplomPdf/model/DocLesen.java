@@ -44,23 +44,12 @@ public class DocLesen {
 			System.out.println(text); 
 			System.out.println("----------------- INFO: -----------------");
 			System.out.println(aut);
-<<<<<<< HEAD
 			System.out.println(d);
 
-=======
-			System.out.println("----------------------------------");
-			System.out.println(d);
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 			System.out.println("----------------ENDE DOC -----------------");
 
-			
 			fis.close();
-<<<<<<< HEAD
 			extractor.close();
-
-=======
-			extractor.close();
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 			
 			return text;
 

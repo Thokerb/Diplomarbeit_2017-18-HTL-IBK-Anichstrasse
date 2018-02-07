@@ -68,11 +68,8 @@ public class DocxLesen {
 		return aut;
 	}
 	
-<<<<<<< HEAD
+
 	public static String getDatum() {
-=======
-	public static String getDate() {
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 		return d;
 	}
 

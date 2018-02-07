@@ -29,13 +29,6 @@ public class PDFmanager {
 
 	public PDFmanager() {}
 
-	private String convDatum(Calendar cal){
-
-		SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
-		String pD = d.format(cal.getTime());
-		return pD;
-	}
-
 	public String pdfToText() throws IOException {
 
 		this.pdfStripper = null;
@@ -51,7 +44,7 @@ public class PDFmanager {
 		pdDoc.getNumberOfPages();
 
 		PDDocumentInformation info = pdDoc.getDocumentInformation();
-		
+
 		autor = info.getAuthor();
 		date =  convDatum(info.getCreationDate());
 		System.out.println(date);
@@ -60,24 +53,26 @@ public class PDFmanager {
 		pdfStripper.setEndPage(pdDoc.getNumberOfPages());
 
 		Text = pdfStripper.getText(pdDoc);
-		
-<<<<<<< HEAD
-//		cosDoc.close();
-//		pdDoc.close();
-=======
+
 		cosDoc.close();
 		pdDoc.close();
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
-		
-<<<<<<< HEAD
-		System.out.println(Text);
 
-=======
-		System.out.println(Text);
-		cosDoc.close();
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 
+
+
+		this.pdfStripper = null;
+		this.pdDoc = null;
+		this.cosDoc = null;
+		deleteFile();
 		return Text;
+	}
+
+	private String convDatum(Calendar cal){
+
+		SimpleDateFormat d = new SimpleDateFormat("dd.MM.yyyy");
+		//		SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+		String pD = d.format(cal.getTime());
+		return pD;
 	}
 
 	public void setFilePath(String filePath) {
@@ -85,7 +80,7 @@ public class PDFmanager {
 	}
 
 	public static void getInfoPDF(){
-		
+
 		System.out.println(" Autor: "+ autor);
 		System.out.println(" Erstelldatum: "+ date);
 
@@ -98,11 +93,11 @@ public class PDFmanager {
 	public static String getDatum(){ 
 		return date; 
 	}
-	
-//	public void deleteFile(){
-//		System.out.println("was steht da"+file.exists()+ file.canRead()+ file.canWrite()+ file.canExecute());
-//		System.gc();
-//		System.out.println(this.file.delete());
-//	}
+
+	public void deleteFile(){
+		System.out.println("was steht da: PDFmanager: "+file.exists()+ file.canRead()+ file.canWrite()+ file.canExecute());
+		System.gc();
+		System.out.println(this.file.delete());
+	}
 
 }
