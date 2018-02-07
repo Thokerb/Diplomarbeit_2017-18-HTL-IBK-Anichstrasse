@@ -46,49 +46,52 @@ public class Test {
 
 	//date=convertDate("2017-11-25");
 	//writeDaten(testzeile);
+	
+	System.out.println("Test test test");
+			Connection conn=null;
+			List<Uploaddaten> list = null;
 		
-//			Connection conn=null;
-//			List<Uploaddaten> list = null;
+		try {
+			DBManager db = new DBManager();
+			conn=db.getConnection();
+			
+			//list = db.readDaten(conn);
+			
+			ArrayList<String[]> daten = new ArrayList<String[]>();
+			daten=db.ranking2(conn, "Zwiebel");
+			for(int i=0;i<daten.size();i++)
+			{
+				System.out.println(daten.get(i)[1]);
+			}
+			String anzahl=daten.get(0)[0];
+			System.out.println("yooooo: "+anzahl);
+			System.out.println("Anzahl an Einträge zu Suchwort: "+daten.get(0)[0]);
+			
+			db.releaseConnection(conn);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+
+		
+//		GregorianCalendar now = new GregorianCalendar(); 
 //		
-//		try {
-//			DBManager db = new DBManager();
-//			conn=db.getConnection();
-//			
-//			//list = db.readDaten(conn);
-//			
-//			ArrayList<String[]> daten = new ArrayList<String[]>();
-//			daten=db.autorASC(conn);
-//			for(int i=0;i<daten.size();i++)
-//			{
-//				System.out.println(daten.get(i)[1]);
-//			}
-//			
-//			
-//			db.releaseConnection(conn);
-//		} catch (InstantiationException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IllegalAccessException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch(SQLException e){
-//			e.printStackTrace();
-//		}
-		
-		GregorianCalendar now = new GregorianCalendar(); 
-		
-		  SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
-		  String pD = d.format(now.getTime());
-		  System.out.println(pD);
-		
-		
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-		System.out.println("Datum vom Typ Calender");
-		System.out.println(df.format(now.getTime())); 
-		String datumcool=df.format(now.getTime());
-		System.out.println("Datum vom Typ String");
-		System.out.println(datumcool);
+//		  SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+//		  String pD = d.format(now.getTime());
+//		  System.out.println(pD);
+//		
+//		
+//		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+//		System.out.println("Datum vom Typ Calender");
+//		System.out.println(df.format(now.getTime())); 
+//		String datumcool=df.format(now.getTime());
+//		System.out.println("Datum vom Typ String");
+//		System.out.println(datumcool);
 		
 	//	SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 

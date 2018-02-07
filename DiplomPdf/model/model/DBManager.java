@@ -338,6 +338,7 @@ public class DBManager {
 	{
 		String SQL="select count(uploadid) from uploaddaten where "+spalte+"='"+spalteninhalt+"'";
 
+		System.out.println(SQL);
 		try {
 			pstmt=conn.prepareStatement(SQL);
 			rs=pstmt.executeQuery();
@@ -347,7 +348,11 @@ public class DBManager {
 				System.out.println("Anzahl der Einträge in DB: "+anzahl);
 			}
 			
-			pstmt.close(); pstmt=null;
+			pstmt.close(); 
+			if(pstmt!=null)
+			{
+				pstmt=null;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -477,7 +482,7 @@ public class DBManager {
 	public ArrayList<String[]> ranking2(Connection conn, String wort) {
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//Tabellenzeilen aus Datenbank einlesen
-		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT count(uploadid) uploadid, dateityp, dateiname, autor, uploaddatum, uploaddatum, status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
+		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT anzahl, uploadid, dateityp, dateiname, autor, uploaddatum, uploaddatum, status FROM (SELECT count(uploadid) as anzahl, uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
 				+ "uploaddaten.dateiname as dateiname, uploaddaten.autor as autor, uploaddaten.tag as tag, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status,"
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.dateiname), 'A') || "
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.inhalttext), 'B') ||"
