@@ -58,13 +58,8 @@ public class EmailPasswort extends HttpServlet {
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
 			emailuser = request.getParameter("email");
-			//			user = request.getParameter("user");
-
 			String checkUser = db.getUserByEmail(conn, emailuser);
-			//			String checkMail = db.getEmailByUser(conn, user);
-
 			String getUser = db.getUser(conn, checkUser);
-			//			String getMail = db.getEmail(conn, checkMail);
 			String checkMail = db.getEmailByUser(conn, getUser);
 			String getMail = db.getEmail(conn, checkMail);
 
@@ -80,15 +75,11 @@ public class EmailPasswort extends HttpServlet {
 
 			if( (getMail != null)){
 
-
-
 				System.out.println("User existiert, Mail kann versendet werden. . . "); // Bei erstaufruf jsp seite kein modal? 
 				SendEMail mailer = new SendEMail();
 
-
-
 				try {
-					message = "Lieber EasyPDF Nutzer, um dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
+					message = "Lieber EasyPDF Nutzer, um Dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
 
 					+"\n\n http://localhost:8080/DiplomPdf/CheckReset?authcode="+authcode
 					+"\n\n  Viel Spaß bei der weiteren Nutzung von EasyPDF wünscht das TEAM: "

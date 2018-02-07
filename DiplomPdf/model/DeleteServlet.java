@@ -44,7 +44,7 @@ public class DeleteServlet extends HttpServlet {
 		System.out.println("todeleted:"+id);
 		String autor = jobj.get("Autor").getAsString();
 		HttpSession ses = request.getSession(false);
-		String username = (String) ses.getAttribute("user"); //Username wird schon vom vorherigen Servlet genommen
+		String username = (String) ses.getAttribute("user"); //Username wird vom vorherigen Servlet genommen
 
 		if(username.equals(autor)){
 			try {
@@ -64,9 +64,8 @@ public class DeleteServlet extends HttpServlet {
 		}
 		else{
 			System.out.println("Löschen nicht erlaubt");
-		}
-
-		
+			//TODO:Antwort an Client senden? 
+		}		
 	}
 
 	/**
@@ -76,5 +75,4 @@ public class DeleteServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

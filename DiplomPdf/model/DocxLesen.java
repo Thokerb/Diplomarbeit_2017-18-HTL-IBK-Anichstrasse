@@ -64,13 +64,12 @@ public class DocxLesen {
 		return "Achtung - Fehler! Datei Konnte nicht gelesen werden"; 
 	}
 
-	public static String getAuthor() {
-		return aut;
-	}
-	
-
 	public static String getDatum() {
 		return d;
+	}
+
+	public static String getAutor() {
+		return aut;
 	}
 
 //	public static void main(String[] args) {

@@ -1,8 +1,7 @@
-import java.io.File;
-
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.io.RandomAccessFile;
 import org.apache.pdfbox.pdfparser.PDFParser;
@@ -10,26 +9,26 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.text.PDFTextStripper;
 
-
-
-public class PDFmanager {
-
+public class PDFLesen {
+	
 	private PDFParser parser;
 	private PDFTextStripper pdfStripper;
 	private PDDocument pdDoc ;
 	private COSDocument cosDoc ;
-	private String Text ;
+//	private String Text ;
 	private static String autor ;
 	private static String date ;
-	private static String d ;
-	private String filePath;
 	private File file;
 
 	String info;
 
-	public PDFmanager() {}
-
-	public String pdfToText() throws IOException {
+	public String text = "text";
+	
+//	public void setFilePath(String filePath) {
+//		this.filePath = filePath;
+//	}
+	
+	public String pdfToText(String filePath) throws IOException {
 
 		this.pdfStripper = null;
 		this.pdDoc = null;
@@ -52,21 +51,28 @@ public class PDFmanager {
 		pdfStripper.setStartPage(1);
 		pdfStripper.setEndPage(pdDoc.getNumberOfPages());
 
-		Text = pdfStripper.getText(pdDoc);
+		text = pdfStripper.getText(pdDoc);
+
 
 		cosDoc.close();
 		pdDoc.close();
 
-
-
-
 		this.pdfStripper = null;
 		this.pdDoc = null;
 		this.cosDoc = null;
+		
 		deleteFile();
-		return Text;
+		
+		
+		System.out.println("--------------- TEXT aus PDFLesen: -------------");
+		System.out.println(text);
+		System.out.println("--------------- TEXT -------------");
+		
+		file.deleteOnExit();
+		
+		return text;
 	}
-
+	
 	private String convDatum(Calendar cal){
 
 		SimpleDateFormat d = new SimpleDateFormat("dd.MM.yyyy");
@@ -74,30 +80,28 @@ public class PDFmanager {
 		String pD = d.format(cal.getTime());
 		return pD;
 	}
-
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
-
-	public static void getInfoPDF(){
-
-		System.out.println(" Autor: "+ autor);
-		System.out.println(" Erstelldatum: "+ date);
-
-	}
-
-	public static String getAutor(){ 
+	
+	public String getAutor(){ 
 		return autor; 
 	}
 
-	public static String getDatum(){ 
+	public String getDatum(){ 
 		return date; 
 	}
 
 	public void deleteFile(){
-		System.out.println("was steht da: PDFmanager: "+file.exists()+ file.canRead()+ file.canWrite()+ file.canExecute());
+		System.out.println("was steht da beim löschen versuchen: PDFmanager: "+file.exists()+ file.canRead()+ file.canWrite()+ file.canExecute());
 		System.gc();
 		System.out.println(this.file.delete());
 	}
+	
+
+//	public static void main(String[] args) throws IOException { 
+//	
+//		PDFLesen pdfL = new PDFLesen();
+//		pdfL.pdfToText("C:\\Users\\Sara\\Desktop\\AbschlussberichtGr3.pdf");
+//
+//	}
+
 
 }

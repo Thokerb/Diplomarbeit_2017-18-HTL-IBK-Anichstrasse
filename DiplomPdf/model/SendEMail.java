@@ -17,8 +17,8 @@ public class SendEMail {
 		final String mail = "easypdf.help@gmail.com";
 		final String password = "htlanichstr";
 
-
-		// sets SMTP server properties
+		/** setzt SMTP server properties **/
+		
 		Properties properties = new Properties();
 
 		properties.put("mail.smtp.user","username"); 
@@ -39,7 +39,6 @@ public class SendEMail {
 			}
 		});
 
-		// creates a new e-mail message
 		Message msg = new MimeMessage(session);
 
 		msg.setFrom(new InternetAddress(mail));
@@ -47,10 +46,7 @@ public class SendEMail {
 		msg.setRecipients(Message.RecipientType.TO, toAddresses);
 		msg.setSubject(subject);
 		msg.setSentDate(new Date());
-		// set plain text message
 		msg.setText(message);
-
-		// sends the e-mail
 		Transport.send(msg);
 
 		System.out.println("Email wurde versendet");

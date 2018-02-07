@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +35,7 @@
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="emailinput">E-Mail</label> 
-						<input type="email" data-error="Bitte geben Sie eine gültige Emailadresse ein" class="form-control"  name="email" id="emailinput" placeholder="E-Mail " required>
+						<input type="email" data-error="Bitte geben Sie eine gÃ¼ltige Emailadresse ein" class="form-control"  name="email" id="emailinput" placeholder="E-Mail " required>
 						<div class="help-block with-errors"></div>
 					</div>
 					
@@ -55,7 +55,7 @@
 
 					<div class="form-group">
 						<label class="sr-only" for="pwinput2">Passwort wiederholen</label>
-						<input type="password" class="form-control" name="passwordrepeat" id="pwinput2" placeholder="Passwort wiederholen" data-match="#pwinput" data-match-error="Passwörter stimmen nicht überein" required>
+						<input type="password" class="form-control" name="passwordrepeat" id="pwinput2" placeholder="Passwort wiederholen" data-match="#pwinput" data-match-error="PasswÃ¶rter stimmen nicht Ã¼berein" required>
 						<div class="help-block with-errors"></div>
 					</div>
 					<div class="form-group">
@@ -137,7 +137,7 @@
         			custom: {
         				maxlength: function($el){
         					console.log("called custom");
-        				    var matchValue = $el.data("maxlength") // bekommt die angegebene maxlänge
+        				    var matchValue = $el.data("maxlength") // bekommt die angegebene maxlÃ¤nge
         				    console.log($el.val().length);
 							if($el.val().length > matchValue){
 								return "Das Passwort ist zu lang."
@@ -160,7 +160,7 @@
                 
                 var input2 = $("#pwinput2");
                 var pw2 = input2.val();
-	        	input2.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput2\" placeholder=\"Passwort wiederholen\" class=\"form-control\" data-match=\"#pwinput\" data-match-error=\"Passwörter stimmen nicht überein\" value=\""+pw2+"\" required>");
+	        	input2.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput2\" placeholder=\"Passwort wiederholen\" class=\"form-control\" data-match=\"#pwinput\" data-match-error=\"PasswÃ¶rter stimmen nicht Ã¼berein\" value=\""+pw2+"\" required>");
 				
 	        	register.validator('update');
 	        }
@@ -172,7 +172,7 @@
                 
                 var input2 = $("#pwinput2");
                 var pw2 = input2.val();
-	        	input2.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput2\" class=\"form-control\" placeholder=\"Passwort wiederholen\" data-match=\"#pwinput\" data-match-error=\"Passwörter stimmen nicht überein\" value=\""+pw2+"\" required>");
+	        	input2.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput2\" class=\"form-control\" placeholder=\"Passwort wiederholen\" data-match=\"#pwinput\" data-match-error=\"PasswÃ¶rter stimmen nicht Ã¼berein\" value=\""+pw2+"\" required>");
 
 
 	        	register.validator('update');

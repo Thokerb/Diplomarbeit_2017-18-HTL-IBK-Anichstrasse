@@ -45,7 +45,7 @@ public class CheckReset extends HttpServlet {
 		System.out.println("CheckReset called");
 		String Hashcode = request.getParameter("authcode");
 		System.out.println("empf code:"+Hashcode);
-		//TODO check datenbank auf Code
+		
 		Boolean check = false;
 		try {
 			DBManager dbm = new DBManager();
@@ -65,7 +65,7 @@ public class CheckReset extends HttpServlet {
 		System.out.println(check);
 
 		if(check){
-			System.out.println("isch okey");
+			System.out.println("Hash stimmt überein");
 			HttpSession session = request.getSession(true);
 			session.setAttribute("authcode", Hashcode);
 			
@@ -78,15 +78,10 @@ public class CheckReset extends HttpServlet {
 			catch (Exception e) {
 				// TODO: handle exception
 			}
+			
 			session.setAttribute("username", user);
-			
-			
-			//TODO von Datenbank Benutzernamen bekommen
 			session.setAttribute("hashcodeverified", "yes");
-			
 			response.sendRedirect("NewPassword.jsp");
-			
-
 		}
 		else{
 			response.sendRedirect("ErrorPage.html");

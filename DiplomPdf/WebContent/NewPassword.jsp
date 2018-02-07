@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Passwort Zurücksetzen</title>
+<title>Passwort ZurÃ¼cksetzen</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -41,7 +41,7 @@
 
 </div>
 <div class="form-group">
-<input class="form-control" type = "password" id="pwinput2" name="password2" data-match="#pwinput" data-match-error="Passwörter stimmen nicht überein" required>
+<input class="form-control" type = "password" id="pwinput2" name="password2" data-match="#pwinput" data-match-error="PasswÃ¶rter stimmen nicht Ã¼berein" required>
 <div class="help-block with-errors"></div>
 </div>
 <div class="form-group">
@@ -138,7 +138,7 @@ $(document).ready(function() {
             
             var input2 = $("#pwinput2");
             var pw2 = input2.val();
-        	input2.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput2\" placeholder=\"Passwort wiederholen\" class=\"form-control\" data-match=\"#pwinput\" data-match-error=\"Passwörter stimmen nicht überein\" value=\""+pw2+"\" required>");
+        	input2.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput2\" placeholder=\"Passwort wiederholen\" class=\"form-control\" data-match=\"#pwinput\" data-match-error=\"PasswÃ¶rter stimmen nicht Ã¼berein\" value=\""+pw2+"\" required>");
 			
         	register.validator('update');
         }
@@ -150,7 +150,7 @@ $(document).ready(function() {
             
             var input2 = $("#pwinput2");
             var pw2 = input2.val();
-        	input2.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput2\" class=\"form-control\" placeholder=\"Passwort wiederholen\" data-match=\"#pwinput\" data-match-error=\"Passwörter stimmen nicht überein\" value=\""+pw2+"\" required>");
+        	input2.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput2\" class=\"form-control\" placeholder=\"Passwort wiederholen\" data-match=\"#pwinput\" data-match-error=\"PasswÃ¶rter stimmen nicht Ã¼berein\" value=\""+pw2+"\" required>");
 
 
         	register.validator('update');

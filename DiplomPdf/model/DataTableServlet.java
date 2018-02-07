@@ -26,24 +26,14 @@ public class DataTableServlet extends HttpServlet {
 
 	public static ArrayList<String[]> sortiertAutorASC = new ArrayList<String[]>();
 
-
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public DataTableServlet() {
-		super();
-	}
-
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -65,6 +55,7 @@ public class DataTableServlet extends HttpServlet {
 
 
 		HttpSession ses = request.getSession(false);
+		
 		String username = (String) ses.getAttribute("user"); //Username wird schon vom vorherigen Servlet genommen
 		String search = request.getParameter("search[value]");
 		String draw = request.getParameter("draw");
@@ -93,7 +84,7 @@ public class DataTableServlet extends HttpServlet {
 		//		
 
 		/**
-		 * Hier sollte je nach dem welcher button zum sortieren der Daten die Antowrt anders sein, sortierparameter einstellen
+		 * Hier sollte je nach dem welcher button zum sortieren der Daten die Antwort anders sein, sortierparameter einstellen
 		 */
 		
 		String sortierspalte="";

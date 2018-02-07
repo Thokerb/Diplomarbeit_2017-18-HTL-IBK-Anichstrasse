@@ -4,9 +4,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -64,7 +61,7 @@ public class UploadServlet extends HttpServlet {
 		System.out.println("-----------------------------------------");
 		
 		HttpSession ses = request.getSession(false); //TODO: if 
-		String username = (String) ses.getAttribute("user");
+		String username = (String) ses.getAttribute("user"); 
 		
 		if(overwrite){
 			try {
@@ -87,8 +84,11 @@ public class UploadServlet extends HttpServlet {
 		switch(dateityp){
 
 		case "PDF"  :{
-			String inhalttext = PDFboxLesen.lesenPDF("C://Temp//"+dateiname); //file objekt mit dems
-			//TODO Autor und Datum ausbessern
+			
+			PDFLesen pdfL = new PDFLesen();
+			
+			String inhalttext = pdfL.pdfToText("C://Temp//"+dateiname); 
+			
 			try {
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
@@ -98,16 +98,16 @@ public class UploadServlet extends HttpServlet {
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
-				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
+				daten[3]=pdfL.getAutor(); 
 				daten[4]=dateiname;
-				daten[5]= PDFmanager.getDatum();
+				daten[5]= pdfL.getDatum();
 				daten[6]=dateityp;
 				
 				for(String s : daten) {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(conn1,daten,filePart,PDFmanager.getDatum());
+				DBManager.writeDaten(conn1,daten,filePart,pdfL.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);
@@ -127,8 +127,6 @@ public class UploadServlet extends HttpServlet {
 		case "TXT"  :{
 
 			String inhalttext = TextdateiLesen.textdateiLesen("C://Temp//"+dateiname);
-
-			//TODO in Datenbank speichern
 			
 			try {
 				DBManager dbm = new DBManager();
@@ -167,7 +165,6 @@ public class UploadServlet extends HttpServlet {
 		case "DOC"  :{
 
 			String inhalttext = DocLesen.lesenDoc("C://Temp//"+dateiname);
-//			. getAutor() -- String -  .getDatum() -- String - für Infos verwenden
 
 			//TODO alles ausbessern
 			try {
@@ -179,10 +176,9 @@ public class UploadServlet extends HttpServlet {
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
-				daten[3]=PDFmanager.getAutor(); //Uploader von Thomas Seite
+				daten[3]=DocLesen.getAutor(); 
 				daten[4]=dateiname;
-				daten[5]=stichworttext; //da sollt ma "getDatum(Calendar cal)" was vom typ calender verwenden dann sollts richtge anzeigen
-				//PDFmanager.convDatum(daten[5);]
+				daten[5]=stichworttext; 
 				daten[6]=dateityp;
 
 				for(String s : daten) {
@@ -210,22 +206,19 @@ public class UploadServlet extends HttpServlet {
 		case "DOCX"  :{
 
 			String inhalttext=DocxLesen.lesenDocx("C://Temp//"+dateiname);
-//			. getAutor() -- String -  .getDatum() -- String - für Infos verwenden
 
-			//TODO alles ausbessern
 			try {
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-//				aus writeDaten: tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei
+				//aus writeDaten: tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei
 				String[] daten =new String[8];
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
-				daten[3]=PDFmanager.getAutor(); 
+				daten[3]=DocxLesen.getAutor(); 
 				daten[4]=dateiname;
-				//TODO ändern des datums 
 				daten[5]=stichworttext;
 				daten[6]=dateityp;
 //				daten[7]= ka;
@@ -272,8 +265,10 @@ public class UploadServlet extends HttpServlet {
         }
 		 */
 		
-		Files.isWritable(Paths.get("C://Temp//"+dateiname));
-		Files.deleteIfExists(Paths.get("C://Temp//"+dateiname));
+		System.out.println("Is writeable: "+Files.isWritable(Paths.get("C://Temp//"+dateiname)));
+		System.out.println("IS: "+Files.exists(Paths.get("C://Temp//"+dateiname)));
+
+//		Files.deleteIfExists(Paths.get("C://Temp//"+dateiname));TODO löschen der files 
 		
 //		System.out.println("Datei fertig eingelesen (noch nicht ganz DB speicherung fehlt bis jetzt )");
 //		f.mkdir();
@@ -284,7 +279,7 @@ public class UploadServlet extends HttpServlet {
 //		System.gc();
 //		System.out.println("löschen geht:"+f.delete()); // ture zurück, tdm vorhanden
 //		System.gc();
-	//	f.deleteOnExit();
+		f.deleteOnExit();
 		
 	
 	}
@@ -354,6 +349,7 @@ public class UploadServlet extends HttpServlet {
 			return nameneu;
 		}
 		default:{
+			//TODO Message senden an Client
 			System.out.println("Neuer Name konnte nicht vergeben werden, Dateityp wird nicht unterstuetzt");
 		}
 

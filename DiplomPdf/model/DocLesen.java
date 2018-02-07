@@ -16,7 +16,6 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
 
 public class DocLesen {
 
-	
 	static String text;
 	static String aut; 
 	static Date date; 

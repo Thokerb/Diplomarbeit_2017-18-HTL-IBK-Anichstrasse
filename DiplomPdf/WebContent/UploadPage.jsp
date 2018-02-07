@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -26,6 +26,7 @@
 	<%
 	if(session.getAttribute("username")== null){
 		response.sendRedirect("Login.jsp");
+		//TODO kurze INFO an Benutzer? 
 	}
 	%>
 
@@ -47,7 +48,7 @@
 					<input id="modalinput" />
 					<button disabled="true" class="btn btn-primary disabled"
 						id="modalinputbtn">OK</button>
-					<button id="overwritebtn" class="btn btn-primary">Überschreibe
+					<button id="overwritebtn" class="btn btn-primary">Ãœberschreibe
 						die Datei</button>
 				</div>
 				<div class="modal-footer"></div>
@@ -163,10 +164,10 @@
 			autoQueue : false,
 			autoProcessQueue : false,
 			dictDefaultMessage : "Ziehe Dateien hierhin zum Hochladen",
-			dictFallbackMessage : "Dieser Browser wird leider nicht unterstützt",
-			dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "
+			dictFallbackMessage : "Dieser Browser wird leider nicht unterstÃ¼tzt",
+			dictFileTooBig : "Die Datei ist leider zu groÃŸ. Erlaubtes Maximum sind "
 					+ size + " MB",
-			dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
+			dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstÃ¼tzt"
 
 		}
 
