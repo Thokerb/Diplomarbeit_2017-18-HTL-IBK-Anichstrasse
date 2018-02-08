@@ -283,12 +283,7 @@ public class DataTableServlet extends HttpServlet {
 //			System.out.println("Wiederholungen in for-Schleife: "+wh);
 //		}
 		
-		if(anzahls==0)
-		{
-			
-		}
-		else
-		{
+
 			
 		for(int i=startwert;i<=wh;i++)
 		{
@@ -309,7 +304,11 @@ public class DataTableServlet extends HttpServlet {
 			}
 		}
 		antwort += "]}";
-		}
+		
+//		if(anzahls==0)
+//		{
+//			antwort = "{\"draw\":1,\"recordsTotal\":0,\"recordsFiltered\":0,\"data\":[]}";
+//		}
 
 		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
 		System.out.println(antwort);
