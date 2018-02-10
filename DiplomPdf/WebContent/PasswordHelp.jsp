@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +19,7 @@
 
 				<form action="EmailPasswort" id="pwresetform" method="post">
 					<div class="form-group">
-						<label  for="uninput">Gib hier die Emailadresse ein mit der du dich registriert hast. Wir schicken dir dann eine Email mit einem Link zum Zurücksetzen des Passworts.</label> <input
+						<label  for="uninput">Gib hier die Emailadresse ein mit der du dich registriert hast. Wir schicken dir dann eine Email mit einem Link zum ZurÃ¼cksetzen des Passworts.</label> <input
 							type="text" class="form-control" name="email" id="uninput"
 							placeholder="Emaildresse" required>
 					</div>
