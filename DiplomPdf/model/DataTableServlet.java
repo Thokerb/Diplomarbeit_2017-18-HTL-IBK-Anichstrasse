@@ -106,7 +106,7 @@ public class DataTableServlet extends HttpServlet {
 
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		int anzahl = 0;
-		int anzahls=0;
+		int anzahls=-1;
 
 		try {
 			DBManager db = new DBManager();
@@ -305,10 +305,10 @@ public class DataTableServlet extends HttpServlet {
 		}
 		antwort += "]}";
 		
-//		if(anzahls==0)
-//		{
-//			antwort = "{\"draw\":1,\"recordsTotal\":0,\"recordsFiltered\":0,\"data\":[]}";
-//		}
+		if(anzahls==0)
+		{
+			antwort = "{\"draw\":1,\"recordsTotal\":0,\"recordsFiltered\":0,\"data\":[]}";
+		}
 
 		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
 		System.out.println(antwort);

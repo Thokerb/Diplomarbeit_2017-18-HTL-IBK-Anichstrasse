@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
 import javax.servlet.ServletException;
@@ -268,6 +269,10 @@ public class UploadServlet extends HttpServlet {
 		System.out.println("Is writeable: "+Files.isWritable(Paths.get("C://Temp//"+dateiname)));
 		System.out.println("IS: "+Files.exists(Paths.get("C://Temp//"+dateiname)));
 
+		Path fileToDeletePath = Paths.get("C://Temp//"+dateiname);
+		Files.delete(fileToDeletePath);
+		
+		
 //		Files.deleteIfExists(Paths.get("C://Temp//"+dateiname));TODO löschen der files 
 		
 //		System.out.println("Datei fertig eingelesen (noch nicht ganz DB speicherung fehlt bis jetzt )");
@@ -279,7 +284,7 @@ public class UploadServlet extends HttpServlet {
 //		System.gc();
 //		System.out.println("löschen geht:"+f.delete()); // ture zurück, tdm vorhanden
 //		System.gc();
-		f.deleteOnExit();
+//		f.deleteOnExit();
 		
 	
 	}
