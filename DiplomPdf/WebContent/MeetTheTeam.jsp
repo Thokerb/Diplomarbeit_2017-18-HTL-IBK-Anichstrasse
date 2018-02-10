@@ -11,7 +11,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="mttstyle.css"/>
-
+<link href='https://fonts.googleapis.com/css?family=Alfa Slab One' rel='stylesheet'>
 <title>Das Team</title>
 </head>
 <body>
@@ -43,25 +43,25 @@
 <div class="row inhalt">
  <div class="col-lg-4 col-md-6">   <div class="card center-block">
         <img src="TeamImages/sara.jpg">
-        <h1>Namen Namen</h1>
-        <p class="sector">Weltmeister</p>
+        <h1>Sara Hindelang</h1>
+        <p class="sector">Dokumentanalyse</p>
         <p class="textme">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-        <p class="pbutton"><button class="btn-block btn-info">Schreib mir</button></p>
+        <p class="pbutton"><a class="btn-block btn-info" href="mailto:easypdf.help@gmail.com?Subject=Kontakt%20Sara%20Hindelang">Schreib mir</a></p>
         
         </div></div>
     <div class="col-lg-4 col-md-6">   <div class="card center-block">
         <img src="TeamImages/verena.jpg">
-        <h1>Namen Namen</h1>
-        <p class="sector">Weltmeister</p>
+        <h1>Verena Gurtner</h1>
+        <p class="sector">Datenbankentwicklerin</p>
         <p class="textme">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-        <p class="pbutton"><button class="btn-block btn-info">Schreib mir</button></p>
+        <p class="pbutton"><a class="btn-block btn-info" href="mailto:easypdf.help@gmail.com?Subject=Kontakt%20Verena%20Gurtner">Schreib mir</a></p>
         
         </div></div>    <div class="col-lg-4 col-md-6">   <div class="card center-block">
         <img src="TeamImages/thomas.jpg">
-        <h1>Namen Namen</h1>
-        <p class="sector">Weltmeister</p>
+        <h1>Thomas Kerber</h1>
+        <p class="sector">Frontend Entwickler</p>
         <p class="textme">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-        <p class="pbutton"><button class="btn-block btn-info">Schreib mir</button></p>
+        <p class="pbutton"><a class="btn-block btn-info" href="mailto:easypdf.help@gmail.com?Subject=Kontakt%20Thomas%20Kerber">Schreib mir</a></p>
         
         </div></div>
 </div>
