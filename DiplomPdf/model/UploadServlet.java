@@ -120,7 +120,6 @@ public class UploadServlet extends HttpServlet {
 			} catch(SQLException e){
 				e.printStackTrace();
 			}
-
 			System.out.println("PDF - Datei wurde in Text umgewandelt + Weitergabe an DB");
 			break;
 		}
@@ -268,24 +267,8 @@ public class UploadServlet extends HttpServlet {
 		
 		System.out.println("Is writeable: "+Files.isWritable(Paths.get("C://Temp//"+dateiname)));
 		System.out.println("IS: "+Files.exists(Paths.get("C://Temp//"+dateiname)));
-
-		Path fileToDeletePath = Paths.get("C://Temp//"+dateiname);
-		Files.delete(fileToDeletePath);
 		
-		
-//		Files.deleteIfExists(Paths.get("C://Temp//"+dateiname));TODO löschen der files 
-		
-//		System.out.println("Datei fertig eingelesen (noch nicht ganz DB speicherung fehlt bis jetzt )");
-//		f.mkdir();
-//		f.setExecutable(true, false);
-//		f.setReadable(true, false);
-//		f.setWritable(true, false);
-//		System.out.println("was steht da333"+f.exists()+ f.canRead()+ f.canWrite()+ f.canExecute());
-//		System.gc();
-//		System.out.println("löschen geht:"+f.delete()); // ture zurück, tdm vorhanden
-//		System.gc();
-//		f.deleteOnExit();
-		
+		Files.deleteIfExists(Paths.get("C://Temp//"+dateiname));
 	
 	}
 
