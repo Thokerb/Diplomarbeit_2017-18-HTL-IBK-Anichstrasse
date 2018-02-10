@@ -119,7 +119,6 @@ public class UploadServlet extends HttpServlet {
 			} catch(SQLException e){
 				e.printStackTrace();
 			}
-
 			System.out.println("PDF - Datei wurde in Text umgewandelt + Weitergabe an DB");
 			break;
 		}
@@ -279,8 +278,7 @@ public class UploadServlet extends HttpServlet {
 //		System.gc();
 //		System.out.println("löschen geht:"+f.delete()); // ture zurück, tdm vorhanden
 //		System.gc();
-		f.deleteOnExit();
-		
+		Files.deleteIfExists(Paths.get("C://Temp//"+dateiname));//TODO löschen der files
 	
 	}
 
