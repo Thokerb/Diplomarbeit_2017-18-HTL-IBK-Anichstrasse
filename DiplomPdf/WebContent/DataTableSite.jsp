@@ -136,6 +136,7 @@ if(session.getAttribute("username")== null){
 			this.on("sending", function(file, xhr, formData) {
 				console.log("sending called");
 				formData.append("dateiname", givename);
+				console.log("givename:"+givename);
 				formData.append("overwrite", overwrite);
 				overwrite = false;
 			});

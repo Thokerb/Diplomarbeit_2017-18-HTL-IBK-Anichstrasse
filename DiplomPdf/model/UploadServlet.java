@@ -38,7 +38,8 @@ public class UploadServlet extends HttpServlet {
 		 * TODO: übergabe in DATENBANK
 		 */
 		int nummer = 1;
-		
+		request.setCharacterEncoding("UTF-8");
+
 		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	
 		System.out.println(filePart);
 		InputStream fileContent = filePart.getInputStream();
@@ -49,6 +50,8 @@ public class UploadServlet extends HttpServlet {
 		boolean overwrite = Boolean.parseBoolean(request.getParameter("overwrite"));	//nimmt den String und wandelt ihn in ein boolean um
 		String dateiname = request.getParameter("dateiname");
 		System.out.println("Name der Datei: "+dateiname+" overwrite: "+overwrite);
+		dateiname = java.net.URLDecoder.decode(dateiname, "UTF-8");
+		System.out.println("utf8"+dateiname);
 
 		uploader(fileContent,dateiname,0);
 		fileContent.close();
