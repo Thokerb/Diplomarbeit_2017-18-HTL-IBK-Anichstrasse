@@ -31,10 +31,9 @@
 
 <%
 if(session.getAttribute("username")== null){
-//response.sendRedirect("Login.jsp");
+	response.sendRedirect("Login.jsp");
+	request.setAttribute("user", null);
 }
-//request.setAttribute("user", "Testuser");
-
 %>
 <body>
 
