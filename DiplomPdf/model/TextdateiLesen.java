@@ -1,15 +1,23 @@
 import java.io.*;
-
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym; 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.UserPrincipal; 
 
 public class TextdateiLesen {
 
-	public static String textdateiLesen(String filename){
+	public String textdateiLesen(String filename){
 
 		try {
 			String text = null; 
 			FileReader fileReader = new FileReader(filename);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
+		
+//			BasicFileAttributes attr = Files.readAttributes((Path)fileReader, BasicFileAttributes.class);
+//
+//			System.out.println("creationTime: " + attr.creationTime());
+			UserPrincipal owner = Files.getOwner((Path)fileReader);
+			System.out.println("Owner: " + owner);
+
 			StringBuffer strText = new StringBuffer();
 			
 			while((text = bufferedReader.readLine()) != null) {
@@ -32,8 +40,8 @@ public class TextdateiLesen {
 		return "Achtung - Fehler! Die Datei konnte nicht gelesen werden ";
 	}
 
-//	public static void main(String[] args) {
-//		TextdateiLesen l1 = new TextdateiLesen();
-//		l1.textdateiLesen("C://Users//Sara//Dropbox//Diplomarbeit//Text.txt");
-//	}
+	public static void main(String[] args) {
+		TextdateiLesen l1 = new TextdateiLesen();
+		l1.textdateiLesen("C://Users//Sara//Dropbox//Diplomarbeit//Text.txt");
+	}
 }
