@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -26,17 +27,20 @@ public class DateienListServlet extends HttpServlet {
 		 */
 
 		String[] namen = new String[0];
+		HttpSession ses = request.getSession(false);
+		String username = (String) ses.getAttribute("user"); //Username wird vom vorherigen Servlet genommen
+
 		int anzahl=0;
 		try {
 			DBManager dbm=new DBManager();
 			Connection conn=dbm.getConnection();
-			anzahl=dbm.AnzahlEinträge(conn);
+			anzahl=dbm.AnzahlEinträge(conn, username);
 
 			if(anzahl != 0)
 			namen = new String[anzahl-1];
 			else
 				namen = new String[anzahl];
-			namen=dbm.Dateiname(conn);
+			namen=dbm.Dateiname(conn,username);
 
 		}catch (InstantiationException e) {
 			e.printStackTrace();
@@ -55,7 +59,7 @@ public class DateienListServlet extends HttpServlet {
 		String answer = gson.toJson(namen);
 
 		//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		response.setContentType("application/json");  
+		response.setContentType("application/json;charset=UTF-8");  
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(answer);
 	}

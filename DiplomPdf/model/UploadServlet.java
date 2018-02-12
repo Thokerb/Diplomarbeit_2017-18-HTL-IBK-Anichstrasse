@@ -68,7 +68,7 @@ public class UploadServlet extends HttpServlet {
 			try {
 				DBManager dbm = new DBManager();
 				Connection conn = dbm.getConnection();	//TODO: OVERWRITE TESTEN
-				dbm.deletebyname(dateiname,conn);
+				dbm.deletebyname(dateiname,username,conn);
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

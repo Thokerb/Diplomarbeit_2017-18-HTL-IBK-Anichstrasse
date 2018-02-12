@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="mttstyle.css"/>
 <link href='https://fonts.googleapis.com/css?family=Alfa Slab One' rel='stylesheet'>
-<title>Das Team</title>
+<title>EasyDoc - Das Team</title>
 </head>
 <body>
 		<nav class="navbar navbar-inverse navbar-static-top"
@@ -24,7 +24,7 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="DataTableSite.jsp">EasyDocs</a>
+					<a class="navbar-brand" href="DataTableSite.jsp">EasyDoc</a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">

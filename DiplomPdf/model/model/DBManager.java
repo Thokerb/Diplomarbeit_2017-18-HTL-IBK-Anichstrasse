@@ -314,9 +314,9 @@ public class DBManager {
 	}
 
 
-	public int AnzahlEinträge(Connection conn)
+	public int AnzahlEinträge(Connection conn,String user)
 	{
-		String SQL="select count(uploadid) from uploaddaten";
+		String SQL="select count(*) from uploaddaten JOIN benutzer ON(uploaddaten.uploader = benutzer.benutzername) WHERE benutzername = '"+user+"';";
 
 		try {
 			pstmt=conn.prepareStatement(SQL);
@@ -946,10 +946,10 @@ public class DBManager {
 		return typ;
 	}
 
-	public String[] Dateiname(Connection conn)
+	public String[] Dateiname(Connection conn, String username)
 	{
-		String SQL="select dateiname from uploaddaten;";
-		int anzahl=AnzahlEinträge(conn);
+		String SQL="select dateiname from uploaddaten JOIN benutzer ON(uploaddaten.uploader = benutzer.benutzername) WHERE benutzername = '"+username+"';";
+		int anzahl=AnzahlEinträge(conn, username);
 		String[] spalten = new String[anzahl];
 
 		try {
@@ -1063,8 +1063,8 @@ public class DBManager {
 		System.out.println("Daten in Datenbank gepeichert.");
 	}
 
-	public void deletebyname(String dateiname,Connection conn) {
-		String SQL = "delete from uploaddaten where dateiname ='"+dateiname+"';";
+	public void deletebyname(String dateiname,String username, Connection conn) {
+		String SQL = "delete from uploaddaten where dateiname ='"+dateiname+"' AND uploader = '"+username+"';";
 		
 		try {
 			pstmt = conn.prepareStatement(SQL);
