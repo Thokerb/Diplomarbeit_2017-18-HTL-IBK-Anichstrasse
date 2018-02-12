@@ -30,9 +30,11 @@
 </head>
 
 <%
-if(session.getAttribute("username")== null){
+
+System.out.println(session.getAttribute("user"));
+
+if(session.getAttribute("user") == null){
 	response.sendRedirect("Login.jsp");
-	request.setAttribute("user", null);
 }
 %>
 <body>
