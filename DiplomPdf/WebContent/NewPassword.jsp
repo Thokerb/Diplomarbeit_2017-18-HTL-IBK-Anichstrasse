@@ -77,6 +77,15 @@
 <script>
 
 $(document).ready(function() {
+	
+	var status = $("#statusmessage").text();
+	console.log(status);
+	if(status!=""){
+		$(".modal-body").removeClass("loader");
+		$(".modal-body").removeClass("center-content");
+		$("#statusModal").modal("show");
+	}
+	
 	var register = $("#registerform");
 	
 	register.validator({
@@ -103,6 +112,8 @@ $(document).ready(function() {
 		if(form_validate("registerform")){				
 			$("#registerform")[0].submit(); //only calls once, no infinite loop
 			console.log("yeah");
+			$(".modal-body").addClass("loader");
+			$(".modal-body").addClass("center-content");
 			$("#statusModal").modal("show");
 		}
 		else{
