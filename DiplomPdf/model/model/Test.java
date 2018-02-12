@@ -57,15 +57,17 @@ public class Test {
 			
 			//list = db.readDaten(conn);
 			
-			ArrayList<String[]> daten = new ArrayList<String[]>();
-			daten=db.ranking2(conn, "Zwiebel");
-			for(int i=0;i<daten.size();i++)
-			{
-				System.out.println(daten.get(i)[1]);
-			}
-			String anzahl=daten.get(0)[0];
-			System.out.println("yooooo: "+anzahl);
-			System.out.println("Anzahl an Einträge zu Suchwort: "+daten.get(0)[0]);
+			db.VereinfachtesSuchwortgenerator(conn, "Hallo");
+			
+//			ArrayList<String[]> daten = new ArrayList<String[]>();
+//			daten=db.ranking2(conn, "Zwiebel");
+//			for(int i=0;i<daten.size();i++)
+//			{
+//				System.out.println(daten.get(i)[1]);
+//			}
+//			String anzahl=daten.get(0)[0];
+//			System.out.println("yooooo: "+anzahl);
+//			System.out.println("Anzahl an Einträge zu Suchwort: "+daten.get(0)[0]);
 			
 			db.releaseConnection(conn);
 		} catch (InstantiationException e) {
