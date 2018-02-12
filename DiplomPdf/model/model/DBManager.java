@@ -135,8 +135,8 @@ public class DBManager {
 			pstmt.setString(6, testzeile2[5]);
 			pstmt.setString(7, testzeile2[6]);
 			pstmt.setString(8, "private");
-			pstmt.setString(9, getaktuellesDatum());
-			pstmt.setString(10, date);
+			pstmt.setString(9, date);
+			pstmt.setString(10, getaktuellesDatum());
 			pstmt.setBinaryStream(11, fis, (int)filePart.getSize());
 
 
@@ -314,9 +314,9 @@ public class DBManager {
 	}
 
 
-	public int AnzahlEinträge(Connection conn)
+	public int AnzahlEinträge(Connection conn,String user)
 	{
-		String SQL="select count(uploadid) from uploaddaten";
+		String SQL="select count(*) from uploaddaten JOIN benutzer ON(uploaddaten.uploader = benutzer.benutzername) WHERE benutzername = '"+user+"';";
 
 		try {
 			pstmt=conn.prepareStatement(SQL);
@@ -367,10 +367,10 @@ public class DBManager {
 	 */
 
 	//Methode zum generieren eines vereinfachten Text zur 
-	public String Stichtextgenerator(Connection conn,String wort) {
+	public String Stichtextgenerator(Connection conn,String text) {
 		//System.out.print("Das Wort"+text+"wurde vereinfacht zu "+EasyText+". ");
 
-		String SEARCH_FOR_DATA_SQL_DATEN = "select to_tsvector(\'"+ wort +"\')";
+		String SEARCH_FOR_DATA_SQL_DATEN = "select to_tsvector(\'"+ text +"\')";
 
 		try {
 			if(pstmt==null){
@@ -387,10 +387,10 @@ public class DBManager {
 				}
 			}
 
-			rs.close();
-			rs=null;
 			pstmt.close();
 			pstmt=null;
+//			rs.close();
+			rs=null;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -946,10 +946,10 @@ public class DBManager {
 		return typ;
 	}
 
-	public String[] Dateiname(Connection conn)
+	public String[] Dateiname(Connection conn, String username)
 	{
-		String SQL="select dateiname from uploaddaten;";
-		int anzahl=AnzahlEinträge(conn);
+		String SQL="select dateiname from uploaddaten JOIN benutzer ON(uploaddaten.uploader = benutzer.benutzername) WHERE benutzername = '"+username+"';";
+		int anzahl=AnzahlEinträge(conn, username);
 		String[] spalten = new String[anzahl];
 
 		try {
@@ -1063,8 +1063,8 @@ public class DBManager {
 		System.out.println("Daten in Datenbank gepeichert.");
 	}
 
-	public void deletebyname(String dateiname,Connection conn) {
-		String SQL = "delete from uploaddaten where dateiname ='"+dateiname+"';";
+	public void deletebyname(String dateiname,String username, Connection conn) {
+		String SQL = "delete from uploaddaten where dateiname ='"+dateiname+"' AND uploader = '"+username+"';";
 		
 		try {
 			pstmt = conn.prepareStatement(SQL);

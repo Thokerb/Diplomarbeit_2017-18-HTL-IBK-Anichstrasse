@@ -8,7 +8,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
 
-<title>Easy PDF - Files </title>
+<title>EasyDoc - Dokumente</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
@@ -136,6 +136,7 @@ if(session.getAttribute("username")== null){
 			this.on("sending", function(file, xhr, formData) {
 				console.log("sending called");
 				formData.append("dateiname", givename);
+				console.log("givename:"+givename);
 				formData.append("overwrite", overwrite);
 				overwrite = false;
 			});
@@ -603,13 +604,13 @@ if(session.getAttribute("username")== null){
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">EasyPDF</a>
+			<a class="navbar-brand" href="#">EasyDoc</a>
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
 				<li><a href="#">Gelöschte Dokumente</a></li>
 				<li><a href="#">Verlauf</a></li>
-				<li><a href="MeetTheTeam.jsp">Über EasyPDF</a></li>
+				<li><a href="MeetTheTeam.jsp">Über EasyDoc</a></li>
 			</ul>
 			<button type="button" class="btn btn-info  navbar-btn"
 				data-toggle="modal" data-target="#uploadModal">UPLOAD</button>

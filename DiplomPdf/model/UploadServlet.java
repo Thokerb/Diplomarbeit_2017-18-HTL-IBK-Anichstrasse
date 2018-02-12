@@ -38,10 +38,12 @@ public class UploadServlet extends HttpServlet {
 		 * TODO: übergabe in DATENBANK
 		 */
 		int nummer = 1;
-		
+	
 		String pfad = getInitParameter("Pfad");
 		System.out.println("Pfad: "+pfad);
-		
+
+		request.setCharacterEncoding("UTF-8");
+
 		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	
 		System.out.println(filePart);
 		InputStream fileContent = filePart.getInputStream();
@@ -52,6 +54,8 @@ public class UploadServlet extends HttpServlet {
 		boolean overwrite = Boolean.parseBoolean(request.getParameter("overwrite"));	//nimmt den String und wandelt ihn in ein boolean um
 		String dateiname = request.getParameter("dateiname");
 		System.out.println("Name der Datei: "+dateiname+" overwrite: "+overwrite);
+		dateiname = java.net.URLDecoder.decode(dateiname, "UTF-8");
+		System.out.println("utf8"+dateiname);
 
 		uploader(fileContent,dateiname,0);
 		fileContent.close();
@@ -71,7 +75,7 @@ public class UploadServlet extends HttpServlet {
 			try {
 				DBManager dbm = new DBManager();
 				Connection conn = dbm.getConnection();	//TODO: OVERWRITE TESTEN
-				dbm.deletebyname(dateiname,conn);
+				dbm.deletebyname(dateiname,username,conn);
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -90,21 +94,22 @@ public class UploadServlet extends HttpServlet {
 		case "PDF"  :{
 			
 			PDFLesen pdfL = new PDFLesen();
-			
+		
 			String inhalttext = pdfL.pdfToText(pfad+dateiname); 
+			System.out.println("angemeldeter Username: "+username);
 			
 			try {
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-				String[] daten =new String[8];
+				String[] daten =new String[7];
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
 				daten[3]=pdfL.getAutor(); 
 				daten[4]=dateiname;
-				daten[5]= pdfL.getDatum();
+				daten[5]=stichworttext;
 				daten[6]=dateityp;
 				
 				for(String s : daten) {
@@ -128,9 +133,12 @@ public class UploadServlet extends HttpServlet {
 		}
 
 		case "TXT"  :{
+
 			TextdateiLesen txtL = new TextdateiLesen();
 			String inhalttext = txtL.textdateiLesen(pfad+dateiname);
-			
+
+			System.out.println("angemeldeter Username: "+username);
+
 			try {
 				DBManager dbm = new DBManager();
 				Connection conn1 = dbm.getConnection();
@@ -176,7 +184,7 @@ public class UploadServlet extends HttpServlet {
 				Connection conn1=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-				String[] daten =new String[8];
+				String[] daten =new String[7];
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
@@ -211,6 +219,8 @@ public class UploadServlet extends HttpServlet {
 
 			DocxLesen docxL = new DocxLesen();
 			String inhalttext = docxL.lesenDocx(pfad+dateiname);
+			
+			System.out.println("Inhalttext in Dokument: "+inhalttext);
 
 			try {
 				DBManager dbm=new DBManager();
@@ -218,7 +228,7 @@ public class UploadServlet extends HttpServlet {
 				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				//aus writeDaten: tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei
-				String[] daten =new String[8];
+				String[] daten =new String[7];
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
@@ -226,9 +236,7 @@ public class UploadServlet extends HttpServlet {
 				daten[4]=dateiname;
 				daten[5]=stichworttext;
 				daten[6]=dateityp;
-//				daten[7]= ka;
-//				daten[8]= DocxLesen.getDatum();
-//				daten[9]= DocxLesen.getDatum();
+
 
 				for(String s : daten) {
 					System.out.print("Gelesen wurde: ");

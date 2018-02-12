@@ -76,7 +76,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Status</h4>
       </div>
-      <div class="modal-body center-content">
+      <div class="modal-body">
         <p id="statusmessage">${message}</p>
       </div>
       <div class="modal-footer">
@@ -106,6 +106,8 @@
 				$("#registerform")[0].submit(); //only calls once, no infinite loop
 				console.log("yeah");
 				$(".modal-body").addClass("loader");
+				$(".modal-body").addClass("center-content");
+				$("#statusmessage").text("");
 				console.dir($("#statusmessage"));
 				$("#statusModal").modal("show");
 			}

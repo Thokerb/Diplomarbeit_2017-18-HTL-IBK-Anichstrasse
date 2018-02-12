@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EasyPDF</title>
+<title>EasyDoc</title>
 <meta charset="utf-8">
 
 <link rel="stylesheet" href="styleStartseite.css">
@@ -60,7 +60,7 @@
 					src="Images/cloud-computing-2153286_640.png" />
 			</div>
 			<div class="col-sm-8">
-				<h2 class="underheader">Zugriff überall</h2>
+				<h2 class="underheader">Zugriff von überall</h2>
 				<br>
 				<h4 class="infotext">Mit EasyPDF haben Sie einen einheitlichen,
 					kostenfreien Speicherort für alle Ihre Dokumente. Nie wieder
