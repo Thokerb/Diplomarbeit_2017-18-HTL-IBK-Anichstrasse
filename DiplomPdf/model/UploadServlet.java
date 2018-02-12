@@ -37,7 +37,12 @@ public class UploadServlet extends HttpServlet {
 		 * wenn boolean overwrite true ist, dann gibt es die datei bereit und sie soll überschrieben werden
 		 * TODO: übergabe in DATENBANK
 		 */
+		
 		int nummer = 1;
+	
+		String pfad = getInitParameter("Pfad");
+		System.out.println("Pfad: "+pfad);
+
 		request.setCharacterEncoding("UTF-8");
 
 		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	
@@ -90,8 +95,8 @@ public class UploadServlet extends HttpServlet {
 		case "PDF"  :{
 			
 			PDFLesen pdfL = new PDFLesen();
-			
-			String inhalttext = pdfL.pdfToText("C://Temp//"+dateiname); 
+		
+			String inhalttext = pdfL.pdfToText(pfad+dateiname); 
 			System.out.println("angemeldeter Username: "+username);
 			
 			try {
@@ -130,8 +135,11 @@ public class UploadServlet extends HttpServlet {
 
 		case "TXT"  :{
 
-			String inhalttext = TextdateiLesen.textdateiLesen("C://Temp//"+dateiname);
+			TextdateiLesen txtL = new TextdateiLesen();
+			String inhalttext = txtL.textdateiLesen(pfad+dateiname);
+
 			System.out.println("angemeldeter Username: "+username);
+
 			try {
 				DBManager dbm = new DBManager();
 				Connection conn1 = dbm.getConnection();
@@ -141,6 +149,7 @@ public class UploadServlet extends HttpServlet {
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
+				daten[3]=txtL.getAutor();
 				daten[4]=dateiname;
 				daten[5]=stichworttext; 
 				daten[6]=dateityp;
@@ -149,7 +158,7 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(conn1,daten,filePart,DocLesen.getDatum());
+				DBManager.writeDaten(conn1,daten,filePart,txtL.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);
@@ -168,7 +177,8 @@ public class UploadServlet extends HttpServlet {
 
 		case "DOC"  :{
 
-			String inhalttext = DocLesen.lesenDoc("C://Temp//"+dateiname);
+			DocLesen docL = new DocLesen();
+			String inhalttext = docL.lesenDoc(pfad+dateiname);
 
 			//TODO alles ausbessern
 			try {
@@ -180,7 +190,7 @@ public class UploadServlet extends HttpServlet {
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
-				daten[3]=DocLesen.getAutor(); 
+				daten[3]=docL.getAutor(); 
 				daten[4]=dateiname;
 				daten[5]=stichworttext; 
 				daten[6]=dateityp;
@@ -189,7 +199,7 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(conn1,daten,filePart,DocLesen.getDatum());
+				DBManager.writeDaten(conn1,daten,filePart,docL.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);
@@ -209,7 +219,9 @@ public class UploadServlet extends HttpServlet {
 
 		case "DOCX"  :{
 
-			String inhalttext=DocxLesen.lesenDocx("C://Temp//"+dateiname);
+			DocxLesen docxL = new DocxLesen();
+			String inhalttext = docxL.lesenDocx(pfad+dateiname);
+			
 			System.out.println("Inhalttext in Dokument: "+inhalttext);
 
 			try {
@@ -222,7 +234,7 @@ public class UploadServlet extends HttpServlet {
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
-				daten[3]=DocxLesen.getAutor(); 
+				daten[3]=docxL.getAutor(); 
 				daten[4]=dateiname;
 				daten[5]=stichworttext;
 				daten[6]=dateityp;
@@ -232,7 +244,7 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(conn1,daten,filePart,DocxLesen.getDatum());
+				DBManager.writeDaten(conn1,daten,filePart,docxL.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);
@@ -257,21 +269,11 @@ public class UploadServlet extends HttpServlet {
 
 
 		}
-		/*
-        String pfad =getInitParameter("Pfad");
-        File file = createFile(pfad, dateiname);
-        try{
-            Files.copy(fileContent, file.toPath());
-        }	
-        catch(Exception ex){
-        	System.out.println("ERROR DATEI BEREITS VORHANDEN");
-        }
-		 */
 		
-		System.out.println("Is writeable: "+Files.isWritable(Paths.get("C://Temp//"+dateiname)));
-		System.out.println("IS: "+Files.exists(Paths.get("C://Temp//"+dateiname)));
+		System.out.println("Is writeable: "+Files.isWritable(Paths.get(pfad+dateiname)));
+		System.out.println("IS: "+Files.exists(Paths.get(pfad+dateiname)));
 		
-		Files.deleteIfExists(Paths.get("C://Temp//"+dateiname));
+		Files.deleteIfExists(Paths.get(pfad+dateiname));
 	
 	}
 
