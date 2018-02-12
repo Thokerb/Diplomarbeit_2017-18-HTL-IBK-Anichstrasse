@@ -135,8 +135,8 @@ public class DBManager {
 			pstmt.setString(6, testzeile2[5]);
 			pstmt.setString(7, testzeile2[6]);
 			pstmt.setString(8, "private");
-			pstmt.setString(9, getaktuellesDatum());
-			pstmt.setString(10, date);
+			pstmt.setString(9, date);
+			pstmt.setString(10, getaktuellesDatum());
 			pstmt.setBinaryStream(11, fis, (int)filePart.getSize());
 
 
@@ -367,10 +367,10 @@ public class DBManager {
 	 */
 
 	//Methode zum generieren eines vereinfachten Text zur 
-	public String Stichtextgenerator(Connection conn,String wort) {
+	public String Stichtextgenerator(Connection conn,String text) {
 		//System.out.print("Das Wort"+text+"wurde vereinfacht zu "+EasyText+". ");
 
-		String SEARCH_FOR_DATA_SQL_DATEN = "select to_tsvector(\'"+ wort +"\')";
+		String SEARCH_FOR_DATA_SQL_DATEN = "select to_tsvector(\'"+ text +"\')";
 
 		try {
 			if(pstmt==null){
@@ -387,10 +387,10 @@ public class DBManager {
 				}
 			}
 
-			rs.close();
-			rs=null;
 			pstmt.close();
 			pstmt=null;
+//			rs.close();
+			rs=null;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

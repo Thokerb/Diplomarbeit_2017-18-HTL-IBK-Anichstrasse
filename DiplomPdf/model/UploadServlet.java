@@ -89,19 +89,20 @@ public class UploadServlet extends HttpServlet {
 			PDFLesen pdfL = new PDFLesen();
 			
 			String inhalttext = pdfL.pdfToText("C://Temp//"+dateiname); 
+			System.out.println("angemeldeter Username: "+username);
 			
 			try {
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-				String[] daten =new String[8];
+				String[] daten =new String[7];
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
 				daten[3]=pdfL.getAutor(); 
 				daten[4]=dateiname;
-				daten[5]= pdfL.getDatum();
+				daten[5]=stichworttext;
 				daten[6]=dateityp;
 				
 				for(String s : daten) {
@@ -127,7 +128,7 @@ public class UploadServlet extends HttpServlet {
 		case "TXT"  :{
 
 			String inhalttext = TextdateiLesen.textdateiLesen("C://Temp//"+dateiname);
-			
+			System.out.println("angemeldeter Username: "+username);
 			try {
 				DBManager dbm = new DBManager();
 				Connection conn1 = dbm.getConnection();
@@ -172,7 +173,7 @@ public class UploadServlet extends HttpServlet {
 				Connection conn1=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-				String[] daten =new String[8];
+				String[] daten =new String[7];
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
@@ -206,6 +207,7 @@ public class UploadServlet extends HttpServlet {
 		case "DOCX"  :{
 
 			String inhalttext=DocxLesen.lesenDocx("C://Temp//"+dateiname);
+			System.out.println("Inhalttext in Dokument: "+inhalttext);
 
 			try {
 				DBManager dbm=new DBManager();
@@ -213,7 +215,7 @@ public class UploadServlet extends HttpServlet {
 				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				//aus writeDaten: tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei
-				String[] daten =new String[8];
+				String[] daten =new String[7];
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
@@ -221,9 +223,7 @@ public class UploadServlet extends HttpServlet {
 				daten[4]=dateiname;
 				daten[5]=stichworttext;
 				daten[6]=dateityp;
-//				daten[7]= ka;
-//				daten[8]= DocxLesen.getDatum();
-//				daten[9]= DocxLesen.getDatum();
+
 
 				for(String s : daten) {
 					System.out.print("Gelesen wurde: ");
