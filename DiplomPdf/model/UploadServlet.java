@@ -37,6 +37,7 @@ public class UploadServlet extends HttpServlet {
 		 * wenn boolean overwrite true ist, dann gibt es die datei bereit und sie soll überschrieben werden
 		 * TODO: übergabe in DATENBANK
 		 */
+		
 		int nummer = 1;
 	
 		String pfad = getInitParameter("Pfad");
@@ -148,6 +149,7 @@ public class UploadServlet extends HttpServlet {
 				daten[0]="tag";
 				daten[1]=inhalttext;
 				daten[2]=username;
+				daten[3]=txtL.getAutor();
 				daten[4]=dateiname;
 				daten[5]=stichworttext; 
 				daten[6]=dateityp;
@@ -156,7 +158,7 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(conn1,daten,filePart,null);
+				DBManager.writeDaten(conn1,daten,filePart,txtL.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);
