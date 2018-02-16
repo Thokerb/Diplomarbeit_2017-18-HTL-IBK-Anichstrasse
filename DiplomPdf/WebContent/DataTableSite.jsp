@@ -224,6 +224,7 @@ if(session.getAttribute("user") == null){
 				{"data" : "ID"},
 				{"data" : "DateiTyp"},
 				{"data" : "Name"},
+				{"data" : "Uploader"},
 				{"data" : "Autor"},
 				{"data" : "UploadDatum"},
 				{"data" : "DokumentDatum"},
@@ -374,7 +375,7 @@ if(session.getAttribute("user") == null){
 				{"data" : "ID"},
 				{"data" : "DateiTyp"},
 				{"data" : "Name"},
-				{"data" : "Autor"},
+				{"data" : "Uploader"},
 				{"data" : "UploadDatum"},
 				{"data" : "DokumentDatum"},
 				{"data" : function (Daten){
@@ -538,12 +539,21 @@ if(session.getAttribute("user") == null){
 			var sourcetable = getTableRow($(this));
 			
 			var state = $(this).val();
-			var xhttp = new XMLHttpRequest();
-	    	xhttp.open("POST","PrivChangeServlet",true);
-	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	    	xhttp.send("tochange="+sourcetable+"&howto="+state);
+	//		var xhttp = new XMLHttpRequest();
+	//    	xhttp.open("POST","PrivChangeServlet",true);
+	//    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	//    	xhttp.send("tochange="+sourcetable+"&howto="+state);
             
-	    	refreshtables();
+	    	$.ajax({
+	    		method:"POST",
+	    		url:"PrivChangeServlet",
+	    		data: {tochange: sourcetable,howto: state}
+	    	})
+	    	.done(function(){
+	    		refreshtables();
+	    	})
+	    	
+	    //	refreshtables();
 			
 		});
 				
@@ -597,8 +607,6 @@ if(session.getAttribute("user") == null){
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
-				<li><a href="#">Gelöschte Dokumente</a></li>
-				<li><a href="#">Verlauf</a></li>
 				<li><a href="MeetTheTeam.jsp">Über EasyDoc</a></li>
 			</ul>
 			<button type="button" class="btn btn-info  navbar-btn"
@@ -627,7 +635,7 @@ if(session.getAttribute("user") == null){
 							<th>ID</th>
 							<th>DateiTyp</th>
 							<th>Name</th>
-							<th>Autor</th>
+							<th>Uploader</th>
 							<th>UploadDatum</th>
 							<th>DokumentDatum</th>
 							<th>Zugang</th>
@@ -655,6 +663,7 @@ if(session.getAttribute("user") == null){
 							<th>ID</th>
 							<th>DateiTyp</th>
 							<th>Name</th>
+							<th>Uploader</th>
 							<th>Autor</th>
 							<th>UploadDatum</th>
 							<th>DokumentDatum</th>
