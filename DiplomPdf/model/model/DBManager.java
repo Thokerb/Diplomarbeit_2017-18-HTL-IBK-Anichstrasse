@@ -278,13 +278,13 @@ public class DBManager {
 
 	}
 	
-	public ArrayList<String[]> publicDaten(Connection conn,String user,String spalte,String reihung)
+	public ArrayList<String[]> publicDaten(Connection conn,String sortierparameter,String spalte,String reihung,String sortierspalte)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten where status='public' order by "+spalte+" "+ reihung+";";
+		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, uploader, dokumentdatum, uploaddatum, status from uploaddaten where status='public' and "+sortierspalte+"='"+sortierparameter+"' order by "+spalte+" "+ reihung+";";
 
 		System.out.println(READ_DATEN_AUTORASC);
 		try {
@@ -295,7 +295,7 @@ public class DBManager {
 			{
 				String[] zeile = new String[10];
 				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 7; i++) {
+				for (int i = 0; i < 8; i++) {
 					zeile[i] = rs.getString(i+1);
 					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
 				}
@@ -483,24 +483,26 @@ public class DBManager {
 	}
 
 	//TODO mit count(uploadid) 
-	public ArrayList<String[]> ranking2(Connection conn, String wort) {
+	public ArrayList<String[]> ranking2(Connection conn, String wort,String username) {
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//Tabellenzeilen aus Datenbank einlesen
-		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT anzahl, uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, status FROM (SELECT count(uploadid) as anzahl, uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
-				+ "uploaddaten.dateiname as dateiname, uploaddaten.autor as autor, uploaddaten.tag as tag, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.status as status,"
+		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
+				+ "uploaddaten.dateiname as dateiname, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status, uploaddaten.autor as autor, uploaddaten.uploader as uploader,"
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.dateiname), 'A') || "
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.inhalttext), 'B') ||"
 				+ " setweight(to_tsvector('simple', uploaddaten.autor), 'C') ||"
 				+ " setweight(to_tsvector('simple', coalesce(string_agg(uploaddaten.tag, ' '))), 'B') as document"
 				+ " FROM uploaddaten"
 				+ " GROUP BY uploaddaten.uploadid, uploaddaten.autor) p_search"
-				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\')"
+				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\') and uploader='"+username+"\'"
 				+ " ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
 		
 		System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
 		try {	
 			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
 			rs = pstmt.executeQuery();
+			rs.getFetchSize();
+			System.out.println("rs.getFetchSize()"+rs.getFetchSize());
 			while (rs.next()) {
 				String[] zeile = new String[10];
 				System.out.print("Gelesen wurde: ");
@@ -509,6 +511,49 @@ public class DBManager {
 					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
 				}
 				daten.add(zeile);
+				
+				System.out.println();
+				System.out.println("Sortierte Texte nach Suchwort");
+
+				System.out.println();
+			}
+			pstmt.close(); pstmt=null;
+			rs.close(); rs=null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return daten;
+	}
+
+	public ArrayList<String[]> ranking3(Connection conn, String wort) {
+		ArrayList<String[]> daten = new ArrayList<String[]>();
+		//Tabellenzeilen aus Datenbank einlesen
+		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, uploader,autor, uploaddatum, dokumentdatum, status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
+				+ "uploaddaten.dateiname as dateiname, uploaddaten.autor as autor, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status, uploaddaten.uploader as uploader,"
+				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.dateiname), 'A') || "
+				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.inhalttext), 'B') ||"
+				+ " setweight(to_tsvector('simple', uploaddaten.autor), 'C') ||"
+				+ " setweight(to_tsvector('simple', coalesce(string_agg(uploaddaten.tag, ' '))), 'B') as document"
+				+ " FROM uploaddaten"
+				+ " GROUP BY uploaddaten.uploadid, uploaddaten.autor) p_search"
+				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\') and status='public'"
+				+ " ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
+		
+		System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
+		try {	
+			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
+			rs = pstmt.executeQuery();
+			rs.getFetchSize();
+			System.out.println("rs.getFetchSize()"+rs.getFetchSize());
+			while (rs.next()) {
+				String[] zeile = new String[10];
+				System.out.print("Gelesen wurde: ");
+				for (int i = 0; i < 7; i++) {
+					zeile[i] = rs.getString(i+1);
+					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
+				}
+				daten.add(zeile);
+				
 				System.out.println();
 				System.out.println("Sortierte Texte nach Suchwort");
 
