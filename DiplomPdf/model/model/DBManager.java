@@ -486,8 +486,8 @@ public class DBManager {
 	public ArrayList<String[]> ranking2(Connection conn, String wort) {
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		//Tabellenzeilen aus Datenbank einlesen
-		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT anzahl, uploadid, dateityp, dateiname, autor, uploaddatum, uploaddatum, status FROM (SELECT count(uploadid) as anzahl, uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
-				+ "uploaddaten.dateiname as dateiname, uploaddaten.autor as autor, uploaddaten.tag as tag, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status,"
+		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT anzahl, uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, status FROM (SELECT count(uploadid) as anzahl, uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
+				+ "uploaddaten.dateiname as dateiname, uploaddaten.autor as autor, uploaddaten.tag as tag, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.status as status,"
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.dateiname), 'A') || "
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.inhalttext), 'B') ||"
 				+ " setweight(to_tsvector('simple', uploaddaten.autor), 'C') ||"
