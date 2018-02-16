@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import model.DBManager;
 import model.Uploaddaten;
@@ -315,7 +318,14 @@ public class DataTableServlet extends HttpServlet {
 		int total=wh-1;
 		String antwort=" ";
 
+		JsonObject all = new JsonObject();
+		all.addProperty("draw", draw);
+		all.addProperty("recordsTotal", anzahl);
+		all.addProperty("recordsFiltered", anzahl);
 
+		JsonArray data = new JsonArray();
+		
+		
 		antwort = "{\"draw\":"+draw+",\"recordsTotal\":"+anzahl+",\"recordsFiltered\":"+anzahl+",\"data\":[";
 
 		//antwort += "{\"ID\":\""+"1"+"\",\"DateiTyp\":\""+"PDF"+"\",\"Name\":\""+"NAME"+"\",\"Autor\":\""+"AUTOR"+"\",\"UploadDatum\":\""+"FREITAG"+"\",\"DokumentDatum\":\""+"SAMSTAG"+"\",\"ZUGANG\":\""+"public"+"\"}";
@@ -344,9 +354,21 @@ public class DataTableServlet extends HttpServlet {
 			{
 
 				antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
+				Gson g = new Gson();
+				JsonObject test = new JsonObject();
+				test.addProperty("ID", daten.get(i)[0]);
+				test.addProperty("DateiTyp", daten.get(i)[1]);
+				test.addProperty("Name", daten.get(i)[2]);
+				test.addProperty("Autor", daten.get(i)[3]);
+				test.addProperty("UploadDatum", daten.get(i)[4]);
+				test.addProperty("DokumentDatum", daten.get(i)[5]);
+				test.addProperty("ZUGANG", daten.get(i)[6]);
 
+				data.add(test);
+				
 				if(i!=wh)
 				{
+					
 					antwort+=",";
 				}
 			}
@@ -364,14 +386,16 @@ public class DataTableServlet extends HttpServlet {
 			
 		}
 		 antwort+="]}";
+		 all.add("data", data);
 		//		if(anzahl==0)
 		//		{
 		//			antwort = "{\"draw\":"+draw+",\"recordsTotal\":0,\"recordsFiltered\":0,\"data\":[]}";
 		//		}
 
+		 System.out.println("all: "+all);
 		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
 		System.out.println(antwort);
-		out.println(antwort);
+		out.println(all);
 	}
 
 }
