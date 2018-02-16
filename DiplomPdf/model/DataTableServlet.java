@@ -56,7 +56,6 @@ public class DataTableServlet extends HttpServlet {
 
 
 		HttpSession ses = request.getSession(false);
-		
 		String username = (String) ses.getAttribute("user"); //Username wird schon vom vorherigen Servlet genommen
 		String search = request.getParameter("search[value]");
 		String draw = request.getParameter("draw");
@@ -254,6 +253,7 @@ public class DataTableServlet extends HttpServlet {
 		int startwert=Integer.parseInt(start);
 		int laenge=Integer.parseInt(length);
 		wh=anzahl-startwert;
+		System.out.println("--- Ausgabe DataTableSiteServlet: ---");
 		System.out.println("startwert: "+startwert);
 		System.out.println("lÄnGeee: "+laenge);
 		System.out.println("wert: "+wh);

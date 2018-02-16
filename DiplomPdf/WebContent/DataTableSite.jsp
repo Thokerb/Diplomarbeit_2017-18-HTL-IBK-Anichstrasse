@@ -461,9 +461,7 @@ if(session.getAttribute("user") == null){
 		                       }) 
 		        $('#datatable_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//Fügt beide Buttons zum DataTable hinzu
 		    },
-			
-			
-	
+		
 		});
 
 	    $('.table tbody').on( 'click', '.downloadbutton', function () {
@@ -521,18 +519,14 @@ if(session.getAttribute("user") == null){
 	    		refreshtables();
 	    	})
 	    	
-	    	
 	    });
 		
-	    
+	   
 	    	$(".table tbody").on('mouseenter','.glyphicon-arrow-down',function(){
 	    		console.log("enter");
 	    		$(this).addClass("iconeffect");
 
 	    	});
-	    	
-
-
 		
  		$(".table tbody").on("webkitAnimationEnd mozAnimationEnd animationEnd",".glyphicon-arrow-down",function(){
 			console.log("called");
@@ -552,11 +546,7 @@ if(session.getAttribute("user") == null){
 	    	refreshtables();
 			
 		});
-		
-
-		
-
-		
+				
 		function getTableRow(acttable){
 			var data;
 			//console.dir(acttable);
@@ -579,8 +569,6 @@ if(session.getAttribute("user") == null){
 		}
 		
 		console.log("finished  js init");
-		
-		
 		
 	});
 	
@@ -615,11 +603,14 @@ if(session.getAttribute("user") == null){
 			</ul>
 			<button type="button" class="btn btn-info  navbar-btn"
 				data-toggle="modal" data-target="#uploadModal">UPLOAD</button>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="Startseite.jsp"><span
-						class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
-			</ul>
-		</div>
+
+				<ul class="nav navbar-nav navbar-right">
+					
+						<li><a href="LogoutServlet"><span
+								class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
+				</ul>
+
+			</div>
 	</div>
 	</nav>
 	<div class="container-fluid">
@@ -643,13 +634,11 @@ if(session.getAttribute("user") == null){
 							<th>Download</th>
 							<th>Delete</th>
 						</tr>
-
 					</thead>
 					<tbody>
 
 					</tbody>
 				</table>
-
 
 			</div>
 			<div class="col-md-2 col-xs-0 col-lg-1"></div>
@@ -680,11 +669,9 @@ if(session.getAttribute("user") == null){
 					</tbody>
 				</table>
 
-
 			</div>
 			<div class="col-md-2 col-xs-0 col-lg-1"></div>
 		</div>
-
 
 	</div>
 
@@ -716,7 +703,6 @@ if(session.getAttribute("user") == null){
 		</div>
 	</div>
 
-
 	<!-- Modal -->
 	<div id="saveModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
@@ -742,9 +728,5 @@ if(session.getAttribute("user") == null){
 
 		</div>
 	</div>
-
-
-
-
 </body>
 </html>
