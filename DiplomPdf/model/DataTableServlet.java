@@ -27,7 +27,7 @@ public class DataTableServlet extends HttpServlet {
 	public static ArrayList<String[]> sortiertAutorASC = new ArrayList<String[]>();
 
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -56,6 +56,7 @@ public class DataTableServlet extends HttpServlet {
 
 
 		HttpSession ses = request.getSession(false);
+
 		String username = (String) ses.getAttribute("user"); //Username wird schon vom vorherigen Servlet genommen
 		String search = request.getParameter("search[value]");
 		String draw = request.getParameter("draw");
@@ -89,13 +90,16 @@ public class DataTableServlet extends HttpServlet {
 
 		String sortierspalte="";
 		String sortierdings="";
+		String methode="";
 		if(table.equals("table1"))
 		{
+			methode="meineDaten";
 			sortierspalte="uploader";
 			sortierdings=username;
 		}
 		else
 		{
+			methode="publicDaten";
 			sortierspalte="status";
 			sortierdings="public";
 		}
@@ -105,7 +109,6 @@ public class DataTableServlet extends HttpServlet {
 
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		int anzahl = 0;
-		int anzahls=-1;
 
 		try {
 			DBManager db = new DBManager();
@@ -121,7 +124,12 @@ public class DataTableServlet extends HttpServlet {
 			switch(sortierparameter){
 
 			case "2asc"  :{
-				daten=db.meineDaten(conn,sortierdings,"dateiname","ASC",sortierspalte);
+				if(table.equals("table1"))
+				{
+					daten=db.meineDaten(conn,sortierdings,"dateiname","ASC",sortierspalte);
+				}else{
+					daten=db.publicDaten(conn,sortierdings,"dateiname","ASC",sortierspalte);
+				}
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -130,7 +138,12 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "2desc"  :{
-				daten=db.meineDaten(conn,sortierdings,"dateiname","DESC",sortierspalte);
+				if(table.equals("table1"))
+				{
+					daten=db.meineDaten(conn,sortierdings,"dateiname","DESC",sortierspalte);
+				}else{
+					daten=db.publicDaten(conn,sortierdings,"dateiname","DESC",sortierspalte);
+				}
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -139,7 +152,13 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "3asc"  :{
-				daten=db.meineDaten(conn,sortierdings,"autor","ASC",sortierspalte);
+				if(table.equals("table1"))
+				{
+					daten=db.meineDaten(conn,sortierdings,"autor","ASC",sortierspalte);
+				}else{
+					daten=db.publicDaten(conn,sortierdings,"autor","ASC",sortierspalte);
+				}
+
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -148,7 +167,13 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "3desc"  :{
-				daten=db.meineDaten(conn,sortierdings,"autor","DESC",sortierspalte);
+				if(table.equals("table1"))
+				{
+					daten=db.meineDaten(conn,sortierdings,"autor","DESC",sortierspalte);
+				}else{
+					daten=db.publicDaten(conn,sortierdings,"autor","DESC",sortierspalte);
+				}
+
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -157,7 +182,13 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "4asc"  :{
-				daten=db.meineDaten(conn,sortierdings,"uploaddatum","ASC",sortierspalte);
+				if(table.equals("table1"))
+				{
+					daten=db.meineDaten(conn,sortierdings,"uploaddatum","ASC",sortierspalte);
+				}else{
+					daten=db.publicDaten(conn,sortierdings,"uploaddatum","ASC",sortierspalte);
+				}
+
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -166,7 +197,13 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "4desc"  :{
-				daten=db.meineDaten(conn,sortierdings,"uploaddatum","DESC",sortierspalte);
+				if(table.equals("table1"))
+				{
+					daten=db.meineDaten(conn,sortierdings,"uploaddatum","DESC",sortierspalte);
+				}else{
+					daten=db.publicDaten(conn,sortierdings,"uploaddatum","DESC",sortierspalte);
+				}
+
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -175,7 +212,13 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "5asc"  :{
-				daten=db.meineDaten(conn,sortierdings,"dokumentdatum","ASC",sortierspalte);
+				if(table.equals("table1"))
+				{
+					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","ASC",sortierspalte);
+				}else{
+					daten=db.publicDaten(conn,sortierdings,"dokumentdatum","ASC",sortierspalte);
+				}
+
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -184,7 +227,13 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "5desc"  :{
-				daten=db.meineDaten(conn,sortierdings,"dokumentdatum","DESC",sortierspalte);
+				if(table.equals("table1"))
+				{
+					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","DESC",sortierspalte);
+				}else{
+					daten=db.publicDaten(conn,sortierdings,"dokumentdatum","DESC",sortierspalte);
+				}
+
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -194,13 +243,20 @@ public class DataTableServlet extends HttpServlet {
 
 			case "suchwort" :{
 				System.out.println("Suchwortsuche aktiv");
-				daten=db.ranking2(conn,search);
+				if(table.equals("table1"))
+				{
+					daten=db.ranking2(conn,search,username);
+				}else{
+					daten=db.ranking3(conn,search);
+				}
+			
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println("Suchwortsuche aktiv");
 				}
-				anzahlsuch=daten.get(0)[0];
-				anzahls=Integer.parseInt(anzahlsuch);
+				//				anzahlsuch=daten.get(0)[0];
+				//				anzahls=Integer.parseInt(anzahlsuch);
+
 				break;
 			}
 
@@ -229,10 +285,10 @@ public class DataTableServlet extends HttpServlet {
 				spalteninhalt="public";
 			}
 
-			if(anzahls>0)
+			if(sortierparameter=="suchwort")
 			{
-				anzahl=anzahls;
-				System.out.println("Anzahl der Ergebnisse bei Suchwortsuche: "+anzahl);
+				anzahl=daten.size();
+				System.out.println("Anzhal an gesuchten Dokumenten: "+anzahl);
 			}
 			else
 			{
@@ -276,39 +332,31 @@ public class DataTableServlet extends HttpServlet {
 			wh=startwert+laenge-1;
 		}
 
-//		if(anzahls>0)
-//		{
-//			startwert++;
-//			wh+=2;
-//			System.out.println("Wiederholungen in for-Schleife: "+wh);
-//		}
-		
+		//		if(anzahls>0)
+		//		{
+		//			startwert++;
+		//			wh+=2;
+		//			System.out.println("Wiederholungen in for-Schleife: "+wh);
+		//		}
 
-			
+
+
 		for(int i=startwert;i<=wh;i++)
 		{
-		
-			if(anzahls>0)
-			{
-				antwort += "{\"ID\":\""+daten.get(i)[1]+"\",\"DateiTyp\":\""+daten.get(i)[2]+"\",\"Name\":\""+daten.get(i)[3]+"\",\"Autor\":\""+daten.get(i)[4]+"\",\"UploadDatum\":\""+daten.get(i)[5]+"\",\"DokumentDatum\":\""+daten.get(i)[6]+"\",\"ZUGANG\":\""+daten.get(i)[7]+"\"}";
 
-			}
-			else
-			{
-				antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
+			antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
 
-			}
 			if(i!=wh)
 			{
 				antwort+=",";
 			}
 		}
 		antwort += "]}";
-		
-		if(anzahls==0)
-		{
-			antwort = "{\"draw\":1,\"recordsTotal\":0,\"recordsFiltered\":0,\"data\":[]}";
-		}
+
+		//		if(anzahl==0)
+		//		{
+		//			antwort = "{\"draw\":"+draw+",\"recordsTotal\":0,\"recordsFiltered\":0,\"data\":[]}";
+		//		}
 
 		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
 		System.out.println(antwort);
