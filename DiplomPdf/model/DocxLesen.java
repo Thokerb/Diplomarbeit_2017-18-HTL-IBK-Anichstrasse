@@ -21,7 +21,7 @@ public class DocxLesen {
 	static DateFormat formatter;
 	static String d; 
 
-	public static String lesenDocx(String filename){
+	public String lesenDocx(String filename){
 
 		FileInputStream fis;
 		XWPFWordExtractor oleTextExtractor;
@@ -64,11 +64,11 @@ public class DocxLesen {
 		return "Achtung - Fehler! Datei Konnte nicht gelesen werden"; 
 	}
 
-	public static String getDatum() {
+	public String getDatum() {
 		return d;
 	}
 
-	public static String getAutor() {
+	public String getAutor() {
 		return aut;
 	}
 

@@ -22,7 +22,7 @@ public class DocLesen {
 	static DateFormat formatter;
 	static String d; 
 	
-	public static String lesenDoc(String filename){
+	public String lesenDoc(String filename){
 
 		try {
 
@@ -65,11 +65,11 @@ public class DocLesen {
 
 	}
 	
-	public static String getAutor() {
+	public String getAutor() {
 		return aut; 
 	}
 	
-	public static String getDatum() {
+	public String getDatum() {
 		return d; 
 	}
 

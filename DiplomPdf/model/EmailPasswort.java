@@ -46,6 +46,7 @@ public class EmailPasswort extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		response.setContentType("text/html");  
 		RequestDispatcher rd = request.getRequestDispatcher("PasswordHelp.jsp");
 		String emailuser = "";
 		String user;
@@ -71,7 +72,6 @@ public class EmailPasswort extends HttpServlet {
 
 			db.saveHash(conn,authcode,getMail);
 
-			response.setContentType("text/html");
 
 			if( (getMail != null)){
 
@@ -90,7 +90,6 @@ public class EmailPasswort extends HttpServlet {
 					request.setAttribute("message", "Die Email wurde versendet, bitte öffne dein Postfach" );
 					rd.include(request, response);
 
-					rd.include(request, response); 
 					System.out.println("Email wurde gesendet.");
 
 				} catch (Exception ex) {

@@ -24,10 +24,6 @@ public class PDFLesen {
 
 	public String text = "text";
 	
-//	public void setFilePath(String filePath) {
-//		this.filePath = filePath;
-//	}
-	
 	public String pdfToText(String filePath) throws IOException {
 
 		this.pdfStripper = null;
@@ -55,22 +51,17 @@ public class PDFLesen {
 
 		text = pdfStripper.getText(pdDoc);
 		
-
 		cosDoc.close();
 		pdDoc.close();
 		f.close();
-		
-		
+			
 		this.pdfStripper = null;
 		this.pdDoc = null;
 		this.cosDoc = null;
-		
-		
-		
+	
 		System.out.println("--------------- TEXT aus PDFLesen: -------------");
 		System.out.println(text);
 		System.out.println("--------------- TEXT -------------");
-		
 		
 		return text;
 	}
@@ -91,15 +82,10 @@ public class PDFLesen {
 		return date; 
 	}
 
-
-	
-
 //	public static void main(String[] args) throws IOException { 
 //	
 //		PDFLesen pdfL = new PDFLesen();
 //		pdfL.pdfToText("C:\\Users\\Sara\\Desktop\\AbschlussberichtGr3.pdf");
 //
 //	}
-
-
 }

@@ -39,7 +39,8 @@ public class DataTableServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		response.setContentType("application/json;charset=UTF-8");  
+		response.setCharacterEncoding("UTF-8");
 		//------------------------------------------
 		//https://datatables.net/manual/server-side
 		//zum Nachlesen welche daten empfangen werden
@@ -82,7 +83,6 @@ public class DataTableServlet extends HttpServlet {
 		//		System.out.println(antwort);
 		//		out.println(antwort);
 		//		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
-		//		
 
 		/**
 		 * Hier sollte je nach dem welcher button zum sortieren der Daten die Antwort anders sein, sortierparameter einstellen
