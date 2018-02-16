@@ -375,7 +375,7 @@ if(session.getAttribute("user") == null){
 				{"data" : "ID"},
 				{"data" : "DateiTyp"},
 				{"data" : "Name"},
-				{"data" : "Uploader"},
+				{"data" : "Autor"},
 				{"data" : "UploadDatum"},
 				{"data" : "DokumentDatum"},
 				{"data" : function (Daten){
@@ -635,7 +635,7 @@ if(session.getAttribute("user") == null){
 							<th>ID</th>
 							<th>DateiTyp</th>
 							<th>Name</th>
-							<th>Uploader</th>
+							<th>Autor</th>
 							<th>UploadDatum</th>
 							<th>DokumentDatum</th>
 							<th>Zugang</th>
