@@ -354,7 +354,6 @@ public class DataTableServlet extends HttpServlet {
 			{
 
 				antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
-				Gson g = new Gson();
 				JsonObject test = new JsonObject();
 				test.addProperty("ID", daten.get(i)[0]);
 				test.addProperty("DateiTyp", daten.get(i)[1]);
@@ -378,6 +377,16 @@ public class DataTableServlet extends HttpServlet {
 
 				antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Uploader\":\""+daten.get(i)[3]+"\",\"Autor\":\""+daten.get(i)[4]+"\",\"UploadDatum\":\""+daten.get(i)[5]+"\",\"DokumentDatum\":\""+daten.get(i)[6]+"\",\"ZUGANG\":\""+daten.get(i)[7]+"\"}";
 
+				JsonObject test = new JsonObject();
+				test.addProperty("ID", daten.get(i)[0]);
+				test.addProperty("DateiTyp", daten.get(i)[1]);
+				test.addProperty("Name", daten.get(i)[2]);
+				test.addProperty("Uploader", daten.get(i)[3]);
+				test.addProperty("Autor", daten.get(i)[4]);
+				test.addProperty("UploadDatum", daten.get(i)[5]);
+				test.addProperty("DokumentDatum", daten.get(i)[6]);
+				test.addProperty("ZUGANG", daten.get(i)[7]);
+				data.add(test);
 				if(i!=wh)
 				{
 					antwort+=",";
