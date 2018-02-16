@@ -24,7 +24,8 @@ public class LoginServlet extends HttpServlet {
 
 		String username = request.getParameter("username");
 		String pwd = request.getParameter("password");
-		System.out.println(username);
+		System.out.println("Login als:"+username);
+		
 		boolean anmeldung; 
 		// Datenbank abfrage von Benutzer normal
 		try {
@@ -45,6 +46,7 @@ public class LoginServlet extends HttpServlet {
 			String error = "Achtung! Username oder Password sind nicht korrekt";
 			System.out.println(error);
 			anmeldung = false; 
+			request.setAttribute("message","Bitte erneut versuchen!");
 			RequestDispatcher rs = request.getRequestDispatcher("Login.jsp");
 			rs.include(request, response);
 		}

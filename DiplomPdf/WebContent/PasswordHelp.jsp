@@ -25,12 +25,9 @@
 					</div>
 					<div class="form-group">
 						<hr />
-						<input type="submit" class="form-control btn btn-primary"
-							value="Send Email">
+						<input type="submit" class="form-control btn btn-primary" value="Send Email">
 					</div>
 				</form>
-
-
 			</div>
 		</div>
 	</div>
@@ -66,23 +63,17 @@
 			$("#statusModal").modal("show");
 		}
 		
-		
-		
 	});
 	
 	$("#pwresetform").submit(function(event){
 		event.preventDefault();
 
-		
-					
 			$("#pwresetform")[0].submit(); //only calls once, no infinite loop
 			console.log("yeah");
 			$(".modal-body").addClass("loader");
 			$(".modal-body").addClass("center-content");
 			$("#statusmessage").text("");
 			$("#statusModal").modal("show");
-		
-
 		
 	});
 
