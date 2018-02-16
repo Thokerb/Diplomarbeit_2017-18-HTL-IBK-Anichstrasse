@@ -93,15 +93,7 @@ public class DataTableServlet extends HttpServlet {
 		String methode="";
 		if(table.equals("table1"))
 		{
-			methode="meineDaten";
-			sortierspalte="uploader";
 			sortierdings=username;
-		}
-		else
-		{
-			methode="publicDaten";
-			sortierspalte="status";
-			sortierdings="public";
 		}
 
 		//sortierparameter muss Spalte+ASC oder DESC sein
@@ -126,9 +118,10 @@ public class DataTableServlet extends HttpServlet {
 			case "2asc"  :{
 				if(table.equals("table1"))
 				{
-					daten=db.meineDaten(conn,sortierdings,"dateiname","ASC",sortierspalte);
+					daten=db.meineDaten(conn,sortierdings,"dateiname","ASC");
 				}else{
-					daten=db.publicDaten(conn,sortierdings,"dateiname","ASC",sortierspalte);
+					daten=db.publicDaten(conn,"dateiname","ASC");
+					
 				}
 				for(int i=0;i<daten.size();i++)
 				{
@@ -140,9 +133,9 @@ public class DataTableServlet extends HttpServlet {
 			case "2desc"  :{
 				if(table.equals("table1"))
 				{
-					daten=db.meineDaten(conn,sortierdings,"dateiname","DESC",sortierspalte);
+					daten=db.meineDaten(conn,sortierdings,"dateiname","DESC");
 				}else{
-					daten=db.publicDaten(conn,sortierdings,"dateiname","DESC",sortierspalte);
+					daten=db.publicDaten(conn,"dateiname","DESC");
 				}
 				for(int i=0;i<daten.size();i++)
 				{
@@ -154,9 +147,9 @@ public class DataTableServlet extends HttpServlet {
 			case "3asc"  :{
 				if(table.equals("table1"))
 				{
-					daten=db.meineDaten(conn,sortierdings,"autor","ASC",sortierspalte);
+					daten=db.meineDaten(conn,sortierdings,"autor","ASC");
 				}else{
-					daten=db.publicDaten(conn,sortierdings,"autor","ASC",sortierspalte);
+					daten=db.publicDaten(conn,"autor","ASC");
 				}
 
 				for(int i=0;i<daten.size();i++)
@@ -169,9 +162,9 @@ public class DataTableServlet extends HttpServlet {
 			case "3desc"  :{
 				if(table.equals("table1"))
 				{
-					daten=db.meineDaten(conn,sortierdings,"autor","DESC",sortierspalte);
+					daten=db.meineDaten(conn,sortierdings,"autor","DESC");
 				}else{
-					daten=db.publicDaten(conn,sortierdings,"autor","DESC",sortierspalte);
+					daten=db.publicDaten(conn,"autor","DESC");
 				}
 
 				for(int i=0;i<daten.size();i++)
@@ -184,9 +177,9 @@ public class DataTableServlet extends HttpServlet {
 			case "4asc"  :{
 				if(table.equals("table1"))
 				{
-					daten=db.meineDaten(conn,sortierdings,"uploaddatum","ASC",sortierspalte);
+					daten=db.meineDaten(conn,sortierdings,"uploaddatum","ASC");
 				}else{
-					daten=db.publicDaten(conn,sortierdings,"uploaddatum","ASC",sortierspalte);
+					daten=db.publicDaten(conn,"uploaddatum","ASC");
 				}
 
 				for(int i=0;i<daten.size();i++)
@@ -199,9 +192,9 @@ public class DataTableServlet extends HttpServlet {
 			case "4desc"  :{
 				if(table.equals("table1"))
 				{
-					daten=db.meineDaten(conn,sortierdings,"uploaddatum","DESC",sortierspalte);
+					daten=db.meineDaten(conn,sortierdings,"uploaddatum","DESC");
 				}else{
-					daten=db.publicDaten(conn,sortierdings,"uploaddatum","DESC",sortierspalte);
+					daten=db.publicDaten(conn,"uploaddatum","DESC");
 				}
 
 				for(int i=0;i<daten.size();i++)
@@ -214,9 +207,9 @@ public class DataTableServlet extends HttpServlet {
 			case "5asc"  :{
 				if(table.equals("table1"))
 				{
-					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","ASC",sortierspalte);
+					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","ASC");
 				}else{
-					daten=db.publicDaten(conn,sortierdings,"dokumentdatum","ASC",sortierspalte);
+					daten=db.publicDaten(conn,"dokumentdatum","ASC");
 				}
 
 				for(int i=0;i<daten.size();i++)
@@ -229,9 +222,9 @@ public class DataTableServlet extends HttpServlet {
 			case "5desc"  :{
 				if(table.equals("table1"))
 				{
-					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","DESC",sortierspalte);
+					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","DESC");
 				}else{
-					daten=db.publicDaten(conn,sortierdings,"dokumentdatum","DESC",sortierspalte);
+					daten=db.publicDaten(conn,"dokumentdatum","DESC");
 				}
 
 				for(int i=0;i<daten.size();i++)
@@ -261,8 +254,13 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			default:{
-
-				daten=db.meineDaten(conn,sortierdings,"dateiname","ASC",sortierspalte);
+				if(table.equals("table1"))
+				{
+					daten=db.meineDaten(conn,sortierdings,"dateiname","ASC");
+				}else{
+					daten=db.publicDaten(conn,"dateiname","ASC");
+					
+				}
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -340,19 +338,32 @@ public class DataTableServlet extends HttpServlet {
 		//		}
 
 
-
-		for(int i=startwert;i<=wh;i++)
+		if(table.equals("table1"))
 		{
-
-			antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
-
-			if(i!=wh)
+			for(int i=startwert;i<=wh;i++)
 			{
-				antwort+=",";
-			}
-		}
-		antwort += "]}";
 
+				antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
+
+				if(i!=wh)
+				{
+					antwort+=",";
+				}
+			}
+		}else{
+			for(int i=startwert;i<=wh;i++)
+			{
+
+				antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Uploader\":\""+daten.get(i)[3]+"\",\"Autor\":\""+daten.get(i)[4]+"\",\"UploadDatum\":\""+daten.get(i)[5]+"\",\"DokumentDatum\":\""+daten.get(i)[6]+"\",\"ZUGANG\":\""+daten.get(i)[7]+"\"}";
+
+				if(i!=wh)
+				{
+					antwort+=",";
+				}
+			}
+			
+		}
+		 antwort+="]}";
 		//		if(anzahl==0)
 		//		{
 		//			antwort = "{\"draw\":"+draw+",\"recordsTotal\":0,\"recordsFiltered\":0,\"data\":[]}";

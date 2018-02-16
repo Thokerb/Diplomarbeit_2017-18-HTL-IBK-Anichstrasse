@@ -243,13 +243,13 @@ public class DBManager {
 	 * @return
 	 */
 
-	public ArrayList<String[]> meineDaten(Connection conn,String sortierparameter,String spalte,String reihung,String sortierspalte)
+	public ArrayList<String[]> meineDaten(Connection conn,String sortierdings,String spalte,String reihung)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, uploader, dokumentdatum, uploaddatum, status from uploaddaten where "+sortierspalte+"='"+sortierparameter+"' order by "+spalte+" "+ reihung+";";
+		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, dokumentdatum, uploaddatum, status from uploaddaten where uploader='"+sortierdings+"' order by "+spalte+" "+ reihung+";";
 
 		System.out.println(READ_DATEN_AUTORASC);
 		try {
@@ -278,13 +278,13 @@ public class DBManager {
 
 	}
 	
-	public ArrayList<String[]> publicDaten(Connection conn,String sortierparameter,String spalte,String reihung,String sortierspalte)
+	public ArrayList<String[]> publicDaten(Connection conn,String spalte,String reihung)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, uploader, dokumentdatum, uploaddatum, status from uploaddaten where status='public' and "+sortierspalte+"='"+sortierparameter+"' order by "+spalte+" "+ reihung+";";
+		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, uploader, autor, uploaddatum, dokumentdatum, status from uploaddaten where status='public' order by "+spalte+" "+ reihung+";";
 
 		System.out.println(READ_DATEN_AUTORASC);
 		try {
@@ -308,7 +308,7 @@ public class DBManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println("Wird des ausgefpht");
 		return DatennachAutorASC;
 
 	}
