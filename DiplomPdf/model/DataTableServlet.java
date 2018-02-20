@@ -239,6 +239,7 @@ public class DataTableServlet extends HttpServlet {
 
 			case "suchwort" :{
 				System.out.println("Suchwortsuche aktiv");
+				db.writeStichwörter(conn, search);
 				if(table.equals("table1"))
 				{
 					daten=db.ranking2(conn,search,username);

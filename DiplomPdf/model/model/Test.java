@@ -55,9 +55,12 @@ public class Test {
 			DBManager db = new DBManager();
 			conn=db.getConnection();
 			
+			db.readSuchwoerter(conn);
+			
+			
 			//list = db.readDaten(conn);
 			
-			db.VereinfachtesSuchwortgenerator(conn, "Hallo");
+			//db.VereinfachtesSuchwortgenerator(conn, "Hallo");
 			
 //			ArrayList<String[]> daten = new ArrayList<String[]>();
 //			daten=db.ranking2(conn, "Zwiebel");

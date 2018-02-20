@@ -805,16 +805,18 @@ public class DBManager {
 	public List<Suchwoerter> readSuchwoerter (Connection conn) throws SQLException
 	{
 		ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
-		String SQL="select * from suchwoerter";
+		String SQL="select * from suchwoerter order by suchwortid DESC LIMIT 3";
 
 		try {
 			pstmt=conn.prepareStatement(SQL);
 			rs=pstmt.executeQuery();
 			while(rs.next())
 			{
-				String suchwoert=rs.getString(1);
+				String suchwoert=rs.getString(2);
+				int suchwortid=rs.getInt(1);
 
-				Suchwoerter zeile = new Suchwoerter(suchwoert);
+				Suchwoerter zeile = new Suchwoerter(suchwoert,suchwortid);
+				System.out.println(zeile);
 				suchwoerter.add(zeile);
 			}
 			rs.close(); rs=null;
