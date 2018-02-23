@@ -171,7 +171,7 @@
 														var input = $("#pwinput");
 														var pw = input.val();
 														input
-																.replaceWith("<input type=\"text\" name=\"password\" data-maxlength=\"8\" id=\"pwinput\" placeholder=\"Passwort\" data-minlength=\"8\" class=\"form-control\" value=\""+pw+"\" required>");
+																.replaceWith("<input type=\"text\" name=\"password\" data-maxlength=\"20\" id=\"pwinput\" placeholder=\"Passwort\" data-minlength=\"8\" class=\"form-control\" value=\""+pw+"\" required>");
 														$(this)
 																.html(
 																		"<span class=\"glyphicon glyphicon-eye-close\"></span>")
@@ -187,7 +187,7 @@
 														var input = $("#pwinput");
 														var pw = input.val();
 														input
-																.replaceWith("<input type=\"password\" name=\"password\" data-maxlength=\"8\" id=\"pwinput\" class=\"form-control\" data-minlength=\"8\" placeholder=\"Passwort\" value=\""+pw+"\" required>");
+																.replaceWith("<input type=\"password\" name=\"password\" data-maxlength=\"20\" id=\"pwinput\" class=\"form-control\" data-minlength=\"8\" placeholder=\"Passwort\" value=\""+pw+"\" required>");
 														$(this)
 																.html(
 																		"<span class=\"glyphicon glyphicon-eye-open\"></span>");
