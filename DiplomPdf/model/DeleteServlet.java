@@ -42,15 +42,35 @@ public class DeleteServlet extends HttpServlet {
 		String idObj = jobj.get("ID").getAsString();
 		int id = Integer.parseInt(idObj);
 		System.out.println("todeleted:"+id);
-		String autor = jobj.get("Autor").getAsString();
+	//	String autor = jobj.get("Autor").getAsString();
 		HttpSession ses = request.getSession(false);
 		String username = (String) ses.getAttribute("user"); //Username wird vom vorherigen Servlet genommen
+		
+		DBManager db;
+		String uploader = null;
+		try {
+			db = new DBManager();
+			Connection con = db.getConnection();
+			 uploader = db.getDateiinfo(id, con);
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		if(username.equals(autor)){
+		System.out.println(username+"|"+uploader);
+		
+		if(username.equals(uploader)){
 			try {
-				DBManager db = new DBManager();
-				Connection conn=db.getConnection();
-				db.Datenlöschen(conn,id);
+				
+				DBManager db2 = new DBManager();
+				Connection conn=db2.getConnection();
+				db2.Datenlöschen(conn,id);
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

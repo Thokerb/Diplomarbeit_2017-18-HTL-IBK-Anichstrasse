@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Easy PDF - Login</title>
 <link rel="stylesheet" href="styleLogin.css" />
 <script src="jquery-3.2.1.js"></script>

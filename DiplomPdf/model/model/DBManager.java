@@ -1165,4 +1165,24 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
+
+	public String getDateiinfo(int id,Connection con) {
+		// TODO Auto-generated method stub
+		String SQL = "Select * from uploaddaten where uploadid = '"+id+"'";
+		String uploader = null;
+		try {
+			Statement ps = con.createStatement();
+			ResultSet rs = ps.executeQuery(SQL);
+			while(rs.next()){
+				 uploader = rs.getString("uploader");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return uploader;
+	}
+
 }

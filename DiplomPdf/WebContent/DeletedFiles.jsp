@@ -1,10 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<!-- font-awesome stylesheets -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
 <!-- jquery datatable stylesheet bootstrap -->
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"></link>
@@ -48,7 +55,7 @@ if(session.getAttribute("user") == null){
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
-				<li><a href="MeetTheTeam.jsp">Über EasyDoc</a></li>
+				<li><a href="MeetTheTeam.jsp">Ãœber EasyDoc</a></li>
 			</ul>
 			<ul class="nav navbar-nav">
 							<li><a href="DataTableSite.jsp">Dokumente</a></li>
@@ -71,7 +78,7 @@ if(session.getAttribute("user") == null){
 		<div class="row">
 			<div class="col-md-2 col-xs-0 col-lg-1"></div>
 			<div class="col-md-8 col-xs-12 col-lg-10">
-				<h1 class="text-center">Gelöschte Dokumente</h1>
+				<h1 class="text-center">GelÃ¶schte Dokumente</h1>
 				<table id="datatable" class="table table-striped table-bordered"
 					cellspacing="0" width="100%">
 					<thead>
@@ -116,20 +123,20 @@ if(session.getAttribute("user") == null){
 					"language": {
 						
 							"sEmptyTable":   	"Keine Daten in der Tabelle vorhanden",
-							"sInfo":         	"_START_ bis _END_ von _TOTAL_ Einträgen",
-							"sInfoEmpty":    	"0 bis 0 von 0 Einträgen",
-							"sInfoFiltered": 	"(gefiltert von _MAX_ Einträgen)",
+							"sInfo":         	"_START_ bis _END_ von _TOTAL_ EintrÃ¤gen",
+							"sInfoEmpty":    	"0 bis 0 von 0 EintrÃ¤gen",
+							"sInfoFiltered": 	"(gefiltert von _MAX_ EintrÃ¤gen)",
 							"sInfoPostFix":  	"",
 							"sInfoThousands":  	".",
 							"sLengthMenu":   	"_MENU_",
 							"sLoadingRecords": 	"Wird geladen...",
 							"sProcessing":   	"Bitte warten...",
 							"sSearch":       	"<span class=\"glyphicon glyphicon-search\"></span>",
-							"sZeroRecords":  	"Keine Einträge vorhanden.",
+							"sZeroRecords":  	"Keine EintrÃ¤ge vorhanden.",
 							"oPaginate": {
 								"sFirst":    	"Erste",
 								"sPrevious": 	"<span class=\"glyphicon glyphicon-circle-arrow-left arrowpagenav\" data-toggle=\"tooltip\" title =\"Vorherige Seite\"></span>",
-								"sNext":     	"<span class=\"glyphicon glyphicon-circle-arrow-right arrowpagenav\" data-toggle=\"tooltip\" title =\"Nächste Seite\"></span>",
+								"sNext":     	"<span class=\"glyphicon glyphicon-circle-arrow-right arrowpagenav\" data-toggle=\"tooltip\" title =\"NÃ¤chste Seite\"></span>",
 								"sLast":     	"Letzte"    
 							},
 							"oAria": {
@@ -197,20 +204,20 @@ if(session.getAttribute("user") == null){
 			        ],
 
 				    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
-				        var input = $('#datatable_wrapper .dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
+				        var input = $('#datatable_wrapper .dataTables_filter input').off(), //LÃ¶scht alle existierenden Listener von der Inputbox
 				           self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
 				            $searchbutton = $('<button class=\"btn-success dttopbtn\" data-toggle=\"tooltip\" title =\"Suchen\">')	//erstellt ein Buttonobjekt
 				                       .html('<span class="glyphicon glyphicon-search"/>')		// Button - Text: Suchen
-				                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+				                       .click(function() {	//Funktion welche bei drÃ¼cken des Buttons aufgerufen wird
 				                        self.search(input.val()).draw();	//ruft die Search - Funktion des DataTables auf und aktualisiert
 				                       }),
-				            $deletebutton = $('<button class=\"btn-danger dttopbtn\"data-toggle=\"tooltip\" title =\"Löschen\">')	//erstellt ein Buttonobjekt
-				                       .html('<span class="glyphicon glyphicon-remove"></span>')		//Button - Text: Löschen
-				                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+				            $deletebutton = $('<button class=\"btn-danger dttopbtn\"data-toggle=\"tooltip\" title =\"LÃ¶schen\">')	//erstellt ein Buttonobjekt
+				                       .html('<span class="glyphicon glyphicon-remove"></span>')		//Button - Text: LÃ¶schen
+				                       .click(function() {	//Funktion welche bei drÃ¼cken des Buttons aufgerufen wird
 				                          input.val('');	//Setzt den Input wieder leer
-				                          $searchbutton.click(); 	//Betätigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
+				                          $searchbutton.click(); 	//BetÃ¤tigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
 				                       }) 
-				        $('#datatable_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//Fügt beide Buttons zum DataTable hinzu
+				        $('#datatable_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//FÃ¼gt beide Buttons zum DataTable hinzu
 				    },
 				
 				});
