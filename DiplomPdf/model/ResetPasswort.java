@@ -36,7 +36,7 @@ public class ResetPasswort extends HttpServlet {
 		String pw = request.getParameter("password");
 		String pw2 = request.getParameter("password2");
 		String auth = (String) ses.getAttribute("hashcodeverified");
-		System.out.println(pw+" "+pw2);
+		System.out.println("User: "+ username +" PW2: "+pw+" PW2: "+pw2);
 		
 		if(auth.equalsIgnoreCase("yes")) {
 			if(pw.equals(pw2)) {
@@ -87,8 +87,8 @@ public class ResetPasswort extends HttpServlet {
 			}
 			else {
 
-			//		request.setAttribute("message", "Passwort konnte nicht geändert werden ");
-				System.out.println("pw nix mit ändern");
+				request.setAttribute("message", "Passwort konnte nicht geändert werden ");
+				System.out.println("Passwort konnte nicht geändert werden ");
 				RequestDispatcher rd = request.getRequestDispatcher("ErrorPage.jsp");
 				rd.forward(request, response);
 

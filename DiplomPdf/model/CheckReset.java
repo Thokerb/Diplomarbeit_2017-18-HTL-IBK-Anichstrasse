@@ -74,6 +74,7 @@ public class CheckReset extends HttpServlet {
 				DBManager dbm=new DBManager();
 				Connection conn=dbm.getConnection();
 				user = dbm.getUserbyHash(conn,Hashcode);
+				System.out.println("Benutzer by Hash:" + user);
 			}
 			catch (Exception e) {
 				// TODO: handle exception
