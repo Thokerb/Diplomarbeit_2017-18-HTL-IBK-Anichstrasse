@@ -32,11 +32,46 @@
 System.out.println(session.getAttribute("user"));
 
 if(session.getAttribute("user") == null){
-	response.sendRedirect("Login.jsp");
+//	response.sendRedirect("Login.jsp");
 }
 %>
 <body>
-<h1>Gelöschte Dateien</h1>
+<nav class="navbar navbar-inverse navbar-static-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#myNavbar">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">EasyDoc</a>
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav">
+				<li><a href="MeetTheTeam.jsp">Über EasyDoc</a></li>
+			</ul>
+			<ul class="nav navbar-nav">
+							<li><a href="DataTableSite.jsp">Dokumente</a></li>
+			
+			</ul>
+				<ul class="nav navbar-nav navbar-right">
+					
+						<li><a href="LogoutServlet"><span
+								class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
+				</ul>
+
+			</div>
+	</div>
+	</nav>
+	
+
+	<div class="container-fluid">
+
+
+		<div class="row">
+			<div class="col-md-2 col-xs-0 col-lg-1"></div>
+			<div class="col-md-8 col-xs-12 col-lg-10">
+				<h1 class="text-center">Gelöschte Dokumente</h1>
 				<table id="datatable" class="table table-striped table-bordered"
 					cellspacing="0" width="100%">
 					<thead>
@@ -55,6 +90,10 @@ if(session.getAttribute("user") == null){
 
 					</tbody>
 				</table>
+							</div>
+			<div class="col-md-2 col-xs-0 col-lg-1"></div>
+		</div>
+	</div>
 				<script type="text/javascript">
 				
 				var table = $('#datatable').DataTable({
@@ -176,8 +215,45 @@ if(session.getAttribute("user") == null){
 				
 				});
 		    	
-			  
+			    $(".table tbody").on("click",".whbutton",function(){
+					var sourcetable = getTableRow($(this));
+
+			    	$.ajax({
+			    		method:"POST",
+			    		url:"RecoverServlet",
+			    		data: {toRecover: sourcetable}
+			    	})
+			    	.done(function(){
+			    		refreshtables();
+			    	})
+			    	
+			    });
 				
+			function getTableRow(acttable){
+			var data;
+			//console.dir(acttable);
+			switch(acttable.parents(".table").attr("id")){
+			case "datatable":
+				data = table.row( $(acttable).parents("tr")).data();
+				break;
+				
+			case "datatable2":{
+				data = table2.row( $(acttable).parents("tr")).data();
+				break;
+			}
+			default:
+				data = "ERROR";
+				break;
+			}
+
+			var str = JSON.stringify(data);
+			return str;
+		}
+			
+			function refreshtables(){
+				var table = $("#datatable").DataTable();
+				table.draw();
+			}
 			  
 				
 				</script>

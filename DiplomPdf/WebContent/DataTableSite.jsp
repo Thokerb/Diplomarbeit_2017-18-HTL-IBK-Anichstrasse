@@ -609,6 +609,9 @@ if(session.getAttribute("user") == null){
 			<ul class="nav navbar-nav">
 				<li><a href="MeetTheTeam.jsp">Über EasyDoc</a></li>
 			</ul>
+						<ul class="nav navbar-nav">
+				<li><a href="DeletedFiles.jsp">Gelöschte Dokumente</a></li>
+			</ul>
 			<button type="button" class="btn btn-info  navbar-btn"
 				data-toggle="modal" data-target="#uploadModal">UPLOAD</button>
 
