@@ -53,21 +53,32 @@ public class PrivChangeServlet extends HttpServlet {
 		String idObj = jobj.get("ID").getAsString();
 		String status = request.getParameter("howto");
 		int id = Integer.parseInt(idObj);
-		String autor = jobj.get("Autor").getAsString();
+		//String autor = jobj.get("Autor").getAsString();
+		
 		HttpSession ses = request.getSession(false);
 		String username = (String) ses.getAttribute("user"); //Username wird schon vom vorherigen Servlet genommen
 
-
-//		if(status.equals("private"))
-//		{
-//			status="public";
-//		}
-//		else
-//		{
-//			status="private";
-//		}
+		String uploader = null;
+		DBManager db;
+		Connection con;
+		try {
+			db = new DBManager();
+			con = db.getConnection();
+			uploader = db.getDateiinfo(id, con);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		if(autor.equals(username)){
+		System.out.println(uploader+"|"+username);
+		
+		if(uploader.equals(username)){
 			DBManager dbm;
 			try {
 				dbm = new DBManager();
