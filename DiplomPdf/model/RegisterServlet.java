@@ -1,10 +1,5 @@
-
-
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
@@ -48,10 +43,12 @@ public class RegisterServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		PasswordHash pwh = new PasswordHash();
+		
 		String username = request.getParameter("username");
 		String email = request.getParameter("email");
 		String pwd = request.getParameter("password");
-
+		
 		response.setContentType("text/html");  
 		boolean registerok = false;
 
@@ -60,7 +57,11 @@ public class RegisterServlet extends HttpServlet {
 				try {
 					DBManager m = new DBManager();
 					Connection conn = m.getConnection();
-					m.RegisterBenutzer(conn,username, email, pwd);
+					
+					String hashpw = pwh.passwordToHash(pwd);
+					System.out.println("Hash: "+ hashpw);
+					
+					m.RegisterBenutzer(conn,username, email, hashpw);
 					code = 0;
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
