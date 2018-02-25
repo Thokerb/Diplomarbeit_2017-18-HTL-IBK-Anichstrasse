@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
@@ -483,6 +483,8 @@ if(session.getAttribute("user") == null){
             
 			var sourcetable = getTableRow($(this));
 	 
+			console.log(sourcetable);
+			
 		  //   	var xhttp = new XMLHttpRequest();
 			/**
 			** TODO änderung vom tom

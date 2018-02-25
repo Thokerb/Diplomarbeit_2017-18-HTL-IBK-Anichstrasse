@@ -95,6 +95,7 @@ public class EmailPasswort extends HttpServlet {
 				} catch (Exception ex) {
 					System.out.println("Email konnte nicht gesendet werden");
 					request.setAttribute("message", "Unsere Server sind derzeit nicht erreichbar. Bitte versuche es später noch einmal." );
+					rd.include(request, response);
 					ex.printStackTrace();
 				}
 

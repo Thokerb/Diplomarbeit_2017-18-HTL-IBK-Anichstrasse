@@ -56,8 +56,6 @@ public class Test {
 			conn=db.getConnection();
 
 			
-			db.readgeloeschteDatei(conn,98 , "uploaddaten");
-			
 			
 			//list = db.readDaten(conn);
 			

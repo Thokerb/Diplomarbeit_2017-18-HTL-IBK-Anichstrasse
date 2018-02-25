@@ -22,9 +22,14 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		PasswordHash pwh = new PasswordHash();
+		
 		String username = request.getParameter("username");
 		String pwd = request.getParameter("password");
 		System.out.println("Login als:"+username);
+		
+		String hashpw = pwh.passwordToHash(pwd);
+		System.out.println("Hash: "+ hashpw);
 		
 		boolean anmeldung; 
 		// Datenbank abfrage von Benutzer normal
@@ -32,7 +37,7 @@ public class LoginServlet extends HttpServlet {
 			DBManager dbm=new DBManager();
 			Connection conn1=dbm.getConnection();
 			
-		if(DBManager.checkUser(conn1, username, pwd) || username.equals("user") && pwd.equals("1234"))
+		if(DBManager.checkUser(conn1, username, hashpw) || username.equals("user") && pwd.equals("1234"))
 		{
 			System.out.println("Anmeldung erfolgreich");
 			HttpSession session = request.getSession();  

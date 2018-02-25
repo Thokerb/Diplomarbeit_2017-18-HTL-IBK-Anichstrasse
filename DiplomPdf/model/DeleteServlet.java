@@ -45,21 +45,31 @@ public class DeleteServlet extends HttpServlet {
 		int id = Integer.parseInt(idObj);
 		System.out.println("toshift:"+id);
 		String autor = jobj.get("Autor").getAsString();
+
+	//	String autor = jobj.get("Autor").getAsString();
 		HttpSession ses = request.getSession(false);
 		String username = (String) ses.getAttribute("user"); //Username wird vom vorherigen Servlet genommen
 		
 		Daten uploaddaten = new Daten();
 
-		if(username.equals(autor)){
+		DBManager db;
+		String uploader = null;
+
+		System.out.println(username+"|"+uploader);
+		
+		if(username.equals(uploader)){
 			try {
 				System.out.println("PENIS PENIS PENis");
 				
-				DBManager db = new DBManager();
-				Connection conn=db.getConnection();
-				uploaddaten=db.readzuloeschendeDatei(conn,id);
-				db.Datenlöschen(conn,id,"uploaddaten");
-				db.writegeloeschteDaten(conn, uploaddaten);
+				DBManager db1 = new DBManager();
+				Connection conn=db1.getConnection();
+				uploaddaten=db1.readzuloeschendeDatei(conn,id);
+				db1.Datenlöschen(conn,id,"uploaddaten");
+				db1.writegeloeschteDaten(conn, uploaddaten);
 				System.out.println("PENIS PENIS PENSI");
+				
+				db1.Datenlöschen(conn,id,"uploaddaten");
+
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

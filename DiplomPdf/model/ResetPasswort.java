@@ -35,7 +35,11 @@ public class ResetPasswort extends HttpServlet {
 		String username = (String) ses.getAttribute("username"); //Username wird schon vom vorherigen Servlet genommen
 		String pw = request.getParameter("password");
 		String pw2 = request.getParameter("password2");
+		
 		String auth = (String) ses.getAttribute("hashcodeverified");
+		PasswordHash pwh = new PasswordHash();
+		
+	
 		System.out.println("User: "+ username +" PW2: "+pw+" PW2: "+pw2);
 		
 		if(auth.equalsIgnoreCase("yes")) {
@@ -43,10 +47,14 @@ public class ResetPasswort extends HttpServlet {
 				if(RegisterServlet.pwdIsValid(pw)) {
 
 					try {
+						
+						String hashpw = pwh.passwordToHash(pw);
+						System.out.println("Hash: "+ hashpw);
+						
 						DBManager db = new DBManager();
 						Connection conn=db.getConnection();
 
-						db.PasswortNeuSetzen(conn, username, pw);
+						db.PasswortNeuSetzen(conn, username,hashpw);
 
 						response.setContentType("text/plain");
 						PrintWriter out = response.getWriter();

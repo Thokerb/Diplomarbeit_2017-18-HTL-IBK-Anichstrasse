@@ -4,6 +4,7 @@
 <html>
 <head>
 <title>Easy PDF - Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="styleLogin.css" />
 <script src="jquery-3.2.1.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />

@@ -70,9 +70,44 @@ public class DateienListServlet extends HttpServlet {
 			 System.out.println("Bitte melde dich zuest an");  
 			 request.setAttribute("message","Bitte melde dich zuest an");
 	         request.getRequestDispatcher("Login.jsp").include(request, response);
-		 }
-	}
 
+		String username = (String) ses.getAttribute("user"); //Username wird vom vorherigen Servlet genommen
+		
+				int anzahl=0;
+				try {
+					DBManager dbm=new DBManager();
+					Connection conn=dbm.getConnection();
+					anzahl=dbm.AnzahlEinträge(conn, username, "uploaddaten");
+		
+					if(anzahl != 0)
+					namen = new String[anzahl-1];
+					else
+						namen = new String[anzahl];
+					namen=dbm.Dateiname(conn,username);
+		
+				}catch (InstantiationException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch(SQLException e){
+					e.printStackTrace();
+				}
+				System.out.println("Kontrolle:");
+				for(int i=0;i<=anzahl-1;i++)
+				{
+					System.out.println(namen[i]);
+				}
+				
+				Gson gson = new Gson();
+				String answer = gson.toJson(namen);
+		
+				//		response.getWriter().append("Served at: ").append(request.getContextPath());
+				response.setContentType("application/json;charset=UTF-8");  
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().write(answer);
+		 }
+	
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
