@@ -34,7 +34,7 @@ public class DeleteServlet extends HttpServlet {
 		 * TODO: aus DB löschen aber darauf achten, dass nicht zu schnell gelöscht wird.
 		 * evtl reihenfolge vorgeben zuerst db dann aus seite löschen? 
 		 */
-		String toshift = request.getParameter("toshift");
+		String toshift = request.getParameter("todelete");
 		System.out.println("toshift: "+toshift);
 		
 		Gson gsn = new Gson();
