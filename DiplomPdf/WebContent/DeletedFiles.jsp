@@ -1,41 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<<<<<<< HEAD
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Gelöschte Dokumente</title>
-=======
+
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+
 <!-- font-awesome stylesheets -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 <!-- jquery datatable stylesheet bootstrap -->
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"></link>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
-			<!-- jquery script  -->
-	<script src="jquery-3.2.1.js"></script>
+<!-- jquery script  -->
+<script src="jquery-3.2.1.js"></script>
 
+<!-- bootstrap javascript implementation -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<!-- jquery datatable javascript -->
+<script type="text/javascript"
+	src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 
-	<!-- bootstrap javascript implementation -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-	<!-- jquery datatable javascript -->
-	<script type="text/javascript"
-		src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-
-		
 
 
 </head>
@@ -44,11 +42,11 @@
 System.out.println(session.getAttribute("user"));
 
 if(session.getAttribute("user") == null){
-//	response.sendRedirect("Login.jsp");
+	response.sendRedirect("Login.jsp");
 }
 %>
 <body>
-<nav class="navbar navbar-inverse navbar-static-top">
+	<nav class="navbar navbar-inverse navbar-static-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -63,19 +61,19 @@ if(session.getAttribute("user") == null){
 				<li><a href="MeetTheTeam.jsp">Über EasyDoc</a></li>
 			</ul>
 			<ul class="nav navbar-nav">
-							<li><a href="DataTableSite.jsp">Dokumente</a></li>
-			
-			</ul>
-				<ul class="nav navbar-nav navbar-right">
-					
-						<li><a href="LogoutServlet"><span
-								class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
-				</ul>
+				<li><a href="DataTableSite.jsp">Dokumente</a></li>
 
-			</div>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+
+				<li><a href="LogoutServlet"><span
+						class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
+			</ul>
+
+		</div>
 	</div>
 	</nav>
-	
+
 
 	<div class="container-fluid">
 
@@ -102,11 +100,11 @@ if(session.getAttribute("user") == null){
 
 					</tbody>
 				</table>
-							</div>
+			</div>
 			<div class="col-md-2 col-xs-0 col-lg-1"></div>
 		</div>
 	</div>
-				<script type="text/javascript">
+	<script type="text/javascript">
 				
 				var table = $('#datatable').DataTable({
 					
