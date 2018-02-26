@@ -3,6 +3,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<<<<<<< HEAD
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Gelöschte Dokumente</title>
+=======
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
 
@@ -12,6 +16,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
+>>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 <!-- jquery datatable stylesheet bootstrap -->
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"></link>
@@ -109,7 +114,7 @@ if(session.getAttribute("user") == null){
 					"processing" : true,
 					"serverSide" : true,
 		            "ajax" : {
-					"url" : '/DiplomPdf/DataTableServlet',
+					"url" : '/DiplomPdf/GeloeschteDatenServlet',
 					"data" : function(act){
 						act.user = '${user}';
 						act.table = 'whtable';

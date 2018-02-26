@@ -1,25 +1,20 @@
 package model;
 
-public class Uploaddaten {
+public class Daten {
 
-	int uploadid;
 	String dateiname;
 	String autor;
 	String uploader;
 	String inhalttext;
 	String stichworttext;
+	String dateityp;
+	String status;
 	String tag;
-	String language;
-	//blob blobdatei;
+	String uploaddatum;
+	String dokumentdatum;
+	String deletedatum;
+	byte[] blobdatei;
 	
-	
-	public int getUploadid() {
-		return uploadid;
-	}
-	
-	public void setUploadid(int uploadid) {
-		this.uploadid = uploadid;
-	}
 	
 	public String getDateiname() {
 		return dateiname;
@@ -40,10 +35,10 @@ public class Uploaddaten {
 	public String getUploader() {
 		return uploader;
 	}
+	
 	public void setUploader(String uploader) {
 		this.uploader = uploader;
 	}
-	
 	public String getInhalttext() {
 		return inhalttext;
 	}
@@ -60,6 +55,21 @@ public class Uploaddaten {
 		this.stichworttext = stichworttext;
 	}
 	
+	public String getDateityp() {
+		return dateityp;
+	}
+	public void setDateityp(String dateityp) {
+		this.dateityp = dateityp;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 	public String getTag() {
 		return tag;
 	}
@@ -68,46 +78,80 @@ public class Uploaddaten {
 		this.tag = tag;
 	}
 	
-	public String getLanguage() {
-		return language;
+	public String getUploaddatum() {
+		return uploaddatum;
 	}
 	
-	public void setLanguage(String language) {
-		this.language = language;
+	public void setUploaddatum(String uploaddatum) {
+		this.uploaddatum = uploaddatum;
+	}
+	
+	public String getDokumentdatum() {
+		return dokumentdatum;
+	}
+	
+	public void setDokumentdatum(String ddokumentdatum) {
+		this.dokumentdatum = ddokumentdatum;
+	}
+	
+	public byte[] getBlobdatei() {
+		return blobdatei;
+	}
+	
+	public void setBlobdatei(byte[] blobdatei) {
+		this.blobdatei = blobdatei;
 	}
 
-	public Uploaddaten(int uploadid, String dateiname, String autor, String uploader, String inhalttext,
-			String stichworttext, String tag, String language) {
+	public Daten(String dateiname, String autor, String uploader, String inhalttext, String stichworttext,
+			String dateityp, String status, String tag, String uploaddatum, String ddokumentdatum, byte[] blobdatei) {
 		super();
-		this.uploadid = uploadid;
 		this.dateiname = dateiname;
 		this.autor = autor;
 		this.uploader = uploader;
 		this.inhalttext = inhalttext;
 		this.stichworttext = stichworttext;
+		this.dateityp = dateityp;
+		this.status = status;
 		this.tag = tag;
-		this.language = language;
+		this.uploaddatum = uploaddatum;
+		this.dokumentdatum = ddokumentdatum;
+		this.blobdatei = blobdatei;
+	}
+	
+	
+
+	public Daten(String dateiname, String autor, String uploader, String inhalttext, String stichworttext,
+			String dateityp, String status, String tag, String uploaddatum, String dokumentdatum, String deletedatum,
+			byte[] blobdatei) {
+		super();
+		this.dateiname = dateiname;
+		this.autor = autor;
+		this.uploader = uploader;
+		this.inhalttext = inhalttext;
+		this.stichworttext = stichworttext;
+		this.dateityp = dateityp;
+		this.status = status;
+		this.tag = tag;
+		this.uploaddatum = uploaddatum;
+		this.dokumentdatum = dokumentdatum;
+		this.deletedatum = deletedatum;
+		this.blobdatei = blobdatei;
 	}
 
-	public Uploaddaten() {
+	
+	
+	public Daten() {
 		super();
-		//this.uploadid = " ";
-		this.dateiname=" ";
-		this.autor=" ";
-		this.uploader=" ";
-		this.inhalttext=" ";
-		this.stichworttext=" ";
-		this.tag=" ";
-		this.language=" ";
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String toString() {
-		return "Uploaddaten [uploadid=" + uploadid + ", dateiname=" + dateiname + ", autor=" + autor + ", uploader="
-				+ uploader + ", inhalttext=" + inhalttext + ", stichworttext=" + stichworttext + ", tag=" + tag
-				+ ", language=" + language + "]";
+		return "Uploaddaten [dateiname=" + dateiname + ", autor=" + autor + ", uploader=" + uploader + ", inhalttext="
+				+ inhalttext + ", stichworttext=" + stichworttext + ", dateityp=" + dateityp + ", status=" + status
+				+ ", tag=" + tag + ", uploaddatum=" + uploaddatum + ", ddokumentdatum=" + dokumentdatum
+				+ ", blobdatei=" + blobdatei + "]";
 	}
-	
 	
 	
 	

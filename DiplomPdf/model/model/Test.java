@@ -49,13 +49,12 @@ public class Test {
 	
 	System.out.println("Test test test");
 			Connection conn=null;
-			List<Uploaddaten> list = null;
+			List<Daten> list = null;
 		
 		try {
 			DBManager db = new DBManager();
 			conn=db.getConnection();
-			
-			db.readSuchwoerter(conn);
+
 			
 			
 			//list = db.readDaten(conn);
