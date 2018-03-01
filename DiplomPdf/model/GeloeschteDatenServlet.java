@@ -1,10 +1,10 @@
 
+
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,28 +13,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import model.DBManager;
-import model.Daten;
-
 
 /**
- * Servlet implementation class DataTableServlet
+ * Servlet implementation class GeloeschteDatenServlet
  */
-public class DataTableServlet extends HttpServlet {
-
-	public static ArrayList<String[]> sortiertAutorASC = new ArrayList<String[]>();
-
+@WebServlet("/GeloeschteDatenServlet")
+public class GeloeschteDatenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public GeloeschteDatenServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doPost(request, response);
 	}
 
@@ -94,10 +97,7 @@ public class DataTableServlet extends HttpServlet {
 		String sortierspalte="";
 		String sortierdings="";
 		String methode="";
-		if(table.equals("table1"))
-		{
-			sortierdings=username;
-		}
+		sortierdings=username;
 
 		//sortierparameter muss Spalte+ASC oder DESC sein
 		Connection conn=null;
@@ -119,13 +119,9 @@ public class DataTableServlet extends HttpServlet {
 			switch(sortierparameter){
 
 			case "2asc"  :{
-				if(table.equals("table1"))
-				{
-					daten=db.meineDaten(conn,sortierdings,"dateiname","ASC");
-				}else{
-					daten=db.publicDaten(conn,"dateiname","ASC");
-					
-				}
+
+				daten=db.geloeschteDaten(conn,sortierdings,"dateiname","ASC");
+
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -134,12 +130,9 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "2desc"  :{
-				if(table.equals("table1"))
-				{
-					daten=db.meineDaten(conn,sortierdings,"dateiname","DESC");
-				}else{
-					daten=db.publicDaten(conn,"dateiname","DESC");
-				}
+
+				daten=db.geloeschteDaten(conn,sortierdings,"dateiname","DESC");
+
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -148,12 +141,9 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "3asc"  :{
-				if(table.equals("table1"))
-				{
-					daten=db.meineDaten(conn,sortierdings,"autor","ASC");
-				}else{
-					daten=db.publicDaten(conn,"autor","ASC");
-				}
+
+				daten=db.geloeschteDaten(conn,sortierdings,"autor","ASC");
+
 
 				for(int i=0;i<daten.size();i++)
 				{
@@ -163,12 +153,8 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "3desc"  :{
-				if(table.equals("table1"))
-				{
-					daten=db.meineDaten(conn,sortierdings,"autor","DESC");
-				}else{
-					daten=db.publicDaten(conn,"autor","DESC");
-				}
+
+				daten=db.geloeschteDaten(conn,sortierdings,"autor","DESC");
 
 				for(int i=0;i<daten.size();i++)
 				{
@@ -178,12 +164,8 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "4asc"  :{
-				if(table.equals("table1"))
-				{
-					daten=db.meineDaten(conn,sortierdings,"uploaddatum","ASC");
-				}else{
-					daten=db.publicDaten(conn,"uploaddatum","ASC");
-				}
+
+				daten=db.geloeschteDaten(conn,sortierdings,"uploaddatum","ASC");
 
 				for(int i=0;i<daten.size();i++)
 				{
@@ -193,12 +175,8 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "4desc"  :{
-				if(table.equals("table1"))
-				{
-					daten=db.meineDaten(conn,sortierdings,"uploaddatum","DESC");
-				}else{
-					daten=db.publicDaten(conn,"uploaddatum","DESC");
-				}
+
+				daten=db.geloeschteDaten(conn,sortierdings,"uploaddatum","DESC");
 
 				for(int i=0;i<daten.size();i++)
 				{
@@ -208,12 +186,9 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "5asc"  :{
-				if(table.equals("table1"))
-				{
-					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","ASC");
-				}else{
-					daten=db.publicDaten(conn,"dokumentdatum","ASC");
-				}
+
+				daten=db.geloeschteDaten(conn,sortierdings,"dokumentdatum","ASC");
+
 
 				for(int i=0;i<daten.size();i++)
 				{
@@ -223,12 +198,8 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			case "5desc"  :{
-				if(table.equals("table1"))
-				{
-					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","DESC");
-				}else{
-					daten=db.publicDaten(conn,"dokumentdatum","DESC");
-				}
+
+				daten=db.geloeschteDaten(conn,sortierdings,"dokumentdatum","DESC");
 
 				for(int i=0;i<daten.size();i++)
 				{
@@ -240,13 +211,9 @@ public class DataTableServlet extends HttpServlet {
 			case "suchwort" :{
 				System.out.println("Suchwortsuche aktiv");
 				db.writeStichwörter(conn, search);
-				if(table.equals("table1"))
-				{
-					daten=db.ranking2(conn,search,username);
-				}else{
-					daten=db.ranking3(conn,search);
-				}
-			
+
+				daten=db.ranking3(conn,search,username);
+
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println("Suchwortsuche aktiv");
@@ -258,13 +225,9 @@ public class DataTableServlet extends HttpServlet {
 			}
 
 			default:{
-				if(table.equals("table1"))
-				{
-					daten=db.meineDaten(conn,sortierdings,"dateiname","ASC");
-				}else{
-					daten=db.publicDaten(conn,"dateiname","ASC");
-					
-				}
+
+				daten=db.geloeschteDaten(conn,sortierdings,"dateiname","ASC");
+
 				for(int i=0;i<daten.size();i++)
 				{
 					System.out.println(daten.get(i)[1]);
@@ -273,19 +236,8 @@ public class DataTableServlet extends HttpServlet {
 			}
 			}
 
-			String spalte="";
-			String spalteninhalt="";
-
-			if(table.equals("table1"))
-			{
-				spalte="uploader";
-				spalteninhalt=username;
-			}
-			else
-			{
-				spalte="status";
-				spalteninhalt="public";
-			}
+			String spalte="uploader";
+			String spalteninhalt=username;
 
 			if(sortierparameter=="suchwort")
 			{
@@ -294,7 +246,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 			else
 			{
-				anzahl=db.AnzahlEinträge1(conn,spalte,spalteninhalt,"uploaddaten","uploadid");
+				anzahl=db.AnzahlEinträge1(conn,spalte,spalteninhalt,"geloeschtedaten","loeschid");
 			}
 
 			db.releaseConnection(conn);
@@ -325,8 +277,8 @@ public class DataTableServlet extends HttpServlet {
 		all.addProperty("recordsFiltered", anzahl);
 
 		JsonArray data = new JsonArray();
-		
-		
+
+
 		antwort = "{\"draw\":"+draw+",\"recordsTotal\":"+anzahl+",\"recordsFiltered\":"+anzahl+",\"data\":[";
 
 		//antwort += "{\"ID\":\""+"1"+"\",\"DateiTyp\":\""+"PDF"+"\",\"Name\":\""+"NAME"+"\",\"Autor\":\""+"AUTOR"+"\",\"UploadDatum\":\""+"FREITAG"+"\",\"DokumentDatum\":\""+"SAMSTAG"+"\",\"ZUGANG\":\""+"public"+"\"}";
@@ -348,61 +300,37 @@ public class DataTableServlet extends HttpServlet {
 		//			System.out.println("Wiederholungen in for-Schleife: "+wh);
 		//		}
 
-
-		if(table.equals("table1"))
+		for(int i=startwert;i<=wh;i++)
 		{
-			for(int i=startwert;i<=wh;i++)
+
+			antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
+			JsonObject test = new JsonObject();
+			test.addProperty("ID", daten.get(i)[0]);
+			test.addProperty("DateiTyp", daten.get(i)[1]);
+			test.addProperty("Name", daten.get(i)[2]);
+			test.addProperty("Autor", daten.get(i)[3]);
+			test.addProperty("DeleteDatum", daten.get(i)[4]);
+			test.addProperty("UploadDatum", daten.get(i)[5]);
+			test.addProperty("DokumentDatum", daten.get(i)[6]);
+			test.addProperty("ZUGANG", daten.get(i)[7]);
+
+			data.add(test);
+
+			if(i!=wh)
 			{
 
-				antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
-				JsonObject test = new JsonObject();
-				test.addProperty("ID", daten.get(i)[0]);
-				test.addProperty("DateiTyp", daten.get(i)[1]);
-				test.addProperty("Name", daten.get(i)[2]);
-				test.addProperty("Autor", daten.get(i)[3]);
-				test.addProperty("UploadDatum", daten.get(i)[4]);
-				test.addProperty("DokumentDatum", daten.get(i)[5]);
-				test.addProperty("ZUGANG", daten.get(i)[6]);
-
-				data.add(test);
-				
-				if(i!=wh)
-				{
-					
-					antwort+=",";
-				}
+				antwort+=",";
 			}
-		}else{
-			for(int i=startwert;i<=wh;i++)
-			{
-
-				antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Uploader\":\""+daten.get(i)[3]+"\",\"Autor\":\""+daten.get(i)[4]+"\",\"UploadDatum\":\""+daten.get(i)[5]+"\",\"DokumentDatum\":\""+daten.get(i)[6]+"\",\"ZUGANG\":\""+daten.get(i)[7]+"\"}";
-
-				JsonObject test = new JsonObject();
-				test.addProperty("ID", daten.get(i)[0]);
-				test.addProperty("DateiTyp", daten.get(i)[1]);
-				test.addProperty("Name", daten.get(i)[2]);
-				test.addProperty("Uploader", daten.get(i)[3]);
-				test.addProperty("Autor", daten.get(i)[4]);
-				test.addProperty("UploadDatum", daten.get(i)[5]);
-				test.addProperty("DokumentDatum", daten.get(i)[6]);
-				test.addProperty("ZUGANG", daten.get(i)[7]);
-				data.add(test);
-				if(i!=wh)
-				{
-					antwort+=",";
-				}
-			}
-			
 		}
-		 antwort+="]}";
-		 all.add("data", data);
+
+		antwort+="]}";
+		all.add("data", data);
 		//		if(anzahl==0)
 		//		{
 		//			antwort = "{\"draw\":"+draw+",\"recordsTotal\":0,\"recordsFiltered\":0,\"data\":[]}";
 		//		}
 
-		 System.out.println("all: "+all);
+		System.out.println("all: "+all);
 		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
 		System.out.println(antwort);
 		out.println(all);
