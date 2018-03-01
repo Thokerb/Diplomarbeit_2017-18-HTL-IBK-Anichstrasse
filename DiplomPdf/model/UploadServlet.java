@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
+import org.postgresql.util.PSQLException;
+
 import model.DBManager;
 
 /**
@@ -94,12 +97,13 @@ public class UploadServlet extends HttpServlet {
 
 		case "PDF"  :{
 			
-			PDFLesen pdfL = new PDFLesen();
-		
-			String inhalttext = pdfL.pdfToText(pfad+dateiname); 
 			System.out.println("angemeldeter Username: "+username);
 			
 			try {
+				
+				PDFLesen pdfL = new PDFLesen();
+				String inhalttext = pdfL.pdfToText(pfad+dateiname); 
+				
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
@@ -128,6 +132,10 @@ public class UploadServlet extends HttpServlet {
 				e.printStackTrace();
 			} catch(SQLException e){
 				e.printStackTrace();
+			} catch(IOException e){
+				response.setStatus(HttpServletResponse.SC_CONFLICT);
+				response.getWriter().println("Fehlerhafte Datei");
+				e.printStackTrace();
 			}
 			System.out.println("PDF - Datei wurde in Text umgewandelt + Weitergabe an DB");
 			break;
@@ -135,12 +143,13 @@ public class UploadServlet extends HttpServlet {
 
 		case "TXT"  :{
 
-			TextdateiLesen txtL = new TextdateiLesen();
-			String inhalttext = txtL.textdateiLesen(pfad+dateiname);
-
 			System.out.println("angemeldeter Username: "+username);
 
 			try {
+				
+				TextdateiLesen txtL = new TextdateiLesen();
+				String inhalttext = txtL.textdateiLesen(pfad+dateiname);
+				
 				DBManager dbm = new DBManager();
 				Connection conn1 = dbm.getConnection();
 				String stichworttext = dbm.Stichtextgenerator(conn1,inhalttext);
@@ -158,19 +167,28 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(conn1,daten,filePart,txtL.getDatum());
+				if(!DBManager.writeDaten(conn1,daten,filePart,txtL.getDatum())) {
+					response.setStatus(HttpServletResponse.SC_CONFLICT);
+					response.getWriter().println("Fehlerhafte Datei");
+					break;
+				}
+				
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
 				dbm.releaseConnection(conn1);
 				System.out.println("inhalttext");
+			} catch(PSQLException e){
+				response.setStatus(HttpServletResponse.SC_CONFLICT);
+				response.getWriter().println("Fehlerhafte Datei");
+				e.printStackTrace();
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			} catch(SQLException e){
 				e.printStackTrace();
+			
 			}
-
 			System.out.println("TXT - Datei wurde in Text umgewandelt -> Weitergeben an DB (Achtung, keine Metadaten vorhanden)");
 			break; 
 		}
@@ -178,10 +196,10 @@ public class UploadServlet extends HttpServlet {
 		case "DOC"  :{
 
 			DocLesen docL = new DocLesen();
-			String inhalttext = docL.lesenDoc(pfad+dateiname);
 
-			//TODO alles ausbessern
 			try {
+				String inhalttext = docL.lesenDoc(pfad+dateiname);
+				
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
@@ -211,8 +229,11 @@ public class UploadServlet extends HttpServlet {
 				e.printStackTrace();
 			} catch(SQLException e){
 				e.printStackTrace();
+			} catch(IllegalArgumentException e){
+				response.setStatus(HttpServletResponse.SC_CONFLICT);
+				response.getWriter().println("Fehlerhafte Datei");
+				e.printStackTrace();
 			}
-
 
 			System.out.println("Doc - Datei wurde in Text umgewandelt -> Weitergeben an DB");
 			break; 
@@ -221,11 +242,12 @@ public class UploadServlet extends HttpServlet {
 		case "DOCX"  :{
 
 			DocxLesen docxL = new DocxLesen();
-			String inhalttext = docxL.lesenDocx(pfad+dateiname);
 			
-			System.out.println("Inhalttext in Dokument: "+inhalttext);
-
 			try {
+				
+				String inhalttext = docxL.lesenDocx(pfad+dateiname);
+				System.out.println("Inhalttext in Dokument: "+inhalttext);
+				
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
@@ -250,11 +272,18 @@ public class UploadServlet extends HttpServlet {
 				
 				dbm.releaseConnection(conn1);
 				System.out.println("inhalttext");
+				
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			} catch(SQLException e){
+				e.printStackTrace();
+			} catch(NotOfficeXmlFileException e){
+				response.setStatus(HttpServletResponse.SC_CONFLICT);
+				response.getWriter().println("Fehlerhafte Datei");
+				e.printStackTrace();
+			}catch(IllegalArgumentException e) {
 				e.printStackTrace();
 			}
 
@@ -267,17 +296,20 @@ public class UploadServlet extends HttpServlet {
 			System.out.println("Datei kann nicht gespeichert werden, Dateityp "+ dateityp +"wird nicht unterstützt");
 		}
 
-
-
+		}
+		try {
+			
+			System.out.println("Is writeable: "+Files.isWritable(Paths.get(pfad+dateiname)));
+			System.out.println("IS: "+Files.exists(Paths.get(pfad+dateiname)));
+			Files.deleteIfExists(Paths.get(pfad+dateiname));
+			
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
-		System.out.println("Is writeable: "+Files.isWritable(Paths.get(pfad+dateiname)));
-		System.out.println("IS: "+Files.exists(Paths.get(pfad+dateiname)));
-		
-		Files.deleteIfExists(Paths.get(pfad+dateiname));
 	
 	}
-
+	
 	private void uploader(InputStream fileContent, String dateiname,int nummer){
 
 		String pfad = getInitParameter("Pfad");

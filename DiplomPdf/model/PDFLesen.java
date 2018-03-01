@@ -8,13 +8,14 @@ import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 
 public class PDFLesen {
 	
-	private PDFParser parser;
-	private PDFTextStripper pdfStripper;
-	private PDDocument pdDoc ;
-	private COSDocument cosDoc ;
+//	private PDFParser parser;
+//	private PDFTextStripper pdfStripper;
+//	private PDDocument pdDoc ;
+//	private COSDocument cosDoc ;
 //	private String Text ;
 	private String autor ;
 	private String date ;
@@ -25,10 +26,10 @@ public class PDFLesen {
 	public String text = "text";
 	
 	public String pdfToText(String filePath) throws IOException {
-
-		this.pdfStripper = null;
-		this.pdDoc = null;
-		this.cosDoc = null;
+		PDFParser parser = null;
+		PDFTextStripper pdfStripper = null;
+		PDDocument pdDoc = null;
+		COSDocument cosDoc = null;
 
 		file = new File(filePath);
 		RandomAccessFile f = new RandomAccessFile(file,"r");
@@ -50,14 +51,8 @@ public class PDFLesen {
 		pdfStripper.setEndPage(pdDoc.getNumberOfPages());
 
 		text = pdfStripper.getText(pdDoc);
-		
-		cosDoc.close();
-		pdDoc.close();
-		f.close();
 			
-		this.pdfStripper = null;
-		this.pdDoc = null;
-		this.cosDoc = null;
+		releaseRessoruces(parser, pdfStripper, pdDoc, cosDoc, f);
 	
 		System.out.println("--------------- TEXT aus PDFLesen: -------------");
 		System.out.println(text);
@@ -65,6 +60,26 @@ public class PDFLesen {
 		
 		return text;
 	}
+	
+	public void releaseRessoruces(PDFParser p, PDFTextStripper pdfStripper, PDDocument pdDoc , COSDocument cosDoc, RandomAccessFile f) {
+	
+		try {
+			cosDoc.close();
+			pdDoc.close();
+			f.close();
+			
+			p = null;
+			pdfStripper = null;
+			pdDoc = null;
+			cosDoc = null;
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	private String convDatum(Calendar cal){
 
@@ -82,10 +97,15 @@ public class PDFLesen {
 		return date; 
 	}
 
-//	public static void main(String[] args) throws IOException { 
+//	public static void main(String[] args) { 
 //	
 //		PDFLesen pdfL = new PDFLesen();
-//		pdfL.pdfToText("C:\\Users\\Sara\\Desktop\\AbschlussberichtGr3.pdf");
+//		try {
+//			pdfL.pdfToText("C://Users//Sara//Dropbox//Diplomarbeit//KillerDoc.pdf");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 //
 //	}
 }

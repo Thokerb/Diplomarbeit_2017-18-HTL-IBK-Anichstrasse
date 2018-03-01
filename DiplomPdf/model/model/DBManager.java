@@ -138,15 +138,13 @@ public class DBManager {
 			pstmt.setString(9, date);
 			pstmt.setString(10, getaktuellesDatum());
 			pstmt.setBinaryStream(11, fis, (int)filePart.getSize());
-
-
 			pstmt.executeUpdate();
 
 			pstmt.close();pstmt=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			erfolg = false;
-		}catch (IOException e1) {
+		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		return erfolg;
