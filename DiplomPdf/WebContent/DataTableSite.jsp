@@ -149,8 +149,6 @@ if(session.getAttribute("user") == null){
 			this.on("complete",function(file){
 				console.log("complete");
 				refreshtables();
-
-				
 				
 			});
 			this.on("uploadprogress",function(file,progress,bytesSent){

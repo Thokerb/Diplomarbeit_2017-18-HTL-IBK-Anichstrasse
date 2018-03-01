@@ -204,6 +204,7 @@ public class UploadServlet extends HttpServlet {
 				
 				dbm.releaseConnection(conn1);
 				System.out.println("inhalttext");
+				
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
