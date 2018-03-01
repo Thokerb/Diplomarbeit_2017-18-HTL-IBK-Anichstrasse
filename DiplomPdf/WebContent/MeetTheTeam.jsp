@@ -10,6 +10,24 @@
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<link rel="apple-touch-icon" sizes="57x57" href="Icons/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="Icons/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="Icons/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="Icons/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="Icons/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="Icons/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="Icons/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="Icons/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="Icons/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="Icons/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="Icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="Icons/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="Icons/favicon-16x16.png">
+<link rel="manifest" href="Icons/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="Icons/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
 <link rel="stylesheet" href="mttstyle.css"/>
 <link href='https://fonts.googleapis.com/css?family=Alfa Slab One' rel='stylesheet'>
 <title>EasyDoc - Das Team</title>

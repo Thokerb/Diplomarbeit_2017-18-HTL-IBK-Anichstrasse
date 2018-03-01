@@ -3,14 +3,34 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" href="stylesheet.css"></link>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Gelöschte Dokumente</title>
+
+<link rel="apple-touch-icon" sizes="57x57" href="Icons/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="Icons/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="Icons/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="Icons/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="Icons/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="Icons/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="Icons/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="Icons/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="Icons/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="Icons/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="Icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="Icons/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="Icons/favicon-16x16.png">
+<link rel="manifest" href="Icons/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="Icons/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
 
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Gelöschte Dokumente</title>
 
 <!-- font-awesome stylesheets -->
 <link rel="stylesheet"
@@ -54,7 +74,7 @@ if(session.getAttribute("user") == null){
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">EasyDoc</a>
+			<a class="navbar-brand" href="DataTableSite.jsp">EasyDoc</a>
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
@@ -94,6 +114,7 @@ if(session.getAttribute("user") == null){
 							<th>UploadDatum</th>
 							<th>DokumentDatum</th>
 							<th>Wiederherstellen</th>
+							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -161,7 +182,8 @@ if(session.getAttribute("user") == null){
 						{"data" : "DeleteDatum"},
 						{"data" : "UploadDatum"},
 						{"data" : "DokumentDatum"},
-						{"data" : "Wiederherstellen"}
+						{"data" : "Wiederherstellen"},
+						{"data" : "Delete"}
 					
 
 					],
@@ -174,9 +196,16 @@ if(session.getAttribute("user") == null){
 			        		"searchable": false
 			        	},
 			        	{
-			            "targets": -1,
+			            "targets": -2,
 			            "data": "null",
 			            "defaultContent": "<button class=\"whbutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Stelle dein Dokument wieder her\"><span class=\"glyphicon glyphicon-level-up\" ></span></button>"
+			        },
+			        {
+			            "targets": -1,
+			            "visible": true,
+			            "searchable": false,
+			            "data": "null",
+			            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
 			        },
 			        {
 			        	"targets": 1,
@@ -230,8 +259,8 @@ if(session.getAttribute("user") == null){
 
 			    	$.ajax({
 			    		method:"POST",
-			    		url:"RecoverServlet",
-			    		data: {toRecover: sourcetable}
+			    		url:"RecreateServlet",
+			    		data: {todelete: sourcetable}
 			    	})
 			    	.done(function(){
 			    		refreshtables();
@@ -264,6 +293,21 @@ if(session.getAttribute("user") == null){
 				var table = $("#datatable").DataTable();
 				table.draw();
 			}
+			
+		    $(".table tbody").on("click",".deletebutton",function(){
+				var sourcetable = getTableRow($(this));
+
+		    	//TODO: verena ändern AMK
+		    	$.ajax({
+		    		method:"POST",
+		    		url:"DeleteServlet",
+		    		data: {todelete: sourcetable}
+		    	})
+		    	.done(function(){
+		    		refreshtables();
+		    	})
+		    	
+		    });
 			  
 				
 				</script>

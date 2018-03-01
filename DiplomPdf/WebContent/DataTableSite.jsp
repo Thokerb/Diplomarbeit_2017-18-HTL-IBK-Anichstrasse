@@ -168,7 +168,8 @@ if(session.getAttribute("user") == null){
 		dictDefaultMessage : "Ziehe Dateien hierhin zum Hochladen",
 		dictFallbackMessage : "Dieser Browser wird leider nicht unterstützt",
 		dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "+ size + " MB",
-		dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
+		dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur .pdf,.doc,.docx und .txt Dateien unterstützt",
+		dictResponseError : "Es gab einen Fehler mit der Datei. Sie konnte leider nicht hochgeladen werden."
 
 	};
 	
@@ -514,7 +515,7 @@ if(session.getAttribute("user") == null){
 	    	$.ajax({
 	    		method:"POST",
 	    		url:"DeleteServlet",
-	    		data: {todelete: sourcetable}
+	    		data: {toshift: sourcetable}
 	    	})
 	    	.done(function(){
 	    		refreshtables();
