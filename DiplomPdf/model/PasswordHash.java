@@ -1,11 +1,18 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Random;
 
 public class PasswordHash{
 	
 	 static String passwordToHash = "sara";
 	 String generatedPassword = null;
+	 
+     SecureRandom random = new SecureRandom();
+     byte bytes[] = new byte[20];
+     
+//     random.nextBytes(bytes);
+//     random.
 	
     public static void main(String[] args){
     	

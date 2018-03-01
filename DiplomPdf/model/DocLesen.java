@@ -22,9 +22,7 @@ public class DocLesen {
 	static DateFormat formatter;
 	static String d; 
 	
-	public String lesenDoc(String filename){
-
-		try {
+	public String lesenDoc(String filename) throws IllegalArgumentException, FileNotFoundException, IOException{
 
 			FileInputStream fis = new FileInputStream(filename);		
 
@@ -47,22 +45,20 @@ public class DocLesen {
 
 			System.out.println("----------------ENDE DOC -----------------");
 
-			fis.close();
-			extractor.close();
-			
+			releaseRessoruces(fis, extractor);
+		
 			return text;
 
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Fehler! Datei konnte nicht gefunden werden");
+	}
+	
+	public void releaseRessoruces(FileInputStream fis, WordExtractor extractor) {
+		try {
+			fis.close();
+			extractor.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Fehler! Datei konnte nicht gelesen werden!");
-		}
-		return "Datei konnte nicht gelesen werden!";
-
+		}	
 	}
 	
 	public String getAutor() {
@@ -73,9 +69,15 @@ public class DocLesen {
 		return d; 
 	}
 
-//		public static void main(String[] args) {
-//			DocLesen l1 = new DocLesen();
-//			l1.lesenDoc("C://Users//Sara//Dropbox//Diplomarbeit//Doc.doc");
-//		}
+		public static void main(String[] args) {
+			DocLesen l1 = new DocLesen();
+			try {
+				l1.lesenDoc("C://Users//Sara//Dropbox//Diplomarbeit//KillerDoc.doc");
+				
+			} catch (IllegalArgumentException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	
 }

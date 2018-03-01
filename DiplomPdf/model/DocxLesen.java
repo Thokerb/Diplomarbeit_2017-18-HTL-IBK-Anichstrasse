@@ -3,6 +3,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
@@ -21,13 +23,11 @@ public class DocxLesen {
 	static DateFormat formatter;
 	static String d; 
 
-	public String lesenDocx(String filename){
+	public String lesenDocx(String filename) throws IOException {
 
 		FileInputStream fis;
 		XWPFWordExtractor oleTextExtractor;
 		
-		try {
-
 			fis = new FileInputStream(filename);
 			oleTextExtractor = new XWPFWordExtractor(new XWPFDocument(fis));
 			
@@ -46,24 +46,23 @@ public class DocxLesen {
 			System.out.println(d);
 			System.out.println("---------------- ENDE DOCX -----------------");
 
+			releaseRessoruces(oleTextExtractor, fis);
+			
+			return text; 
+	}
+
+	public void releaseRessoruces( XWPFWordExtractor oleTextExtractor,FileInputStream fis) {
+		try {
 			oleTextExtractor.close(); //os.filesystem.delete file, mit pfad
 			fis.close();
 			fis = null;
-			return text; 
-
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Fehler! Datei konnte nicht gefunden werden");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Fehler! Datei konnte nicht gelesen werden!");
-		}
-		
-		return "Achtung - Fehler! Datei Konnte nicht gelesen werden"; 
+		}	
 	}
-
+	
+	
 	public String getDatum() {
 		return d;
 	}
@@ -74,7 +73,12 @@ public class DocxLesen {
 
 //	public static void main(String[] args) {
 //		DocxLesen l1 = new DocxLesen();
-//		l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//TestfälleSara.docx");
+//		try {
+//			l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//KillerDOC.docx");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 //	}
 
 }

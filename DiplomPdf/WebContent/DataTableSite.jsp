@@ -170,8 +170,6 @@ if(session.getAttribute("user") == null){
 			this.on("complete",function(file){
 				console.log("complete");
 				refreshtables();
-
-				
 				
 			});
 			this.on("uploadprogress",function(file,progress,bytesSent){
@@ -536,7 +534,7 @@ if(session.getAttribute("user") == null){
 	    	$.ajax({
 	    		method:"POST",
 	    		url:"DeleteServlet",
-	    		data: {toshift: sourcetable}
+	    		data: {todelete: sourcetable}
 	    	})
 	    	.done(function(){
 	    		refreshtables();

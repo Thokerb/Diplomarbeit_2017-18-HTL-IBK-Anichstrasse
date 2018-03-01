@@ -29,7 +29,6 @@ public class DBManager {
 	static final String USER = "postgres";
 	static final String PASS = "password";
 	//private static String dbUrl = "jdbc:postgresql://localhost:5432/diplomarbeit?user=postgres&password=password";
-	static Statement stmt = null;
 	static PreparedStatement pstmt = null;
 	static ResultSet rs = null;
 
@@ -138,15 +137,13 @@ public class DBManager {
 			pstmt.setString(9, date);
 			pstmt.setString(10, getaktuellesDatum());
 			pstmt.setBinaryStream(11, fis, (int)filePart.getSize());
-
-
 			pstmt.executeUpdate();
 
 			pstmt.close();pstmt=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			erfolg = false;
-		}catch (IOException e1) {
+		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		return erfolg;
@@ -155,12 +152,9 @@ public class DBManager {
 	
 	public boolean writeDaten(Connection conn,Daten testzeile2){
 
-		InputStream fis;
-		String entscheidungshilfe=null;
-
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
-		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (dateiname, autor, uploader, inhalttext, stichworttext,tag,dateityp, uploaddatum, dokumentdatum,status,deletedatum, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (dateiname, autor, uploader, inhalttext, stichworttext, tag, dateityp, uploaddatum, dokumentdatum, status, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
 
 		//connection Aufbau
 		try {
@@ -197,8 +191,11 @@ public class DBManager {
 
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
-		String INSERT_DATA_SQL = "INSERT INTO geloeschtedaten (dateiname, autor, uploader, inhalttext, stichworttext,tag,dateityp, uploaddatum, dokumentdatum,status,deletedatum, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
+		String INSERT_DATA_SQL = "INSERT INTO geloeschtedaten (dateiname, autor, uploader, inhalttext, stichworttext, tag, dateityp, uploaddatum, dokumentdatum, status, blobdatei, deletedatum) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
 
+		
+		String date = getaktuellesDatum();
+		
 		//connection Aufbau
 		try {
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
@@ -213,7 +210,9 @@ public class DBManager {
 			pstmt.setString(9, testzeile2.getDokumentdatum());
 			pstmt.setString(10, testzeile2.getStatus());
 			pstmt.setBytes(11, testzeile2.getBlobdatei());
-			pstmt.setString(12, getaktuellesDatum());
+			pstmt.setString(12, date);
+			
+			System.out.println("Testzeile: "+testzeile2);
 			
 			pstmt.executeUpdate();
 
@@ -392,7 +391,7 @@ public class DBManager {
 		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor,deletedatum, uploaddatum, dokumentdatum, status from uploaddaten where uploader='"+sortierdings+"' order by "+spalte+" "+ reihung+";";
+		String READ_DATEN_AUTORASC="select loeschid, dateityp, dateiname, autor, deletedatum, uploaddatum, dokumentdatum from geloeschtedaten where uploader='"+sortierdings+"' order by "+spalte+" "+ reihung+";";
 
 		System.out.println(READ_DATEN_AUTORASC);
 		try {
@@ -403,7 +402,7 @@ public class DBManager {
 			{
 				String[] zeile = new String[10];
 				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 8; i++) {
+				for (int i = 0; i < 7; i++) {
 					zeile[i] = rs.getString(i+1);
 					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
 				}
@@ -427,7 +426,7 @@ public class DBManager {
 		Daten uploaddaten = new Daten();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select dateiname, autor, uploader, inhalttext, stichworttext,tag,dateityp, uploaddatum, dokumentdatum,status,deletedatum,blobdatei from geloeschtedaten where loeschid='"+id+"';";
+		String READ_DATEN_AUTORASC="select dateiname, autor, uploader, inhalttext, stichworttext, dateityp, status, tag, uploaddatum, dokumentdatum, blobdatei, deletedatum from geloeschtedaten where loeschid='"+id+"';";
 
 		System.out.println(READ_DATEN_AUTORASC);
 		try {
@@ -470,7 +469,7 @@ public class DBManager {
 		Daten uploaddaten = new Daten();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select dateiname, autor, uploader, inhalttext, stichworttext,tag,dateityp, uploaddatum, dokumentdatum,status,blobdatei from uploaddaten where loeschid='"+id+"';";
+		String READ_DATEN_AUTORASC="select dateiname, autor, uploader, inhalttext, stichworttext,tag,dateityp, uploaddatum, dokumentdatum,status,blobdatei from uploaddaten where uploadid='"+id+"';";
 
 		System.out.println(READ_DATEN_AUTORASC);
 		try {
@@ -484,11 +483,11 @@ public class DBManager {
 				String uploader=rs.getString(3);
 				String inhalttext=rs.getString(4);
 				String stichworttext=rs.getString(5);
-				String dateityp=rs.getString(6);
-				String status=rs.getString(7);
-				String tag=rs.getString(8);
-				String uploaddatum=rs.getString(9);
-				String dokumentdatum=rs.getString(10);
+				String tag=rs.getString(6);
+				String dateityp=rs.getString(7);
+				String uploaddatum=rs.getString(8);
+				String dokumentdatum=rs.getString(9);
+				String status=rs.getString(10);
 				byte[] blobdatei=rs.getBytes(11);
 				
 				uploaddaten=new Daten(dateiname,autor,uploader,inhalttext,stichworttext,dateityp,status,tag,uploaddatum,dokumentdatum,blobdatei);
@@ -1064,9 +1063,9 @@ public class DBManager {
 	}
 
 
-	public void Datenlöschen(Connection conn,int id,String tabelle)
+	public void Datenlöschen(Connection conn,int id,String tabelle,String spalte)
 	{
-		String SQL="delete from "+tabelle+" where uploaddaten.uploadid='"+id+"';";
+		String SQL="delete from "+tabelle+" where "+spalte+"='"+id+"';";
 
 		try {
 			pstmt = conn.prepareStatement(SQL);
@@ -1402,13 +1401,13 @@ public class DBManager {
 		}
 	}
 
-	public String getDateiinfo(int id,Connection con) {
+	public String getDateiinfo(int id,Connection con,String tabelle,String spalte) {
 		// TODO Auto-generated method stub
-		String SQL = "Select * from uploaddaten where uploadid = '"+id+"'";
+		String SQL = "Select * from "+tabelle+" where "+spalte+" = '"+id+"'";
 		String uploader = null;
 		try {
-			Statement ps = con.createStatement();
-			ResultSet rs = ps.executeQuery(SQL);
+			pstmt = con.prepareStatement(SQL);
+			rs = pstmt.executeQuery();
 			while(rs.next()){
 				 uploader = rs.getString("uploader");
 			}

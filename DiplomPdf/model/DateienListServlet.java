@@ -28,9 +28,15 @@ public class DateienListServlet extends HttpServlet {
 
 		String[] namen = new String[0];
 		HttpSession ses = request.getSession(false);
+		String username = null;
 		
-		String username = (String) ses.getAttribute("user"); //Username wird vom vorherigen Servlet genommen
-				
+		if(ses.getAttribute("user") == null){
+			response.sendRedirect("Login.jsp");
+		}else {
+			 username = (String) ses.getAttribute("user"); //Username wird vom vorherigen Servlet genommen
+		}
+			
+		
 						int anzahl=0;
 						try {
 							DBManager dbm=new DBManager();

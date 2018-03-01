@@ -260,7 +260,7 @@ if(session.getAttribute("user") == null){
 			    	$.ajax({
 			    		method:"POST",
 			    		url:"RecreateServlet",
-			    		data: {todelete: sourcetable}
+			    		data: {toshift: sourcetable}
 			    	})
 			    	.done(function(){
 			    		refreshtables();
@@ -300,8 +300,8 @@ if(session.getAttribute("user") == null){
 		    	//TODO: verena ändern AMK
 		    	$.ajax({
 		    		method:"POST",
-		    		url:"DeleteServlet",
-		    		data: {todelete: sourcetable}
+		    		url:"DeleteComServlet",
+		    		data: {tocomdelete: sourcetable}
 		    	})
 		    	.done(function(){
 		    		refreshtables();
