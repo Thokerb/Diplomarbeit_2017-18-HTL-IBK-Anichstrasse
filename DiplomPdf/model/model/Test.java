@@ -46,14 +46,17 @@ public class Test {
 
 	//date=convertDate("2017-11-25");
 	//writeDaten(testzeile);
-	
-	System.out.println("Test test test");
-			Connection conn=null;
-			List<Daten> list = null;
 		
-		try {
-			DBManager db = new DBManager();
-			conn=db.getConnection();
+		String date = DBManager.getaktuellesDatum();
+		System.out.println(date);
+	
+//	System.out.println("Test test test");
+//			Connection conn=null;
+//			List<Daten> list = null;
+//		
+//		try {
+//			DBManager db = new DBManager();
+//			conn=db.getConnection();
 
 			
 			
@@ -71,15 +74,15 @@ public class Test {
 //			System.out.println("yooooo: "+anzahl);
 //			System.out.println("Anzahl an Einträge zu Suchwort: "+daten.get(0)[0]);
 			
-			db.releaseConnection(conn);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch(SQLException e){
-			e.printStackTrace();
-		}
-		
+//			db.releaseConnection(conn);
+//		} catch (InstantiationException e) {
+//			e.printStackTrace();
+//		} catch (IllegalAccessException e) {
+//			e.printStackTrace();
+//		} catch(SQLException e){
+//			e.printStackTrace();
+//		}
+//		
 
 		
 //		GregorianCalendar now = new GregorianCalendar(); 

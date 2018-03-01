@@ -515,7 +515,7 @@ if(session.getAttribute("user") == null){
 	    	$.ajax({
 	    		method:"POST",
 	    		url:"DeleteServlet",
-	    		data: {toshift: sourcetable}
+	    		data: {todelete: sourcetable}
 	    	})
 	    	.done(function(){
 	    		refreshtables();

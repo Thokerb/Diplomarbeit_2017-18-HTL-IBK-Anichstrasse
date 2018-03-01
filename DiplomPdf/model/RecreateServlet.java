@@ -29,44 +29,57 @@ public class RecreateServlet extends HttpServlet {
      */
     public RecreateServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String todelete = request.getParameter("todelete");
-		System.out.println("todelete: "+todelete);
+		String toshift = request.getParameter("toshift");
+		System.out.println("toshift: "+toshift);
 		
 		Gson gsn = new Gson();
 		JsonObject jobj; 
 
-		jobj = gsn.fromJson(todelete, JsonObject.class);
+		jobj = gsn.fromJson(toshift, JsonObject.class);
 		String idObj = jobj.get("ID").getAsString();
 		int id = Integer.parseInt(idObj);
-		System.out.println("todeleted:"+id);
-		String autor = jobj.get("Autor").getAsString();
+		System.out.println("toshift:"+id);
 		HttpSession ses = request.getSession(false);
 		String username = (String) ses.getAttribute("user"); //Username wird vom vorherigen Servlet genommen
 		
+		DBManager db;
+		String uploader = null;
+		try {
+			db = new DBManager();
+			Connection con = db.getConnection();
+			uploader = db.getDateiinfo(id, con,"geloeschteDaten","loeschid");
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Daten uploaddaten = new Daten();
 
-		if(username.equals(autor)){
+		System.out.println("Uploader: "+uploader+ " Username: "+username);
+		if(username.equals(uploader)){
 			try {				
-				DBManager db = new DBManager();
+				db = new DBManager();
 				Connection conn=db.getConnection();
 				uploaddaten=db.readgeloeschteDatei(conn,id);
-				db.Datenlöschen(conn,id,"geloeschtedaten");
 				db.writeDaten(conn, uploaddaten);
+				db.Datenlöschen(conn,id,"geloeschtedaten","loeschid");
 			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

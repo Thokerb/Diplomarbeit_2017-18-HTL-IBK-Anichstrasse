@@ -3,23 +3,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import model.DBManager;
-import model.Daten;
 
 
 /**
@@ -78,7 +71,6 @@ public class DataTableServlet extends HttpServlet {
 		order_art = request.getParameter("order[0][dir]");
 
 		String sortierparameter=order+order_art;
-		String anzahlsuch="";
 
 		System.out.println(order+order_art);
 
@@ -91,9 +83,7 @@ public class DataTableServlet extends HttpServlet {
 		 * Hier sollte je nach dem welcher button zum sortieren der Daten die Antwort anders sein, sortierparameter einstellen
 		 */
 
-		String sortierspalte="";
 		String sortierdings="";
-		String methode="";
 		if(table.equals("table1"))
 		{
 			sortierdings=username;
@@ -316,7 +306,6 @@ public class DataTableServlet extends HttpServlet {
 		System.out.println("lÄnGeee: "+laenge);
 		System.out.println("wert: "+wh);
 
-		int total=wh-1;
 		String antwort=" ";
 
 		JsonObject all = new JsonObject();
@@ -354,7 +343,7 @@ public class DataTableServlet extends HttpServlet {
 			for(int i=startwert;i<=wh;i++)
 			{
 
-				antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
+				//antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
 				JsonObject test = new JsonObject();
 				test.addProperty("ID", daten.get(i)[0]);
 				test.addProperty("DateiTyp", daten.get(i)[1]);
@@ -376,7 +365,7 @@ public class DataTableServlet extends HttpServlet {
 			for(int i=startwert;i<=wh;i++)
 			{
 
-				antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Uploader\":\""+daten.get(i)[3]+"\",\"Autor\":\""+daten.get(i)[4]+"\",\"UploadDatum\":\""+daten.get(i)[5]+"\",\"DokumentDatum\":\""+daten.get(i)[6]+"\",\"ZUGANG\":\""+daten.get(i)[7]+"\"}";
+				//antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Uploader\":\""+daten.get(i)[3]+"\",\"Autor\":\""+daten.get(i)[4]+"\",\"UploadDatum\":\""+daten.get(i)[5]+"\",\"DokumentDatum\":\""+daten.get(i)[6]+"\",\"ZUGANG\":\""+daten.get(i)[7]+"\"}";
 
 				JsonObject test = new JsonObject();
 				test.addProperty("ID", daten.get(i)[0]);
