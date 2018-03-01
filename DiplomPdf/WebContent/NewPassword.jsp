@@ -55,8 +55,8 @@
 					<div class="form-group">
 						<div class="input-group">
 							<input class="form-control" type="password" data-minlength="8"
-								data-maxlength="20" id="pwinput" name="password"
-								data-minlength-error="Passwort muss mindestens 8 Zeichen haben"
+								data-maxlength="16" id="pwinput" name="password"
+								data-minlength-error="Passwort muss mindestens 8 Zeichen haben" data-maxlength-error="Das Passwort darf maximal 16 Zeichen besitzen."
 								required> <span class="input-group-btn">
 								<button class="btn-link btnpw form-control" type="button"
 									id="unmaskbtn">
@@ -190,7 +190,7 @@
 														var input = $("#pwinput");
 														var pw = input.val();
 														input
-																.replaceWith("<input type=\"text\" name=\"password\" data-maxlength=\"20\" id=\"pwinput\" placeholder=\"Passwort\" data-minlength=\"8\" class=\"form-control\" value=\""+pw+"\" required>");
+																.replaceWith("<input type=\"text\" name=\"password\" data-minlength-error=\"Passwort muss mindestens 8 Zeichen haben\" data-maxlength=\"16\" id=\"pwinput\" placeholder=\"Passwort\" data-minlength=\"8\" data-maxlength-error=\"Das Passwort darf maximal 16 Zeichen besitzen.\" class=\"form-control\" value=\""+pw+"\" required>");
 														$(this)
 																.html(
 																		"<span class=\"glyphicon glyphicon-eye-close\"></span>")
@@ -206,7 +206,7 @@
 														var input = $("#pwinput");
 														var pw = input.val();
 														input
-																.replaceWith("<input type=\"password\" name=\"password\" data-maxlength=\"20\" id=\"pwinput\" class=\"form-control\" data-minlength=\"8\" placeholder=\"Passwort\" value=\""+pw+"\" required>");
+																.replaceWith("<input type=\"password\" data-minlength-error=\"Passwort muss mindestens 8 Zeichen haben\" data-maxlength-error=\"Das Passwort darf maximal 16 Zeichen besitzen.\" name=\"password\" data-maxlength=\"16\" id=\"pwinput\" class=\"form-control\" data-minlength=\"8\" placeholder=\"Passwort\" value=\""+pw+"\" required>");
 														$(this)
 																.html(
 																		"<span class=\"glyphicon glyphicon-eye-open\"></span>");

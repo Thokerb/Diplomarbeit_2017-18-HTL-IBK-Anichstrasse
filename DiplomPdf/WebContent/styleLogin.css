@@ -54,7 +54,7 @@ body {
 	border-width: 2px;
 	border-color: black;
 	border-radius: 10px;
-	max-width: 250px;
+	max-width: 200px;
 }
 
 @media(max-width:768px){
