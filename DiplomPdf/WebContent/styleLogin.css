@@ -50,4 +50,16 @@ body {
 
 .imglogo {
 	text-align: center;
+	border-style: solid;
+	border-width: 2px;
+	border-color: black;
+	border-radius: 10px;
+	max-width: 250px;
 }
+
+@media(max-width:768px){
+	.imglogo{
+	max-width: 150px;
+	}
+	}
+	

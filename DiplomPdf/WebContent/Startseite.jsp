@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EasyDoc</title>
 <meta charset="utf-8">
-
+<link rel="icon" href="Images/logov4.svg">
 <link rel="stylesheet" href="styleStartseite.css">
 <link rel="stylesheet" href="StyleHeroImage.css">
 <link rel="stylesheet"
@@ -27,7 +27,7 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">EasyDoc</a>
+					<a class="navbar-brand" href="Startseite.jsp">EasyDoc</a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
