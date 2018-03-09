@@ -15,7 +15,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
  * Verwendet dabei die Apache POI Library, welche im Builthpath eingebettet ist 
  */
 
-public class DocxLesen { 	
+public class DocxLesen implements IStrategy { 	
 	
 	static String text = null;
 	static String aut = null; 
@@ -23,7 +23,7 @@ public class DocxLesen {
 	static DateFormat formatter;
 	static String d; 
 
-	public String lesenDocx(String filename) throws IOException {
+	public String textAuslesen(String filename) throws IOException {
 
 		FileInputStream fis;
 		XWPFWordExtractor oleTextExtractor;

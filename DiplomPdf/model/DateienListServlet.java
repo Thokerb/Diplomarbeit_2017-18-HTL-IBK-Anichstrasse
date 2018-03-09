@@ -35,7 +35,6 @@ public class DateienListServlet extends HttpServlet {
 		}else {
 			 username = (String) ses.getAttribute("user"); //Username wird vom vorherigen Servlet genommen
 		}
-			
 		
 						int anzahl=0;
 						try {
