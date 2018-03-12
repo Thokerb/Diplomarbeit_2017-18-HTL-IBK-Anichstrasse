@@ -176,6 +176,27 @@ public class GeloeschteDatenServlet extends HttpServlet {
 
 			case "4desc"  :{
 
+				daten=db.geloeschteDaten(conn,sortierdings,"deletedatum","DESC");
+
+				for(int i=0;i<daten.size();i++)
+				{
+					System.out.println(daten.get(i)[1]);
+				}
+				break; 
+			}
+			case "5asc"  :{
+
+				daten=db.geloeschteDaten(conn,sortierdings,"deletedatum","ASC");
+
+				for(int i=0;i<daten.size();i++)
+				{
+					System.out.println(daten.get(i)[1]);
+				}
+				break; 
+			}
+
+			case "5desc"  :{
+
 				daten=db.geloeschteDaten(conn,sortierdings,"uploaddatum","DESC");
 
 				for(int i=0;i<daten.size();i++)
@@ -185,7 +206,7 @@ public class GeloeschteDatenServlet extends HttpServlet {
 				break; 
 			}
 
-			case "5asc"  :{
+			case "6asc"  :{
 
 				daten=db.geloeschteDaten(conn,sortierdings,"dokumentdatum","ASC");
 
@@ -197,7 +218,7 @@ public class GeloeschteDatenServlet extends HttpServlet {
 				break; 
 			}
 
-			case "5desc"  :{
+			case "6desc"  :{
 
 				daten=db.geloeschteDaten(conn,sortierdings,"dokumentdatum","DESC");
 

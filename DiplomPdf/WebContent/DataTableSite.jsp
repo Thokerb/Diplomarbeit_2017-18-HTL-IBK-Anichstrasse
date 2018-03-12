@@ -500,14 +500,15 @@ if(session.getAttribute("user") == null){
 
             
 			var sourcetable = getTableRow($(this));
-	 
+	 		var newsourcetable = encodeURIComponent(sourcetable);
+	 		alert(newsourcetable);
 			console.log(sourcetable);
 			
 		  //   	var xhttp = new XMLHttpRequest();
 			/**
 			** TODO änderung vom tom
 			**/
-			window.location="DownloadServlet?download="+sourcetable;
+			window.location="DownloadServlet?download="+newsourcetable;
 			
 			
 		  //   	var xhttp = new XMLHttpRequest();

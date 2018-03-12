@@ -67,14 +67,11 @@ public class DeleteServlet extends HttpServlet {
 
 		if(username.equals(uploader)){
 			try {
-				System.out.println("PENIS PENIS PENIS");
-
 				DBManager db1 = new DBManager();
 				Connection conn=db1.getConnection();
 				uploaddaten=db1.readzuloeschendeDatei(conn,id);
 				db1.writegeloeschteDaten(conn, uploaddaten);
 				db1.Datenlöschen(conn,id,"uploaddaten","uploadid");
-				System.out.println("PENIS PENIS PENSI");
 
 			} catch (InstantiationException e) {
 				e.printStackTrace();

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URISyntaxException;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -153,8 +154,10 @@ public class DownloadServlet extends HttpServlet {
 //out close ?
 		
 		String antwort = request.getParameter("download");
-		System.out.println("DownloadRequest: "+antwort);
+		System.out.println(antwort);
 
+
+		System.out.println("DownloadRequest: "+antwort);
 		Gson gsn = new Gson();
 		JsonObject jobj; 
 

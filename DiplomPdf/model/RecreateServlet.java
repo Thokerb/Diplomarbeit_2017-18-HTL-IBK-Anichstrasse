@@ -55,13 +55,10 @@ public class RecreateServlet extends HttpServlet {
 			Connection con = db.getConnection();
 			uploader = db.getDateiinfo(id, con,"geloeschteDaten","loeschid");
 		} catch (InstantiationException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
