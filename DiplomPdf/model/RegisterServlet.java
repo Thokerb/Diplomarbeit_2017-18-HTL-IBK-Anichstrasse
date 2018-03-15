@@ -51,12 +51,15 @@ public class RegisterServlet extends HttpServlet {
 		
 		response.setContentType("text/html");  
 		boolean registerok = false;
+		
+		DBManager m = null;
+		Connection conn = null;
 
 		if(pwdIsValid(pwd) && usernIsValid(username)) {
 			if(userDB(username) == false) {
 				try {
-					DBManager m = new DBManager();
-					Connection conn = m.getConnection();
+					m = new DBManager();
+					conn = m.getConnection();
 					
 					String hashpw = pwh.passwordToHash(pwd);
 					System.out.println("Hash: "+ hashpw);
@@ -64,19 +67,17 @@ public class RegisterServlet extends HttpServlet {
 					m.RegisterBenutzer(conn,username, email, hashpw);
 					code = 0;
 				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ClassNotFoundException e) {
 					code = 1;
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
 					code = 3;
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} finally {
+					m.releaseConnection(conn);
 				}
 			}
 
@@ -156,19 +157,16 @@ public class RegisterServlet extends HttpServlet {
 	}
 
 	public static boolean userDB(String username) {
+		
+		DBManager db = null;
+		Connection conn = null;
+		
 		boolean userDB = false; 
 		try {
-			DBManager dbm = new DBManager();
-			Connection conn = dbm.getConnection();
+			db = new DBManager();
+			conn = db.getConnection();
 
-			try {
-				Class.forName(JDBC_DRIVER);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				
-			}
-			if( dbm.getUser(conn, username) != null) {
+			if( db.getUser(conn, username) != null) {
 				System.out.println("Username "+ username +" darf nicht verwendet werden, er existiert bereits!");
 				userDB = true; 
 				return userDB;
@@ -179,14 +177,13 @@ public class RegisterServlet extends HttpServlet {
 				return userDB;
 			}
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		} finally {
+			db.releaseConnection(conn);
 		}
 		return userDB; 
 	}

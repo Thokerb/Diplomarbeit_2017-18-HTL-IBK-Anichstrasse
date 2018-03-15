@@ -48,9 +48,13 @@ public class DeleteComServlet extends HttpServlet {
 		String idObj = jobj.get("ID").getAsString();
 		int id = Integer.parseInt(idObj);
 		System.out.println("tocomdelete:"+id);
+		
+		DBManager db = null;
+		Connection conn = null;
+		
 		try {
-			DBManager db = new DBManager();
-			Connection conn=db.getConnection();
+			db = new DBManager();
+			conn=db.getConnection();
 			db.Datenlöschen(conn, id, "geloeschtedaten","loeschid");
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
@@ -61,6 +65,8 @@ public class DeleteComServlet extends HttpServlet {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			db.releaseConnection(conn);
 		}
 
 	}

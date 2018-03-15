@@ -33,18 +33,19 @@ public class LoginServlet extends HttpServlet {
 		
 		boolean anmeldung; 
 		// Datenbank abfrage von Benutzer normal
+		DBManager dbm = null;
+		Connection conn = null;
 		try {
-			DBManager dbm=new DBManager();
-			Connection conn1=dbm.getConnection();
+			dbm=new DBManager();
+			conn=dbm.getConnection();
 			
-		if(DBManager.checkUser(conn1, username, hashpw) || username.equals("user") && pwd.equals("1234"))
+		if(DBManager.checkUser(conn, username, hashpw) || username.equals("user") && pwd.equals("1234"))
 		{
 			System.out.println("Anmeldung erfolgreich");
 			HttpSession session = request.getSession();  
 			session.setAttribute("user",username);  
 			response.sendRedirect("DataTableSite.jsp");
 			anmeldung = true; 
-			dbm.releaseConnection(conn1);
 
 		}else{
 
@@ -61,6 +62,8 @@ public class LoginServlet extends HttpServlet {
 			e.printStackTrace();
 		} catch(SQLException e){
 			e.printStackTrace();
+		} finally {
+			dbm.releaseConnection(conn);
 		}
 
 	}

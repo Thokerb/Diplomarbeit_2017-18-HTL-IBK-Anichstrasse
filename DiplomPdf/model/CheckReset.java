@@ -47,9 +47,11 @@ public class CheckReset extends HttpServlet {
 		System.out.println("empf code:"+Hashcode);
 		
 		Boolean check = false;
+		DBManager dbm = null;
+		Connection conn = null;
 		try {
-			DBManager dbm = new DBManager();
-			Connection conn=dbm.getConnection();
+			dbm = new DBManager();
+			conn=dbm.getConnection();
 			 check = dbm.CodeCheck(conn,Hashcode);
 
 		} catch (InstantiationException e) {
@@ -61,6 +63,8 @@ public class CheckReset extends HttpServlet {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			dbm.releaseConnection(conn);
 		}
 		System.out.println(check);
 
@@ -71,13 +75,15 @@ public class CheckReset extends HttpServlet {
 			
 			String user = "";
 			try{
-				DBManager dbm=new DBManager();
-				Connection conn=dbm.getConnection();
+				dbm=new DBManager();
+				conn=dbm.getConnection();
 				user = dbm.getUserbyHash(conn,Hashcode);
 				System.out.println("Benutzer by Hash:" + user);
 			}
 			catch (Exception e) {
 				// TODO: handle exception
+			}finally{
+				dbm.releaseConnection(conn);
 			}
 			
 			session.setAttribute("username", user);

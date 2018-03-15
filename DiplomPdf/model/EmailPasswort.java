@@ -50,13 +50,13 @@ public class EmailPasswort extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("PasswordHelp.jsp");
 		String emailuser = "";
 		String user;
+		
+		DBManager db = null;
+		Connection conn = null;
 
 		try {
-			DBManager db = new DBManager();
-
-			Class.forName(JDBC_DRIVER);
-			Connection conn=db.getConnection();
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			db = new DBManager();
+			conn=db.getConnection();
 
 			emailuser = request.getParameter("email");
 			String checkUser = db.getUserByEmail(conn, emailuser);
@@ -104,18 +104,14 @@ public class EmailPasswort extends HttpServlet {
 				request.setAttribute("message", "Email kann nicht verwendet werden, Email nicht registriert!");
 				rd.include(request, response);
 			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			db.releaseConnection(conn);
 		}
 	}
 

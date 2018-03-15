@@ -56,18 +56,20 @@ public class PrivChangeServlet extends HttpServlet {
 		String username = (String) ses.getAttribute("user"); //Username wird schon vom vorherigen Servlet genommen
 
 		String uploader = null;
-		DBManager db;
-		Connection con;
+		DBManager db = null;
+		Connection conn = null;
 		try {
 			db = new DBManager();
-			con = db.getConnection();
-			uploader = db.getDateiinfo(id, con,"uploaddaten","uploadid");
+			conn = db.getConnection();
+			uploader = db.getDateiinfo(id, conn,"uploaddaten","uploadid");
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
+		} finally {
+			db.releaseConnection(conn);
 		}
 		
 		System.out.println(uploader+"|"+username);
@@ -76,12 +78,14 @@ public class PrivChangeServlet extends HttpServlet {
 			DBManager dbm;
 			try {
 				dbm = new DBManager();
-				Connection conn=dbm.getConnection();
+				conn=dbm.getConnection();
 				dbm.UpdateStatus(conn, id, status);
 				
 				dbm.releaseConnection(conn);
 			} catch (InstantiationException | IllegalAccessException | SQLException e) {
 				e.printStackTrace();
+			} finally {
+				db.releaseConnection(conn);
 			}
 		}
 		else{

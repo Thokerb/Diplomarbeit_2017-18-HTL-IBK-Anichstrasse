@@ -40,7 +40,6 @@ public class TextdateiLesen {
 		 try {
 			 fisTargetFile.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -62,10 +61,8 @@ public class TextdateiLesen {
 		try {
 			l1.textdateiLesen("C://Users//Sara//Dropbox//Diplomarbeit//Text.txt");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (PSQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		l1.getDatum();

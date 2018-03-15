@@ -167,19 +167,21 @@ public class DownloadServlet extends HttpServlet {
 		System.out.println("ID: "+ idObj);
 		byte [] byteData = null;
 		
+		DBManager dbm = null;
+		Connection conn = null;
+		
 		try {
-			DBManager dbm = new DBManager();
-			Connection conn=dbm.getConnection();
+			dbm = new DBManager();
+			conn=dbm.getConnection();
 			byteData = dbm.BLOBauslesen(conn,idObj);
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			dbm.releaseConnection(conn);
 		}
 		
 	    response.setContentType("application/octet-stream");

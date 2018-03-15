@@ -49,29 +49,32 @@ public class DeleteServlet extends HttpServlet {
 
 		Daten uploaddaten = new Daten();
 
-		DBManager db;
+		DBManager db = null;
+		Connection conn = null;
 		String uploader = null;
 		try {
 			db = new DBManager();
-			Connection con = db.getConnection();
-			uploader = db.getDateiinfo(id, con,"uploaddaten","uploadid");
+			conn = db.getConnection();
+			uploader = db.getDateiinfo(id, conn,"uploaddaten","uploadid");
 		} catch (InstantiationException e1) {
 			e1.printStackTrace();
 		} catch (IllegalAccessException e1) {
 			e1.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			db.releaseConnection(conn);
 		}
 
 		System.out.println(username +"|"+ uploader);
 
 		if(username.equals(uploader)){
 			try {
-				DBManager db1 = new DBManager();
-				Connection conn=db1.getConnection();
-				uploaddaten=db1.readzuloeschendeDatei(conn,id);
-				db1.writegeloeschteDaten(conn, uploaddaten);
-				db1.Datenlöschen(conn,id,"uploaddaten","uploadid");
+				db = new DBManager();
+				conn=db.getConnection();
+				uploaddaten=db.readzuloeschendeDatei(conn,id);
+				db.writegeloeschteDaten(conn, uploaddaten);
+				db.Datenlöschen(conn,id,"uploaddaten","uploadid");
 
 			} catch (InstantiationException e) {
 				e.printStackTrace();
@@ -79,6 +82,8 @@ public class DeleteServlet extends HttpServlet {
 				e.printStackTrace();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			} finally{
+				db.releaseConnection(conn);
 			}
 		}
 		else{

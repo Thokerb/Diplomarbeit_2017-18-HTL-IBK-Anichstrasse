@@ -99,14 +99,14 @@ public class GeloeschteDatenServlet extends HttpServlet {
 		String methode="";
 		sortierdings=username;
 
-		//sortierparameter muss Spalte+ASC oder DESC sein
-		Connection conn=null;
-
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		int anzahl = 0;
+		
+		DBManager db = null;
+		Connection conn = null;
 
 		try {
-			DBManager db = new DBManager();
+			db = new DBManager();
 			conn=db.getConnection();
 
 			//list = db.readDaten(conn);
@@ -270,13 +270,14 @@ public class GeloeschteDatenServlet extends HttpServlet {
 				anzahl=db.AnzahlEinträge1(conn,spalte,spalteninhalt,"geloeschtedaten","loeschid");
 			}
 
-			db.releaseConnection(conn);
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch(SQLException e){
 			e.printStackTrace();
+		} finally {
+			db.releaseConnection(conn);
 		}
 
 

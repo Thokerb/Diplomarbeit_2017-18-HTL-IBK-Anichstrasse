@@ -62,7 +62,7 @@
     <init-param>
       <description>Der Pfad in welchen geuploadete Dateien gespeichert werden</description>
       <param-name>Pfad</param-name>
-      <param-value>C:/Temp/</param-value>
+      <param-value>/DiplomPdf/temp</param-value>
     </init-param>
     <multipart-config>
       <max-file-size>2097152</max-file-size>

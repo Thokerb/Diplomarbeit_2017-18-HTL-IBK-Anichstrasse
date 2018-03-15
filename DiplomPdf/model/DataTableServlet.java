@@ -91,15 +91,14 @@ public class DataTableServlet extends HttpServlet {
 
 		//sortierparameter muss Spalte+ASC oder DESC sein
 		Connection conn=null;
+		DBManager db = null;
 
 		ArrayList<String[]> daten = new ArrayList<String[]>();
 		int anzahl = 0;
 
 		try {
-			DBManager db = new DBManager();
+			db = new DBManager();
 			conn=db.getConnection();
-
-			//list = db.readDaten(conn);
 
 			if(search!=null&&!search.isEmpty())
 			{
@@ -287,13 +286,14 @@ public class DataTableServlet extends HttpServlet {
 				anzahl=db.AnzahlEinträge1(conn,spalte,spalteninhalt,"uploaddaten","uploadid");
 			}
 
-			db.releaseConnection(conn);
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch(SQLException e){
 			e.printStackTrace();
+		}finally{
+			db.releaseConnection(conn);
 		}
 
 

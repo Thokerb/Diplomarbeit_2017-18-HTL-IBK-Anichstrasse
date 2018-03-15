@@ -57,7 +57,6 @@ public class DocxLesen {
 			fis.close();
 			fis = null;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 	}
@@ -76,7 +75,6 @@ public class DocxLesen {
 //		try {
 //			l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//KillerDOC.docx");
 //		} catch (IOException e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //	}

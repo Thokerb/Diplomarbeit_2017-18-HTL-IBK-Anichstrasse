@@ -75,20 +75,22 @@ public class UploadServlet extends HttpServlet {
 		HttpSession ses = request.getSession(false); //TODO: if 
 		String username = (String) ses.getAttribute("user"); 
 		
+		DBManager dbm = null;
+		Connection conn = null;
+		
 		if(overwrite){
 			try {
-				DBManager dbm = new DBManager();
-				Connection conn = dbm.getConnection();	//TODO: OVERWRITE TESTEN
+				dbm = new DBManager();
+				conn = dbm.getConnection();	//TODO: OVERWRITE TESTEN
 				dbm.deletebyname(dateiname,username,conn);
 			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} finally {
+				dbm.releaseConnection(conn);
 			}
 		}
 		
@@ -104,9 +106,9 @@ public class UploadServlet extends HttpServlet {
 				PDFLesen pdfL = new PDFLesen();
 				String inhalttext = pdfL.pdfToText(pfad+dateiname); 
 				
-				DBManager dbm=new DBManager();
-				Connection conn1=dbm.getConnection();
-				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
+				dbm=new DBManager();
+				conn=dbm.getConnection();
+				String stichworttext=dbm.Stichtextgenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				String[] daten =new String[7];
 				daten[0]="tag";
@@ -121,10 +123,9 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(conn1,daten,filePart,pdfL.getDatum());
+				DBManager.writeDaten(conn,daten,filePart,pdfL.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
-				dbm.releaseConnection(conn1);
 				System.out.println(inhalttext);
 			} catch (InstantiationException e) {
 				e.printStackTrace();
@@ -136,6 +137,8 @@ public class UploadServlet extends HttpServlet {
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 				response.getWriter().println("Fehlerhafte Datei");
 				e.printStackTrace();
+			} finally {
+				dbm.releaseConnection(conn);
 			}
 			System.out.println("PDF - Datei wurde in Text umgewandelt + Weitergabe an DB");
 			break;
@@ -150,9 +153,9 @@ public class UploadServlet extends HttpServlet {
 				TextdateiLesen txtL = new TextdateiLesen();
 				String inhalttext = txtL.textdateiLesen(pfad+dateiname);
 				
-				DBManager dbm = new DBManager();
-				Connection conn1 = dbm.getConnection();
-				String stichworttext = dbm.Stichtextgenerator(conn1,inhalttext);
+				dbm = new DBManager();
+				conn = dbm.getConnection();
+				String stichworttext = dbm.Stichtextgenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				String[] daten =new String[8];
 				daten[0]="tag";
@@ -167,7 +170,7 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				if(!DBManager.writeDaten(conn1,daten,filePart,txtL.getDatum())) {
+				if(!DBManager.writeDaten(conn,daten,filePart,txtL.getDatum())) {
 					response.setStatus(HttpServletResponse.SC_CONFLICT);
 					response.getWriter().println("Fehlerhafte Datei");
 					break;
@@ -175,7 +178,6 @@ public class UploadServlet extends HttpServlet {
 				
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
-				dbm.releaseConnection(conn1);
 				System.out.println("inhalttext");
 			} catch(PSQLException e){
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
@@ -187,7 +189,8 @@ public class UploadServlet extends HttpServlet {
 				e.printStackTrace();
 			} catch(SQLException e){
 				e.printStackTrace();
-			
+			} finally {
+				dbm.releaseConnection(conn);
 			}
 			System.out.println("TXT - Datei wurde in Text umgewandelt -> Weitergeben an DB (Achtung, keine Metadaten vorhanden)");
 			break; 
@@ -200,9 +203,9 @@ public class UploadServlet extends HttpServlet {
 			try {
 				String inhalttext = docL.lesenDoc(pfad+dateiname);
 				
-				DBManager dbm=new DBManager();
-				Connection conn1=dbm.getConnection();
-				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
+				dbm=new DBManager();
+				conn=dbm.getConnection();
+				String stichworttext=dbm.Stichtextgenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				String[] daten =new String[7];
 				daten[0]="tag";
@@ -217,10 +220,9 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(conn1,daten,filePart,docL.getDatum());
+				DBManager.writeDaten(conn,daten,filePart,docL.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
-				dbm.releaseConnection(conn1);
 				System.out.println("inhalttext");
 				
 			} catch (InstantiationException e) {
@@ -233,6 +235,8 @@ public class UploadServlet extends HttpServlet {
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 				response.getWriter().println("Fehlerhafte Datei");
 				e.printStackTrace();
+			} finally {
+				dbm.releaseConnection(conn);
 			}
 
 			System.out.println("Doc - Datei wurde in Text umgewandelt -> Weitergeben an DB");
@@ -248,9 +252,9 @@ public class UploadServlet extends HttpServlet {
 				String inhalttext = docxL.lesenDocx(pfad+dateiname);
 				System.out.println("Inhalttext in Dokument: "+inhalttext);
 				
-				DBManager dbm=new DBManager();
-				Connection conn1=dbm.getConnection();
-				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
+				dbm=new DBManager();
+				conn=dbm.getConnection();
+				String stichworttext=dbm.Stichtextgenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				//aus writeDaten: tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei
 				String[] daten =new String[7];
@@ -267,10 +271,9 @@ public class UploadServlet extends HttpServlet {
 					System.out.print("Gelesen wurde: ");
 					System.out.println(s);
 				}
-				DBManager.writeDaten(conn1,daten,filePart,docxL.getDatum());
+				DBManager.writeDaten(conn,daten,filePart,docxL.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
-				dbm.releaseConnection(conn1);
 				System.out.println("inhalttext");
 				
 			} catch (InstantiationException e) {
@@ -285,6 +288,8 @@ public class UploadServlet extends HttpServlet {
 				e.printStackTrace();
 			}catch(IllegalArgumentException e) {
 				e.printStackTrace();
+			} finally {
+				dbm.releaseConnection(conn);
 			}
 
 			System.out.println("Docx - Datei wurde in Text umgewandelt -> Weitergeben an DB");
@@ -319,18 +324,18 @@ public class UploadServlet extends HttpServlet {
 			Files.copy(fileContent, file.toPath());
 			System.out.println("Datei gespeichert. Sie war bisher "+nummer+" mal vorhanden");
 
-		}	
-		catch(Exception ex){
+		} catch (IOException e) {
 			System.out.println("ERROR DATEI BEREITS VORHANDEN");
+			e.printStackTrace();
 			nummer++;
 			uploader(fileContent, NamensNummerierer(dateiname,nummer),nummer);
-		}
+		}	
+
 		finally {
 			try {
 				fileContent.close();
 				fileContent = null;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

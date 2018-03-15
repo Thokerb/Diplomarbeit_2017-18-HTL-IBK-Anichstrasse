@@ -37,10 +37,13 @@ public class DateienListServlet extends HttpServlet {
 		}
 			
 		
+						DBManager dbm = null;
+						Connection conn = null;
 						int anzahl=0;
+						
 						try {
-							DBManager dbm=new DBManager();
-							Connection conn=dbm.getConnection();
+							dbm=new DBManager();
+							conn=dbm.getConnection();
 							anzahl=dbm.AnzahlEinträge(conn, username,"uploaddaten");
 				
 							if(anzahl != 0)
@@ -55,6 +58,8 @@ public class DateienListServlet extends HttpServlet {
 							e.printStackTrace();
 						} catch(SQLException e){
 							e.printStackTrace();
+						}finally{
+							dbm.releaseConnection(conn);
 						}
 						System.out.println("Kontrolle:");
 						for(int i=0;i<=anzahl-1;i++)

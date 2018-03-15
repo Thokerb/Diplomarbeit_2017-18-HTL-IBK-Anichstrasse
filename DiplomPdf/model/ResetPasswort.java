@@ -42,6 +42,9 @@ public class ResetPasswort extends HttpServlet {
 	
 		System.out.println("User: "+ username +" PW2: "+pw+" PW2: "+pw2);
 		
+		DBManager db = null;
+		Connection conn = null;
+		
 		if(auth.equalsIgnoreCase("yes")) {
 			if(pw.equals(pw2)) {
 				if(RegisterServlet.pwdIsValid(pw)) {
@@ -51,8 +54,8 @@ public class ResetPasswort extends HttpServlet {
 						String hashpw = pwh.passwordToHash(pw);
 						System.out.println("Hash: "+ hashpw);
 						
-						DBManager db = new DBManager();
-						Connection conn=db.getConnection();
+						db = new DBManager();
+						conn=db.getConnection();
 
 						db.PasswortNeuSetzen(conn, username,hashpw);
 
@@ -66,19 +69,19 @@ public class ResetPasswort extends HttpServlet {
 						RequestDispatcher rd = request.getRequestDispatcher("NewPassword.jsp");
 						rd.forward(request, response);
 						//TODO löschen des hash
-						DBManager m = new DBManager();
-						Connection conn2 = m.getConnection();
+//						DBManager m = new DBManager();
+//						Connection conn2 = m.getConnection();
 						
-						m.deletehash(conn2,username);
+						db.deletehash(conn,username);
 
 					}catch(SQLException e){
 						e.printStackTrace();
 					} catch (InstantiationException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} finally {
+						db.releaseConnection(conn);
 					}
 //					response.setContentType("text/plain");
 //					PrintWriter out = response.getWriter();

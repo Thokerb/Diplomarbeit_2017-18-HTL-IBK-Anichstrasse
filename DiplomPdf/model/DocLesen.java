@@ -56,7 +56,6 @@ public class DocLesen {
 			fis.close();
 			extractor.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 	}
@@ -75,7 +74,6 @@ public class DocLesen {
 				l1.lesenDoc("C://Users//Sara//Dropbox//Diplomarbeit//KillerDoc.doc");
 				
 			} catch (IllegalArgumentException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
