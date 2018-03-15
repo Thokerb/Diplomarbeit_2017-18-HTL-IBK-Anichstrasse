@@ -1,6 +1,8 @@
-
-
+import java.awt.event.TextEvent;
+import java.awt.event.TextListener;
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,39 +12,37 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 /**
- * Servlet implementation class DateienListServlet
+ * Servlet implementation class MeinServlet
  */
-public class DateienListServlet extends HttpServlet {
+//@WebServlet("/MeinServlet")
+public class MeinServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * Default constructor. 
 	 */
-	public DateienListServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public MeinServlet() {}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/**
-		 * Hier sollten von der Datenbank als String Array eine Liste mit den Name der bereits vorhandenen Dateien geschickt werden.
-		 * Für ein Beipsiel siehe String[] namen
-		 */
-
 		// TODO Auto-generated method stub
-		String[] namen = new String[2];
-		namen[0] = "schule.pdf";
-		namen[1] = "warum.pdf";
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		/**
+		 * veraltetes Servlet von index.html, welches Suchbegriffe von JSON auf String [] umwandelt
+		 * nicht relevant als Schnittstelle
+		 */
+		PrintWriter out  = response.getWriter();
+		String antwort = request.getParameter("answer");
+		System.out.println("Die Antwort: "+antwort);
 		Gson gson = new Gson();
-		String answer = gson.toJson(namen);
-
-		//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		response.setContentType("application/json");  
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(answer);
+		String[] begriffe;
+		begriffe = gson.fromJson(antwort, String[].class);
+		System.out.println("Hier sollte nicht null stehen: "+begriffe);
+		for(int i = 0;i<begriffe.length;i++){
+			System.out.println(begriffe[i]);
+		}
 	}
 
 	/**
@@ -52,5 +52,4 @@ public class DateienListServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

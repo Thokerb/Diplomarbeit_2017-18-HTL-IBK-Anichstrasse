@@ -1,9 +1,6 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
@@ -14,70 +11,39 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
  * Verwendet dabei die Apache POI Library, welche im Builthpath eingebettet ist 
  */
 
-public class DocLesen implements IStrategy {
+public class DocLesen {
 
-	static String text;
-	static String aut; 
-	static Date date; 
-	static DateFormat formatter;
-	static String d; 
-	
-	public String textAuslesen(String filename) throws IllegalArgumentException, FileNotFoundException, IOException{
+	public static String lesenDoc(String filename){
 
-			FileInputStream fis = new FileInputStream(filename);		
+		try {
+			System.out.println("Verwendete Datei: "+filename);  //Kontrolle
+//						FileInputStream fis = new FileInputStream("C://Users//Sara//Dropbox//Diplomarbeit//Doc.doc"); //testzweck
+			FileInputStream fis = new FileInputStream(filename); //allgemein		
 
 			HWPFDocument doc = new HWPFDocument(fis);
-			
-			aut = doc.getSummaryInformation().getAuthor();
-			date = doc.getSummaryInformation().getCreateDateTime();
-		
-	        formatter = new SimpleDateFormat("dd.MM.yyyy");
-	        d = formatter.format(date);
-			
 			WordExtractor extractor = new WordExtractor(doc);
 			String[] fileData = extractor.getParagraphText();
-			text = extractor.getText();
-			System.out.println("----------------- Text aus DOC Lesen: -----------------");
+			String text = extractor.getText();
 			System.out.println(text); 
-			System.out.println("----------------- INFO: -----------------");
-			System.out.println(aut);
-			System.out.println(d);
 
-			System.out.println("----------------ENDE DOC -----------------");
-
-			releaseRessoruces(fis, extractor);
-		
 			return text;
 
-	}
-	
-	public void releaseRessoruces(FileInputStream fis, WordExtractor extractor) {
-		try {
-			fis.close();
-			extractor.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Fehler! Datei konnte nicht gefunden werden");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
-	}
-	
-	public String getAutor() {
-		return aut; 
-	}
-	
-	public String getDatum() {
-		return d; 
+			System.out.println("Fehler! Datei konnte nicht gelesen werden!");
+		}
+		return "Datei konnte nicht gelesen werden!";
+
 	}
 
 //		public static void main(String[] args) {
 //			DocLesen l1 = new DocLesen();
-//			try {
-//				l1.textAuslesen("C://Users//Sara//Dropbox//Diplomarbeit//KillerDoc.doc");
-//				
-//			} catch (IllegalArgumentException | IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+//			l1.lesenDoc("C://Users//Sara//Dropbox//Diplomarbeit//Doc.doc");
 //		}
 	
 }

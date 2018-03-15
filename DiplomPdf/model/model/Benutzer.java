@@ -6,7 +6,7 @@ public class Benutzer {
 	String email;
 	String vorname;
 	String nachname;
-	String passwort;
+	int passwort;
 	
 	public String getBenutzername() {
 		return benutzername;
@@ -40,15 +40,15 @@ public class Benutzer {
 		this.nachname = nachname;
 	}
 	
-	public String getPasswort() {
+	public int getPasswort() {
 		return passwort;
 	}
 	
-	public void setPasswort(String passwort) {
+	public void setPasswort(int passwort) {
 		this.passwort = passwort;
 	}
 
-	public Benutzer(String benutzername, String email, String vorname, String nachname, String passwort) {
+	public Benutzer(String benutzername, String email, String vorname, String nachname, int passwort) {
 		super();
 		this.benutzername = benutzername;
 		this.email = email;
@@ -63,7 +63,7 @@ public class Benutzer {
 		this.email = " ";
 		this.vorname = " ";
 		this.nachname = " ";
-		this.passwort = " ";
+		//this.passwort = " ";
 	}
 
 	@Override
@@ -71,4 +71,7 @@ public class Benutzer {
 		return "Benutzer [benutzername=" + benutzername + ", email=" + email + ", vorname=" + vorname + ", nachname="
 				+ nachname + ", passwort=" + passwort + "]";
 	}
+	
+	
+	
 }

@@ -1,11 +1,7 @@
-/**
- * pw: htlanichstr bei email account
- */
+
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,56 +11,37 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.DBManager;
-
 //@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		PasswordHash pwh = new PasswordHash();
-		
-		String username = request.getParameter("username");
-		String pwd = request.getParameter("password");
-		System.out.println("Login als:"+username);
-		
-		String hashpw = pwh.passwordToHash(pwd);
-		System.out.println("Hash: "+ hashpw);
-		
-		boolean anmeldung; 
+		String username = request.getParameter("uname");
+		String pwd = request.getParameter("pass");
+
+
 		// Datenbank abfrage von Benutzer normal
-		try {
-			DBManager dbm=new DBManager();
-			Connection conn1=dbm.getConnection();
-			
-		if(DBManager.checkUser(conn1, username, hashpw) || username.equals("user") && pwd.equals("1234"))
+
+		if(AnmeldungValidate.checkUser(username, pwd) || username.equals("user") && pwd.equals("1234"))
 		{
-			System.out.println("Anmeldung erfolgreich");
-			HttpSession session = request.getSession();  
-			session.setAttribute("user",username);  
-			response.sendRedirect("DataTableSite.jsp");
-			anmeldung = true; 
-			dbm.releaseConnection(conn1);
-
+			RequestDispatcher rs = request.getRequestDispatcher("DataTableSite.jsp");
+			rs.forward(request,response);
 		}else{
-
-			String error = "Achtung! Username oder Password sind nicht korrekt";
-			System.out.println(error);
-			anmeldung = false; 
-			request.setAttribute("message","Bitte erneut versuchen!");
+			System.out.println("Achtung! Username oder Password stimmen nicht überein");
+			
+			PrintWriter out = response.getWriter();  
+			response.setContentType("text/html");  
+			out.println("<script type=\"text/javascript\">");  
+			out.println("alert('Achtung! Username oder Password stimmen nicht überein');");  
+			out.println("</script>");
+			
 			RequestDispatcher rs = request.getRequestDispatcher("Login.jsp");
-			rs.forward(request, response);
+			rs.include(request, response);
 		}
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch(SQLException e){
-			e.printStackTrace();
-		}
+
 
 	}
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
