@@ -24,8 +24,20 @@ public class LoginServlet extends HttpServlet {
 
 		if(AnmeldungValidate.checkUser(username, pwd) || username.equals("user") && pwd.equals("1234"))
 		{
+<<<<<<< HEAD
 			RequestDispatcher rs = request.getRequestDispatcher("DataTableSite.jsp");
 			rs.forward(request,response);
+=======
+			System.out.println("Anmeldung erfolgreich");
+			HttpSession session = request.getSession();  
+			session.setAttribute("user",username);  
+//			response.setContentType(arg0);
+			request.getRequestDispatcher("DataTableSite.jsp").forward(request, response);
+			//response.sendRedirect("DataTableSite.jsp");
+			anmeldung = true; 
+			dbm.releaseConnection(conn1);
+
+>>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
 		}else{
 			System.out.println("Achtung! Username oder Password stimmen nicht überein");
 			
