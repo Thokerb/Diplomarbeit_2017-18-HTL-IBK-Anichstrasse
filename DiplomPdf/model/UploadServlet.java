@@ -314,16 +314,17 @@ public class UploadServlet extends HttpServlet {
 
 		String pfad = getInitParameter("Pfad");
 		File file = createFile(pfad, dateiname);
-
+		System.out.println("sys prop:");
+		String d = 	System.getProperty("user.dir");
+		System.out.println(d);
 		try{
+			System.out.println(file.getAbsolutePath());
 			Files.copy(fileContent, file.toPath());
 			System.out.println("Datei gespeichert. Sie war bisher "+nummer+" mal vorhanden");
 
 		}	
-		catch(Exception ex){
-			System.out.println("ERROR DATEI BEREITS VORHANDEN");
-			nummer++;
-			uploader(fileContent, NamensNummerierer(dateiname,nummer),nummer);
+		catch(IOException ex){
+			ex.printStackTrace();
 		}
 		finally {
 			try {
@@ -338,6 +339,7 @@ public class UploadServlet extends HttpServlet {
 
 	private File createFile(String pfad, String name){
 		File uploads = new File(pfad);
+		uploads.mkdirs();
 		File file = new File(uploads, name);
 		return file;
 

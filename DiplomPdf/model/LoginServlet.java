@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
 			anmeldung = false; 
 			request.setAttribute("message","Bitte erneut versuchen!");
 			RequestDispatcher rs = request.getRequestDispatcher("Login.jsp");
-			rs.include(request, response);
+			rs.forward(request, response);
 		}
 		} catch (InstantiationException e) {
 			e.printStackTrace();

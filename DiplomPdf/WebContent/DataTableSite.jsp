@@ -203,7 +203,7 @@ if(session.getAttribute("user") == null){
             "processing" : true,
 			"serverSide" : true,
             "ajax" : {
-			"url" : '/DiplomPdf/DataTableServlet',
+			"url" : 'DataTableServlet',
 			"type" : 'POST',
 			"data" : function(act){
 				act.user = '${user}';
@@ -303,7 +303,7 @@ if(session.getAttribute("user") == null){
 	        			text = "<span class=\"fa fa-file-pdf-o icontype\" ></span>";
 	        			break;
 	        		case "TXT":
-	        			text = "<span class=\"fa fa-file-text-o	\" ></span>";
+	        			text = "<span class=\"fa fa-file-text-o icontype	\" ></span>";
 	        			break;
 	        		case "DOC":
 	        			text = "<span class=\"fa fa-file-word-o	 icontype\" ></span>";
@@ -348,7 +348,7 @@ if(session.getAttribute("user") == null){
 			"processing" : true,
 			"serverSide" : true,
             "ajax" : {
-			"url" : '/DiplomPdf/DataTableServlet',
+			"url" : 'DataTableServlet',
 			"data" : function(act){
 				act.user = '${user}';
 				act.table = 'table1';
@@ -500,14 +500,14 @@ if(session.getAttribute("user") == null){
 
             
 			var sourcetable = getTableRow($(this));
-	 
-			console.log(sourcetable);
+			var newsourcetable = encodeURIComponent(sourcetable);
+			console.log(newsourcetable);
 			
 		  //   	var xhttp = new XMLHttpRequest();
 			/**
 			** TODO änderung vom tom
 			**/
-			window.location="DownloadServlet?download="+sourcetable;
+			window.location="DownloadServlet?download="+newsourcetable;
 			
 			
 		  //   	var xhttp = new XMLHttpRequest();

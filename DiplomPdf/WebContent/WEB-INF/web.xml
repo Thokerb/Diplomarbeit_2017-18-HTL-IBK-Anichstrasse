@@ -4,6 +4,33 @@
   <welcome-file-list>
     <welcome-file>Startseite.jsp</welcome-file>
   </welcome-file-list>
+  <context-param>
+  <param-name>DB_USER1</param-name>
+  <param-value>postgres</param-value>
+  </context-param>
+    <context-param>
+  <param-name>DB_PASS1</param-name>
+  <param-value>password</param-value>
+  </context-param>
+    <context-param>
+  <param-name>DB_URL1</param-name>
+  <param-value>jdbc:postgresql://localhost:5432/diplomarbeit</param-value>
+  </context-param>
+    <context-param>
+  <param-name>DB_USER2</param-name>
+  <param-value>thoker</param-value>
+  </context-param>
+    <context-param>
+  <param-name>DB_PASS2</param-name>
+  <param-value>***REMOVED***</param-value>
+  </context-param>
+    <context-param>
+  <param-name>DB_URL2</param-name>
+  <param-value>jdbc:postgresql://diplomarbeit.c0s9hcwccign.us-west-2.rds.amazonaws.com:5432/diplomarbeit</param-value>
+  </context-param>
+  <listener>
+  <listener-class>MyAppListener</listener-class>
+  </listener>
   <error-page>
     <error-code>404</error-code>
     <location>/ErrorPage.html</location>
@@ -62,12 +89,12 @@
     <init-param>
       <description>Der Pfad in welchen geuploadete Dateien gespeichert werden</description>
       <param-name>Pfad</param-name>
-      <param-value>C:/Temp/</param-value>
+      <param-value>./temp/</param-value>
     </init-param>
     <multipart-config>
       <max-file-size>2097152</max-file-size>
       <max-request-size>2097152</max-request-size>
-      <file-size-threshold>1024</file-size-threshold>
+      <file-size-threshold>2097152</file-size-threshold>
     </multipart-config>
   </servlet>
   <servlet>
