@@ -2,17 +2,20 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import model.FunktionenDB;
-import model.HineinschreibenDB;
+import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
+import org.postgresql.util.PSQLException;
+
+import model.DBManager;
 
 /**
  * Servlet implementation class UploadServlet
@@ -23,160 +26,320 @@ import model.HineinschreibenDB;
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public UploadServlet() {
 		super();
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		//		begriffe = gson.fromJson(antwort, String[].class);
-
 		doPost(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/**
 		 * Aktuell wird die Datei temporär auf C:/Temp gespeichert --> später dann alles über DB
 		 * wenn boolean overwrite true ist, dann gibt es die datei bereit und sie soll überschrieben werden
 		 * TODO: übergabe in DATENBANK
 		 */
+		
 		int nummer = 1;
-		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	    
+	
+		String pfad = getInitParameter("Pfad");
+		System.out.println("Pfad: "+pfad);
+
+		request.setCharacterEncoding("UTF-8");
+
+		Part filePart = request.getPart("pdffile"); // Retrieves <input type="file" name="file">	
+		System.out.println(filePart);
 		InputStream fileContent = filePart.getInputStream();
 		System.out.println("was steht da: "+filePart.getHeader("content-disposition").substring(36));  //TODO substring 36?
-
+		String user = request.getParameter("username");
+		System.out.println(user);
+		
 		boolean overwrite = Boolean.parseBoolean(request.getParameter("overwrite"));	//nimmt den String und wandelt ihn in ein boolean um
 		String dateiname = request.getParameter("dateiname");
 		System.out.println("Name der Datei: "+dateiname+" overwrite: "+overwrite);
+		dateiname = java.net.URLDecoder.decode(dateiname, "UTF-8");
+		System.out.println("utf8"+dateiname);
 
 		uploader(fileContent,dateiname,0);
-
-		//		uploader(fileContent,dateiname,0);
+		fileContent.close();
+		fileContent = null;
 		File f = new File(dateiname);
 		String name = f.getName();
-<<<<<<< HEAD
+
 		String dateityp=name.substring(name.lastIndexOf('.')+1,name.length());
-		System.out.println("Es handelt sich um eine ' "+dateityp+" ' Datei: ");
-=======
-		String endung = name.substring(name.lastIndexOf('.')+1,name.length());
-		endung.toUpperCase();
-		
-		System.out.println("Es handelt sich um eine ' "+ endung +" ' Datei: ");
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
+		dateityp = dateityp.toUpperCase();
+		System.out.println("Es handelt sich um eine ' "+ dateityp +" ' Datei: ");
 		System.out.println("-----------------------------------------");
-
-		switch(endung){
-
-		case "PDF"  :{
-			String inhalttext=PDFmanager.pdfToText("C://Temp//"+dateiname);
-			// TODO Verena ist am workn hier
+		
+		HttpSession ses = request.getSession(false); //TODO: if 
+		String username = (String) ses.getAttribute("user"); 
+		
+		if(overwrite){
 			try {
-				FunktionenDB fdb=new FunktionenDB();
-				Connection conn1=fdb.getConnection();
-				HineinschreibenDB hdb=new HineinschreibenDB();
-				Connection conn2=hdb.getConnection();
-				String stichworttext=fdb.Stichtextgenerator(inhalttext);
-				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-				String[] daten =new String[8];
-				daten[0]="tag";
-				daten[1]=inhalttext;
-				daten[2]=PDFmanager.getAutor();
-				daten[3]=PDFmanager.getAutor();
-				daten[4]=dateiname;
-				daten[5]=PDFmanager.getDatum();
-				daten[6]=stichworttext;
-				daten[7]=dateityp;
-				
-				for(String s : daten) {
-					System.out.print("Gelesen wurde: ");
-					 System.out.println(s);
-					}
-				HineinschreibenDB.writeDaten(daten);
-				fdb.releaseConnection(conn1);
-				fdb.releaseConnection(conn2);
+				DBManager dbm = new DBManager();
+				Connection conn = dbm.getConnection();	//TODO: OVERWRITE TESTEN
+				dbm.deletebyname(dateiname,username,conn);
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch(SQLException e){
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+
+		switch(dateityp){
+
+		case "PDF"  :{
 			
-			System.out.println("PDF - Datei wurde in Text umgewandelt -> Weitergeben an DB");
+			System.out.println("angemeldeter Username: "+username);
+			
+			try {
+				
+				PDFLesen pdfL = new PDFLesen();
+				String inhalttext = pdfL.textAuslesen(pfad+dateiname); 
+				
+				DBManager dbm=new DBManager();
+				Connection conn1=dbm.getConnection();
+				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
+				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
+				String[] daten =new String[7];
+				daten[0]="tag";
+				daten[1]=inhalttext;
+				daten[2]=username;
+				daten[3]=pdfL.getAutor(); 
+				daten[4]=dateiname;
+				daten[5]=stichworttext;
+				daten[6]=dateityp;
+				
+				for(String s : daten) {
+					System.out.print("Gelesen wurde: ");
+					System.out.println(s);
+				}
+				DBManager.writeDaten(conn1,daten,filePart,pdfL.getDatum());
+				//DBManager.Blobeinfuegen(filePart,stichworttext);
+				
+				dbm.releaseConnection(conn1);
+				System.out.println(inhalttext);
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch(SQLException e){
+				e.printStackTrace();
+			} catch(IOException e){
+				response.setStatus(HttpServletResponse.SC_CONFLICT);
+				response.getWriter().println("Fehlerhafte Datei");
+				e.printStackTrace();
+			}
+			System.out.println("PDF - Datei wurde in Text umgewandelt + Weitergabe an DB");
 			break;
 		}
 
 		case "TXT"  :{
 
-			TextdateiLesen.textdateiLesen("C://Temp//"+dateiname);
-			System.out.println("Txt - Datei wurde in Text umgewandelt -> Weitergeben an DB");
+			System.out.println("angemeldeter Username: "+username);
+
+			try {
+				
+				TextdateiLesen txtL = new TextdateiLesen();
+				String inhalttext = txtL.textAuslesen(pfad+dateiname);
+				
+				DBManager dbm = new DBManager();
+				Connection conn1 = dbm.getConnection();
+				String stichworttext = dbm.Stichtextgenerator(conn1,inhalttext);
+				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
+				String[] daten =new String[8];
+				daten[0]="tag";
+				daten[1]=inhalttext;
+				daten[2]=username;
+				daten[3]=txtL.getAutor();
+				daten[4]=dateiname;
+				daten[5]=stichworttext; 
+				daten[6]=dateityp;
+
+				for(String s : daten) {
+					System.out.print("Gelesen wurde: ");
+					System.out.println(s);
+				}
+				if(!DBManager.writeDaten(conn1,daten,filePart,txtL.getDatum())) {
+					response.setStatus(HttpServletResponse.SC_CONFLICT);
+					response.getWriter().println("Fehlerhafte Datei");
+					break;
+				}
+				
+				//DBManager.Blobeinfuegen(filePart,stichworttext);
+				
+				dbm.releaseConnection(conn1);
+				System.out.println("inhalttext");
+			} catch(PSQLException e){
+				response.setStatus(HttpServletResponse.SC_CONFLICT);
+				response.getWriter().println("Fehlerhafte Datei");
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch(SQLException e){
+				e.printStackTrace();
+			
+			}
+			System.out.println("TXT - Datei wurde in Text umgewandelt -> Weitergeben an DB (Achtung, keine Metadaten vorhanden)");
 			break; 
 		}
 
 		case "DOC"  :{
 
-			DocLesen.lesenDoc("C://Temp//"+dateiname);
+			DocLesen docL = new DocLesen();
+
+			try {
+				String inhalttext = docL.textAuslesen(pfad+dateiname);
+				
+				DBManager dbm=new DBManager();
+				Connection conn1=dbm.getConnection();
+				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
+				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
+				String[] daten =new String[7];
+				daten[0]="tag";
+				daten[1]=inhalttext;
+				daten[2]=username;
+				daten[3]=docL.getAutor(); 
+				daten[4]=dateiname;
+				daten[5]=stichworttext; 
+				daten[6]=dateityp;
+
+				for(String s : daten) {
+					System.out.print("Gelesen wurde: ");
+					System.out.println(s);
+				}
+				DBManager.writeDaten(conn1,daten,filePart,docL.getDatum());
+				//DBManager.Blobeinfuegen(filePart,stichworttext);
+				
+				dbm.releaseConnection(conn1);
+				System.out.println("inhalttext");
+				
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch(SQLException e){
+				e.printStackTrace();
+			} catch(IllegalArgumentException e){
+				response.setStatus(HttpServletResponse.SC_CONFLICT);
+				response.getWriter().println("Fehlerhafte Datei");
+				e.printStackTrace();
+			}
+
 			System.out.println("Doc - Datei wurde in Text umgewandelt -> Weitergeben an DB");
 			break; 
 		}
 
 		case "DOCX"  :{
 
-			DocxLesen.lesenDocx("C://Temp//"+dateiname);
+			DocxLesen docxL = new DocxLesen();
+			
+			try {
+				
+				String inhalttext = docxL.textAuslesen(pfad+dateiname);
+				System.out.println("Inhalttext in Dokument: "+inhalttext);
+				
+				DBManager dbm=new DBManager();
+				Connection conn1=dbm.getConnection();
+				String stichworttext=dbm.Stichtextgenerator(conn1,inhalttext);
+				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
+				//aus writeDaten: tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei
+				String[] daten =new String[7];
+				daten[0]="tag";
+				daten[1]=inhalttext;
+				daten[2]=username;
+				daten[3]=docxL.getAutor(); 
+				daten[4]=dateiname;
+				daten[5]=stichworttext;
+				daten[6]=dateityp;
+
+
+				for(String s : daten) {
+					System.out.print("Gelesen wurde: ");
+					System.out.println(s);
+				}
+				DBManager.writeDaten(conn1,daten,filePart,docxL.getDatum());
+				//DBManager.Blobeinfuegen(filePart,stichworttext);
+				
+				dbm.releaseConnection(conn1);
+				System.out.println("inhalttext");
+				
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch(SQLException e){
+				e.printStackTrace();
+			} catch(NotOfficeXmlFileException e){
+				response.setStatus(HttpServletResponse.SC_CONFLICT);
+				response.getWriter().println("Fehlerhafte Datei");
+				e.printStackTrace();
+			}catch(IllegalArgumentException e) {
+				e.printStackTrace();
+			}
+
 			System.out.println("Docx - Datei wurde in Text umgewandelt -> Weitergeben an DB");
 			break; 
 		}
+
 		default:{
-			System.out.println("Datei kann nicht gespeichert werden, Dateityp wird nicht unterstützt");
+
+			System.out.println("Datei kann nicht gespeichert werden, Dateityp "+ dateityp +"wird nicht unterstützt");
 		}
 
-
-
 		}
-		/*
-        String pfad =getInitParameter("Pfad");
-        File file = createFile(pfad, dateiname);
-        try{
-            Files.copy(fileContent, file.toPath());
-        }	
-        catch(Exception ex){
-        	System.out.println("ERROR DATEI BEREITS VORHANDEN");
-        }
-		 */
-		System.out.println("Datei fertig eingelesen (noch nicht ganz DB speicherung fehlt bis jetzt )");
+		try {
+			
+			System.out.println("Is writeable: "+Files.isWritable(Paths.get(pfad+dateiname)));
+			System.out.println("IS: "+Files.exists(Paths.get(pfad+dateiname)));
+			Files.deleteIfExists(Paths.get(pfad+dateiname));
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	
 	}
-
+	
 	private void uploader(InputStream fileContent, String dateiname,int nummer){
 
 		String pfad = getInitParameter("Pfad");
 		File file = createFile(pfad, dateiname);
-
+		System.out.println("sys prop:");
+		String d = 	System.getProperty("user.dir");
+		System.out.println(d);
 		try{
+			System.out.println(file.getAbsolutePath());
 			Files.copy(fileContent, file.toPath());
 			System.out.println("Datei gespeichert. Sie war bisher "+nummer+" mal vorhanden");
 
 		}	
-		catch(Exception ex){
-			System.out.println("ERROR DATEI BEREITS VORHANDEN");
-			nummer++;
-			uploader(fileContent, NamensNummerierer(dateiname,nummer),nummer);
+		catch(IOException ex){
+			ex.printStackTrace();
+		}
+		finally {
+			try {
+				fileContent.close();
+				fileContent = null;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private File createFile(String pfad, String name){
 		File uploads = new File(pfad);
+		uploads.mkdirs();
 		File file = new File(uploads, name);
 		return file;
 
@@ -185,10 +348,10 @@ public class UploadServlet extends HttpServlet {
 	private String NamensNummerierer(String name,int nummer){
 
 		String nameneu;
-		String endungneu = name.substring(name.lastIndexOf('.')+1,name.length());
-		endungneu.toUpperCase();
-	
-		switch(endungneu) {
+		String dateitypneu = name.substring(name.lastIndexOf('.')+1,name.length());
+		dateitypneu = dateitypneu.toUpperCase();
+
+		switch(dateitypneu) {
 		case "PDF": {
 			nameneu = name;
 			nameneu = name.substring(0,name.length()-4);
@@ -203,7 +366,7 @@ public class UploadServlet extends HttpServlet {
 		}
 		case "DOCX": {
 			nameneu = name;
-			nameneu = name.substring(0,name.length()-4);
+			nameneu = name.substring(0,name.length()-5); // 5 ?
 			nameneu = nameneu+"("+nummer+")"+".docx";
 			return nameneu; 
 		}
@@ -214,7 +377,8 @@ public class UploadServlet extends HttpServlet {
 			return nameneu;
 		}
 		default:{
-			System.out.println("Neuer Name konnte nicht vergeben werden, Dateityp wird nicht unterstützt");
+			//TODO Message senden an Client
+			System.out.println("Neuer Name konnte nicht vergeben werden, Dateityp wird nicht unterstuetzt");
 		}
 
 		}

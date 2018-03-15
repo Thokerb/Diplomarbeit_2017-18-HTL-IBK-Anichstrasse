@@ -1,10 +1,28 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <script src="dropzone.js"></script>
 <link rel="stylesheet" type="text/css" href="dropzone.css" />
+
+<link rel="apple-touch-icon" sizes="57x57" href="Icons/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="Icons/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="Icons/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="Icons/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="Icons/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="Icons/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="Icons/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="Icons/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="Icons/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="Icons/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="Icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="Icons/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="Icons/favicon-16x16.png">
+<link rel="manifest" href="Icons/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="Icons/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -19,15 +37,16 @@
 
 <script type="text/javascript" src="modalconfig.js"></script>
 
-<title>Easy PDF - Upload </title>
+<title>Easy PDF - Upload</title>
 </head>
 <body>
 
-<%
+	<%
 	if(session.getAttribute("username")== null){
 		response.sendRedirect("Login.jsp");
+		//TODO kurze INFO an Benutzer? 
 	}
-%>
+	%>
 
 
 	<!-- Modal -->
@@ -47,7 +66,7 @@
 					<input id="modalinput" />
 					<button disabled="true" class="btn btn-primary disabled"
 						id="modalinputbtn">OK</button>
-					<button id="overwritebtn" class="btn btn-primary">Überschreibe
+					<button id="overwritebtn" class="btn btn-primary">Ãœberschreibe
 						die Datei</button>
 				</div>
 				<div class="modal-footer"></div>
@@ -60,7 +79,7 @@
 	<h1>Willkommen auf der Upload Seite</h1>
 
 
-	<h1>Bitte hier Dateien die abgelegt werden sollen hineinziehen: </h1>
+	<h1>Bitte hier Dateien die abgelegt werden sollen hineinziehen:</h1>
 
 	<script>
 		Dropzone.myDropzone = false;
@@ -163,10 +182,10 @@
 			autoQueue : false,
 			autoProcessQueue : false,
 			dictDefaultMessage : "Ziehe Dateien hierhin zum Hochladen",
-			dictFallbackMessage : "Dieser Browser wird leider nicht unterstützt",
-			dictFileTooBig : "Die Datei ist leider zu groß. Erlaubtes Maximum sind "
+			dictFallbackMessage : "Dieser Browser wird leider nicht unterstÃ¼tzt",
+			dictFileTooBig : "Die Datei ist leider zu groÃŸ. Erlaubtes Maximum sind "
 					+ size + " MB",
-			dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstützt"
+			dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur PDF-Dateien unterstÃ¼tzt"
 
 		}
 
@@ -180,13 +199,15 @@
 			<input type="hidden" name="dateiname" id="dateiname"></input>
 
 		</form>
-		
-		<form action="LogoutServlet" >
-			<input type ="submit" value="Logout"></input>
+
+		<form action="LogoutServlet">
+			<input type="submit" value="Logout"></input>
 		</form>
-		
-		<div> 
-		
+
+		<div>
+			<form action="LogoutServlet">
+				<input type="submit" value="Logout"></input>
+			</form>
 		</div>
 	</div>
 

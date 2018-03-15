@@ -1,6 +1,10 @@
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
@@ -11,64 +15,70 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
  * Verwendet dabei die Apache POI Library, welche im Builthpath eingebettet ist 
  */
 
-public class DocxLesen { 	
+public class DocxLesen implements IStrategy { 	
 	
-	static String autor;
-	static Date datum;
+	static String text = null;
+	static String aut = null; 
+	static Date date = null;
+	static DateFormat formatter;
+	static String d; 
 
-	public static String lesenDocx(String filename){
+	public String textAuslesen(String filename) throws IOException {
 
-		try {
-
-			FileInputStream fis = new FileInputStream(filename);
-
-//			POIFSFileSystem poifs = new POIFSFileSystem(fis);
-//
-//			DirectoryEntry dir = poifs.getRoot();
-//			SummaryInformation si;
-//			try {
-//				DocumentEntry siEntry = (DocumentEntry) dir.getEntry(SummaryInformation.DEFAULT_STREAM_NAME);
-//				DocumentInputStream dis = new DocumentInputStream(siEntry);
-//				PropertySet ps = new PropertySet(dis);
-//				dis.close();
-//				si = new SummaryInformation(ps);
-//			}catch (FileNotFoundException | UnexpectedPropertySetTypeException | NoPropertySetStreamException | MarkUnsupportedException ex)
-//			{
-//				si = PropertySetFactory.newSummaryInformation();
-//			}
+		FileInputStream fis;
+		XWPFWordExtractor oleTextExtractor;
+		
+			fis = new FileInputStream(filename);
+			oleTextExtractor = new XWPFWordExtractor(new XWPFDocument(fis));
 			
-			XWPFWordExtractor oleTextExtractor = new XWPFWordExtractor(new XWPFDocument(fis));
-			String text = null; 
-
+			aut = oleTextExtractor.getCoreProperties().getCreator();
+			date = oleTextExtractor.getCoreProperties().getCreated();
+			
+			formatter = new SimpleDateFormat("dd.MM.yyyy");
+		    d = formatter.format(date);
+		    
 			text = oleTextExtractor.getText();
 			System.out.println("----------------- Text aus DOCX Lesen: -----------------");
 			System.out.println(text);
-			System.out.println("---------------- Text -----------------");
+			System.out.println("---------------- INFO: -----------------");
 
-//
-//			autor = si.getAuthor();
-//			datum = si.getCreateDateTime();
-//			System.out.println("Autor: "+autor +"Datum: "+ datum);
+			System.out.println(aut);
+			System.out.println(d);
+			System.out.println("---------------- ENDE DOCX -----------------");
 
+			releaseRessoruces(oleTextExtractor, fis);
+			
 			return text; 
+	}
 
-
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Fehler! Datei konnte nicht gefunden werden");
+	public void releaseRessoruces( XWPFWordExtractor oleTextExtractor,FileInputStream fis) {
+		try {
+			oleTextExtractor.close(); //os.filesystem.delete file, mit pfad
+			fis.close();
+			fis = null;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Fehler! Datei konnte nicht gelesen werden!");
-		}
-		return "Achtung - Fehler! Datei Konnte nicht gelesen werden"; 
+		}	
+	}
+	
+	
+	public String getDatum() {
+		return d;
 	}
 
-
-	public static void main(String[] args) {
-		DocxLesen l1 = new DocxLesen();
-		l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//test.docx");
+	public String getAutor() {
+		return aut;
 	}
+
+//	public static void main(String[] args) {
+//		DocxLesen l1 = new DocxLesen();
+//		try {
+//			l1.lesenDocx("C://Users//Sara//Dropbox//Diplomarbeit//KillerDOC.docx");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 }

@@ -1,38 +1,63 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-<title>Easy PDF - Files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+<title>EasyDoc - Dokumente</title>
+
+<link rel="apple-touch-icon" sizes="57x57" href="Icons/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="Icons/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="Icons/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="Icons/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="Icons/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="Icons/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="Icons/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="Icons/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="Icons/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="Icons/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="Icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="Icons/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="Icons/favicon-16x16.png">
+<link rel="manifest" href="Icons/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="Icons/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
 
 
-<%
-	if(session.getAttribute("username")== null){
-		response.sendRedirect("Login.jsp");
-	}
-%>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
-
-<link rel="stylesheet" href="htätps://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 <!-- font-awesome stylesheets -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 <link rel="stylesheet" href="stylesheet.css"></link>
 
 <!-- jquery datatable stylesheet bootstrap -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"></link>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"></link>
 
 <!-- dropzone js und stylesheet -->
 <script src="dropzone.js"></script>
 <link rel="stylesheet" type="text/css" href="dropzone.css" />
-<script type="text/javascript" src="dropzoneconfig.js" charset="UTF-8"></script>
-<script src="modalconfig.js"></script>
+
 
 </head>
+
+<%
+
+System.out.println(session.getAttribute("user"));
+
+if(session.getAttribute("user") == null){
+	response.sendRedirect("Login.jsp");
+}
+%>
 <body>
 
 	<!-- jquery script  -->
@@ -40,9 +65,8 @@
 
 
 
-	<!-- bootstrap implementation -->
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- bootstrap javascript implementation -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<!-- jquery datatable javascript -->
 	<script type="text/javascript"
@@ -51,8 +75,127 @@
 
 	<script type="text/javascript">
 
-	$(document).ready(function() {
+	Dropzone.myDropzone = false;
+	var size = 1;
+	Dropzone.options.myDropzone = {
 
+		init : function() {
+			var dropzone = this;
+			var filetogive;
+			var givename;
+			var tochange;
+			var overwrite = false;
+
+			function getDokumentNamen(namedatei) {
+
+				$.getJSON("DateienListServlet", function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+					var DokumentNamen = responseText;
+
+					console.dir(DokumentNamen);
+					console.log(namedatei);
+					var vorhanden = $.inArray(namedatei, DokumentNamen);
+					console.log(vorhanden);
+
+					if (vorhanden === -1) {
+						console.log("nicht vorhanden");
+						sendfile();
+					} else {
+						console.log("vorhanden");
+						addChecker(DokumentNamen);
+						showModal(namedatei);
+						console.log(DokumentNamen);
+
+					}
+				});
+
+			}
+
+			this.on("addedfile", function(file) {
+				tochange = file.previewElement
+						.querySelector("[data-dz-name]");
+				givename = file.name;
+				console.log(givename);
+				getDokumentNamen(givename);
+				filetogive = file;
+				console.log(file);
+			});
+
+			$("#overwritebtn").on("click", function() {
+				overwrite = true;
+				sendfile();
+				$("#saveModal").modal("hide");
+			});
+			
+		$("#uploadModal").on("hidden.bs.modal",function(){
+			cleardropzone();
+		});
+
+			$("#modalinputbtn").on("click", function() {
+				console.log("filetogive");
+				givename = $("#modalinput").val();
+				tochange.innerHTML = givename;
+				dropzone.processFile(filetogive);
+				$("#saveModal").modal("hide");
+			});
+
+			function sendfile() {
+				console.log("sendingstatus");
+				console.log(filetogive.status);
+				if (filetogive.status != "error") {
+					dropzone.processFile(filetogive);
+				}
+
+			}
+			
+			function cleardropzone(){
+				dropzone.removeAllFiles();
+			}
+
+			this.on("renameFile", function(file) {
+				alert("called renameFile");
+			});
+
+			this.on("sending", function(file, xhr, formData) {
+				console.log("sending called");
+				formData.append("dateiname", givename);
+				console.log("givename:"+givename);
+				formData.append("overwrite", overwrite);
+				overwrite = false;
+			});
+			
+			this.on("success",function(file){
+				console.log("success");
+				refreshtables();
+			});
+			this.on("complete",function(file){
+				console.log("complete");
+				refreshtables();
+				
+			});
+			this.on("uploadprogress",function(file,progress,bytesSent){
+				console.log("progress: "+progress+" | "+bytesSent);
+			});
+
+			console.log("finished init");
+		},
+		maxFilesize : size,
+		paramName : "pdffile",
+		addRemoveLinks: true,
+		url : "UploadServlet",
+		acceptedFiles : "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain",
+		parallelUploads : 1,
+		autoQueue : false,
+		autoProcessQueue : false,
+		dictDefaultMessage : "Ziehe Dateien hierhin zum Hochladen",
+		dictFallbackMessage : "Dieser Browser wird leider nicht unterstÃ¼tzt",
+		dictFileTooBig : "Die Datei ist leider zu groÃŸ. Erlaubtes Maximum sind "+ size + " MB",
+		dictInvalidFileType : "Dies ist leider der falsche Dateityp. Es werden nur .pdf,.doc,.docx und .txt Dateien unterstÃ¼tzt"
+	};
+	
+
+	
+	$(document).ready(function() {
+		
 		//aktiviert Tooltip
 	    $('[data-toggle="tooltip"]').tooltip(); 
         
@@ -60,28 +203,32 @@
             "processing" : true,
 			"serverSide" : true,
             "ajax" : {
-			"url" : '/DiplomPdf/DataTableServlet',
+			"url" : 'DataTableServlet',
 			"type" : 'POST',
+			"data" : function(act){
+				act.user = '${user}';
+				act.table = "table2";
+			},
 			"dataSrc": "data"
 			},
 			
 			"language": {
 				
 				"sEmptyTable":   	"Keine Daten in der Tabelle vorhanden",
-				"sInfo":         	"_START_ bis _END_ von _TOTAL_ Einträgen",
-				"sInfoEmpty":    	"0 bis 0 von 0 Einträgen",
-				"sInfoFiltered": 	"(gefiltert von _MAX_ Einträgen)",
+				"sInfo":         	"_START_ bis _END_ von _TOTAL_ EintrÃ¤gen",
+				"sInfoEmpty":    	"0 bis 0 von 0 EintrÃ¤gen",
+				"sInfoFiltered": 	"(gefiltert von _MAX_ EintrÃ¤gen)",
 				"sInfoPostFix":  	"",
 				"sInfoThousands":  	".",
 				"sLengthMenu":   	"_MENU_",
 				"sLoadingRecords": 	"Wird geladen...",
 				"sProcessing":   	"Bitte warten...",
 				"sSearch":       	"<span class=\"glyphicon glyphicon-search\"></span>",
-				"sZeroRecords":  	"Keine Einträge vorhanden.",
+				"sZeroRecords":  	"Keine EintrÃ¤ge vorhanden.",
 				"oPaginate": {
 					"sFirst":    	"Erste",
 					"sPrevious": 	"<span class=\"glyphicon glyphicon-circle-arrow-left arrowpagenav\" data-toggle=\"tooltip\" title =\"Vorherige Seite\"></span>",
-					"sNext":     	"<span class=\"glyphicon glyphicon-circle-arrow-right arrowpagenav\" data-toggle=\"tooltip\" title =\"Nächste Seite\"></span>",
+					"sNext":     	"<span class=\"glyphicon glyphicon-circle-arrow-right arrowpagenav\" data-toggle=\"tooltip\" title =\"NÃ¤chste Seite\"></span>",
 					"sLast":     	"Letzte"    
 				},
 				"oAria": {
@@ -92,11 +239,29 @@
 		},
             
 			"columns" : [ 
+				{"data" : "ID"},
 				{"data" : "DateiTyp"},
 				{"data" : "Name"},
+				{"data" : "Uploader"},
 				{"data" : "Autor"},
 				{"data" : "UploadDatum"},
 				{"data" : "DokumentDatum"},
+				{"data" : function (Daten){
+		            	var state = Daten["ZUGANG"];
+		            	var text="";
+		            	switch(state){
+		            	case "public":
+		            		text = "<select class=\"privacy form-control fa\"><option value=\"public\" selected><i>&#xf0ac;</i> Public</option><option value=\"private\"> <i>&#xf023;</i> Private</option></select>";
+		            		break;
+		            	case "private":
+		            		text = "<select class=\"privacy form-control fa\"><option value=\"public\"><i>&#xf0ac;</i> Public</option><option value=\"private\" selected><i>&#xf023;</i> Private</option></select>";
+		            		break;
+		            	default:
+		            		text="ERROR";
+		            		break;
+		            	}
+		            	return text;
+		            }},
 				{"data" : "Download"},
 				{"data" : "Delete"}
 			
@@ -104,17 +269,32 @@
 			],
 			
 
-	        "columnDefs": [ {
+	        "columnDefs": [ 
+	        	{
+	        		"targets": 0,
+	        		"visible": false,
+	        		"searchable": false
+	        	},
+	        {
 	        	"targets": -2,
 	            "data": "null",
 	            "defaultContent": "<button class=\"downloadbutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Downloaden\"><span class=\"glyphicon glyphicon-arrow-down\" ></span></button>"
-	        }, {
-	            "targets": -1,
-	            "data": "null",
-	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
 	        },
 	        {
-	        	"targets": 0,
+	        	"targets": -3,
+	        	"visible": false,
+	            "searchable": false
+	        	
+	        },
+	        {
+	            "targets": -1,
+	            "visible": false,
+	            "searchable": false,
+	            "data": "null",
+	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum LÃ¶schen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
+	        },
+	        {
+	        	"targets": 1,
 	        	"render": function func(data){
 	        		console.log(data);
 	        		var text = "";
@@ -123,7 +303,7 @@
 	        			text = "<span class=\"fa fa-file-pdf-o icontype\" ></span>";
 	        			break;
 	        		case "TXT":
-	        			text = "<span class=\"fa fa-file-text-o	\" ></span>";
+	        			text = "<span class=\"fa fa-file-text-o icontype	\" ></span>";
 	        			break;
 	        		case "DOC":
 	        			text = "<span class=\"fa fa-file-word-o	 icontype\" ></span>";
@@ -142,24 +322,24 @@
 	        
 	        
 		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
-		        var input = $('#datatable2_wrapper .dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
-		           self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
+		        var input = $('#datatable2_wrapper .dataTables_filter input').off(); //LÃ¶scht alle existierenden Listener von der Inputbox
+		           self = this.api();			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
 		            $searchbutton = $('<button class=\"btn-success dttopbtn\" data-toggle=\"tooltip\" title =\"Suchen\">')	//erstellt ein Buttonobjekt
 		                       .html('<span class="glyphicon glyphicon-search"/>')		// Button - Text: Suchen
-		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+		                       .click(function() {	//Funktion welche bei drÃ¼cken des Buttons aufgerufen wird
 		                        self.search(input.val()).draw();	//ruft die Search - Funktion des DataTables auf und aktualisiert
-		                       }),
-		            $deletebutton = $('<button class=\"btn-danger dttopbtn\"data-toggle=\"tooltip\" title =\"Löschen\">')	//erstellt ein Buttonobjekt
-		                       .html('<span class="glyphicon glyphicon-remove"></span>')		//Button - Text: Löschen
-		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+		                       });
+		            $deletebutton = $('<button class=\"btn-danger dttopbtn\"data-toggle=\"tooltip\" title =\"LÃ¶schen\">')	//erstellt ein Buttonobjekt
+		                       .html('<span class="glyphicon glyphicon-remove"></span>')		//Button - Text: LÃ¶schen
+		                       .click(function() {	//Funktion welche bei drÃ¼cken des Buttons aufgerufen wird
 		                          input.val('');	//Setzt den Input wieder leer
-		                          $searchbutton.click(); 	//Betätigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
-		                       }) 
-		        $('#datatable2_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//Fügt beide Buttons zum DataTable hinzu
+		                          $searchbutton.click(); 	//BetÃ¤tigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
+		                       }) ;
+		        $('#datatable2_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//FÃ¼gt beide Buttons zum DataTable hinzu
 		    },
             
             
-        });
+        }); 
         
 
 		var table = $('#datatable').DataTable({
@@ -168,7 +348,11 @@
 			"processing" : true,
 			"serverSide" : true,
             "ajax" : {
-			"url" : '/DiplomPdf/DataTableServlet',
+			"url" : 'DataTableServlet',
+			"data" : function(act){
+				act.user = '${user}';
+				act.table = 'table1';
+			},
 			"type" : 'POST',
 				"dataSrc": "data"
 			},
@@ -178,20 +362,20 @@
 			"language": {
 				
 					"sEmptyTable":   	"Keine Daten in der Tabelle vorhanden",
-					"sInfo":         	"_START_ bis _END_ von _TOTAL_ Einträgen",
-					"sInfoEmpty":    	"0 bis 0 von 0 Einträgen",
-					"sInfoFiltered": 	"(gefiltert von _MAX_ Einträgen)",
+					"sInfo":         	"_START_ bis _END_ von _TOTAL_ EintrÃ¤gen",
+					"sInfoEmpty":    	"0 bis 0 von 0 EintrÃ¤gen",
+					"sInfoFiltered": 	"(gefiltert von _MAX_ EintrÃ¤gen)",
 					"sInfoPostFix":  	"",
 					"sInfoThousands":  	".",
 					"sLengthMenu":   	"_MENU_",
 					"sLoadingRecords": 	"Wird geladen...",
 					"sProcessing":   	"Bitte warten...",
 					"sSearch":       	"<span class=\"glyphicon glyphicon-search\"></span>",
-					"sZeroRecords":  	"Keine Einträge vorhanden.",
+					"sZeroRecords":  	"Keine EintrÃ¤ge vorhanden.",
 					"oPaginate": {
 						"sFirst":    	"Erste",
 						"sPrevious": 	"<span class=\"glyphicon glyphicon-circle-arrow-left arrowpagenav\" data-toggle=\"tooltip\" title =\"Vorherige Seite\"></span>",
-						"sNext":     	"<span class=\"glyphicon glyphicon-circle-arrow-right arrowpagenav\" data-toggle=\"tooltip\" title =\"Nächste Seite\"></span>",
+						"sNext":     	"<span class=\"glyphicon glyphicon-circle-arrow-right arrowpagenav\" data-toggle=\"tooltip\" title =\"NÃ¤chste Seite\"></span>",
 						"sLast":     	"Letzte"    
 					},
 					"oAria": {
@@ -206,11 +390,30 @@
 			
 
 			"columns" : [ 
+				{"data" : "ID"},
 				{"data" : "DateiTyp"},
 				{"data" : "Name"},
 				{"data" : "Autor"},
 				{"data" : "UploadDatum"},
 				{"data" : "DokumentDatum"},
+				{"data" : function (Daten){
+	            //	console.log("drobn is es");
+	           // 	console.dir(Daten["ZUGANG"]);
+	            	var state = Daten["ZUGANG"];
+	            	var text="";
+	            	switch(state){
+	            	case "public":
+	            		text = "<select class=\"privacy form-control fa\"><option value=\"public\" selected><i>&#xf0ac;</i> Public</option><option value=\"private\"><i>&#xf023;</i> Private</option></select>";
+	            		break;
+	            	case "private":
+	            		text = "<select class=\"privacy form-control fa\"><option value=\"public\"><i>&#xf0ac;</i> Public</option><option value=\"private\" selected><i>&#xf023;</i> Private</option></select>";
+	            		break;
+	            	default:
+	            		text="ERROR";
+	            		break;
+	            	}
+	            	return text;
+	            }},
 				{"data" : "Download"},
 				{"data" : "Delete"}
 			
@@ -218,17 +421,23 @@
 			],
 			
 
-	        "columnDefs": [ {
+	        "columnDefs": [ 
+	        	{
+	        		"targets": 0,
+	        		"visible": false,
+	        		"searchable": false
+	        	},
+	        	{
 	        	"targets": -2,
 	            "data": "null",
 	            "defaultContent": "<button class=\"downloadbutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Downloaden\"><span class=\"glyphicon glyphicon-arrow-down\" ></span></button>"
 	        }, {
 	            "targets": -1,
 	            "data": "null",
-	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Löschen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
+	            "defaultContent": "<button class=\"deletebutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum LÃ¶schen\"><span class=\"glyphicon glyphicon-remove\" ></span></button>"
 	        },
 	        {
-	        	"targets": 0,
+	        	"targets": 1,
 	        	"render": function func(data){
 	        		console.log(data);
 	        		var text = "";
@@ -255,31 +464,23 @@
 	        }
 	        ],
 
-	        
-
-	        
-	        
-			
-			
 		    initComplete : function() {		// wird aufgerufen, wenn der DataTable fertig geladen ist
-		        var input = $('#datatable_wrapper .dataTables_filter input').off(), //Löscht alle existierenden Listener von der Inputbox
+		        var input = $('#datatable_wrapper .dataTables_filter input').off(), //LÃ¶scht alle existierenden Listener von der Inputbox
 		           self = this.api(),			// referenziert den DataTable in eine Variable, damit er innerhalb der Suchen - Funktion aufgerufen werden kann
 		            $searchbutton = $('<button class=\"btn-success dttopbtn\" data-toggle=\"tooltip\" title =\"Suchen\">')	//erstellt ein Buttonobjekt
 		                       .html('<span class="glyphicon glyphicon-search"/>')		// Button - Text: Suchen
-		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+		                       .click(function() {	//Funktion welche bei drÃ¼cken des Buttons aufgerufen wird
 		                        self.search(input.val()).draw();	//ruft die Search - Funktion des DataTables auf und aktualisiert
 		                       }),
-		            $deletebutton = $('<button class=\"btn-danger dttopbtn\"data-toggle=\"tooltip\" title =\"Löschen\">')	//erstellt ein Buttonobjekt
-		                       .html('<span class="glyphicon glyphicon-remove"></span>')		//Button - Text: Löschen
-		                       .click(function() {	//Funktion welche bei drücken des Buttons aufgerufen wird
+		            $deletebutton = $('<button class=\"btn-danger dttopbtn\"data-toggle=\"tooltip\" title =\"LÃ¶schen\">')	//erstellt ein Buttonobjekt
+		                       .html('<span class="glyphicon glyphicon-remove"></span>')		//Button - Text: LÃ¶schen
+		                       .click(function() {	//Funktion welche bei drÃ¼cken des Buttons aufgerufen wird
 		                          input.val('');	//Setzt den Input wieder leer
-		                          $searchbutton.click(); 	//Betätigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
+		                          $searchbutton.click(); 	//BetÃ¤tigt die searchbutton - funktion, jetzt jedoch mit leerem Inhalt, zum Aktualisieren
 		                       }) 
-		        $('#datatable_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//Fügt beide Buttons zum DataTable hinzu
+		        $('#datatable_wrapper .dataTables_filter').append($searchbutton, $deletebutton);	//FÃ¼gt beide Buttons zum DataTable hinzu
 		    },
-			
-			
-
+		
 		});
 
 	    $('.table tbody').on( 'click', '.downloadbutton', function () {
@@ -298,78 +499,123 @@
             },5000);
 
             
-            var data = table.row( $(this).parents("tr")).data();
-	         var str = JSON.stringify(data);
-		     	var xhttp = new XMLHttpRequest();
+			var sourcetable = getTableRow($(this));
+			var newsourcetable = encodeURIComponent(sourcetable);
+			console.log(newsourcetable);
 			
-	     	xhttp.open("POST", "DownloadServlet", true);
-	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	    	xhttp.send("download="+str);
+		  //   	var xhttp = new XMLHttpRequest();
+			/**
+			** TODO Ã¤nderung vom tom
+			**/
+			window.location="DownloadServlet?download="+newsourcetable;
+			
+			
+		  //   	var xhttp = new XMLHttpRequest();
+			
+	     //	xhttp.open("POST", "DownloadServlet", true);
+	    //	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    //	xhttp.send("download="+sourcetable);
 	         
 
 	    	
 	    });
 	    
         
-	    
+	    //TODO ohne data und str bei tom? 
 	    
 	    $(".table tbody").on("click",".deletebutton",function(){
-            var info2 = $(this).parents(".table").attr("id");
-        //aktuell primitiv gehardcoded,eventuell switch änderung. Je nach anzahl an tabellen    
-            if(info2 === "datatable"){
-                    var data = table.row( $(this).parents("tr")).data();
-            }
-            else{
-                if(info2 === "datatable2"){
-                      var data = table2.row( $(this).parents("tr")).data();
-                }
-                else{
-                    console.log("SCHWERER FEHLER !")
-                }
-            }
-            
-	    //    var data = table.row( $(this).parents("tr")).data();
-	        var str = JSON.stringify(data);
-            var sourcetable = JSON.stringify(info2);
-	        console.log(str);
-	     	var xhttp = new XMLHttpRequest();
-	    	xhttp.open("POST","DeleteServlet",true);
-	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	    	xhttp.send("todelete="+str+sourcetable);
-            
-	    	table.draw();
-            table2.draw();
+			var sourcetable = getTableRow($(this));
+//	     	var xhttp = new XMLHttpRequest();
+//	    	xhttp.open("POST","DeleteServlet",true);
+//	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//	    	xhttp.send("todelete="+sourcetable);
+//	    	refreshtables();
+	    	
+	    	$.ajax({
+	    		method:"POST",
+	    		url:"DeleteServlet",
+	    		data: {todelete: sourcetable}
+	    	})
+	    	.done(function(){
+	    		refreshtables();
+	    	})
+	    	
 	    });
 		
-	    
+	   
 	    	$(".table tbody").on('mouseenter','.glyphicon-arrow-down',function(){
 	    		console.log("enter");
 	    		$(this).addClass("iconeffect");
 
 	    	});
-	    	
-
-
 		
  		$(".table tbody").on("webkitAnimationEnd mozAnimationEnd animationEnd",".glyphicon-arrow-down",function(){
 			console.log("called");
 			$(this).removeClass("iconeffect");
 		}); 
 		
-		$(".uploadmodalbtn").on("click",function(){
-			alert("TODO: UPLOAD MODAL ERSCHEINEN LASSEN")
+		 $(".table tbody").on("change",".privacy",function(){
+			console.log("changed"); 
+			var sourcetable = getTableRow($(this));
+			
+			var state = $(this).val();
+	//		var xhttp = new XMLHttpRequest();
+	//    	xhttp.open("POST","PrivChangeServlet",true);
+	//    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	//    	xhttp.send("tochange="+sourcetable+"&howto="+state);
+            
+	    	$.ajax({
+	    		method:"POST",
+	    		url:"PrivChangeServlet",
+	    		data: {tochange: sourcetable,howto: state}
+	    	})
+	    	.done(function(){
+	    		refreshtables();
+	    	})
+	    	
+	    //	refreshtables();
+			
 		});
+				
+		function getTableRow(acttable){
+			var data;
+			//console.dir(acttable);
+			switch(acttable.parents(".table").attr("id")){
+			case "datatable":
+				data = table.row( $(acttable).parents("tr")).data();
+				break;
+				
+			case "datatable2":{
+				data = table2.row( $(acttable).parents("tr")).data();
+				break;
+			}
+			default:
+				data = "ERROR";
+				break;
+			}
+
+			var str = JSON.stringify(data);
+			return str;
+		}
 		
 		console.log("finished  js init");
+		
 	});
 	
 
-
+	function refreshtables(){
+		var table = $("#datatable").DataTable();
+		var table2 = $("#datatable2").DataTable();
+		table.draw();
+		table2.draw();
+	}
 
 	
 </script>
 
-	<nav class="navbar navbar-inverse">
+	<script src="modalconfig.js"></script>
+
+	<nav class="navbar navbar-inverse navbar-static-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -377,47 +623,28 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">EasyPDF</a>
+			<a class="navbar-brand" href="#">EasyDoc</a>
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
-				<li><a href="#">Gelöschte Dokumente</a></li>
-				<li><a href="#">Verlauf</a></li>
-				<li><a href="#">Über EasyPDF</a></li>
+				<li><a href="MeetTheTeam.jsp">Ãœber EasyDoc</a></li>
+			</ul>
+						<ul class="nav navbar-nav">
+				<li><a href="DeletedFiles.jsp">GelÃ¶schte Dokumente</a></li>
 			</ul>
 			<button type="button" class="btn btn-info  navbar-btn"
 				data-toggle="modal" data-target="#uploadModal">UPLOAD</button>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-log-out"></span>
-						Abmelden</a></li>
-			</ul>
-		</div>
+
+				<ul class="nav navbar-nav navbar-right">
+					
+						<li><a href="LogoutServlet"><span
+								class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
+				</ul>
+
+			</div>
 	</div>
 	</nav>
-<nav class="navbar navbar-inverse navbar-static-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="#">EasyPDF</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav"> 
-        <li><a href="#">Gelöschte Dokumente</a></li>
-        <li><a href="#">Verlauf</a></li>
-        <li><a href="#">Über EasyPDF</a></li>
-      </ul>
-          <button type="button" class="btn btn-info  navbar-btn" data-toggle="modal" data-target="#uploadModal">UPLOAD</button>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-	<div class="container">
+	<div class="container-fluid">
 
 
 		<div class="row">
@@ -428,39 +655,42 @@
 					cellspacing="0" width="100%">
 					<thead>
 						<tr>
+							<th>ID</th>
 							<th>DateiTyp</th>
 							<th>Name</th>
 							<th>Autor</th>
 							<th>UploadDatum</th>
 							<th>DokumentDatum</th>
+							<th>Zugang</th>
 							<th>Download</th>
 							<th>Delete</th>
 						</tr>
-
 					</thead>
 					<tbody>
 
 					</tbody>
 				</table>
-
 
 			</div>
 			<div class="col-md-2 col-xs-0 col-lg-1"></div>
 		</div>
-
-		<div class="row">
-			<div class="col-xs-0 col-md-2 col-lg-1"></div>
-			<div class="col-xs-12 col-md-8 col-lg-10">
-				<h1 class="text-center">Zuletzt verwendet</h1>
+		
+				<div class="row">
+			<div class="col-md-2 col-xs-0 col-lg-1"></div>
+			<div class="col-md-8 col-xs-12 col-lg-10">
+				<h1 class="text-center">Ã–ffentliche Dokumente</h1>
 				<table id="datatable2" class="table table-striped table-bordered"
 					cellspacing="0" width="100%">
 					<thead>
 						<tr>
+							<th>ID</th>
 							<th>DateiTyp</th>
 							<th>Name</th>
+							<th>Uploader</th>
 							<th>Autor</th>
 							<th>UploadDatum</th>
 							<th>DokumentDatum</th>
+							<th>Zugang</th>
 							<th>Download</th>
 							<th>Delete</th>
 						</tr>
@@ -468,12 +698,11 @@
 					</thead>
 					<tbody>
 
-
 					</tbody>
 				</table>
-			</div>
-			<div class="col-xs-0 col-md-2 col-lg-1"></div>
 
+			</div>
+			<div class="col-md-2 col-xs-0 col-lg-1"></div>
 		</div>
 
 	</div>
@@ -490,7 +719,7 @@
 					<h4 class="modal-title">Lade dein Dokument hoch</h4>
 				</div>
 				<div class="modal-body">
-					<h2 id="modalueberschrift">Ziehe dein Dokument hier hinein</h2>
+					<h2 id="modalueberschrift">Ziehe dein Dokument hier hinein um es hochzuladen</h2>
 					<form action="UploadServlet" method="post"
 						enctype="multipart/form-data" name="pdffile" id="my-dropzone"
 						class="dropzone">
@@ -505,7 +734,6 @@
 
 		</div>
 	</div>
-
 
 	<!-- Modal -->
 	<div id="saveModal" class="modal fade" role="dialog">
@@ -524,7 +752,7 @@
 					<input id="modalinput" />
 					<button disabled="true" class="btn btn-primary disabled"
 						id="modalinputbtn">OK</button>
-					<button id="overwritebtn" class="btn btn-primary">Überschreibe
+					<button id="overwritebtn" class="btn btn-primary">Ãœberschreibe
 						die Datei</button>
 				</div>
 				<div class="modal-footer"></div>
@@ -532,9 +760,5 @@
 
 		</div>
 	</div>
-
-
-
-
 </body>
 </html>

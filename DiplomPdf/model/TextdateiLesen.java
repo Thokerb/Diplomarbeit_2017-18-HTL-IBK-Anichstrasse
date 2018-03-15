@@ -1,44 +1,72 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileTime;
+import java.nio.file.attribute.UserPrincipal;
+import java.text.SimpleDateFormat;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym; 
+import org.apache.commons.io.IOUtils;
+import org.postgresql.util.PSQLException;
 
-public class TextdateiLesen {
 
-	public static String textdateiLesen(String filename){
-		
-		//	File f = new File("C://Users//Sara//Dropbox//Diplomarbeit//Text.txt");
-		
-		try {
-			String text = null; 
-			FileReader fileReader = new FileReader(filename);
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			StringBuffer strText = new StringBuffer();
+public class TextdateiLesen implements IStrategy {
+
+	String dateCreated;
+	UserPrincipal aut;
+
+	
+	public String textAuslesen(String filename) throws IOException{
+	
+			Path path = Paths.get(filename);
 			
-			while((text = bufferedReader.readLine()) != null) {
-				strText.append(text + "\n");
-//				System.out.println(text);
-			} 
-			text = strText.toString();
-			bufferedReader.close();
-			System.out.println("------------TEXT-------------");
-			System.out.print(text);
-			System.out.println("------------TEXT-------------");
-			return text; 
-		}
-		catch(FileNotFoundException ex) {
-			System.out.println("Datei  '" + filename + "' kann nicht geöffnet werden ");                
-		}
-		catch(IOException ex) {
-			System.out.println("Datei '" + filename + "' konnte nicht gelesen werden");                  
-			ex.printStackTrace();
-		}
-		return "Achtung - Fehler! Die Datei konnte nicht gelesen werden ";
-	}
+			FileInputStream fisTargetFile = new FileInputStream(new File(filename));
 
-	public static void main(String[] args) {
+			String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
+			 System.out.println(targetFileStr);
 		
-		TextdateiLesen l1 = new TextdateiLesen();
-		l1.textdateiLesen("C://Users//Sara//Dropbox//Diplomarbeit//Text.txt");
-
+		    aut =  Files.getOwner(path);
+				    
+			FileTime date =  Files.getLastModifiedTime(path);
+			SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+	        dateCreated = df.format(date.toMillis()); 
+	        
+	        releaseRessoruces(fisTargetFile);
+	        
+			return targetFileStr;
 	}
+
+	public void releaseRessoruces(FileInputStream fisTargetFile) {
+		 try {
+			 fisTargetFile.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public String getDatum() {
+		System.out.println(dateCreated);
+		return dateCreated;
+	}
+	
+	public String getAutor() {
+		String name = aut.getName();
+		System.out.println(name);
+		return name;
+	}
+	
+//	public static void main(String[] args) {
+//		TextdateiLesen l1 = new TextdateiLesen();
+//		try {
+//			l1.textAuslesen("C://Users//Sara//Dropbox//Diplomarbeit//Text.txt");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		l1.getDatum();
+//		l1.getAutor();
+//	}
+	
 }
