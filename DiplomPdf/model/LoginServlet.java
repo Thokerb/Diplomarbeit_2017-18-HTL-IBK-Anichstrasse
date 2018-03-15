@@ -42,7 +42,9 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("Anmeldung erfolgreich");
 			HttpSession session = request.getSession();  
 			session.setAttribute("user",username);  
-			response.sendRedirect("DataTableSite.jsp");
+//			response.setContentType(arg0);
+			request.getRequestDispatcher("DataTableSite.jsp").forward(request, response);
+			//response.sendRedirect("DataTableSite.jsp");
 			anmeldung = true; 
 			dbm.releaseConnection(conn1);
 

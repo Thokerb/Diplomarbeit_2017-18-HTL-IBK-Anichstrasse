@@ -18,9 +18,6 @@ import model.DBManager;
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	static final String JDBC_DRIVER = "org.postgresql.Driver";  
-	static final String DB_URL = "jdbc:postgresql://localhost/diplomarbeit";
-
 	static final String USER = "postgres";
 	static final String PASS = "password";
 
@@ -28,7 +25,7 @@ public class RegisterServlet extends HttpServlet {
 	static int maxPW =  20;
 	
 	static int digit;
-	int code = -1;
+	static int code = -1;
 
 	static int specialUN;
 
@@ -121,7 +118,11 @@ public class RegisterServlet extends HttpServlet {
 			request.setAttribute("message", "Registrieren fehlgeschlagen, Email oder Username bereits registriert" );
 			rd.include(request, response); 
 			break;
-
+		case 4:
+			request.setAttribute("message", "Registrieren fehlgeschlagen, Username inkorrekt" );
+			rd.include(request, response); 
+			break;
+			
 		default:
 			request.setAttribute("message", "Ein unbekannter Fehler ist aufgetreten");
 			rd.include(request, response);
@@ -139,6 +140,7 @@ public class RegisterServlet extends HttpServlet {
 
 				specialUN++;
 				System.out.println("Achtung, bitte keine Sonderzeichen im Benutzername verwenden");
+				code = 4; 
 				unok = false; 
 				break;
 			}
@@ -147,6 +149,7 @@ public class RegisterServlet extends HttpServlet {
 		if(username.length() >= 3 && username.length() <= 15 && specialUN == 0) //null ok? laut DBManager zuerst null 
 		{
 			System.out.println("Gültigkeit: Username "+ username +" darf verwendet werden!");
+			code = 0; 
 			unok = true;
 		}else {
 			System.out.println("Gültigkeit: Username ungültig, bitte erneut eingeben");
@@ -161,16 +164,11 @@ public class RegisterServlet extends HttpServlet {
 			DBManager dbm = new DBManager();
 			Connection conn = dbm.getConnection();
 
-			try {
-				Class.forName(JDBC_DRIVER);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				
-			}
 			if( dbm.getUser(conn, username) != null) {
+				
 				System.out.println("Username "+ username +" darf nicht verwendet werden, er existiert bereits!");
 				userDB = true; 
+				code = 3; 
 				return userDB;
 			}
 			else{
@@ -202,14 +200,12 @@ public class RegisterServlet extends HttpServlet {
 					digit++;
 				}
 			}
-
 			if( digit >= 1){
 				pwvalid = true; 
 				return pwvalid; 
 			}
 		}
 		else {
-
 			System.out.println("Passwortlänge falsch!");
 			pwvalid = false; 
 			return pwvalid; 

@@ -1388,7 +1388,7 @@ public class DBManager {
 		}
 		return st; 
 	}
-
+	
 	public void deletehash(Connection conn2, String username) {
 		// TODO Auto-generated method stub
 		String sql = "update benutzer set authcode = null where benutzername = '"+username+"'";
