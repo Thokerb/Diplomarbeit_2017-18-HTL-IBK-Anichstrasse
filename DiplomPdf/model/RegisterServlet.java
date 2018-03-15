@@ -18,9 +18,6 @@ import model.DBManager;
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	static final String USER = "postgres";
-	static final String PASS = "password";
-
 	static int minPW = 8; 
 	static int maxPW =  20;
 	
