@@ -10,13 +10,8 @@ import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 
-public class PDFLesen {
+public class PDFLesen implements IStrategy{
 	
-//	private PDFParser parser;
-//	private PDFTextStripper pdfStripper;
-//	private PDDocument pdDoc ;
-//	private COSDocument cosDoc ;
-//	private String Text ;
 	private String autor ;
 	private String date ;
 	private File file;
@@ -25,7 +20,7 @@ public class PDFLesen {
 
 	public String text = "text";
 	
-	public String pdfToText(String filePath) throws IOException {
+	public String textAuslesen(String filePath) throws IOException {
 		PDFParser parser = null;
 		PDFTextStripper pdfStripper = null;
 		PDDocument pdDoc = null;

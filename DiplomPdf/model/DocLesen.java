@@ -14,7 +14,7 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
  * Verwendet dabei die Apache POI Library, welche im Builthpath eingebettet ist 
  */
 
-public class DocLesen {
+public class DocLesen implements IStrategy {
 
 	static String text;
 	static String aut; 
@@ -22,7 +22,7 @@ public class DocLesen {
 	static DateFormat formatter;
 	static String d; 
 	
-	public String lesenDoc(String filename) throws IllegalArgumentException, FileNotFoundException, IOException{
+	public String textAuslesen(String filename) throws IllegalArgumentException, FileNotFoundException, IOException{
 
 			FileInputStream fis = new FileInputStream(filename);		
 
@@ -69,15 +69,15 @@ public class DocLesen {
 		return d; 
 	}
 
-		public static void main(String[] args) {
-			DocLesen l1 = new DocLesen();
-			try {
-				l1.lesenDoc("C://Users//Sara//Dropbox//Diplomarbeit//KillerDoc.doc");
-				
-			} catch (IllegalArgumentException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+//		public static void main(String[] args) {
+//			DocLesen l1 = new DocLesen();
+//			try {
+//				l1.textAuslesen("C://Users//Sara//Dropbox//Diplomarbeit//KillerDoc.doc");
+//				
+//			} catch (IllegalArgumentException | IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 	
 }

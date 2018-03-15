@@ -102,7 +102,7 @@ public class UploadServlet extends HttpServlet {
 			try {
 				
 				PDFLesen pdfL = new PDFLesen();
-				String inhalttext = pdfL.pdfToText(pfad+dateiname); 
+				String inhalttext = pdfL.textAuslesen(pfad+dateiname); 
 				
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
@@ -148,7 +148,7 @@ public class UploadServlet extends HttpServlet {
 			try {
 				
 				TextdateiLesen txtL = new TextdateiLesen();
-				String inhalttext = txtL.textdateiLesen(pfad+dateiname);
+				String inhalttext = txtL.textAuslesen(pfad+dateiname);
 				
 				DBManager dbm = new DBManager();
 				Connection conn1 = dbm.getConnection();
@@ -198,7 +198,7 @@ public class UploadServlet extends HttpServlet {
 			DocLesen docL = new DocLesen();
 
 			try {
-				String inhalttext = docL.lesenDoc(pfad+dateiname);
+				String inhalttext = docL.textAuslesen(pfad+dateiname);
 				
 				DBManager dbm=new DBManager();
 				Connection conn1=dbm.getConnection();
@@ -245,7 +245,7 @@ public class UploadServlet extends HttpServlet {
 			
 			try {
 				
-				String inhalttext = docxL.lesenDocx(pfad+dateiname);
+				String inhalttext = docxL.textAuslesen(pfad+dateiname);
 				System.out.println("Inhalttext in Dokument: "+inhalttext);
 				
 				DBManager dbm=new DBManager();
