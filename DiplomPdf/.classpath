@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="model"/>
 	<classpathentry kind="src" path="libraries"/>
 	<classpathentry kind="lib" path="C:/xampp/tomcat/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/smtp.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
@@ -69,10 +70,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libraries/tika-app-1.16.jar"/>
-<<<<<<< HEAD
-	<classpathentry kind="lib" path="C:/Windows/Temp/libraries/postgresql-42.1.3.jar" sourcepath="libraries/postgresql-42.1.3.jar"/>
-=======
 	<classpathentry kind="lib" path="libraries/fontbox-2.0.8.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -103,6 +100,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
->>>>>>> branch 'master' of https://github.com/Thokerb/Diplomarbeit.git
+	<classpathentry kind="lib" path="libraries/javaee.jar"/>
+	<classpathentry kind="lib" path="libraries/mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
