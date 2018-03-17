@@ -51,7 +51,8 @@
 				<form action="RegisterServlet" method="post" id="registerform" data-toggle="validator">
 					<div class="form-group">
 						<label class="sr-only" for="uninput">Benutzername</label> 
-						<input type="text" class="form-control" name="username" id="uninput" placeholder="Benutzername" required>
+						<input type="text" class="form-control" name="username" id="uninput" placeholder="Benutzername" data-specialchars="NO" required>
+											<div class="help-block with-errors"></div>
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="emailinput">E-Mail</label> 
@@ -62,7 +63,7 @@
 					<div class="form-group">
 						<div class="input-group">
 							<label class="sr-only" for="pwinput">Passwort</label> 
-							<input type="password" class="form-control" name="password" id="pwinput" placeholder="Passwort" data-maxlength="16" data-maxlength-error="Das Passwort darf maximal 16 Zeichen lang sein"  data-minlength="8" data-minlength-error="Das Passwort muss mindestens 8 Zeichen lang sein" required>
+							<input type="password" class="form-control" name="password" id="pwinput" placeholder="Passwort" data-maxlength="16" data-containnumber="YES" data-maxlength-error="Das Passwort darf maximal 16 Zeichen lang sein"  data-minlength="8" data-minlength-error="Das Passwort muss mindestens 8 Zeichen lang sein" required>
 							<span class="input-group-btn">
 								<button class="btn-link btnpw form-control" type="button" id="unmaskbtn">
 									<span class="glyphicon glyphicon-eye-open"></span>
@@ -154,19 +155,69 @@
 		}
 		
     	var register = $("#registerform");
+    	var restrictedchars = ["!","#","$","%","&","'","(",")","*","+",",","-",".","/"]
+    	var numbers = ["0","1","2","3","4","5","6","7","8","9"];
     	
     	register.validator({
         	
         			custom: {
         				maxlength: function($el){
         					console.log("called custom");
-        				    var matchValue = $el.data("maxlength") // bekommt die angegebene maxlänge
+        				    var matchValue = $el.data("maxlength"); // bekommt die angegebene maxlänge
         				    console.log($el.val().length);
 							if($el.val().length > matchValue){
 								return "Das Passwort ist zu lang."
 								register.validator('update');
 							}
         					
+        				},
+        				specialchars: function($el){
+        					var rule = $el.data("specialchars");
+        					var str = $el.val();
+        					for(var i = 0;i < str.length;i++){
+        						var ch = str.substring(i,i+1);
+        						var check = $.inArray(ch,restrictedchars);
+        						if(check > 0){
+        							console.log(ch);
+        							break;
+        						}
+        					}
+
+
+        					if(rule.localeCompare("YES") == 0){
+								//Everything is fine
+        					}
+        					if(rule.localeCompare("NO") == 0){
+        						if(check > 0){
+        							return "Es dürfen keine Sonderzeichen verwendet werden.";
+    								register.validator('update');
+        						}
+        					}
+
+        				},
+        				containnumber: function($el){
+        					var rule = $el.data("containnumber");
+        					if(rule.localeCompare("YES") == 0){
+            					var str = $el.val();
+            					var zahl;
+            					for(var i = 0;i < str.length;i++){
+            						var ch = str.substring(i,i+1);
+            						var check = $.inArray(ch,numbers);
+            						if(check > 0){
+            							console.log(ch);
+            							zahl = true;
+            							break;
+            						}
+            					}
+            					
+            					if(zahl===true){
+            						
+            					}
+            					else{
+            						return "Das Passwort muss eine Zahl beinhalten.";
+            					}
+
+        					}
         				}
         			}
         	
@@ -177,7 +228,7 @@
 	        if($("#pwinput").attr('type') == 'password'){
 	        	var input = $("#pwinput");
 	        	var pw = input.val();
-	        	input.replaceWith("<input type=\"text\" name=\"password\" id=\"pwinput\" data-maxlength=\"16\" placeholder=\"Passwort\" data-minlength=\"8\" data-maxlength-error=\"Das Passwort darf maximal 16 Zeichen lang sein\" data-minlength-error=\"Das Passwort muss mindestens 8 Zeichen lang sein\" class=\"form-control\" value=\""+pw+"\" required>");
+	        	input.replaceWith("<input type=\"text\" name=\"password\" data-containnumber=\"YES\" id=\"pwinput\" data-maxlength=\"16\" placeholder=\"Passwort\" data-minlength=\"8\" data-maxlength-error=\"Das Passwort darf maximal 16 Zeichen lang sein\" data-minlength-error=\"Das Passwort muss mindestens 8 Zeichen lang sein\" class=\"form-control\" value=\""+pw+"\" required>");
                 $(this).html("<span class=\"glyphicon glyphicon-eye-close\"></span>")
 
                 
@@ -190,7 +241,7 @@
 	        else{
 	        	var input = $("#pwinput");
 	        	var pw = input.val();
-	        	input.replaceWith("<input type=\"password\" name=\"password\" id=\"pwinput\" class=\"form-control\" data-maxlength=\"16\" data-minlength=\"8\" data-maxlength-error=\"Das Passwort darf maximal 16 Zeichen lang sein\" data-minlength-error=\"Das Passwort muss mindestens 8 Zeichen lang sein\" placeholder=\"Passwort\" value=\""+pw+"\" required>");
+	        	input.replaceWith("<input type=\"password\" name=\"password\" data-containnumber=\"YES\" id=\"pwinput\" class=\"form-control\" data-maxlength=\"16\" data-minlength=\"8\" data-maxlength-error=\"Das Passwort darf maximal 16 Zeichen lang sein\" data-minlength-error=\"Das Passwort muss mindestens 8 Zeichen lang sein\" placeholder=\"Passwort\" value=\""+pw+"\" required>");
                                 $(this).html("<span class=\"glyphicon glyphicon-eye-open\"></span>");
                 var input2 = $("#pwinput2");
                 var pw2 = input2.val();
