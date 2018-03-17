@@ -13,6 +13,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import model.DBManager;
+import model.Daten;
 
 
 /**
@@ -93,7 +94,8 @@ public class DataTableServlet extends HttpServlet {
 		Connection conn=null;
 		DBManager db = null;
 
-		ArrayList<String[]> daten = new ArrayList<String[]>();
+		//ArrayList<String[]> daten = new ArrayList<String[]>();
+		ArrayList<Daten> daten = new ArrayList<Daten>();
 		int anzahl = 0;
 
 		try {
@@ -108,6 +110,7 @@ public class DataTableServlet extends HttpServlet {
 			switch(sortierparameter){
 
 			case "2asc"  :{
+				System.out.println("Sortieren nach Dateiname aufsteigend");
 				if(table.equals("table1"))
 				{
 					daten=db.meineDaten(conn,sortierdings,"dateiname","ASC");
@@ -115,125 +118,167 @@ public class DataTableServlet extends HttpServlet {
 					daten=db.publicDaten(conn,"dateiname","ASC");
 					
 				}
-				for(int i=0;i<daten.size();i++)
-				{
-					System.out.println(daten.get(i)[1]);
-				}
+//				for(int i=0;i<daten.size();i++)
+//				{
+//					System.out.println(daten.get(i)[1]);
+//				}
 				break;
 			}
 
 			case "2desc"  :{
+				System.out.println("Sortieren nach Dateiname absteigend");
 				if(table.equals("table1"))
 				{
 					daten=db.meineDaten(conn,sortierdings,"dateiname","DESC");
 				}else{
 					daten=db.publicDaten(conn,"dateiname","DESC");
 				}
-				for(int i=0;i<daten.size();i++)
-				{
-					System.out.println(daten.get(i)[1]);
-				}
+//				for(int i=0;i<daten.size();i++)
+//				{
+//					System.out.println(daten.get(i)[1]);
+//				}
 				break; 
 			}
 
 			case "3asc"  :{
+				
 				if(table.equals("table1"))
 				{
+					System.out.println("Sortieren nach Autor aufsteigend");
 					daten=db.meineDaten(conn,sortierdings,"autor","ASC");
 				}else{
-					daten=db.publicDaten(conn,"autor","ASC");
+					System.out.println("Sortieren nach Uploader aufsteigend");
+					daten=db.publicDaten(conn,"uploader","ASC");
 				}
 
-				for(int i=0;i<daten.size();i++)
-				{
-					System.out.println(daten.get(i)[1]);
-				}
+//				for(int i=0;i<daten.size();i++)
+//				{
+//					System.out.println(daten.get(i)[1]);
+//				}
 				break; 
 			}
 
 			case "3desc"  :{
+				
 				if(table.equals("table1"))
 				{
+					System.out.println("Sortieren nach Autor absteigend");
 					daten=db.meineDaten(conn,sortierdings,"autor","DESC");
 				}else{
-					daten=db.publicDaten(conn,"autor","DESC");
+					System.out.println("Sortieren nach Uploader absteigend");
+					daten=db.publicDaten(conn,"uploader","DESC");
 				}
 
-				for(int i=0;i<daten.size();i++)
-				{
-					System.out.println(daten.get(i)[1]);
-				}
+//				for(int i=0;i<daten.size();i++)
+//				{
+//					System.out.println(daten.get(i)[1]);
+//				}
 				break; 
 			}
 
 			case "4asc"  :{
+				
 				if(table.equals("table1"))
 				{
+					System.out.println("Sortieren nach Uploaddatum aufsteigend");
 					daten=db.meineDaten(conn,sortierdings,"uploaddatum","ASC");
 				}else{
-					daten=db.publicDaten(conn,"uploaddatum","ASC");
+					System.out.println("Sortieren nach Autor aufsteigend");
+					daten=db.publicDaten(conn,"autor","ASC");
 				}
 
-				for(int i=0;i<daten.size();i++)
-				{
-					System.out.println(daten.get(i)[1]);
-				}
+//				for(int i=0;i<daten.size();i++)
+//				{
+//					System.out.println(daten.get(i)[1]);
+//				}
 				break; 
 			}
 
 			case "4desc"  :{
 				if(table.equals("table1"))
 				{
+					System.out.println("Sortieren nach Uploaddatum absteigend");
 					daten=db.meineDaten(conn,sortierdings,"uploaddatum","DESC");
 				}else{
-					daten=db.publicDaten(conn,"uploaddatum","DESC");
+					System.out.println("Sortieren nach Autor absteigend");
+					daten=db.publicDaten(conn,"autor","DESC");
 				}
 
-				for(int i=0;i<daten.size();i++)
-				{
-					System.out.println(daten.get(i)[1]);
-				}
+//				for(int i=0;i<daten.size();i++)
+//				{
+//					System.out.println(daten.get(i)[1]);
+//				}
 				break; 
 			}
 
 			case "5asc"  :{
 				if(table.equals("table1"))
 				{
+					System.out.println("Sortieren nach Dokumentdatum aufsteigend");
 					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","ASC");
 				}else{
-					daten=db.publicDaten(conn,"dokumentdatum","ASC");
+					System.out.println("Sortieren nach Uploaddatum aufsteigend");
+					daten=db.publicDaten(conn,"uploaddatum","ASC");
 				}
 
-				for(int i=0;i<daten.size();i++)
-				{
-					System.out.println(daten.get(i)[1]);
-				}
+//				for(int i=0;i<daten.size();i++)
+//				{
+//					System.out.println(daten.get(i)[1]);
+//				}
 				break; 
 			}
 
 			case "5desc"  :{
 				if(table.equals("table1"))
 				{
+					System.out.println("Sortieren nach Dokumentdatum absteigend");
 					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","DESC");
 				}else{
-					daten=db.publicDaten(conn,"dokumentdatum","DESC");
+					System.out.println("Sortieren nach Dokumentdatum absteigend");
+					daten=db.publicDaten(conn,"uploaddatum","DESC");
 				}
 
-				for(int i=0;i<daten.size();i++)
-				{
-					System.out.println(daten.get(i)[1]);
-				}
+//				for(int i=0;i<daten.size();i++)
+//				{
+//					System.out.println(daten.get(i)[1]);
+//				}
 				break; 
 			}
+			case "6asc"  :{
+				if(table.equals("table2"))
+				{
+					System.out.println("Sortieren nach Dokumentdatum aufsteigend");
+					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","ASC");
+				}
 
+//				for(int i=0;i<daten.size();i++)
+//				{
+//					System.out.println(daten.get(i)[1]);
+//				}
+				break; 
+			}
+			case "6desc"  :{
+				if(table.equals("table2"))
+				{
+					System.out.println("Sortieren nach Dokumentdatum absteigend");
+					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","DESC");
+				}
+
+//				for(int i=0;i<daten.size();i++)
+//				{
+//					System.out.println(daten.get(i)[1]);
+//				}
+				break; 
+			}
+			
 			case "suchwort" :{
 				System.out.println("Suchwortsuche aktiv");
 				db.writeStichwörter(conn, search);
 				if(table.equals("table1"))
 				{
-					daten=db.ranking2(conn,search,username);
+					daten=db.durchsuchenPrivate(conn,search,username);
 				}else{
-					daten=db.ranking3(conn,search);
+					daten=db.durchsuchenPublic(conn,search);
 				}
 			
 				for(int i=0;i<daten.size();i++)
@@ -254,10 +299,10 @@ public class DataTableServlet extends HttpServlet {
 					daten=db.publicDaten(conn,"dateiname","ASC");
 					
 				}
-				for(int i=0;i<daten.size();i++)
-				{
-					System.out.println(daten.get(i)[1]);
-				}
+//				for(int i=0;i<daten.size();i++)
+//				{
+//					System.out.println(daten.get(i)[1]);
+//				}
 				System.out.println("Die Daten wurden nach dem Dateiname alphabetisch geordnet");
 			}
 			}
@@ -345,13 +390,13 @@ public class DataTableServlet extends HttpServlet {
 
 				//antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
 				JsonObject test = new JsonObject();
-				test.addProperty("ID", daten.get(i)[0]);
-				test.addProperty("DateiTyp", daten.get(i)[1]);
-				test.addProperty("Name", daten.get(i)[2]);
-				test.addProperty("Autor", daten.get(i)[3]);
-				test.addProperty("UploadDatum", daten.get(i)[4]);
-				test.addProperty("DokumentDatum", daten.get(i)[5]);
-				test.addProperty("ZUGANG", daten.get(i)[6]);
+				test.addProperty("ID", daten.get(i).getUploadid());
+				test.addProperty("DateiTyp", daten.get(i).getDateityp());
+				test.addProperty("Name", daten.get(i).getDateiname());
+				test.addProperty("Autor", daten.get(i).getAutor());
+				test.addProperty("UploadDatum", daten.get(i).getUploaddatum());
+				test.addProperty("DokumentDatum", daten.get(i).getDokumentdatum());
+				test.addProperty("ZUGANG", daten.get(i).getStatus());
 
 				data.add(test);
 				
@@ -368,14 +413,14 @@ public class DataTableServlet extends HttpServlet {
 				//antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Uploader\":\""+daten.get(i)[3]+"\",\"Autor\":\""+daten.get(i)[4]+"\",\"UploadDatum\":\""+daten.get(i)[5]+"\",\"DokumentDatum\":\""+daten.get(i)[6]+"\",\"ZUGANG\":\""+daten.get(i)[7]+"\"}";
 
 				JsonObject test = new JsonObject();
-				test.addProperty("ID", daten.get(i)[0]);
-				test.addProperty("DateiTyp", daten.get(i)[1]);
-				test.addProperty("Name", daten.get(i)[2]);
-				test.addProperty("Uploader", daten.get(i)[3]);
-				test.addProperty("Autor", daten.get(i)[4]);
-				test.addProperty("UploadDatum", daten.get(i)[5]);
-				test.addProperty("DokumentDatum", daten.get(i)[6]);
-				test.addProperty("ZUGANG", daten.get(i)[7]);
+				test.addProperty("ID", daten.get(i).getUploadid());
+				test.addProperty("DateiTyp", daten.get(i).getDateityp());
+				test.addProperty("Name", daten.get(i).getDateiname());
+				test.addProperty("Uploader", daten.get(i).getUploader());
+				test.addProperty("Autor", daten.get(i).getAutor());
+				test.addProperty("UploadDatum", daten.get(i).getUploaddatum());
+				test.addProperty("DokumentDatum", daten.get(i).getDokumentdatum());
+				test.addProperty("ZUGANG", daten.get(i).getStatus());
 				data.add(test);
 				if(i!=wh)
 				{

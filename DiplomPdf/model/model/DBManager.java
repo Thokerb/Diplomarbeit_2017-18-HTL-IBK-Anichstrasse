@@ -112,30 +112,28 @@ public class DBManager {
 	 * @param testzeile2
 	 * @return
 	 */
-	public static boolean writeDaten(Connection conn,String[] testzeile2, Part filePart, String date){
+	public static boolean writeDaten(Connection conn,Daten uploaddaten, Part filePart){
 
 		InputStream fis;
-		String entscheidungshilfe=null;
 
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
-		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
+		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
 
 		//connection Aufbau
 		try {
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
 			fis = filePart.getInputStream();
 
-			pstmt.setString(1, testzeile2[0]);
-			pstmt.setString(2, testzeile2[1]);
-			pstmt.setString(3, testzeile2[2]);
-			pstmt.setString(4, testzeile2[3]);
-			pstmt.setString(5, testzeile2[4]);
-			pstmt.setString(6, testzeile2[5]);
-			pstmt.setString(7, testzeile2[6]);
-			pstmt.setString(8, "private");
-			pstmt.setString(9, date);
-			pstmt.setString(10, getaktuellesDatum());
+			pstmt.setString(1, uploaddaten.getInhalttext());
+			pstmt.setString(2, uploaddaten.getUploader());
+			pstmt.setString(3, uploaddaten.getAutor());
+			pstmt.setString(4, uploaddaten.getDateiname());
+			pstmt.setString(5, uploaddaten.getStichworttext());
+			pstmt.setString(6, uploaddaten.getDateityp());
+			pstmt.setString(7, "private");
+			pstmt.setString(8, uploaddaten.getDokumentdatum());
+			pstmt.setString(9, getaktuellesDatum());
 			pstmt.setBinaryStream(11, fis, (int)filePart.getSize());
 			pstmt.executeUpdate();
 
@@ -149,28 +147,27 @@ public class DBManager {
 		return erfolg;
 
 	}
-	
-	public boolean writeDaten(Connection conn,Daten testzeile2){
+
+	public boolean writeDaten(Connection conn,Daten Uploaddaten){
 
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
-		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (dateiname, autor, uploader, inhalttext, stichworttext, tag, dateityp, uploaddatum, dokumentdatum, status, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
+		String INSERT_DATA_SQL = "INSERT INTO uploaddaten (dateiname, autor, uploader, inhalttext, stichworttext, dateityp, uploaddatum, dokumentdatum, status, blobdatei) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)";
 
 		//connection Aufbau
 		try {
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
 
-			pstmt.setString(1, testzeile2.getDateiname());
-			pstmt.setString(2, testzeile2.getAutor());
-			pstmt.setString(3, testzeile2.getUploader());
-			pstmt.setString(4, testzeile2.getInhalttext());
-			pstmt.setString(5, testzeile2.getStichworttext());
-			pstmt.setString(6, testzeile2.getTag());
-			pstmt.setString(7, testzeile2.getDateityp());
-			pstmt.setString(8, testzeile2.getUploaddatum());
-			pstmt.setString(9, testzeile2.getDokumentdatum());
-			pstmt.setString(10, testzeile2.getStatus());
-			pstmt.setBytes(11, testzeile2.getBlobdatei());
+			pstmt.setString(1, Uploaddaten.getDateiname());
+			pstmt.setString(2, Uploaddaten.getAutor());
+			pstmt.setString(3, Uploaddaten.getUploader());
+			pstmt.setString(4, Uploaddaten.getInhalttext());
+			pstmt.setString(5, Uploaddaten.getStichworttext());
+			pstmt.setString(7, Uploaddaten.getDateityp());
+			pstmt.setString(8, Uploaddaten.getUploaddatum());
+			pstmt.setString(9, Uploaddaten.getDokumentdatum());
+			pstmt.setString(10, Uploaddaten.getStatus());
+			pstmt.setBytes(11, Uploaddaten.getBlobdatei());
 
 
 			pstmt.executeUpdate();
@@ -183,37 +180,33 @@ public class DBManager {
 		return erfolg;
 
 	}
-	
-	//TODO
-	public boolean writegeloeschteDaten(Connection conn,Daten testzeile2){
 
-		String entscheidungshilfe=null;
+	public boolean writegeloeschteDaten(Connection conn,Daten deletedaten){
 
 		boolean erfolg = true;
 		//SQL-Abfrag zum hineinschreiben neuer Daten
-		String INSERT_DATA_SQL = "INSERT INTO geloeschtedaten (dateiname, autor, uploader, inhalttext, stichworttext, tag, dateityp, uploaddatum, dokumentdatum, status, blobdatei, deletedatum) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
+		String INSERT_DATA_SQL = "INSERT INTO geloeschtedaten (dateiname, autor, uploader, inhalttext, stichworttext, dateityp, uploaddatum, dokumentdatum, status, blobdatei, deletedatum) VALUES (?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
 
-		
+
 		String date = getaktuellesDatum();
-		
+
 		//connection Aufbau
 		try {
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
-			pstmt.setString(1, testzeile2.getDateiname());
-			pstmt.setString(2, testzeile2.getAutor());
-			pstmt.setString(3, testzeile2.getUploader());
-			pstmt.setString(4, testzeile2.getInhalttext());
-			pstmt.setString(5, testzeile2.getStichworttext());
-			pstmt.setString(6, testzeile2.getTag());
-			pstmt.setString(7, testzeile2.getDateityp());
-			pstmt.setString(8, testzeile2.getUploaddatum());
-			pstmt.setString(9, testzeile2.getDokumentdatum());
-			pstmt.setString(10, testzeile2.getStatus());
-			pstmt.setBytes(11, testzeile2.getBlobdatei());
+			pstmt.setString(1, deletedaten.getDateiname());
+			pstmt.setString(2, deletedaten.getAutor());
+			pstmt.setString(3, deletedaten.getUploader());
+			pstmt.setString(4, deletedaten.getInhalttext());
+			pstmt.setString(5, deletedaten.getStichworttext());
+			pstmt.setString(7, deletedaten.getDateityp());
+			pstmt.setString(8, deletedaten.getUploaddatum());
+			pstmt.setString(9, deletedaten.getDokumentdatum());
+			pstmt.setString(10, deletedaten.getStatus());
+			pstmt.setBytes(11, deletedaten.getBlobdatei());
 			pstmt.setString(12, date);
-			
-			System.out.println("Testzeile: "+testzeile2);
-			
+
+			System.out.println("Gelöschte Daten: "+deletedaten);
+
 			pstmt.executeUpdate();
 
 			pstmt.close();pstmt=null;
@@ -226,7 +219,7 @@ public class DBManager {
 	}
 
 	public static String getaktuellesDatum(){
-		
+
 		GregorianCalendar now = new GregorianCalendar(); 
 
 		SimpleDateFormat d = new SimpleDateFormat("dd.MM.yyyy");
@@ -315,29 +308,30 @@ public class DBManager {
 	 * @return
 	 */
 
-	public ArrayList<String[]> meineDaten(Connection conn,String sortierdings,String spalte,String reihung)
+	public ArrayList<Daten> meineDaten(Connection conn,String sortierdings,String spalte,String reihung)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
-		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
-
+		ArrayList<Daten> DatenSortiertPrivate = new ArrayList<>();
+		
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, autor, uploaddatum, dokumentdatum, status from uploaddaten where uploader='"+sortierdings+"' order by "+spalte+" "+ reihung+";";
+		String READ_DATEN_PRIVATE="select uploadid,dateityp, dateiname, autor, uploaddatum, dokumentdatum, status from uploaddaten where uploader='"+sortierdings+"' order by "+spalte+" "+ reihung+";";
 
-		System.out.println(READ_DATEN_AUTORASC);
+		System.out.println(READ_DATEN_PRIVATE);
 		try {
-			pstmt = conn.prepareStatement(READ_DATEN_AUTORASC);
+			pstmt = conn.prepareStatement(READ_DATEN_PRIVATE);
 			rs = pstmt.executeQuery();
-			System.out.println("yoo");
 			while(rs.next())
 			{
-				String[] zeile = new String[10];
-				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 7; i++) {
-					zeile[i] = rs.getString(i+1);
-					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
-				}
-				DatennachAutorASC.add(zeile);
-				System.out.println();
+				int uploadid = rs.getInt(1);
+				String dateityp = rs.getString(2);
+				String dateiname = rs.getString(3);
+				String autor = rs.getString(4);
+				String uploaddatum = rs.getString(5);
+				String dokumentdatum = rs.getString(6);
+				String status = rs.getString(7);
+				
+				Daten zeile = new Daten(uploadid,dateityp,dateiname, autor, uploaddatum, dokumentdatum, status);
+				DatenSortiertPrivate.add(zeile);
 			}
 
 			pstmt.close(); pstmt=null;
@@ -346,14 +340,14 @@ public class DBManager {
 			e.printStackTrace();
 		}
 
-		return DatennachAutorASC;
+		return DatenSortiertPrivate;
 
 	}
-	
-	public ArrayList<String[]> publicDaten(Connection conn,String spalte,String reihung)
+
+	public ArrayList<Daten> publicDaten(Connection conn,String spalte,String reihung)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
-		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
+		ArrayList<Daten> DatenSortierPublic = new ArrayList<Daten>();
 
 		//SQL-Abfrage
 		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, uploader, autor, uploaddatum, dokumentdatum, status from uploaddaten where status='public' order by "+spalte+" "+ reihung+";";
@@ -365,14 +359,17 @@ public class DBManager {
 			System.out.println("yoo");
 			while(rs.next())
 			{
-				String[] zeile = new String[10];
-				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 8; i++) {
-					zeile[i] = rs.getString(i+1);
-					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
-				}
-				DatennachAutorASC.add(zeile);
-				System.out.println();
+				int uploadid = rs.getInt(1);
+				String dateityp = rs.getString(2);
+				String dateiname = rs.getString(3);
+				String uploader = rs.getString(4);
+				String autor = rs.getString(5);
+				String uploaddatum = rs.getString(6);
+				String dokumentdatum = rs.getString(7);
+				String status = rs.getString(8);
+				
+				Daten zeile = new Daten(uploadid,dateityp,dateiname, uploader, autor, uploaddatum, dokumentdatum, status);
+				DatenSortierPublic.add(zeile);
 			}
 
 			pstmt.close(); pstmt=null;
@@ -381,14 +378,14 @@ public class DBManager {
 			e.printStackTrace();
 		}
 		System.out.println("Wird des ausgeführt");
-		return DatennachAutorASC;
+		return DatenSortierPublic;
 
 	}
-	
-	public ArrayList<String[]> geloeschteDaten(Connection conn,String sortierdings,String spalte,String reihung)
+
+	public ArrayList<Daten> geloeschteDaten(Connection conn,String sortierdings,String spalte,String reihung)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
-		ArrayList<String[]> DatennachAutorASC = new ArrayList<String[]>();
+		ArrayList<Daten> geloeschteDaten = new ArrayList<Daten>();
 
 		//SQL-Abfrage
 		String READ_DATEN_AUTORASC="select loeschid, dateityp, dateiname, autor, deletedatum, uploaddatum, dokumentdatum from geloeschtedaten where uploader='"+sortierdings+"' order by "+spalte+" "+ reihung+";";
@@ -400,14 +397,16 @@ public class DBManager {
 			System.out.println("yoo");
 			while(rs.next())
 			{
-				String[] zeile = new String[10];
-				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 7; i++) {
-					zeile[i] = rs.getString(i+1);
-					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
-				}
-				DatennachAutorASC.add(zeile);
-				System.out.println();
+				int loeschid = rs.getInt(1);
+				String dateityp = rs.getString(2);
+				String dateiname = rs.getString(3);
+				String autor = rs.getString(4);
+				String deletedatum = rs.getString(5);
+				String uploaddatum = rs.getString(6);
+				String dokumentdatum = rs.getString(7);
+				
+				Daten zeile = new Daten(loeschid,dateityp,dateiname, autor, deletedatum, uploaddatum, dokumentdatum);
+				geloeschteDaten.add(zeile);
 			}
 
 			pstmt.close(); pstmt=null;
@@ -416,10 +415,10 @@ public class DBManager {
 			e.printStackTrace();
 		}
 
-		return DatennachAutorASC;
+		return geloeschteDaten;
 
 	}
-	
+
 	public Daten readgeloeschteDatei(Connection conn,int id)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
@@ -442,14 +441,13 @@ public class DBManager {
 				String stichworttext=rs.getString(5);
 				String dateityp=rs.getString(6);
 				String status=rs.getString(7);
-				String tag=rs.getString(8);
-				String uploaddatum=rs.getString(9);
-				String dokumentdatum=rs.getString(10);
-				byte[] blobdatei=rs.getBytes(11);
-				String deletedatum=rs.getString(12);
-				
-				uploaddaten =new Daten(dateiname,autor,uploader,inhalttext,stichworttext,dateityp,status,tag,uploaddatum,dokumentdatum,deletedatum,blobdatei);
-				
+				String uploaddatum=rs.getString(8);
+				String dokumentdatum=rs.getString(9);
+				byte[] blobdatei=rs.getBytes(10);
+				String deletedatum=rs.getString(11);
+
+				uploaddaten =new Daten(dateiname,autor,uploader,inhalttext,stichworttext,dateityp,status,uploaddatum,dokumentdatum,deletedatum,blobdatei);
+
 				System.out.println(uploaddaten);
 			}
 
@@ -462,7 +460,7 @@ public class DBManager {
 		return uploaddaten;
 
 	}
-	
+
 	public Daten readzuloeschendeDatei(Connection conn,int id)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
@@ -489,9 +487,9 @@ public class DBManager {
 				String dokumentdatum=rs.getString(9);
 				String status=rs.getString(10);
 				byte[] blobdatei=rs.getBytes(11);
-				
+
 				uploaddaten=new Daten(dateiname,autor,uploader,inhalttext,stichworttext,dateityp,status,tag,uploaddatum,dokumentdatum,blobdatei);
-				
+
 				System.out.println(uploaddaten);
 			}
 
@@ -525,7 +523,7 @@ public class DBManager {
 
 		return anzahl;
 	}
-	
+
 	public int AnzahlEinträge1(Connection conn,String spalte,String spalteninhalt,String tabelle,String id)
 	{
 		String SQL="select count("+id+") from "+tabelle+" where "+spalte+"='"+spalteninhalt+"'";
@@ -539,7 +537,7 @@ public class DBManager {
 				anzahl=rs.getInt(1);
 				System.out.println("Anzahl der Einträge in DB: "+anzahl);
 			}
-			
+
 			pstmt.close(); 
 			if(pstmt!=null)
 			{
@@ -580,9 +578,9 @@ public class DBManager {
 
 			pstmt.close();
 			pstmt=null;
-//			rs.close();
+			//			rs.close();
 			rs=null;
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -624,12 +622,12 @@ public class DBManager {
 		return easySuchwort;
 	}
 
-	//Überprüft ob angegebnes wort im text ist
+	//Überprüft ob ein bestimmtes wort im text ist
 	public boolean  tsearch(Connection conn,String wort,String wort2) {
-		ArrayList<String[]> daten = new ArrayList<String[]>();
-		//Tabellenzeilen aus Datenbank einlesen
+
+		//SQL Abfrage
 		String SEARCH_FOR_DATA_SQL_DATEN = "select (\'"+wort+"\')@@(\'"+wort2+"\')";
-		//System.out.print(easySuchwort);
+
 		try {	
 			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
 			rs = pstmt.executeQuery();
@@ -651,7 +649,7 @@ public class DBManager {
 
 	// TODO
 	public float ranking(Connection conn,String wort,String wort2) {
-		ArrayList<String[]> daten = new ArrayList<String[]>();
+
 		//Tabellenzeilen aus Datenbank einlesen
 		String SEARCH_FOR_DATA_SQL_DATEN = "select ts_rank((\'"+wort+"\')@@ to_tsquery(\'"+wort2+"\')) as relevancy";
 		System.out.print(SEARCH_FOR_DATA_SQL_DATEN);
@@ -673,9 +671,9 @@ public class DBManager {
 		return relevanz;
 	}
 
-	//TODO mit count(uploadid) 
-	public ArrayList<String[]> ranking2(Connection conn, String wort,String username) {
-		ArrayList<String[]> daten = new ArrayList<String[]>();
+	//TODO das von der Dateinamen auch gesucht wird
+	public ArrayList<Daten> durchsuchenPrivate(Connection conn, String wort,String username) {
+		ArrayList<Daten> daten = new ArrayList<Daten>();
 		//Tabellenzeilen aus Datenbank einlesen
 		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
 				+ "uploaddaten.dateiname as dateiname, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status, uploaddaten.autor as autor, uploaddaten.uploader as uploader,"
@@ -687,7 +685,7 @@ public class DBManager {
 				+ " GROUP BY uploaddaten.uploadid, uploaddaten.autor) p_search"
 				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\') and uploader='"+username+"\'"
 				+ " ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
-		
+
 		System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
 		try {	
 			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
@@ -695,14 +693,17 @@ public class DBManager {
 			rs.getFetchSize();
 			System.out.println("rs.getFetchSize()"+rs.getFetchSize());
 			while (rs.next()) {
-				String[] zeile = new String[10];
-				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 7; i++) {
-					zeile[i] = rs.getString(i+1);
-					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
-				}
-				daten.add(zeile);
+				int uploadid = rs.getInt(1);
+				String dateityp = rs.getString(2);
+				String dateiname = rs.getString(3);
+				String autor = rs.getString(4);
+				String uploaddatum = rs.getString(5);
+				String dokumentdatum = rs.getString(6);
+				String status = rs.getString(7);
 				
+				Daten zeile = new Daten(uploadid,dateityp,dateiname, autor, uploaddatum, dokumentdatum, status);
+				daten.add(zeile);
+
 				System.out.println();
 				System.out.println("Sortierte Texte nach Suchwort");
 
@@ -715,10 +716,10 @@ public class DBManager {
 		}
 		return daten;
 	}
-	
+
 	//TODO mit count(uploadid) 
-	public ArrayList<String[]> ranking3(Connection conn, String wort,String username) {
-		ArrayList<String[]> daten = new ArrayList<String[]>();
+	public ArrayList<Daten> durchsuchenGeloeschte(Connection conn, String wort,String username) {
+		ArrayList<Daten> daten = new ArrayList<Daten>();
 		//Tabellenzeilen aus Datenbank einlesen
 		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, deletedatum status FROM (SELECT geloeschtedaten.uploadid as uploadid, geloeschtedaten.dateityp as dateityp, "
 				+ "geloeschtedaten.dateiname as dateiname, geloeschtedaten.dokumentdatum as dokumentdatum, geloeschtedaten.uploaddatum as uploaddatum, geloeschtedaten.status as status, geloeschtedaten.autor as autor, geloeschtedaten.uploader as uploader, geloeschtedaten.deletedatum as deletedatum"
@@ -730,7 +731,7 @@ public class DBManager {
 				+ " GROUP BY geloeschtedaten.uploadid, geloeschtedaten.autor) p_search"
 				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\') and uploader='"+username+"\'"
 				+ " ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
-		
+
 		System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
 		try {	
 			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
@@ -738,12 +739,16 @@ public class DBManager {
 			rs.getFetchSize();
 			System.out.println("rs.getFetchSize()"+rs.getFetchSize());
 			while (rs.next()) {
-				String[] zeile = new String[10];
-				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 8; i++) {
-					zeile[i] = rs.getString(i+1);
-					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
-				}
+				int uploadid = rs.getInt(1);
+				String dateityp = rs.getString(2);
+				String dateiname = rs.getString(3);
+				String autor = rs.getString(4);
+				String uploaddatum = rs.getString(5);
+				String dokumentdatum = rs.getString(6);
+				String deletedatum = rs.getString(7);
+				String status = rs.getString(8);
+				
+				Daten zeile = new Daten(uploadid,dateityp,dateiname, autor, uploaddatum, dokumentdatum, deletedatum, status);
 				daten.add(zeile);
 				
 				System.out.println();
@@ -759,8 +764,8 @@ public class DBManager {
 		return daten;
 	}
 
-	public ArrayList<String[]> ranking3(Connection conn, String wort) {
-		ArrayList<String[]> daten = new ArrayList<String[]>();
+	public ArrayList<Daten> durchsuchenPublic(Connection conn, String wort) {
+		ArrayList<Daten> daten = new ArrayList<Daten>();
 		//Tabellenzeilen aus Datenbank einlesen
 		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, uploader,autor, uploaddatum, dokumentdatum, status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
 				+ "uploaddaten.dateiname as dateiname, uploaddaten.autor as autor, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status, uploaddaten.uploader as uploader,"
@@ -772,7 +777,7 @@ public class DBManager {
 				+ " GROUP BY uploaddaten.uploadid, uploaddaten.autor) p_search"
 				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\') and status='public'"
 				+ " ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
-		
+
 		System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
 		try {	
 			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
@@ -780,14 +785,18 @@ public class DBManager {
 			rs.getFetchSize();
 			System.out.println("rs.getFetchSize()"+rs.getFetchSize());
 			while (rs.next()) {
-				String[] zeile = new String[10];
-				System.out.print("Gelesen wurde: ");
-				for (int i = 0; i < 7; i++) {
-					zeile[i] = rs.getString(i+1);
-					System.out.print(" '" + zeile[i] + "'");	//zur Kontrolle
-				}
-				daten.add(zeile);
+				int uploadid = rs.getInt(1);
+				String dateityp = rs.getString(2);
+				String dateiname = rs.getString(3);
+				String uploader = rs.getString(4);
+				String autor = rs.getString(5);
+				String uploaddatum = rs.getString(6);
+				String dokumentdatum = rs.getString(7);
+				String status = rs.getString(8);
 				
+				Daten zeile = new Daten(uploadid,dateityp,dateiname, uploader, autor, uploaddatum, dokumentdatum, status);
+				daten.add(zeile);
+
 				System.out.println();
 				System.out.println("Sortierte Texte nach Suchwort");
 
@@ -802,34 +811,34 @@ public class DBManager {
 	}
 
 
-	public void Blobeinfuegen(Connection conn,Part filePart,String text)
-	{
-		//String INSERT_DATA_SQL="INSERT INTO uploaddaten (blobdatei) VALUES (?)";
-		String INSERT_DATA_SQL="UPDATE uploaddaten set blobdatei =? WHERE inhalttext = '"+text+"'";
-		try {
-
-			InputStream fis = filePart.getInputStream();
-			//			FileInputStream fis= new FileInputStream(file);
-			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
-			//			fis = new FileInputStream(file);
-			//			pstmt.setString(1, file.getName());
-			pstmt.setBinaryStream(2, fis, (int)filePart.getSize());
-			pstmt.executeUpdate();
-
-			pstmt.close();
-			fis.close();
-
-			pstmt.close(); pstmt=null;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		System.out.println("Daten in Datenbank gepeichert.");
-	}
+	//	public void Blobeinfuegen(Connection conn,Part filePart,String text)
+	//	{
+	//		//String INSERT_DATA_SQL="INSERT INTO uploaddaten (blobdatei) VALUES (?)";
+	//		String INSERT_DATA_SQL="UPDATE uploaddaten set blobdatei =? WHERE inhalttext = '"+text+"'";
+	//		try {
+	//
+	//			InputStream fis = filePart.getInputStream();
+	//			//			FileInputStream fis= new FileInputStream(file);
+	//			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
+	//			//			fis = new FileInputStream(file);
+	//			//			pstmt.setString(1, file.getName());
+	//			pstmt.setBinaryStream(2, fis, (int)filePart.getSize());
+	//			pstmt.executeUpdate();
+	//
+	//			pstmt.close();
+	//			fis.close();
+	//
+	//			pstmt.close(); pstmt=null;
+	//		} catch (FileNotFoundException e) {
+	//			e.printStackTrace();
+	//		}catch (SQLException e) {
+	//			e.printStackTrace();
+	//		}catch (IOException e) {
+	//			e.printStackTrace();
+	//		}
+	//
+	//		System.out.println("Daten in Datenbank gepeichert.");
+	//	}
 
 
 	public byte[] BLOBauslesen(Connection conn,String id)
@@ -894,24 +903,24 @@ public class DBManager {
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		List<Daten> daten = new ArrayList<>();
 		//SQL-Abfrage
-		String READ_DATA_SQL_DATEN = "SELECT dateiname, autor, uploader, inhalttext, uploader, autor, dateiname,uploadid,uploaddatum FROM uploaddaten";
+		String READ_DATA_SQL_DATEN = "SELECT uploadid, dateiname, autor, uploader, inhalttext, stichworttext, dateityp, status, uploaddatum, dokumentdatum FROM uploaddaten";
 		//opens a connection, 
 		try { 
 			pstmt = conn.prepareStatement(READ_DATA_SQL_DATEN);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String language=rs.getString(1);
-				String tag=rs.getString(2);
-				String blobdatei=rs.getString(3);
-				String stichworttext=rs.getString(4);
+				int uploadid = rs.getInt(1);
+				String dateiname=rs.getString(2);
+				String autor=rs.getString(3);
+				String uploader=rs.getString(4);
 				String inhalttext=rs.getString(5);
-				String uploader=rs.getString(6);
-				String autor=rs.getString(7);
-				String dateiname=rs.getString(8);
-				int uploadid=rs.getInt(9);
-				String uploaddatum=rs.getString(10);
+				String stichworttext=rs.getString(6);
+				String dateityp=rs.getString(7);
+				String status=rs.getString(8);
+				String uploaddatum=rs.getString(9);
+				String dokumentdatum=rs.getString(10);
 
-				Daten zeile = new Daten();
+				Daten zeile = new Daten(uploadid,dateiname,autor,uploader,inhalttext,stichworttext,dateityp,status,uploaddatum,dokumentdatum);
 				daten.add(zeile);
 
 			}
@@ -1109,9 +1118,9 @@ public class DBManager {
 
 		int i = ps.executeUpdate();
 		System.out.println(SQL);
-		
+
 		if(i > 0 ) System.out.println("error");
-		
+
 	}
 
 	public String getEmailByUser(Connection conn,String user) {
@@ -1138,7 +1147,7 @@ public class DBManager {
 	}
 
 	public String getUserByEmail(Connection conn,String emailuser) {
-	
+
 		String SQL="SELECT benutzername FROM benutzer WHERE email ='"+emailuser+"'";
 		String benutzername=null;
 
@@ -1185,7 +1194,7 @@ public class DBManager {
 
 	public String getEmail(Connection conn,String em) {
 		{
-			
+
 			String SQL="select email from benutzer where email='"+em+"'";
 			String email=null;
 
@@ -1231,7 +1240,7 @@ public class DBManager {
 	public String[] Dateiname(Connection conn, String username)
 	{
 		String SQL="select dateiname from uploaddaten JOIN benutzer ON(uploaddaten.uploader = benutzer.benutzername) WHERE benutzername = '"+username+"';";
-		
+
 		String[] spalten = new String[anzahl];
 
 		try {
@@ -1336,7 +1345,6 @@ public class DBManager {
 			pstmt = conn.prepareStatement(INSERT_DATA_SQL);
 			pstmt.executeUpdate();
 
-			rs.close(); rs=null;
 			pstmt.close(); pstmt=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1347,16 +1355,18 @@ public class DBManager {
 
 	public void deletebyname(String dateiname,String username, Connection conn) {
 		String SQL = "delete from uploaddaten where dateiname ='"+dateiname+"' AND uploader = '"+username+"';";
-		
+
 		try {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.executeUpdate();
+			
+			pstmt.close(); pstmt=null;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static boolean checkUser(Connection conn, String username, String pwd) {
 
 		boolean st = false; 
@@ -1365,15 +1375,17 @@ public class DBManager {
 		System.out.println("Connecting to database...");
 
 		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);
 
-			ps.setString(1,  username);
-			ps.setString(2,  pwd);
+			pstmt.setString(1,  username);
+			pstmt.setString(2,  pwd);
 
-			ResultSet rs = ps.executeQuery(); // st boolean? 
+			rs = pstmt.executeQuery(); // st boolean? 
 
 			st = rs.next();
 
+			pstmt.close(); pstmt=null;
+			rs.close(); rs=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Connecting not successful");
@@ -1387,6 +1399,8 @@ public class DBManager {
 		try {
 			pstmt = conn2.prepareStatement(sql);
 			pstmt.executeUpdate();
+			
+			pstmt.close(); pstmt=null;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1401,14 +1415,16 @@ public class DBManager {
 			pstmt = con.prepareStatement(SQL);
 			rs = pstmt.executeQuery();
 			while(rs.next()){
-				 uploader = rs.getString("uploader");
+				uploader = rs.getString("uploader");
 			}
-			
+
+			pstmt.close(); pstmt=null;
+			rs.close(); rs=null;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return uploader;
 	}
 

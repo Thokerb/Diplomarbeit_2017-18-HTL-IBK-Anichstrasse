@@ -16,6 +16,7 @@ import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.postgresql.util.PSQLException;
 
 import model.DBManager;
+import model.Daten;
 
 /**
  * Servlet implementation class UploadServlet
@@ -110,23 +111,18 @@ public class UploadServlet extends HttpServlet {
 				conn=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-				String[] daten =new String[7];
-				daten[0]="tag";
-				daten[1]=inhalttext;
-				daten[2]=username;
-				daten[3]=pdfL.getAutor(); 
-				daten[4]=dateiname;
-				daten[5]=stichworttext;
-				daten[6]=dateityp;
+				Daten daten =new Daten();
+				daten.setInhalttext(inhalttext);
+				daten.setUploader(username);
+				daten.setAutor(pdfL.getAutor()); 
+				daten.setDateiname(dateiname);
+				daten.setStichworttext(stichworttext);
+				daten.setDateityp(dateityp);
+				daten.setDokumentdatum(pdfL.getDatum());
 				
-				for(String s : daten) {
-					System.out.print("Gelesen wurde: ");
-					System.out.println(s);
-				}
-				DBManager.writeDaten(conn,daten,filePart,pdfL.getDatum());
-				//DBManager.Blobeinfuegen(filePart,stichworttext);
+				DBManager.writeDaten(conn,daten,filePart);
 				
-				System.out.println(inhalttext);
+				//System.out.println(inhalttext);
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -157,28 +153,21 @@ public class UploadServlet extends HttpServlet {
 				conn = dbm.getConnection();
 				String stichworttext = dbm.Stichtextgenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-				String[] daten =new String[8];
-				daten[0]="tag";
-				daten[1]=inhalttext;
-				daten[2]=username;
-				daten[3]=txtL.getAutor();
-				daten[4]=dateiname;
-				daten[5]=stichworttext; 
-				daten[6]=dateityp;
-
-				for(String s : daten) {
-					System.out.print("Gelesen wurde: ");
-					System.out.println(s);
-				}
-				if(!DBManager.writeDaten(conn,daten,filePart,txtL.getDatum())) {
+				Daten daten =new Daten();
+				daten.setInhalttext(inhalttext);
+				daten.setUploader(username);
+				daten.setAutor(txtL.getAutor()); 
+				daten.setDateiname(dateiname);
+				daten.setStichworttext(stichworttext);
+				daten.setDateityp(dateityp);
+				
+				if(!DBManager.writeDaten(conn,daten,filePart)) {
 					response.setStatus(HttpServletResponse.SC_CONFLICT);
 					response.getWriter().println("Fehlerhafte Datei");
 					break;
 				}
 				
-				//DBManager.Blobeinfuegen(filePart,stichworttext);
-				
-				System.out.println("inhalttext");
+				//System.out.println("inhalttext");
 			} catch(PSQLException e){
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 				response.getWriter().println("Fehlerhafte Datei");
@@ -207,23 +196,18 @@ public class UploadServlet extends HttpServlet {
 				conn=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-				String[] daten =new String[7];
-				daten[0]="tag";
-				daten[1]=inhalttext;
-				daten[2]=username;
-				daten[3]=docL.getAutor(); 
-				daten[4]=dateiname;
-				daten[5]=stichworttext; 
-				daten[6]=dateityp;
+				Daten daten =new Daten();
+				daten.setInhalttext(inhalttext);
+				daten.setUploader(username);
+				daten.setAutor(docL.getAutor()); 
+				daten.setDateiname(dateiname);
+				daten.setStichworttext(stichworttext);
+				daten.setDateityp(dateityp);
+				daten.setDokumentdatum(docL.getDatum());
 
-				for(String s : daten) {
-					System.out.print("Gelesen wurde: ");
-					System.out.println(s);
-				}
-				DBManager.writeDaten(conn,daten,filePart,docL.getDatum());
-				//DBManager.Blobeinfuegen(filePart,stichworttext);
+				DBManager.writeDaten(conn,daten,filePart);
 				
-				System.out.println("inhalttext");
+//				System.out.println("inhalttext");
 				
 			} catch (InstantiationException e) {
 				e.printStackTrace();
@@ -257,24 +241,18 @@ public class UploadServlet extends HttpServlet {
 				String stichworttext=dbm.Stichtextgenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				//aus writeDaten: tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei
-				String[] daten =new String[7];
-				daten[0]="tag";
-				daten[1]=inhalttext;
-				daten[2]=username;
-				daten[3]=docxL.getAutor(); 
-				daten[4]=dateiname;
-				daten[5]=stichworttext;
-				daten[6]=dateityp;
-
-
-				for(String s : daten) {
-					System.out.print("Gelesen wurde: ");
-					System.out.println(s);
-				}
-				DBManager.writeDaten(conn,daten,filePart,docxL.getDatum());
-				//DBManager.Blobeinfuegen(filePart,stichworttext);
+				Daten daten =new Daten();
+				daten.setInhalttext(inhalttext);
+				daten.setUploader(username);
+				daten.setAutor(docxL.getAutor()); 
+				daten.setDateiname(dateiname);
+				daten.setStichworttext(stichworttext);
+				daten.setDateityp(dateityp);
+				daten.setDokumentdatum(docxL.getDatum());
 				
-				System.out.println("inhalttext");
+				DBManager.writeDaten(conn,daten,filePart);
+				
+//				System.out.println("inhalttext");
 				
 			} catch (InstantiationException e) {
 				e.printStackTrace();
