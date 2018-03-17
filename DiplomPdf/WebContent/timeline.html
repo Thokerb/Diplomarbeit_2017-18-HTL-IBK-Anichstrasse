@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Insert title here</title>
+<link rel="stylesheet" href="timeline.css">
+</head>
+<body>
+
+<script src="jquery-3.2.1.js"></script>
+
+<script>
+
+$(document).ready(function() {
+	getData();
+})
+
+function getData(){
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	      var string = this.responseText;
+	      var data = JSON.parse(string);
+	      makeTimeLine(data);
+	    }
+	  };
+	  xhttp.open("POST", "TimeLineServlet", true);
+	  xhttp.send()
+}
+
+function makeTimeLine(data){
+	var text = ""
+	text += "<div class='timeline'>";
+	var cl = "<div class='container left'><div class='content'>";
+	var cr = "<div class='container left'><div class='content'>";
+	var left = true;
+	for(var i = 0;i < data.length;i++){
+		var eintrag=data[i];
+		if(left){
+			text += cl;
+			left = false;
+		}
+		else{
+			text += cr;
+			left = true;
+		}
+		text += "<h2>"+eintrag.art+"<h2>";
+		text += "<h2>"+eintrag.datum+"</h2>";
+		text += "<p>"+eintrag.name+"</p>";
+		text += "<button class='downloadbutton'>Download</button>";
+		text += "</div></div>";
+	}
+	text+="</div>";
+	document.getElementById("inhalt").innerHTML = text;
+}
+
+</script>
+
+<div id = "inhalt"></div>
+
+</body>
+</html>

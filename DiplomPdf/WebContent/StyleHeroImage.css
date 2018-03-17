@@ -13,7 +13,7 @@ body, html {
 /* The hero image */
 .hero-image {
 	/* The image used */
-	background-image: url("Images/hero_image_bearbeitet.jpg");
+	background-image: url("Images/hero_image_bearbeitetv2.jpg");
 	/* Set a specific height */
 	height: 10%;
 	/* Position and center the image to scale nicely on all screens */
@@ -27,7 +27,7 @@ body, html {
 
 .hero-image2 {
 	/* The image used */
-	background-image: url("Images/heroImageErrorPage.png");
+	background-image: url("Images/heroImageErrorPage.jpg");
 	/* Set a specific height */
 	height: 10%;
 	/* Position and center the image to scale nicely on all screens */

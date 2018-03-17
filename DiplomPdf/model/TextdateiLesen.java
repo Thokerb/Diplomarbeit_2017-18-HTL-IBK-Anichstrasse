@@ -10,13 +10,13 @@ import org.apache.commons.io.IOUtils;
 import org.postgresql.util.PSQLException;
 
 
-public class TextdateiLesen {
+public class TextdateiLesen implements IStrategy {
 
 	String dateCreated;
 	UserPrincipal aut;
 
 	
-	public String textdateiLesen(String filename) throws PSQLException, IOException{
+	public String textAuslesen(String filename) throws IOException{
 	
 			Path path = Paths.get(filename);
 			
@@ -56,17 +56,17 @@ public class TextdateiLesen {
 		return name;
 	}
 	
-	public static void main(String[] args) {
-		TextdateiLesen l1 = new TextdateiLesen();
-		try {
-			l1.textdateiLesen("C://Users//Sara//Dropbox//Diplomarbeit//Text.txt");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (PSQLException e) {
-			e.printStackTrace();
-		}
-		l1.getDatum();
-		l1.getAutor();
-	}
+
+//	public static void main(String[] args) {
+//		TextdateiLesen l1 = new TextdateiLesen();
+//		try {
+//			l1.textAuslesen("C://Users//Sara//Dropbox//Diplomarbeit//Text.txt");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		l1.getDatum();
+//		l1.getAutor();
+//	}
 	
 }

@@ -104,7 +104,7 @@ public class UploadServlet extends HttpServlet {
 			try {
 				
 				PDFLesen pdfL = new PDFLesen();
-				String inhalttext = pdfL.pdfToText(pfad+dateiname); 
+				String inhalttext = pdfL.textAuslesen(pfad+dateiname); 
 				
 				dbm=new DBManager();
 				conn=dbm.getConnection();
@@ -151,7 +151,7 @@ public class UploadServlet extends HttpServlet {
 			try {
 				
 				TextdateiLesen txtL = new TextdateiLesen();
-				String inhalttext = txtL.textdateiLesen(pfad+dateiname);
+				String inhalttext = txtL.textAuslesen(pfad+dateiname);
 				
 				dbm = new DBManager();
 				conn = dbm.getConnection();
@@ -201,7 +201,7 @@ public class UploadServlet extends HttpServlet {
 			DocLesen docL = new DocLesen();
 
 			try {
-				String inhalttext = docL.lesenDoc(pfad+dateiname);
+				String inhalttext = docL.textAuslesen(pfad+dateiname);
 				
 				dbm=new DBManager();
 				conn=dbm.getConnection();
@@ -249,7 +249,7 @@ public class UploadServlet extends HttpServlet {
 			
 			try {
 				
-				String inhalttext = docxL.lesenDocx(pfad+dateiname);
+				String inhalttext = docxL.textAuslesen(pfad+dateiname);
 				System.out.println("Inhalttext in Dokument: "+inhalttext);
 				
 				dbm=new DBManager();
@@ -319,16 +319,17 @@ public class UploadServlet extends HttpServlet {
 
 		String pfad = getInitParameter("Pfad");
 		File file = createFile(pfad, dateiname);
-
+		System.out.println("sys prop:");
+		String d = 	System.getProperty("user.dir");
+		System.out.println(d);
 		try{
 			Files.copy(fileContent, file.toPath());
 			System.out.println("Datei gespeichert. Sie war bisher "+nummer+" mal vorhanden");
 
-		} catch (IOException e) {
-			System.out.println("ERROR DATEI BEREITS VORHANDEN");
-			e.printStackTrace();
-			nummer++;
-			uploader(fileContent, NamensNummerierer(dateiname,nummer),nummer);
+	
+		}	
+		catch(IOException ex){
+			ex.printStackTrace();
 		}	
 
 		finally {
@@ -343,6 +344,7 @@ public class UploadServlet extends HttpServlet {
 
 	private File createFile(String pfad, String name){
 		File uploads = new File(pfad);
+		uploads.mkdirs();
 		File file = new File(uploads, name);
 		return file;
 

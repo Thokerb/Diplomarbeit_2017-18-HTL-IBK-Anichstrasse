@@ -44,7 +44,9 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("Anmeldung erfolgreich");
 			HttpSession session = request.getSession();  
 			session.setAttribute("user",username);  
-			response.sendRedirect("DataTableSite.jsp");
+//			response.setContentType(arg0);
+			request.getRequestDispatcher("DataTableSite.jsp").forward(request, response);
+			//response.sendRedirect("DataTableSite.jsp");
 			anmeldung = true; 
 
 		}else{
@@ -54,7 +56,7 @@ public class LoginServlet extends HttpServlet {
 			anmeldung = false; 
 			request.setAttribute("message","Bitte erneut versuchen!");
 			RequestDispatcher rs = request.getRequestDispatcher("Login.jsp");
-			rs.include(request, response);
+			rs.forward(request, response);
 		}
 		} catch (InstantiationException e) {
 			e.printStackTrace();

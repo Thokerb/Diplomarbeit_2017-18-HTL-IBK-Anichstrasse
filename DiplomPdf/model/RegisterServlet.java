@@ -18,12 +18,6 @@ import model.DBManager;
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	static final String JDBC_DRIVER = "org.postgresql.Driver";  
-	static final String DB_URL = "jdbc:postgresql://localhost/diplomarbeit";
-
-	static final String USER = "postgres";
-	static final String PASS = "password";
-
 	static int minPW = 8; 
 	static int maxPW =  20;
 	

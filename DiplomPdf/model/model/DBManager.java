@@ -23,11 +23,11 @@ public class DBManager {
 	//Datenbank relevante Variablen
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "org.postgresql.Driver";  
-	static final String DB_URL = "jdbc:postgresql://localhost/diplomarbeit";
+	static public String DB_URL = "jdbc:postgresql://localhost/diplomarbeit";
 
 	//  Database credentials
-	static final String USER = "postgres";
-	static final String PASS = "password";
+	static public String DB_USER = "postgres";
+	static public String DB_PASS = "password";
 	//private static String dbUrl = "jdbc:postgresql://localhost:5432/diplomarbeit?user=postgres&password=password";
 	static PreparedStatement pstmt = null;
 	static ResultSet rs = null;
@@ -82,7 +82,7 @@ public class DBManager {
 		Connection conn = null;
 		//neuen Connection holen
 		try {
-			conn=DriverManager.getConnection(DB_URL,USER,PASS);
+			conn=DriverManager.getConnection(DB_URL,DB_USER,DB_PASS);
 
 
 		} catch (SQLException e) {
@@ -1365,11 +1365,6 @@ public class DBManager {
 		System.out.println("Connecting to database...");
 
 		try {
-
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			System.out.println("Connecting successful");
-
 			PreparedStatement ps = conn.prepareStatement(sql);
 
 			ps.setString(1,  username);
@@ -1382,9 +1377,6 @@ public class DBManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Connecting not successful");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return st; 
 	}
