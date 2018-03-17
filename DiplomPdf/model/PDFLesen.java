@@ -96,7 +96,7 @@ public class PDFLesen implements IStrategy{
 //	
 //		PDFLesen pdfL = new PDFLesen();
 //		try {
-//			pdfL.pdfToText("C://Users//Sara//Dropbox//Diplomarbeit//KillerDoc.pdf");
+//			pdfL.textAuslesen("C://Users//Sara//Dropbox//Diplomarbeit//2015_DA-Handreichung.pdf");
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
