@@ -17,9 +17,13 @@ public class Daten {
 	String dokumentdatum;
 	String deletedatum;
 	byte[] blobdatei;
-	
-	
-	
+	boolean zustand;
+	int i;
+
+	public Daten() {
+		super();
+	}
+
 	public int getUploadid() {
 		return uploadid;
 	}
@@ -27,7 +31,7 @@ public class Daten {
 	public void setUploadid(int uploadid) {
 		this.uploadid = uploadid;
 	}
-	
+
 	public int getLoeschid() {
 		return loeschid;
 	}
@@ -39,77 +43,77 @@ public class Daten {
 	public String getDateiname() {
 		return dateiname;
 	}
-	
+
 	public void setDateiname(String dateiname) {
 		this.dateiname = dateiname;
 	}
-	
+
 	public String getAutor() {
 		return autor;
 	}
-	
+
 	public void setAutor(String autor) {
 		this.autor = autor;
 	}
-	
+
 	public String getUploader() {
 		return uploader;
 	}
-	
+
 	public void setUploader(String uploader) {
 		this.uploader = uploader;
 	}
 	public String getInhalttext() {
 		return inhalttext;
 	}
-	
+
 	public void setInhalttext(String inhalttext) {
 		this.inhalttext = inhalttext;
 	}
-	
+
 	public String getStichworttext() {
 		return stichworttext;
 	}
-	
+
 	public void setStichworttext(String stichworttext) {
 		this.stichworttext = stichworttext;
 	}
-	
+
 	public String getDateityp() {
 		return dateityp;
 	}
 	public void setDateityp(String dateityp) {
 		this.dateityp = dateityp;
 	}
-	
+
 	public String getStatus() {
 		return status;
 	}
-	
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+
 	public String getUploaddatum() {
 		return uploaddatum;
 	}
-	
+
 	public void setUploaddatum(String uploaddatum) {
 		this.uploaddatum = uploaddatum;
 	}
-	
+
 	public String getDokumentdatum() {
 		return dokumentdatum;
 	}
-	
+
 	public void setDokumentdatum(String ddokumentdatum) {
 		this.dokumentdatum = ddokumentdatum;
 	}
-	
+
 	public byte[] getBlobdatei() {
 		return blobdatei;
 	}
-	
+
 	public void setBlobdatei(byte[] blobdatei) {
 		this.blobdatei = blobdatei;
 	}
@@ -122,99 +126,101 @@ public class Daten {
 		this.deletedatum = deletedatum;
 	}
 
-	public Daten(int uploadid, String dateiname, String autor, String uploader, String inhalttext, String stichworttext,
-			String dateityp, String status, String uploaddatum, String dokumentdatum, String deletedatum,
-			byte[] blobdatei) {
+	public boolean isZustand() {
+		return zustand;
+	}
+
+	public void setZustand(boolean zustand) {
+		this.zustand = zustand;
+	}
+
+	public Daten(int uploadid, String dateityp, String dateiname, String autor,
+			String uploaddatum, String dokumentdatum, String status,float i) {
 		super();
 		this.uploadid = uploadid;
+		this.dateityp = dateityp;
 		this.dateiname = dateiname;
 		this.autor = autor;
-		this.uploader = uploader;
-		this.inhalttext = inhalttext;
-		this.stichworttext = stichworttext;
-		this.dateityp = dateityp;
+		this.uploaddatum = uploaddatum;
+		this.dokumentdatum = dokumentdatum;
 		this.status = status;
+
+	}
+
+	public Daten(int uploadid, String dateityp, String dateiname, String autor,
+			String uploaddatum, String dokumentdatum, String deletedatum,double i) {
+		super();
+		this.uploadid = uploadid;
+		this.dateityp = dateityp;
+		this.dateiname = dateiname;
+		this.autor = autor;
 		this.uploaddatum = uploaddatum;
 		this.dokumentdatum = dokumentdatum;
 		this.deletedatum = deletedatum;
-		this.blobdatei = blobdatei;
-	}
 
-	public Daten() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Daten(String dateiname, String autor, String uploader, String inhalttext, String stichworttext,
-			String dateityp, String status, String uploaddatum, String dokumentdatum, String deletedatum,
-			byte[] blobdatei) {
-		super();
-		this.dateiname = dateiname;
-		this.autor = autor;
-		this.uploader = uploader;
-		this.inhalttext = inhalttext;
-		this.stichworttext = stichworttext;
-		this.dateityp = dateityp;
-		this.status = status;
-		this.uploaddatum = uploaddatum;
-		this.dokumentdatum = dokumentdatum;
-		this.deletedatum = deletedatum;
-		this.blobdatei = blobdatei;
-	}
-
-	public Daten(int uploadid, String dateiname, String autor, String uploader, String inhalttext,
-			String stichworttext, String dateityp, String status, String uploaddatum, String dokumentdatum) {
-		super();
-		this.uploadid = uploadid;
-		this.dateiname = dateiname;
-		this.autor = autor;
-		this.uploader = uploader;
-		this.inhalttext = inhalttext;
-		this.stichworttext = stichworttext;
-		this.dateityp = dateityp;
-		this.status = status;
-		this.uploaddatum = uploaddatum;
-		this.dokumentdatum = dokumentdatum;
-	}
-
-	public Daten(int uploadid, String dateityp,String dateiname, String autor, String uploaddatum, String dokumentdatum,
-			String status) {
-		super();
-		this.uploadid = uploadid;
-		this.dateiname = dateiname;
-		this.autor = autor;
-		this.dateityp = dateityp;
-		this.status = status;
-		this.uploaddatum = uploaddatum;
-		this.dokumentdatum = dokumentdatum;
 	}
 
 	public Daten(int uploadid, String dateityp, String dateiname, String uploader, String autor,
 			String uploaddatum, String dokumentdatum, String status) {
 		super();
 		this.uploadid = uploadid;
-		this.dateiname = dateiname;
-		this.autor = autor;
 		this.dateityp = dateityp;
-		this.status = status;
+		this.dateiname = dateiname;
+		this.uploader = uploader;
+		this.autor = autor;
 		this.uploaddatum = uploaddatum;
 		this.dokumentdatum = dokumentdatum;
+		this.status = status;
+
+	}
+
+//	new Daten(uploadid,dateityp,dateiname, autor, uploaddatum, dokumentdatum, deletedatum, status)
+	public Daten(int uploadid, String dateityp, String dateiname, String autor,
+			String uploaddatum, String dokumentdatum, String deletedatum, String status,float i) {
+		super();
+		this.uploadid = uploadid;
+		this.dateityp = dateityp;
+		this.dateiname = dateiname;
+		this.deletedatum = deletedatum;
+		this.autor = autor;
+		this.uploaddatum = uploaddatum;
+		this.dokumentdatum = dokumentdatum;
+		this.status = status;
+
+	}
+
+	public Daten(String dateiname, String autor, String uploader, String inhalttext, String stichworttext,
+			String dateityp, String status, String uploaddatum, String dokumentdatum, String deletedatum,
+			byte[] blobdatei) {
+		super();
+		this.dateityp = dateityp;
+		this.dateiname = dateiname;
 		this.uploader = uploader;
+		this.autor = autor;
+		this.uploader = uploader;
+		this.uploaddatum = uploaddatum;
+		this.dokumentdatum = dokumentdatum;
+		this.status = status;
+		this.inhalttext = inhalttext;
+		this.stichworttext = stichworttext;
+		this.deletedatum = deletedatum;
+	}
+
+	//uploadid, dateityp, dateiname, autor, deletedatum, uploaddatum, dokumentdatum
+	public Daten(int uploadid, String dateityp, String dateiname, String autor,
+			String deletedatum, String uploaddatum, String dokumentdatum, long i) {
+		super();
+		this.uploadid = uploadid;
+		this.dateityp = dateityp;
+		this.dateiname = dateiname;
+		this.deletedatum = deletedatum;
+		this.autor = autor;
+		this.uploaddatum = uploaddatum;
+		this.dokumentdatum = dokumentdatum;
+
 	}
 	
-//	public Daten(int loeschid, String dateityp, String dateiname, String uploader, String autor,
-//			String uploaddatum, String dokumentdatum, String status) {
-//		super();
-//		this.loeschid = loeschid;
-//		this.dateiname = dateiname;
-//		this.autor = autor;
-//		this.dateityp = dateityp;
-//		this.status = status;
-//		this.uploaddatum = uploaddatum;
-//		this.dokumentdatum = dokumentdatum;
-//		this.uploader = uploader;
-//	}
-
+	
 	@Override
 	public String toString() {
 		return "Daten [uploadid=" + uploadid + ", dateiname=" + dateiname + ", autor=" + autor + ", uploader="

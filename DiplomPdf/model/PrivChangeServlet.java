@@ -61,7 +61,7 @@ public class PrivChangeServlet extends HttpServlet {
 		try {
 			db = new DBManager();
 			conn = db.getConnection();
-			uploader = db.getDateiinfo(id, conn,"uploaddaten","uploadid");
+			uploader = db.getDateiinfo(id, conn);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		} catch (InstantiationException e) {

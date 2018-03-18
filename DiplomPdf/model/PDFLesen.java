@@ -67,7 +67,7 @@ public class PDFLesen implements IStrategy{
 			pdfStripper = null;
 			pdDoc = null;
 			cosDoc = null;
-			
+			f = null;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
