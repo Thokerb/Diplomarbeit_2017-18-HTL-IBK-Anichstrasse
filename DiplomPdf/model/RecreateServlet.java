@@ -55,7 +55,7 @@ public class RecreateServlet extends HttpServlet {
 		try {
 			db = new DBManager();
 			conn = db.getConnection();
-			uploader = db.getDateiinfo(id, conn,"geloeschteDaten","loeschid");
+			uploader = db.getDateiinfo(id, conn);
 		} catch (InstantiationException e1) {
 			e1.printStackTrace();
 		} catch (IllegalAccessException e1) {
@@ -66,16 +66,12 @@ public class RecreateServlet extends HttpServlet {
 			db.releaseConnection(conn);
 		}
 		
-		Daten uploaddaten = new Daten();
-
 		System.out.println("Uploader: "+uploader+ " Username: "+username);
 		if(username.equals(uploader)){
 			try {				
 				db = new DBManager();
 				conn=db.getConnection();
-				uploaddaten=db.readgeloeschteDatei(conn,id);
-				db.writeDaten(conn, uploaddaten);
-				db.Datenlöschen(conn,id,"geloeschtedaten","loeschid");
+				db.updateZustandwiederherstellen(conn,id);
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {

@@ -328,7 +328,7 @@ public class DataTableServlet extends HttpServlet {
 			}
 			else
 			{
-				anzahl=db.AnzahlEinträge1(conn,spalte,spalteninhalt,"uploaddaten","uploadid");
+				anzahl=db.AnzahlEinträgeDaten(conn,spalte,spalteninhalt,"true");
 			}
 
 		} catch (InstantiationException e) {

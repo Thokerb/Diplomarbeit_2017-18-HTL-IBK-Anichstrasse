@@ -55,7 +55,7 @@ public class DeleteServlet extends HttpServlet {
 		try {
 			db = new DBManager();
 			conn = db.getConnection();
-			uploader = db.getDateiinfo(id, conn,"uploaddaten","uploadid");
+			uploader = db.getDateiinfo(id, conn);
 		} catch (InstantiationException e1) {
 			e1.printStackTrace();
 		} catch (IllegalAccessException e1) {
@@ -72,9 +72,7 @@ public class DeleteServlet extends HttpServlet {
 			try {
 				db = new DBManager();
 				conn=db.getConnection();
-				uploaddaten=db.readzuloeschendeDatei(conn,id);
-				db.writegeloeschteDaten(conn, uploaddaten);
-				db.Datenlöschen(conn,id,"uploaddaten","uploadid");
+				db.updateZustandloeschen(conn, id);
 
 			} catch (InstantiationException e) {
 				e.printStackTrace();
