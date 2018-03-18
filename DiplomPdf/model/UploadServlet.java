@@ -104,7 +104,11 @@ public class UploadServlet extends HttpServlet {
 			try {
 				
 				PDFLesen pdfL = new PDFLesen();
-				String inhalttext = pdfL.textAuslesen(pfad+dateiname); 
+				
+				StrategyContext context = new StrategyContext();
+				context.setStrategy(pdfL);
+				
+				String inhalttext = context.executeStrategy(pfad+dateiname);
 				
 				dbm=new DBManager();
 				conn=dbm.getConnection();
@@ -126,16 +130,11 @@ public class UploadServlet extends HttpServlet {
 				DBManager.writeDaten(conn,daten,filePart,pdfL.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
 				
-				System.out.println(inhalttext);
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			} catch(SQLException e){
-				e.printStackTrace();
-			} catch(IOException e){
-				response.setStatus(HttpServletResponse.SC_CONFLICT);
-				response.getWriter().println("Fehlerhafte Datei");
 				e.printStackTrace();
 			} finally {
 				dbm.releaseConnection(conn);
@@ -151,7 +150,11 @@ public class UploadServlet extends HttpServlet {
 			try {
 				
 				TextdateiLesen txtL = new TextdateiLesen();
-				String inhalttext = txtL.textAuslesen(pfad+dateiname);
+			
+				StrategyContext context = new StrategyContext();
+				context.setStrategy(txtL);
+				
+				String inhalttext = context.executeStrategy(pfad+dateiname);
 				
 				dbm = new DBManager();
 				conn = dbm.getConnection();
@@ -177,8 +180,7 @@ public class UploadServlet extends HttpServlet {
 				}
 				
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
-				
-				System.out.println("inhalttext");
+		
 			} catch(PSQLException e){
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 				response.getWriter().println("Fehlerhafte Datei");
@@ -201,7 +203,11 @@ public class UploadServlet extends HttpServlet {
 			DocLesen docL = new DocLesen();
 
 			try {
-				String inhalttext = docL.textAuslesen(pfad+dateiname);
+									
+				StrategyContext context = new StrategyContext();
+				context.setStrategy(docL);
+				
+				String inhalttext = context.executeStrategy(pfad+dateiname);
 				
 				dbm=new DBManager();
 				conn=dbm.getConnection();
@@ -222,8 +228,6 @@ public class UploadServlet extends HttpServlet {
 				}
 				DBManager.writeDaten(conn,daten,filePart,docL.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
-				
-				System.out.println("inhalttext");
 				
 			} catch (InstantiationException e) {
 				e.printStackTrace();
@@ -248,9 +252,11 @@ public class UploadServlet extends HttpServlet {
 			DocxLesen docxL = new DocxLesen();
 			
 			try {
+		
+				StrategyContext context = new StrategyContext();
+				context.setStrategy(docxL);
 				
-				String inhalttext = docxL.textAuslesen(pfad+dateiname);
-				System.out.println("Inhalttext in Dokument: "+inhalttext);
+				String inhalttext = context.executeStrategy(pfad+dateiname);
 				
 				dbm=new DBManager();
 				conn=dbm.getConnection();
@@ -273,8 +279,6 @@ public class UploadServlet extends HttpServlet {
 				}
 				DBManager.writeDaten(conn,daten,filePart,docxL.getDatum());
 				//DBManager.Blobeinfuegen(filePart,stichworttext);
-				
-				System.out.println("inhalttext");
 				
 			} catch (InstantiationException e) {
 				e.printStackTrace();

@@ -3,15 +3,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.poi.hwpf.extractor.WordExtractor;
-import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 /**
  * @author Sara
  * 
- * Extrahiert Text (und hoffendlich bald auch Datum und Autor) aus einer .docx Datei 
+ * Extrahiert Text aus einer .docx Datei 
  * Verwendet dabei die Apache POI Library, welche im Builthpath eingebettet ist 
  */
 
@@ -27,28 +25,28 @@ public class DocxLesen implements IStrategy {
 
 		FileInputStream fis;
 		XWPFWordExtractor oleTextExtractor;
-		
-			fis = new FileInputStream(filename);
-			oleTextExtractor = new XWPFWordExtractor(new XWPFDocument(fis));
-			
-			aut = oleTextExtractor.getCoreProperties().getCreator();
-			date = oleTextExtractor.getCoreProperties().getCreated();
-			
-			formatter = new SimpleDateFormat("dd.MM.yyyy");
-		    d = formatter.format(date);
-		    
-			text = oleTextExtractor.getText();
-			System.out.println("----------------- Text aus DOCX Lesen: -----------------");
-			System.out.println(text);
-			System.out.println("---------------- INFO: -----------------");
 
-			System.out.println(aut);
-			System.out.println(d);
-			System.out.println("---------------- ENDE DOCX -----------------");
+		fis = new FileInputStream(filename);
+		oleTextExtractor = new XWPFWordExtractor(new XWPFDocument(fis));
 
-			releaseRessoruces(oleTextExtractor, fis);
-			
-			return text; 
+		aut = oleTextExtractor.getCoreProperties().getCreator();
+		date = oleTextExtractor.getCoreProperties().getCreated();
+
+		formatter = new SimpleDateFormat("dd.MM.yyyy");
+		d = formatter.format(date);
+
+		text = oleTextExtractor.getText();
+		System.out.println("----------------- Text aus DOCX Lesen: -----------------");
+		System.out.println(text);
+		System.out.println("---------------- INFO: -----------------");
+
+		System.out.println(aut);
+		System.out.println(d);
+		System.out.println("---------------- ENDE DOCX -----------------");
+
+		releaseRessoruces(oleTextExtractor, fis);
+
+		return text; 
 	}
 
 	public void releaseRessoruces( XWPFWordExtractor oleTextExtractor,FileInputStream fis) {
