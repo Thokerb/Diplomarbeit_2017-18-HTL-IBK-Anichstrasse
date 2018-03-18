@@ -16,6 +16,7 @@ import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.postgresql.util.PSQLException;
 
 import model.DBManager;
+import model.Daten;
 
 /**
  * Servlet implementation class UploadServlet
@@ -40,9 +41,9 @@ public class UploadServlet extends HttpServlet {
 		 * wenn boolean overwrite true ist, dann gibt es die datei bereit und sie soll überschrieben werden
 		 * TODO: übergabe in DATENBANK
 		 */
-		
+
 		int nummer = 1;
-	
+
 		String pfad = getInitParameter("Pfad");
 		System.out.println("Pfad: "+pfad);
 
@@ -54,7 +55,7 @@ public class UploadServlet extends HttpServlet {
 		System.out.println("was steht da: "+filePart.getHeader("content-disposition").substring(36));  //TODO substring 36?
 		String user = request.getParameter("username");
 		System.out.println(user);
-		
+
 		boolean overwrite = Boolean.parseBoolean(request.getParameter("overwrite"));	//nimmt den String und wandelt ihn in ein boolean um
 		String dateiname = request.getParameter("dateiname");
 		System.out.println("Name der Datei: "+dateiname+" overwrite: "+overwrite);
@@ -71,13 +72,13 @@ public class UploadServlet extends HttpServlet {
 		dateityp = dateityp.toUpperCase();
 		System.out.println("Es handelt sich um eine ' "+ dateityp +" ' Datei: ");
 		System.out.println("-----------------------------------------");
-		
+
 		HttpSession ses = request.getSession(false); //TODO: if 
 		String username = (String) ses.getAttribute("user"); 
-		
+
 		DBManager dbm = null;
 		Connection conn = null;
-		
+
 		if(overwrite){
 			try {
 				dbm = new DBManager();
@@ -93,49 +94,43 @@ public class UploadServlet extends HttpServlet {
 				dbm.releaseConnection(conn);
 			}
 		}
-		
+
 
 		switch(dateityp){
 
 		case "PDF"  :{
-			
+
 			System.out.println("angemeldeter Username: "+username);
-			
+
 			try {
-				
+
 				PDFLesen pdfL = new PDFLesen();
-				String inhalttext = pdfL.textAuslesen(pfad+dateiname); 
-				
+
+				StrategyContext context = new StrategyContext();
+				context.setStrategy(pdfL);
+
+				String inhalttext = context.executeStrategy(pfad+dateiname);
+
 				dbm=new DBManager();
 				conn=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-				String[] daten =new String[7];
-				daten[0]="tag";
-				daten[1]=inhalttext;
-				daten[2]=username;
-				daten[3]=pdfL.getAutor(); 
-				daten[4]=dateiname;
-				daten[5]=stichworttext;
-				daten[6]=dateityp;
-				
-				for(String s : daten) {
-					System.out.print("Gelesen wurde: ");
-					System.out.println(s);
-				}
-				DBManager.writeDaten(conn,daten,filePart,pdfL.getDatum());
-				//DBManager.Blobeinfuegen(filePart,stichworttext);
-				
-				System.out.println(inhalttext);
+				Daten daten =new Daten();
+				daten.setInhalttext(inhalttext);
+				daten.setUploader(username);
+				daten.setAutor(pdfL.getAutor()); 
+				daten.setDateiname(dateiname);
+				daten.setStichworttext(stichworttext);
+				daten.setDateityp(dateityp);
+				daten.setDokumentdatum(pdfL.getDatum());
+
+				DBManager.writeDaten(conn,daten,filePart);
+
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			} catch(SQLException e){
-				e.printStackTrace();
-			} catch(IOException e){
-				response.setStatus(HttpServletResponse.SC_CONFLICT);
-				response.getWriter().println("Fehlerhafte Datei");
 				e.printStackTrace();
 			} finally {
 				dbm.releaseConnection(conn);
@@ -149,36 +144,32 @@ public class UploadServlet extends HttpServlet {
 			System.out.println("angemeldeter Username: "+username);
 
 			try {
-				
+
 				TextdateiLesen txtL = new TextdateiLesen();
-				String inhalttext = txtL.textAuslesen(pfad+dateiname);
-				
+
+				StrategyContext context = new StrategyContext();
+				context.setStrategy(txtL);
+
+				String inhalttext = context.executeStrategy(pfad+dateiname);
+
 				dbm = new DBManager();
 				conn = dbm.getConnection();
 				String stichworttext = dbm.Stichtextgenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-				String[] daten =new String[8];
-				daten[0]="tag";
-				daten[1]=inhalttext;
-				daten[2]=username;
-				daten[3]=txtL.getAutor();
-				daten[4]=dateiname;
-				daten[5]=stichworttext; 
-				daten[6]=dateityp;
+				Daten daten =new Daten();
+				daten.setInhalttext(inhalttext);
+				daten.setUploader(username);
+				daten.setAutor(txtL.getAutor()); 
+				daten.setDateiname(dateiname);
+				daten.setStichworttext(stichworttext);
+				daten.setDateityp(dateityp);
 
-				for(String s : daten) {
-					System.out.print("Gelesen wurde: ");
-					System.out.println(s);
-				}
-				if(!DBManager.writeDaten(conn,daten,filePart,txtL.getDatum())) {
+				if(!DBManager.writeDaten(conn,daten,filePart)) {
 					response.setStatus(HttpServletResponse.SC_CONFLICT);
 					response.getWriter().println("Fehlerhafte Datei");
 					break;
 				}
-				
-				//DBManager.Blobeinfuegen(filePart,stichworttext);
-				
-				System.out.println("inhalttext");
+
 			} catch(PSQLException e){
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 				response.getWriter().println("Fehlerhafte Datei");
@@ -192,7 +183,7 @@ public class UploadServlet extends HttpServlet {
 			} finally {
 				dbm.releaseConnection(conn);
 			}
-			System.out.println("TXT - Datei wurde in Text umgewandelt -> Weitergeben an DB (Achtung, keine Metadaten vorhanden)");
+			System.out.println("TXT - Datei wurde in Text umgewandelt + an DB weitergegeben ");
 			break; 
 		}
 
@@ -201,30 +192,27 @@ public class UploadServlet extends HttpServlet {
 			DocLesen docL = new DocLesen();
 
 			try {
-				String inhalttext = docL.textAuslesen(pfad+dateiname);
-				
+
+				StrategyContext context = new StrategyContext();
+				context.setStrategy(docL);
+
+				String inhalttext = context.executeStrategy(pfad+dateiname);
+
 				dbm=new DBManager();
 				conn=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
-				String[] daten =new String[7];
-				daten[0]="tag";
-				daten[1]=inhalttext;
-				daten[2]=username;
-				daten[3]=docL.getAutor(); 
-				daten[4]=dateiname;
-				daten[5]=stichworttext; 
-				daten[6]=dateityp;
+				Daten daten =new Daten();
+				daten.setInhalttext(inhalttext);
+				daten.setUploader(username);
+				daten.setAutor(docL.getAutor()); 
+				daten.setDateiname(dateiname);
+				daten.setStichworttext(stichworttext);
+				daten.setDateityp(dateityp);
+				daten.setDokumentdatum(docL.getDatum());
 
-				for(String s : daten) {
-					System.out.print("Gelesen wurde: ");
-					System.out.println(s);
-				}
-				DBManager.writeDaten(conn,daten,filePart,docL.getDatum());
-				//DBManager.Blobeinfuegen(filePart,stichworttext);
-				
-				System.out.println("inhalttext");
-				
+				DBManager.writeDaten(conn,daten,filePart);
+
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -239,43 +227,38 @@ public class UploadServlet extends HttpServlet {
 				dbm.releaseConnection(conn);
 			}
 
-			System.out.println("Doc - Datei wurde in Text umgewandelt -> Weitergeben an DB");
+			System.out.println("Doc - Datei wurde in Text umgewandelt + an DB weitergegeben ");
 			break; 
 		}
 
 		case "DOCX"  :{
 
 			DocxLesen docxL = new DocxLesen();
-			
+
 			try {
-				
-				String inhalttext = docxL.textAuslesen(pfad+dateiname);
-				System.out.println("Inhalttext in Dokument: "+inhalttext);
-				
+
+				StrategyContext context = new StrategyContext();
+				context.setStrategy(docxL);
+
+				String inhalttext = context.executeStrategy(pfad+dateiname);
+
 				dbm=new DBManager();
 				conn=dbm.getConnection();
 				String stichworttext=dbm.Stichtextgenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				//aus writeDaten: tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei
-				String[] daten =new String[7];
-				daten[0]="tag";
-				daten[1]=inhalttext;
-				daten[2]=username;
-				daten[3]=docxL.getAutor(); 
-				daten[4]=dateiname;
-				daten[5]=stichworttext;
-				daten[6]=dateityp;
+				Daten daten =new Daten();
+				daten.setInhalttext(inhalttext);
+				daten.setUploader(username);
+				daten.setAutor(docxL.getAutor()); 
+				daten.setDateiname(dateiname);
+				daten.setStichworttext(stichworttext);
+				daten.setDateityp(dateityp);
+				daten.setDokumentdatum(docxL.getDatum());
+
+				DBManager.writeDaten(conn,daten,filePart);
 
 
-				for(String s : daten) {
-					System.out.print("Gelesen wurde: ");
-					System.out.println(s);
-				}
-				DBManager.writeDaten(conn,daten,filePart,docxL.getDatum());
-				//DBManager.Blobeinfuegen(filePart,stichworttext);
-				
-				System.out.println("inhalttext");
-				
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -292,7 +275,7 @@ public class UploadServlet extends HttpServlet {
 				dbm.releaseConnection(conn);
 			}
 
-			System.out.println("Docx - Datei wurde in Text umgewandelt -> Weitergeben an DB");
+			System.out.println("Docx - Datei wurde in Text umgewandelt + an DB weitergegeben ");
 			break; 
 		}
 
@@ -303,18 +286,18 @@ public class UploadServlet extends HttpServlet {
 
 		}
 		try {
-			
+
 			System.out.println("Is writeable: "+Files.isWritable(Paths.get(pfad+dateiname)));
 			System.out.println("IS: "+Files.exists(Paths.get(pfad+dateiname)));
 			Files.deleteIfExists(Paths.get(pfad+dateiname));
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
-	
+
+
 	}
-	
+
 	private void uploader(InputStream fileContent, String dateiname,int nummer){
 
 		String pfad = getInitParameter("Pfad");
@@ -326,7 +309,7 @@ public class UploadServlet extends HttpServlet {
 			Files.copy(fileContent, file.toPath());
 			System.out.println("Datei gespeichert. Sie war bisher "+nummer+" mal vorhanden");
 
-	
+
 		}	
 		catch(IOException ex){
 			ex.printStackTrace();

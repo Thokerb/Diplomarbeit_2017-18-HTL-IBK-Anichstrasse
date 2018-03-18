@@ -24,8 +24,7 @@ public class DocLesen implements IStrategy {
 	
 	public String textAuslesen(String filename) throws IllegalArgumentException, FileNotFoundException, IOException{
 
-			FileInputStream fis = new FileInputStream(filename);		
-
+			FileInputStream fis = new FileInputStream(filename);	
 			HWPFDocument doc = new HWPFDocument(fis);
 			
 			aut = doc.getSummaryInformation().getAuthor();
@@ -35,7 +34,7 @@ public class DocLesen implements IStrategy {
 	        d = formatter.format(date);
 			
 			WordExtractor extractor = new WordExtractor(doc);
-			String[] fileData = extractor.getParagraphText();
+			
 			text = extractor.getText();
 			System.out.println("----------------- Text aus DOC Lesen: -----------------");
 			System.out.println(text); 
@@ -48,7 +47,6 @@ public class DocLesen implements IStrategy {
 			releaseRessoruces(fis, extractor);
 		
 			return text;
-
 	}
 	
 	public void releaseRessoruces(FileInputStream fis, WordExtractor extractor) {

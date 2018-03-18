@@ -22,7 +22,7 @@ public class RegisterServlet extends HttpServlet {
 	static int maxPW =  20;
 	
 	static int digit;
-	int code = -1;
+	static int code = -1;
 
 	static int specialUN;
 
@@ -50,7 +50,7 @@ public class RegisterServlet extends HttpServlet {
 		Connection conn = null;
 
 		if(pwdIsValid(pwd) && usernIsValid(username)) {
-			if(userDB(username) == false) {
+			if((userDB(username) == false) && (mailDB(email) == false)) {
 				try {
 					m = new DBManager();
 					conn = m.getConnection();
@@ -62,6 +62,7 @@ public class RegisterServlet extends HttpServlet {
 					code = 0;
 				} catch (InstantiationException e) {
 					e.printStackTrace();
+					code = 1;
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();
 				} catch (ClassNotFoundException e) {
@@ -74,10 +75,6 @@ public class RegisterServlet extends HttpServlet {
 					m.releaseConnection(conn);
 				}
 			}
-
-		}
-		else {
-			code = -1;
 		}
 
 		RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
@@ -116,7 +113,12 @@ public class RegisterServlet extends HttpServlet {
 			request.setAttribute("message", "Registrieren fehlgeschlagen, Email oder Username bereits registriert" );
 			rd.include(request, response); 
 			break;
-
+		case 4:
+			request.setAttribute("message", "Registrieren fehlgeschlagen, Username inkorrekt" );
+			rd.include(request, response); 
+			break;
+			
+			
 		default:
 			request.setAttribute("message", "Ein unbekannter Fehler ist aufgetreten");
 			rd.include(request, response);
@@ -124,31 +126,7 @@ public class RegisterServlet extends HttpServlet {
 		}
 	}
 
-	public static boolean usernIsValid(String username) {
-		boolean unok; 
-
-		for(int i = 0; i < username.length(); i++){
-
-			char c = username.charAt(i);
-			if(c >= 33 && c <= 46 ||c == 64){
-
-				specialUN++;
-				System.out.println("Achtung, bitte keine Sonderzeichen im Benutzername verwenden");
-				unok = false; 
-				break;
-			}
-		}
-
-		if(username.length() >= 3 && username.length() <= 15 && specialUN == 0) //null ok? laut DBManager zuerst null 
-		{
-			System.out.println("Gültigkeit: Username "+ username +" darf verwendet werden!");
-			unok = true;
-		}else {
-			System.out.println("Gültigkeit: Username ungültig, bitte erneut eingeben");
-			unok = false;
-		}
-		return unok; 
-	}
+	
 
 	public static boolean userDB(String username) {
 		
@@ -168,6 +146,7 @@ public class RegisterServlet extends HttpServlet {
 			else{
 				System.out.println("Username "+ username +" darf verwendet werden, er existiert noch nicht!");
 				userDB = false; 
+				code = 3;
 				return userDB;
 			}
 		} catch (InstantiationException e) {
@@ -180,6 +159,64 @@ public class RegisterServlet extends HttpServlet {
 			db.releaseConnection(conn);
 		}
 		return userDB; 
+	}
+
+	private boolean mailDB(String email) {
+		boolean mailDB = false; 
+		try {
+			DBManager dbm = new DBManager();
+			Connection conn = dbm.getConnection();
+
+			if( dbm.getEmail(conn, email) != null) {
+
+				System.out.println("Email: "+ email +" darf nicht verwendet werden, ist bereits in Verwendung!");
+				mailDB = true; 
+				code = 3; 
+				return mailDB;
+			}
+			else{
+				System.out.println("Email " +email+ " darf verwendet werden!");
+				mailDB = false; 
+				return mailDB;
+			}
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return mailDB;
+	}
+
+	public static boolean usernIsValid(String username) {
+		boolean unok; 
+
+		for(int i = 0; i < username.length(); i++){
+
+			char c = username.charAt(i);
+			if(c >= 33 && c <= 46 ||c == 64){
+
+				specialUN++;
+				System.out.println("Achtung, bitte keine Sonderzeichen im Benutzername verwenden");
+				unok = false; 
+				code = 4;
+				break;
+			}
+		}
+
+		if(username.length() >= 3 && username.length() <= 15 && specialUN == 0) //null ok? laut DBManager zuerst null 
+		{
+			System.out.println("Gültigkeit: Username "+ username +" darf verwendet werden!");
+			unok = true;
+		}else {
+			System.out.println("Gültigkeit: Username ungültig, bitte erneut eingeben");
+			unok = false;
+		}
+		return unok; 
 	}
 
 	public static boolean pwdIsValid(String password) {

@@ -48,7 +48,7 @@ public class PDFLesen implements IStrategy{
 		text = pdfStripper.getText(pdDoc);
 			
 		releaseRessoruces(parser, pdfStripper, pdDoc, cosDoc, f);
-	
+		
 		System.out.println("--------------- TEXT aus PDFLesen: -------------");
 		System.out.println(text);
 		System.out.println("--------------- TEXT -------------");
@@ -75,7 +75,6 @@ public class PDFLesen implements IStrategy{
 		
 	}
 	
-	
 	private String convDatum(Calendar cal){
 
 		SimpleDateFormat d = new SimpleDateFormat("dd.MM.yyyy");
@@ -92,15 +91,15 @@ public class PDFLesen implements IStrategy{
 		return date; 
 	}
 
-//	public static void main(String[] args) { 
-//	
+	public static void main(String[] args) { 
+	
 //		PDFLesen pdfL = new PDFLesen();
 //		try {
-//			pdfL.pdfToText("C://Users//Sara//Dropbox//Diplomarbeit//KillerDoc.pdf");
+//			pdfL.textAuslesen("C://Users//Sara//Dropbox//Diplomarbeit//2015_DA-Handreichung.pdf");
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-//
-//	}
+
+	}
 }

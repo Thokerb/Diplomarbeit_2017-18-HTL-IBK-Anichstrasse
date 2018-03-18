@@ -7,7 +7,6 @@ import java.nio.file.attribute.UserPrincipal;
 import java.text.SimpleDateFormat;
 
 import org.apache.commons.io.IOUtils;
-import org.postgresql.util.PSQLException;
 
 
 public class TextdateiLesen implements IStrategy {
@@ -22,8 +21,8 @@ public class TextdateiLesen implements IStrategy {
 			
 			FileInputStream fisTargetFile = new FileInputStream(new File(filename));
 
-			String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
-			 System.out.println(targetFileStr);
+			String text = IOUtils.toString(fisTargetFile, "UTF-8");
+//			System.out.println(targetFileStr);
 		
 		    aut =  Files.getOwner(path);
 				    
@@ -33,7 +32,7 @@ public class TextdateiLesen implements IStrategy {
 	        
 	        releaseRessoruces(fisTargetFile);
 	        
-			return targetFileStr;
+			return text;
 	}
 
 	public void releaseRessoruces(FileInputStream fisTargetFile) {
