@@ -45,7 +45,7 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="Startseite.jsp">EasyDoc</a>
+					<a class="navbar-brand" href="Startseite.jsp"> <img src="Icons/favicon-32x32.png"></a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">

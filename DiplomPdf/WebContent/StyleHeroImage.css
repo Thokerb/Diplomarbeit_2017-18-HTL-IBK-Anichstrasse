@@ -13,13 +13,29 @@ body, html {
 /* The hero image */
 .hero-image {
 	/* The image used */
-	background-image: url("Images/hero_image_bearbeitetv2.jpg");
+	background-image: url("Images/6.jpg");
 	/* Set a specific height */
 	height: 10%;
 	/* Position and center the image to scale nicely on all screens */
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	position: relative;
+	flex-grow: 1;
+	background-attachment: fixed;
+}
+
+.hero-image1 {
+	/* The image used */
+	background-image: url("Images/heroimage_kuppel.jpeg");
+	/* Set a specific height */
+	height: 10%;
+	/* Position and center the image to scale nicely on all screens */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: block;
+	overflow: auto;
 	position: relative;
 	flex-grow: 1;
 	background-attachment: fixed;
@@ -49,6 +65,16 @@ body, html {
 	color: whitesmoke;
 	font-weight: bold;
 	font-family: monospace;
+}
+
+#navbarStartseite {
+	margin-bottom: 0px;
+}
+
+#c1{
+	position: relative;
+	top: 10%;
+	padding-bottom: 15px;
 }
 
 @media(min-width:768px){

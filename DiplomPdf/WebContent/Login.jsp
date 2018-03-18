@@ -24,6 +24,7 @@
 <meta name="msapplication-TileImage" content="Icons/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 
+<link rel="stylesheet" href="StyleHeroImage.css" />
 <link rel="stylesheet" href="styleLogin.css" />
 <script src="jquery-3.2.1.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -32,8 +33,36 @@
 </head>
 
 <body>
-	<div class="heroimage">
-		<div class="container">
+<div id="Start">
+		<nav class="navbar navbar-inverse navbar-static-top"
+			id="navbarStartseite">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#myNavbar">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="Startseite.jsp"> <img src="Icons/favicon-32x32.png"></a>
+				</div>
+				<div class="collapse navbar-collapse" id="myNavbar">
+					<ul class="nav navbar-nav">
+						<li><a href="Startseite.jsp">Startseite</a></li>
+					</ul>
+										<ul class="nav navbar-nav">
+						<li><a href="MeetTheTeam.jsp">Unser Team</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="Register.jsp"><span class="glyphicon glyphicon-user"></span>
+								Registrieren</a></li>
+
+					</ul>
+				</div>
+			</div>
+		</nav>
+	<div class="hero-image1">
+	
+		<div class="container" id="c1">
 			<div class="center-content">
 				<h1 class="title"> <img src="Images/logov4.svg" class="imglogo" alt="LOGO"> </h1>
 
@@ -71,7 +100,7 @@
 			</div>
 		</div>
 	</div>
-
+</div>
 
 	<script>
 		$(document).ready(function() {

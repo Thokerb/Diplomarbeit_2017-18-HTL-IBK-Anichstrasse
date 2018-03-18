@@ -24,6 +24,7 @@
 <meta name="theme-color" content="#ffffff">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="StyleHeroImage.css" />
 <link rel="stylesheet" href="styleLogin.css" />
 <script src="jquery-3.2.1.js"></script>
 <link rel="stylesheet"
@@ -37,10 +38,36 @@
 	
 </head>
 <body>
+<div id="Start">
+		<nav class="navbar navbar-inverse navbar-static-top"
+			id="navbarStartseite">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#myNavbar">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="Startseite.jsp"> <img src="Icons/iconneu.png"></a>
+				</div>
+				<div class="collapse navbar-collapse" id="myNavbar">
+					<ul class="nav navbar-nav">
+						<li><a href="Startseite.jsp">Startseite</a></li>
+					</ul>
+										<ul class="nav navbar-nav">
+						<li><a href="MeetTheTeam.jsp">Unser Team</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="Login.jsp"><span class="glyphicon glyphicon-log-in"></span>
+								Anmelden</a></li>
 
-	<div class="heroimage">
+					</ul>
+				</div>
+			</div>
+		</nav>
+	<div class="hero-image1">
 
-		<div class="container">
+		<div class="container" id="c1">
 			<div class="center-content">
 
 
@@ -109,7 +136,7 @@
 
   </div>
 	</div>
-
+</div>
 	<script>
 	$(document).ready(function() {
 		var status = $("#statusmessage").text();
