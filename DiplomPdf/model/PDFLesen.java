@@ -56,7 +56,7 @@ public class PDFLesen implements IStrategy{
 		return text;
 	}
 	
-	public void releaseRessoruces(PDFParser p, PDFTextStripper pdfStripper, PDDocument pdDoc , COSDocument cosDoc, RandomAccessFile f) {
+	private void releaseRessoruces(PDFParser p, PDFTextStripper pdfStripper, PDDocument pdDoc , COSDocument cosDoc, RandomAccessFile f) {
 	
 		try {
 			cosDoc.close();
@@ -91,8 +91,8 @@ public class PDFLesen implements IStrategy{
 		return date; 
 	}
 
-	public static void main(String[] args) { 
-	
+//	public static void main(String[] args) { 
+//	
 //		PDFLesen pdfL = new PDFLesen();
 //		try {
 //			pdfL.textAuslesen("C://Users//Sara//Dropbox//Diplomarbeit//2015_DA-Handreichung.pdf");
@@ -100,6 +100,6 @@ public class PDFLesen implements IStrategy{
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-
-	}
+//
+//	}
 }

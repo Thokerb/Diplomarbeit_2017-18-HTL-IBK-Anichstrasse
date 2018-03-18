@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
 import javax.servlet.ServletException;
@@ -60,7 +59,7 @@ public class UploadServlet extends HttpServlet {
 		String dateiname = request.getParameter("dateiname");
 		System.out.println("Name der Datei: "+dateiname+" overwrite: "+overwrite);
 		dateiname = java.net.URLDecoder.decode(dateiname, "UTF-8");
-		System.out.println("utf8"+dateiname);
+		System.out.println("utf8: "+dateiname);
 
 		uploader(fileContent,dateiname,0);
 		fileContent.close();
