@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
 		
 		String username = request.getParameter("username");
 		String pwd = request.getParameter("password");
-		System.out.println("Login als:"+username);
+		System.out.println("Login als: "+username);
 		
 		String hashpw = pwh.passwordToHash(pwd);
 		System.out.println("Hash: "+ hashpw);
@@ -44,9 +44,7 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("Anmeldung erfolgreich");
 			HttpSession session = request.getSession();  
 			session.setAttribute("user",username);  
-//			response.setContentType(arg0);
 			request.getRequestDispatcher("DataTableSite.jsp").forward(request, response);
-			//response.sendRedirect("DataTableSite.jsp");
 			anmeldung = true; 
 
 		}else{
@@ -54,7 +52,7 @@ public class LoginServlet extends HttpServlet {
 			String error = "Achtung! Username oder Password sind nicht korrekt";
 			System.out.println(error);
 			anmeldung = false; 
-			request.setAttribute("message","Bitte erneut versuchen!");
+			request.setAttribute("message","Bitte erneut versuchen!"); // TODO wird nie verwendet? 
 			RequestDispatcher rs = request.getRequestDispatcher("Login.jsp");
 			rs.forward(request, response);
 		}
@@ -67,12 +65,9 @@ public class LoginServlet extends HttpServlet {
 		} finally {
 			dbm.releaseConnection(conn);
 		}
-
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
-
 }

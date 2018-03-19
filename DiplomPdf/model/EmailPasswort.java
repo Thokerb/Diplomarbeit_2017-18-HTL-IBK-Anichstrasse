@@ -79,11 +79,14 @@ public class EmailPasswort extends HttpServlet {
 				SendEMail mailer = new SendEMail();
 
 				try {
-					message = "Lieber EasyPDF Nutzer, um Dein Passwort zurückzusetzten bitte folgenden Link öffnen: "
+					message = "Lieber EasyDocs Nutzer, du hast diesen Link angefordert, um Dein Passwort zurückzusetzten."
+							+ " Unter folgender Seite kannst Du für deinen alten Account ein neues Passwort setzen: "
 
 					+"\n\n http://localhost:8080/DiplomPdf/CheckReset?authcode="+authcode
-					+"\n\n  Viel Spaß bei der weiteren Nutzung von EasyPDF wünscht das TEAM: "
-					+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang";
+					
+					+"\n\n  Viel Spaß bei der weiteren Nutzung von EasyDocs wünscht das TEAM: "
+					+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang"
+					+ "\n\n falls Du noch Fragen hast oder uns gerne etwas mitteilen würdest kannst Du uns immer unter dieser Emailaddress erreichen :) ";
 
 					mailer.sendPlainTextEmail( emailuser, subject, message);
 
