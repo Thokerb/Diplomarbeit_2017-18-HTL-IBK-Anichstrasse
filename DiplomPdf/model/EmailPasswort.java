@@ -68,10 +68,10 @@ public class EmailPasswort extends HttpServlet {
 			String message = "";
 
 			TokenGenerator tg = new TokenGenerator();
-			String authcode = tg.generateCode();
+			String authcode = tg.generateMD5Hash();
+//			String authcode = tg.generateCode();
 
 			db.saveHash(conn,authcode,getMail);
-
 
 			if( (getMail != null)){
 

@@ -160,6 +160,7 @@ public class UploadServlet extends HttpServlet {
 				daten.setUploader(username);
 				daten.setAutor(txtL.getAutor()); 
 				daten.setDateiname(dateiname);
+				daten.setDokumentdatum(txtL.getDatum());
 				daten.setStichworttext(stichworttext);
 				daten.setDateityp(dateityp);
 

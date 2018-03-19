@@ -92,8 +92,6 @@ public class CheckReset extends HttpServlet {
 		}
 		else{
 			response.sendRedirect("ErrorPage.html");
-		}
-		
+		}	
 	}
-
 }
