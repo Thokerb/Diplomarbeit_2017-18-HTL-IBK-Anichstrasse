@@ -229,7 +229,7 @@ public class GeloeschteDatenServlet extends HttpServlet {
 
 			case "suchwort" :{
 				System.out.println("Suchwortsuche aktiv");
-				db.writeStichwörter(conn, search);
+				db.writeStichwörter(conn, search,username);
 
 				daten=db.durchsuchenGeloeschte(conn,search,username);
 

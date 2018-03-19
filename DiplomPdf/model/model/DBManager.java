@@ -265,16 +265,16 @@ public class DBManager {
 	}
 
 
-	public void writeStichwörter(Connection conn,String wort)
+	public void writeStichwörter(Connection conn,String wort,String username)
 	{
-		String SQL2="Insert into suchwoerter (Suchwort) VALUES (?)";
+		String SQL2="Insert into suchwoerter (Suchwort,Benutzer) VALUES (?,?)";
 		//String SQL2="Insert into verwendSuchwort (Suchwort) VALUES (?) ON DUPLICATE KEY UPDATE 'suchwort' = 'suchwort';";
 
 		try {
 			pstmt=conn.prepareStatement(SQL2);
 
 			pstmt.setString(1, wort);
-			System.out.println(" '" +wort+"'");
+			pstmt.setString(2, username);
 			pstmt.executeUpdate();
 
 			pstmt.close();pstmt=null;

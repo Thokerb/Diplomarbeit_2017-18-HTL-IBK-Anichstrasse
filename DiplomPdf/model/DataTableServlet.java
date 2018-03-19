@@ -273,7 +273,7 @@ public class DataTableServlet extends HttpServlet {
 			
 			case "suchwort" :{
 				System.out.println("Suchwortsuche aktiv");
-				db.writeStichwörter(conn, search);
+				db.writeStichwörter(conn, search,username);
 				if(table.equals("table1"))
 				{
 					daten=db.durchsuchenPrivate(conn,search,username);
