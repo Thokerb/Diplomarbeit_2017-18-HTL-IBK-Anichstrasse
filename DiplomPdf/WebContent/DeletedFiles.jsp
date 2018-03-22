@@ -76,7 +76,7 @@ if(session.getAttribute("user") == null){
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="DataTableSite.jsp">EasyDoc</a>
+					<a class="navbar-brand" href="DataTableSite.jsp"> <img class="brandimg" src="Icons/iconneu2.png"></a>
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">

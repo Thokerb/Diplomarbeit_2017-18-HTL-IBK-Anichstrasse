@@ -20,7 +20,7 @@ html,body{
     margin: 0px;
 }
 
-img{
+.teamimg{
     max-width: 100%;
 }
 
@@ -57,7 +57,7 @@ img{
     border-style: dashed;
 }
 
-img:hover {
+.teamimg:hover {
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }
@@ -80,6 +80,11 @@ img:hover {
 .cardwrapper{
     
 }
+
+.brandimg{
+	max-width:50px;
+}
+
 
 
 

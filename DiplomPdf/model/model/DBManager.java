@@ -134,7 +134,7 @@ public class DBManager {
 			pstmt.setString(7, "private");
 			pstmt.setString(8, uploaddaten.getDokumentdatum());
 			pstmt.setString(9, getaktuellesDatum());
-			pstmt.setBinaryStream(11, fis, (int)filePart.getSize());
+			pstmt.setBinaryStream(10, fis, (int)filePart.getSize());
 			pstmt.executeUpdate();
 
 			pstmt.close();pstmt=null;

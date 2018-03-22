@@ -36,6 +36,29 @@
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 	
+		<!-- Implementation of cookie banner by https://cookieconsent.insites.com -->
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#000"
+    },
+    "button": {
+      "background": "#f1d600"
+    }
+  },
+  "content": {
+    "message": "Unsere Website verwendet Cookies um Ihnen die bestmöglichste Nutzererfahrung zu garantieren.",
+    "dismiss": "Verstanden!",
+    "link": "Mehr Informationen"
+  }
+})});
+</script>
+	
+	
 </head>
 <body>
 <div id="Start">
@@ -48,7 +71,7 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="Startseite.jsp"> <img src="Icons/iconneu.png"></a>
+					<a class="navbar-brand" href="Startseite.jsp"> <img class="brandimg" src="Icons/iconneu2.png"></a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
@@ -72,7 +95,7 @@
 
 
 				<h1 class="title">
-					<img src="Images/logov4.svg" class="imglogo" alt="LOGO">
+					<img src="Icons/logoblack.png" class="imglogo" alt="LOGO">
 				</h1>
 
 				<form action="RegisterServlet" method="post" id="registerform" data-toggle="validator">

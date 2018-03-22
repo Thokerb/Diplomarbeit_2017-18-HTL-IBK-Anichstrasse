@@ -30,6 +30,29 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- Implementation of cookie banner by https://cookieconsent.insites.com -->
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#000"
+    },
+    "button": {
+      "background": "#f1d600"
+    }
+  },
+  "content": {
+    "message": "Unsere Website verwendet Cookies um Ihnen die bestmöglichste Nutzererfahrung zu garantieren.",
+    "dismiss": "Verstanden!",
+    "link": "Mehr Informationen"
+  }
+})});
+</script>
+
 </head>
 
 <body>
@@ -43,7 +66,7 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="Startseite.jsp"> <img src="Icons/favicon-32x32.png"></a>
+					<a class="navbar-brand" href="Startseite.jsp"> <img class="brandimg" src="Icons/iconneu2.png"></a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
@@ -64,7 +87,7 @@
 	
 		<div class="container" id="c1">
 			<div class="center-content">
-				<h1 class="title"> <img src="Images/logov4.svg" class="imglogo" alt="LOGO"> </h1>
+				<h1 class="title"> <img src="Icons/logoblack.png" class="imglogo" alt="LOGO"> </h1>
 
 				<form action="LoginServlet" method="post">
 					<div class="form-group">
