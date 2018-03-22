@@ -11,9 +11,6 @@ public class PasswordHash{
      SecureRandom random = new SecureRandom();
      byte bytes[] = new byte[20];
      
-//     random.nextBytes(bytes);
-//     random.
-	
     public static void main(String[] args){
     	
     	PasswordHash pwh = new PasswordHash();

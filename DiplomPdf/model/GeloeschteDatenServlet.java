@@ -118,6 +118,7 @@ public class GeloeschteDatenServlet extends HttpServlet {
 			case "2asc"  :{
 				System.out.println("Sortieren nach Dateiname aufsteigend");
 				daten=db.geloeschteDaten(conn,sortierdings,"dateiname","ASC");
+				System.out.println("Daten ausgeben: "+daten.get(1).getDeletedatum());
 
 //				for(int i=0;i<daten.size();i++)
 //				{
@@ -228,7 +229,7 @@ public class GeloeschteDatenServlet extends HttpServlet {
 
 			case "suchwort" :{
 				System.out.println("Suchwortsuche aktiv");
-				db.writeStichwörter(conn, search);
+				db.writeStichwörter(conn, search,username);
 
 				daten=db.durchsuchenGeloeschte(conn,search,username);
 
@@ -241,6 +242,7 @@ public class GeloeschteDatenServlet extends HttpServlet {
 			default:{
 				
 				daten=db.geloeschteDaten(conn,sortierdings,"dateiname","ASC");
+				System.out.println("Daten ausgeben: "+daten.get(daten.size()-1).getDeletedatum());
 
 //				for(int i=0;i<daten.size();i++)
 //				{
@@ -250,9 +252,6 @@ public class GeloeschteDatenServlet extends HttpServlet {
 			}
 			}
 
-			String spalte="uploader";
-			String spalteninhalt=username;
-
 			if(sortierparameter=="suchwort")
 			{
 				anzahl=daten.size();
@@ -260,7 +259,7 @@ public class GeloeschteDatenServlet extends HttpServlet {
 			}
 			else
 			{
-				anzahl=db.AnzahlEinträge1(conn,spalte,spalteninhalt,"geloeschtedaten","loeschid");
+				anzahl=db.AnzahlEinträgeDaten(conn,"uploader",username,"false");
 			}
 
 		} catch (InstantiationException e) {
@@ -323,10 +322,9 @@ public class GeloeschteDatenServlet extends HttpServlet {
 			test.addProperty("DateiTyp", daten.get(i).getDateityp());
 			test.addProperty("Name", daten.get(i).getDateiname());
 			test.addProperty("Autor", daten.get(i).getAutor());
-			test.addProperty("Deletedatum", daten.get(i).getDeletedatum());
+			test.addProperty("DeleteDatum", daten.get(i).getDeletedatum());
 			test.addProperty("UploadDatum", daten.get(i).getUploaddatum());
 			test.addProperty("DokumentDatum", daten.get(i).getDokumentdatum());
-			test.addProperty("ZUGANG", daten.get(i).getStatus());
 
 			data.add(test);
 

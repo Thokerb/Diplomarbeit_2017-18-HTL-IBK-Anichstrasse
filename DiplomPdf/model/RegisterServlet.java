@@ -85,14 +85,17 @@ public class RegisterServlet extends HttpServlet {
 			rd.include(request, response);
 
 			String subject = "Anmeldung EasyDocs";
-			String message = "";
 
 			SendEMail mailer = new SendEMail();
+			String message = "";
 
 			try {
-				message = "Herzlich willkommen lieber neuer EasyPDF Nutzer, "
-						+"\n\n  Viel Spaß bei der Nutzung von EasyPDF wünscht das TEAM: "
-						+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang";
+				message = "Herzlich willkommen bei EasyDocs, dem neuen Dokumentenverwaltungssystem "
+						+"\n\n  wir, : "
+						+ "\n\n \n\n \t Thomas Kerber, Verena Gurtner & Sara Hindelang"
+						+ "\n\n wünschen Dir viele tolle Vorteile durch die Nutzung von EasyDocs. "
+						+ "Falls Du Fragen, Wünsche oder Ähnliches hast sind wir stets unter dieser Emailaddresse erreichbar."
+						+ "\n\n  \t Wir wünschen Dir noch einen schönen Tag :) LG das Team";
 
 				mailer.sendPlainTextEmail( email, subject, message);
 			} catch (Exception ex) {

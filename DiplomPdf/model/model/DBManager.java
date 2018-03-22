@@ -135,6 +135,7 @@ public class DBManager {
 			pstmt.setString(8, uploaddaten.getDokumentdatum());
 			pstmt.setString(9, getaktuellesDatum());
 			pstmt.setBinaryStream(10, fis, (int)filePart.getSize());
+			pstmt.setBoolean(11, true);
 			pstmt.executeUpdate();
 
 			pstmt.close();pstmt=null;
@@ -217,6 +218,31 @@ public class DBManager {
 		return erfolg;
 
 	}
+	
+	public void updateZustandloeschen(Connection conn, int uploadid) {
+		String sql = "update uploaddaten set zustand = 'false', deletedatum = '"+getaktuellesDatum()+"' where uploadid = '"+uploadid+"'";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+			
+			pstmt.close(); pstmt=null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateZustandwiederherstellen(Connection conn, int uploadid) {
+		String sql = "update uploaddaten set zustand = 'true', deletedatum = '' where uploadid = '"+uploadid+"'";
+		System.out.println("SQL zum Daten wiederherstellen: "+sql);
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+			
+			pstmt.close(); pstmt=null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static String getaktuellesDatum(){
 
@@ -239,16 +265,16 @@ public class DBManager {
 	}
 
 
-	public void writeStichwörter(Connection conn,String wort)
+	public void writeStichwörter(Connection conn,String wort,String username)
 	{
-		String SQL2="Insert into suchwoerter (Suchwort) VALUES (?)";
+		String SQL2="Insert into suchwoerter (Suchwort,Benutzer) VALUES (?,?)";
 		//String SQL2="Insert into verwendSuchwort (Suchwort) VALUES (?) ON DUPLICATE KEY UPDATE 'suchwort' = 'suchwort';";
 
 		try {
 			pstmt=conn.prepareStatement(SQL2);
 
 			pstmt.setString(1, wort);
-			System.out.println(" '" +wort+"'");
+			pstmt.setString(2, username);
 			pstmt.executeUpdate();
 
 			pstmt.close();pstmt=null;
@@ -314,9 +340,9 @@ public class DBManager {
 		ArrayList<Daten> DatenSortiertPrivate = new ArrayList<>();
 		
 		//SQL-Abfrage
-		String READ_DATEN_PRIVATE="select uploadid,dateityp, dateiname, autor, uploaddatum, dokumentdatum, status from uploaddaten where uploader='"+sortierdings+"' order by "+spalte+" "+ reihung+";";
+		String READ_DATEN_PRIVATE="select uploadid,dateityp, dateiname, autor, uploaddatum, dokumentdatum, status from uploaddaten where uploader='"+sortierdings+"' and zustand='true' order by "+spalte+" "+ reihung+";";
 
-		System.out.println(READ_DATEN_PRIVATE);
+		System.out.println("SQL Daten auf Website angeben"+READ_DATEN_PRIVATE);
 		try {
 			pstmt = conn.prepareStatement(READ_DATEN_PRIVATE);
 			rs = pstmt.executeQuery();
@@ -329,8 +355,9 @@ public class DBManager {
 				String uploaddatum = rs.getString(5);
 				String dokumentdatum = rs.getString(6);
 				String status = rs.getString(7);
+				float anzahl = 0;
 				
-				Daten zeile = new Daten(uploadid,dateityp,dateiname, autor, uploaddatum, dokumentdatum, status);
+				Daten zeile = new Daten(uploadid,dateityp,dateiname, autor, uploaddatum, dokumentdatum, status,anzahl);
 				DatenSortiertPrivate.add(zeile);
 			}
 
@@ -350,7 +377,7 @@ public class DBManager {
 		ArrayList<Daten> DatenSortierPublic = new ArrayList<Daten>();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, uploader, autor, uploaddatum, dokumentdatum, status from uploaddaten where status='public' order by "+spalte+" "+ reihung+";";
+		String READ_DATEN_AUTORASC="select uploadid,dateityp, dateiname, uploader, autor, uploaddatum, dokumentdatum, status from uploaddaten where status='public' and zustand='true' order by "+spalte+" "+ reihung+";";
 
 		System.out.println(READ_DATEN_AUTORASC);
 		try {
@@ -388,7 +415,7 @@ public class DBManager {
 		ArrayList<Daten> geloeschteDaten = new ArrayList<Daten>();
 
 		//SQL-Abfrage
-		String READ_DATEN_AUTORASC="select loeschid, dateityp, dateiname, autor, deletedatum, uploaddatum, dokumentdatum from geloeschtedaten where uploader='"+sortierdings+"' order by "+spalte+" "+ reihung+";";
+		String READ_DATEN_AUTORASC="select uploadid, dateityp, dateiname, autor, deletedatum, uploaddatum, dokumentdatum from uploaddaten where uploader='"+sortierdings+"' and zustand='false' order by "+spalte+" "+ reihung+";";
 
 		System.out.println(READ_DATEN_AUTORASC);
 		try {
@@ -397,7 +424,7 @@ public class DBManager {
 			System.out.println("yoo");
 			while(rs.next())
 			{
-				int loeschid = rs.getInt(1);
+				int uploadid = rs.getInt(1);
 				String dateityp = rs.getString(2);
 				String dateiname = rs.getString(3);
 				String autor = rs.getString(4);
