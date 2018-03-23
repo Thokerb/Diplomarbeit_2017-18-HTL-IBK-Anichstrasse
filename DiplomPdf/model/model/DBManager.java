@@ -753,7 +753,7 @@ public class DBManager {
 				+ "uploaddaten.dateityp as dateityp, uploaddaten.dateiname as dateiname, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum,"
 				+ "uploaddaten.status as status, uploaddaten.autor as autor, uploaddaten.uploader as uploader, uploaddaten.zustand as zustand, uploaddaten.stichworttext as stichworttext"
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.dateiname), 'A') || "
-				+ " setweight(uploaddaten.language::regconfig, uploaddaten.inhalttext), 'B') ||"
+				+ " setweight(uploaddaten.language::regconfig, uploaddaten.stichworttext), 'B') ||"
 				+ " setweight(to_tsvector('simple', uploaddaten.autor), 'C') as document"
 				+ " FROM uploaddaten) p_search"
 				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\') and uploader='"+username+"\' and zustand='true'"
