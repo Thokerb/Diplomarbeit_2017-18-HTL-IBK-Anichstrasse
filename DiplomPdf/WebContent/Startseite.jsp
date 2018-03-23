@@ -33,6 +33,32 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<!-- Implementation of cookie banner by https://cookieconsent.insites.com -->
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#000"
+    },
+    "button": {
+      "background": "#f1d600"
+    }
+  },
+  "content": {
+    "message": "Unsere Website verwendet Cookies um Ihnen die bestmöglichste Nutzererfahrung zu garantieren.",
+    "dismiss": "Verstanden!",
+    "link": "Mehr Informationen"
+  }
+})});
+</script>
+
+
+
+	
 </head>
 <body>
 	<div id="Start">
@@ -45,7 +71,7 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="Startseite.jsp">EasyDoc</a>
+					<a class="navbar-brand" href="Startseite.jsp"> <img class="brandimg" src="Icons/iconneu2.png"></a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">

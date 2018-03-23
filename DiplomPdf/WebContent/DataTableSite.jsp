@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+s<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
@@ -623,7 +623,7 @@ if(session.getAttribute("user") == null){
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">EasyDoc</a>
+					<a class="navbar-brand" href="DataTableSite.jsp"> <img class="brandimg" src="Icons/iconneu2.png"></a>
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">

@@ -5,15 +5,20 @@ body, html {
 }
 
 #Start {
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
-	flex-direction: column;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
 	height: 100%;
 }
 
 /* The hero image */
 .hero-image {
 	/* The image used */
-	background-image: url("Images/hero_image_bearbeitetv2.jpg");
+	background-image: url("Images/6.jpg");
 	/* Set a specific height */
 	height: 10%;
 	/* Position and center the image to scale nicely on all screens */
@@ -21,7 +26,27 @@ body, html {
 	background-repeat: no-repeat;
 	background-size: cover;
 	position: relative;
-	flex-grow: 1;
+	-webkit-box-flex: 1;
+	    -ms-flex-positive: 1;
+	        flex-grow: 1;
+	background-attachment: fixed;
+}
+
+.hero-image1 {
+	/* The image used */
+	background-image: url("Images/heroimage_kuppel.jpeg");
+	/* Set a specific height */
+	height: 10%;
+	/* Position and center the image to scale nicely on all screens */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: block;
+	overflow: auto;
+	position: relative;
+	-webkit-box-flex: 1;
+	    -ms-flex-positive: 1;
+	        flex-grow: 1;
 	background-attachment: fixed;
 }
 
@@ -35,7 +60,9 @@ body, html {
 	background-repeat: no-repeat;
 	background-size: cover;
 	position: relative;
-	flex-grow: 1;
+	-webkit-box-flex: 1;
+	    -ms-flex-positive: 1;
+	        flex-grow: 1;
 	background-attachment: fixed;
 }
 
@@ -45,10 +72,26 @@ body, html {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	    -ms-transform: translate(-50%, -50%);
+	        transform: translate(-50%, -50%);
 	color: whitesmoke;
 	font-weight: bold;
 	font-family: monospace;
+}
+
+#navbarStartseite {
+	margin-bottom: 0px;
+}
+
+#c1{
+	position: relative;
+	top: 10%;
+	padding-bottom: 15px;
+}
+
+.brandimg{
+	max-width:50px;
 }
 
 @media(min-width:768px){
