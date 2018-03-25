@@ -220,9 +220,11 @@ public class DBManager {
 	}
 	
 	public void updateZustandloeschen(Connection conn, int uploadid) {
-		String sql = "update uploaddaten set zustand = 'false', deletedatum = '"+getaktuellesDatum()+"' where uploadid = '"+uploadid+"'";
+		String sql = "update uploaddaten set zustand = 'false', deletedatum = ?, status='private' where uploadid = ?";
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, getaktuellesDatum());
+			pstmt.setInt(2, uploadid);
 			pstmt.executeUpdate();
 			
 			pstmt.close(); pstmt=null;
@@ -232,10 +234,11 @@ public class DBManager {
 	}
 	
 	public void updateZustandwiederherstellen(Connection conn, int uploadid) {
-		String sql = "update uploaddaten set zustand = 'true', deletedatum = '' where uploadid = '"+uploadid+"'";
+		String sql = "update uploaddaten set zustand = 'true', deletedatum = '' where uploadid = ?";
 		System.out.println("SQL zum Daten wiederherstellen: "+sql);
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, uploadid);
 			pstmt.executeUpdate();
 			
 			pstmt.close(); pstmt=null;
@@ -334,17 +337,19 @@ public class DBManager {
 	 * @return
 	 */
 
-	public ArrayList<Daten> meineDaten(Connection conn,String sortierdings,String spalte,String reihung)
+	public ArrayList<Daten> meineDaten(Connection conn,String sortierparameter,String spalte,String reihung)
 	{
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<Daten> DatenSortiertPrivate = new ArrayList<>();
 		
 		//SQL-Abfrage
-		String READ_DATEN_PRIVATE="select uploadid,dateityp, dateiname, autor, uploaddatum, dokumentdatum, status from uploaddaten where uploader='"+sortierdings+"' and zustand='true' order by "+spalte+" "+ reihung+";";
+		String READ_DATEN_PRIVATE="select uploadid,dateityp, dateiname, autor, uploaddatum, dokumentdatum, status from uploaddaten where uploader=? and zustand='true' order by ? "+ reihung+";";
 
-		System.out.println("SQL Daten auf Website angeben"+READ_DATEN_PRIVATE);
+		//System.out.println("SQL Daten auf Website angeben"+READ_DATEN_PRIVATE);
 		try {
 			pstmt = conn.prepareStatement(READ_DATEN_PRIVATE);
+			pstmt.setString(1, sortierparameter);
+			pstmt.setString(2, spalte);
 			rs = pstmt.executeQuery();
 			while(rs.next())
 			{
@@ -708,7 +713,7 @@ public class DBManager {
 				+ "uploaddaten.dateityp as dateityp, uploaddaten.dateiname as dateiname, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum,"
 				+ "uploaddaten.status as status, uploaddaten.autor as autor, uploaddaten.uploader as uploader, uploaddaten.zustand as zustand,"
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.dateiname), 'A') || "
-				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.inhalttext), 'B') ||"
+				+ " setweight((uploaddaten.language::regconfig, uploaddaten.stichworttext), 'B') ||"
 				+ " setweight(to_tsvector('simple', uploaddaten.autor), 'C') as document"
 				+ " FROM uploaddaten) p_search"
 				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\') and uploader='"+username+"\' and zustand='true'"
@@ -1468,9 +1473,10 @@ public class DBManager {
 
 	public void deletehash(Connection conn2, String username) {
 		// TODO Auto-generated method stub
-		String sql = "update benutzer set authcode = null where benutzername = '"+username+"'";
+		String sql = "update benutzer set authcode = null where benutzername = ?";
 		try {
 			pstmt = conn2.prepareStatement(sql);
+			pstmt.setString(1, username);
 			pstmt.executeUpdate();
 			
 			pstmt.close(); pstmt=null;

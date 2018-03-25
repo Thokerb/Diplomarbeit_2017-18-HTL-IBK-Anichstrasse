@@ -245,8 +245,11 @@ public class DataTableServlet extends HttpServlet {
 				break; 
 			}
 			case "6asc"  :{
-				if(table.equals("table2"))
+				if(table.equals("table1"))
 				{
+					System.out.println("Sortieren nach Zugriffserlaubnis aufsteigend");
+					daten=db.meineDaten(conn,sortierdings,"status","ASC");
+				}else{
 					System.out.println("Sortieren nach Dokumentdatum aufsteigend");
 					daten=db.publicDaten(conn,"dokumentdatum","ASC");
 				}
@@ -258,12 +261,15 @@ public class DataTableServlet extends HttpServlet {
 				break; 
 			}
 			case "6desc"  :{
-				if(table.equals("table2"))
+				if(table.equals("table1"))
 				{
+					System.out.println("Sortieren nach Zugriffserlaubnis absteigend");
+					daten=db.meineDaten(conn,sortierdings,"status","DESC");
+				}else{
 					System.out.println("Sortieren nach Dokumentdatum absteigend");
 					daten=db.publicDaten(conn,"dokumentdatum","DESC");
 				}
-
+				
 //				for(int i=0;i<daten.size();i++)
 //				{
 //					System.out.println(daten.get(i)[1]);
@@ -276,7 +282,7 @@ public class DataTableServlet extends HttpServlet {
 				db.writeStichwörter(conn, search,username);
 				if(table.equals("table1"))
 				{
-					daten=db.durchsuchenPrivate2(conn,search,username);
+					daten=db.durchsuchenPrivate(conn,search,username);
 				}else{
 					daten=db.durchsuchenPublic(conn,search);
 				}
