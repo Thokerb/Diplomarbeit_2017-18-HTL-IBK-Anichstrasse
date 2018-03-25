@@ -1,4 +1,4 @@
-s<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
@@ -287,6 +287,11 @@ if(session.getAttribute("user") == null){
 	        	
 	        },
 	        {
+	        	"targets": -4,
+	            
+	            "defaultContent": "<button class=\"downloadbutton btn-link btn-datatable\" data-toggle=\"tooltip\" title =\"Hier klicken zum Downloaden\"><span class=\"glyphicon glyphicon-arrow-down\" ></span></button>"
+	        },
+	        {
 	            "targets": -1,
 	            "visible": false,
 	            "searchable": false,
@@ -502,22 +507,8 @@ if(session.getAttribute("user") == null){
 			var sourcetable = getTableRow($(this));
 			var newsourcetable = encodeURIComponent(sourcetable);
 			console.log(newsourcetable);
-			
-		  //   	var xhttp = new XMLHttpRequest();
-			/**
-			** TODO änderung vom tom
-			**/
-			window.location="DownloadServlet?download="+newsourcetable;
-			
-			
-		  //   	var xhttp = new XMLHttpRequest();
-			
-	     //	xhttp.open("POST", "DownloadServlet", true);
-	    //	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	    //	xhttp.send("download="+sourcetable);
-	         
 
-	    	
+			window.location="DownloadServlet?download="+newsourcetable;
 	    });
 	    
         
@@ -525,11 +516,6 @@ if(session.getAttribute("user") == null){
 	    
 	    $(".table tbody").on("click",".deletebutton",function(){
 			var sourcetable = getTableRow($(this));
-//	     	var xhttp = new XMLHttpRequest();
-//	    	xhttp.open("POST","DeleteServlet",true);
-//	    	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//	    	xhttp.send("todelete="+sourcetable);
-//	    	refreshtables();
 	    	
 	    	$.ajax({
 	    		method:"POST",
