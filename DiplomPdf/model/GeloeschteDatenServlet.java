@@ -252,9 +252,6 @@ public class GeloeschteDatenServlet extends HttpServlet {
 			}
 			}
 
-			String spalte="uploader";
-			String spalteninhalt=username;
-
 			if(sortierparameter=="suchwort")
 			{
 				anzahl=daten.size();
@@ -262,7 +259,7 @@ public class GeloeschteDatenServlet extends HttpServlet {
 			}
 			else
 			{
-				anzahl=db.AnzahlEinträgeDaten(conn,spalte,spalteninhalt,"false");
+				anzahl=db.AnzahlEinträgeDaten(conn,"uploader",username,"false");
 			}
 
 		} catch (InstantiationException e) {

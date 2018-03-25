@@ -704,14 +704,58 @@ public class DBManager {
 	public ArrayList<Daten> durchsuchenPrivate(Connection conn, String wort,String username) {
 		ArrayList<Daten> daten = new ArrayList<Daten>();
 		//Tabellenzeilen aus Datenbank einlesen
-		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
-				+ "uploaddaten.dateiname as dateiname, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status, uploaddaten.autor as autor, uploaddaten.uploader as uploader,"
+		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, status FROM (SELECT uploaddaten.uploadid as uploadid,"
+				+ "uploaddaten.dateityp as dateityp, uploaddaten.dateiname as dateiname, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum,"
+				+ "uploaddaten.status as status, uploaddaten.autor as autor, uploaddaten.uploader as uploader, uploaddaten.zustand as zustand,"
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.dateiname), 'A') || "
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.inhalttext), 'B') ||"
-				+ " setweight(to_tsvector('simple', uploaddaten.autor), 'C') ||"
-				+ " setweight(to_tsvector('simple', coalesce(string_agg(uploaddaten.tag, ' '))), 'B') as document"
-				+ " FROM uploaddaten"
-				+ " GROUP BY uploaddaten.uploadid, uploaddaten.autor) p_search"
+				+ " setweight(to_tsvector('simple', uploaddaten.autor), 'C') as document"
+				+ " FROM uploaddaten) p_search"
+				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\') and uploader='"+username+"\' and zustand='true'"
+				+ " ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
+
+		System.out.println(SEARCH_FOR_DATA_SQL_DATEN);
+		try {	
+			pstmt = conn.prepareStatement(SEARCH_FOR_DATA_SQL_DATEN);
+			rs = pstmt.executeQuery();
+			rs.getFetchSize();
+			System.out.println("rs.getFetchSize()"+rs.getFetchSize());
+			while (rs.next()) {
+				int uploadid = rs.getInt(1);
+				String dateityp = rs.getString(2);
+				String dateiname = rs.getString(3);
+				String autor = rs.getString(4);
+				String uploaddatum = rs.getString(5);
+				String dokumentdatum = rs.getString(6);
+				String status = rs.getString(7);
+				float i = 0;
+				
+				Daten zeile = new Daten(uploadid,dateityp,dateiname, autor, uploaddatum, dokumentdatum, status,i);
+				daten.add(zeile);
+
+				System.out.println();
+				System.out.println("Sortierte Texte nach Suchwort");
+
+				System.out.println();
+			}
+			pstmt.close(); pstmt=null;
+			rs.close(); rs=null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return daten;
+	}
+	
+	public ArrayList<Daten> durchsuchenPrivate2(Connection conn, String wort,String username) {
+		ArrayList<Daten> daten = new ArrayList<Daten>();
+		//Tabellenzeilen aus Datenbank einlesen
+		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, status FROM (SELECT uploaddaten.uploadid as uploadid,"
+				+ "uploaddaten.dateityp as dateityp, uploaddaten.dateiname as dateiname, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum,"
+				+ "uploaddaten.status as status, uploaddaten.autor as autor, uploaddaten.uploader as uploader, uploaddaten.zustand as zustand, uploaddaten.stichworttext as stichworttext"
+				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.dateiname), 'A') || "
+				+ " setweight(uploaddaten.language::regconfig, uploaddaten.stichworttext), 'B') ||"
+				+ " setweight(to_tsvector('simple', uploaddaten.autor), 'C') as document"
+				+ " FROM uploaddaten) p_search"
 				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\') and uploader='"+username+"\' and zustand='true'"
 				+ " ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
 
@@ -751,14 +795,13 @@ public class DBManager {
 	public ArrayList<Daten> durchsuchenGeloeschte(Connection conn, String wort,String username) {
 		ArrayList<Daten> daten = new ArrayList<Daten>();
 		//Tabellenzeilen aus Datenbank einlesen
-		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, deletedatum status FROM (SELECT geloeschtedaten.uploadid as uploadid, geloeschtedaten.dateityp as dateityp, "
-				+ "geloeschtedaten.dateiname as dateiname, geloeschtedaten.dokumentdatum as dokumentdatum, geloeschtedaten.uploaddatum as uploaddatum, geloeschtedaten.status as status, geloeschtedaten.autor as autor, geloeschtedaten.uploader as uploader, geloeschtedaten.deletedatum as deletedatum"
+		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, deletedatum status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
+				+ "uploaddaten.dateiname as dateiname, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status, uploaddaten.autor as autor, uploaddaten.uploader as uploader, uploaddaten.deletedatum as deletedatum, uploaddaten.zustand as zustand,"
 				+ " setweight(to_tsvector(geloeschtedaten.language::regconfig, geloeschtedaten.dateiname), 'A') || "
 				+ " setweight(to_tsvector(geloeschtedaten.language::regconfig, geloeschtedaten.inhalttext), 'B') ||"
-				+ " setweight(to_tsvector('simple', geloeschtedaten.autor), 'C') ||"
-				+ " setweight(to_tsvector('simple', coalesce(string_agg(geloeschtedaten.tag, ' '))), 'B') as document"
-				+ " FROM geloeschtedaten"
-				+ " GROUP BY geloeschtedaten.uploadid, geloeschtedaten.autor) p_search"
+				+ " setweight(to_tsvector('simple', geloeschtedaten.autor), 'C') as document"
+				+ " FROM uploaddaten"
+				+ " GROUP BY uploaddaten.uploadid) p_search"
 				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\') and uploader='"+username+"\' and zustand='false'"
 				+ " ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
 
@@ -799,13 +842,12 @@ public class DBManager {
 		ArrayList<Daten> daten = new ArrayList<Daten>();
 		//Tabellenzeilen aus Datenbank einlesen
 		String SEARCH_FOR_DATA_SQL_DATEN = "SELECT uploadid, dateityp, dateiname, uploader,autor, uploaddatum, dokumentdatum, status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
-				+ "uploaddaten.dateiname as dateiname, uploaddaten.autor as autor, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status, uploaddaten.uploader as uploader,"
+				+ "uploaddaten.dateiname as dateiname, uploaddaten.autor as autor, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status, uploaddaten.uploader as uploader, uploaddaten.zustand as zustand,"
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.dateiname), 'A') || "
 				+ " setweight(to_tsvector(uploaddaten.language::regconfig, uploaddaten.inhalttext), 'B') ||"
-				+ " setweight(to_tsvector('simple', uploaddaten.autor), 'C') ||"
-				+ " setweight(to_tsvector('simple', coalesce(string_agg(uploaddaten.tag, ' '))), 'B') as document"
+				+ " setweight(to_tsvector('simple', uploaddaten.autor), 'C') as document"
 				+ " FROM uploaddaten"
-				+ " GROUP BY uploaddaten.uploadid, uploaddaten.autor) p_search"
+				+ " GROUP BY uploaddaten.uploadid) p_search"
 				+ " WHERE p_search.document @@ to_tsquery('german', \'"+wort+"\') and status='public' and zustand='true'"
 				+ " ORDER BY ts_rank(p_search.document, to_tsquery('german', \'"+wort+"\')) DESC";
 

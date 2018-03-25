@@ -234,7 +234,7 @@ public class DataTableServlet extends HttpServlet {
 					System.out.println("Sortieren nach Dokumentdatum absteigend");
 					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","DESC");
 				}else{
-					System.out.println("Sortieren nach Dokumentdatum absteigend");
+					System.out.println("Sortieren nach Uploaddatum absteigend");
 					daten=db.publicDaten(conn,"uploaddatum","DESC");
 				}
 
@@ -248,7 +248,7 @@ public class DataTableServlet extends HttpServlet {
 				if(table.equals("table2"))
 				{
 					System.out.println("Sortieren nach Dokumentdatum aufsteigend");
-					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","ASC");
+					daten=db.publicDaten(conn,"dokumentdatum","ASC");
 				}
 
 //				for(int i=0;i<daten.size();i++)
@@ -261,7 +261,7 @@ public class DataTableServlet extends HttpServlet {
 				if(table.equals("table2"))
 				{
 					System.out.println("Sortieren nach Dokumentdatum absteigend");
-					daten=db.meineDaten(conn,sortierdings,"dokumentdatum","DESC");
+					daten=db.publicDaten(conn,"dokumentdatum","DESC");
 				}
 
 //				for(int i=0;i<daten.size();i++)
@@ -276,7 +276,7 @@ public class DataTableServlet extends HttpServlet {
 				db.writeStichwörter(conn, search,username);
 				if(table.equals("table1"))
 				{
-					daten=db.durchsuchenPrivate(conn,search,username);
+					daten=db.durchsuchenPrivate2(conn,search,username);
 				}else{
 					daten=db.durchsuchenPublic(conn,search);
 				}

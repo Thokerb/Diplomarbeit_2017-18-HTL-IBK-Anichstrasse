@@ -31,6 +31,30 @@
 <link rel="stylesheet" href="mttstyle.css"/>
 <link href='https://fonts.googleapis.com/css?family=Alfa Slab One' rel='stylesheet'>
 <title>EasyDoc - Das Team</title>
+
+	<!-- Implementation of cookie banner by https://cookieconsent.insites.com -->
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#000"
+    },
+    "button": {
+      "background": "#f1d600"
+    }
+  },
+  "content": {
+    "message": "Unsere Website verwendet Cookies um Ihnen die bestmöglichste Nutzererfahrung zu garantieren.",
+    "dismiss": "Verstanden!",
+    "link": "Mehr Informationen"
+  }
+})});
+</script>
+
+
 </head>
 <body>
 		<nav class="navbar navbar-inverse navbar-static-top"
@@ -42,7 +66,7 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="DataTableSite.jsp">EasyDoc</a>
+					<a class="navbar-brand" href="DataTableSite.jsp"> <img class="brandimg" src="Icons/iconneu2.png"></a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
@@ -60,7 +84,7 @@
 </div>
 <div class="row inhalt">
  <div class="col-lg-4 col-md-6">   <div class="card center-block">
-        <img src="TeamImages/sara.jpg">
+        <img class="teamimg" src="TeamImages/sara.jpg">
         <h1>Sara Hindelang</h1>
         <p class="sector">Dokumentanalyse</p>
         <p class="textme">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
@@ -68,14 +92,14 @@
         
         </div></div>
     <div class="col-lg-4 col-md-6">   <div class="card center-block">
-        <img src="TeamImages/verena.jpg">
+        <img class="teamimg" src="TeamImages/verena.jpg">
         <h1>Verena Gurtner</h1>
         <p class="sector">Datenbankentwicklerin</p>
         <p class="textme">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
         <p class="pbutton"><a class="btn-block btn-info" href="mailto:easypdf.help@gmail.com?Subject=Kontakt%20Verena%20Gurtner">Schreib mir</a></p>
         
         </div></div>    <div class="col-lg-4 col-md-6">   <div class="card center-block">
-        <img src="TeamImages/thomas.jpg">
+        <img class="teamimg" src="TeamImages/thomas.jpg">
         <h1>Thomas Kerber</h1>
         <p class="sector">Frontend Entwickler</p>
         <p class="textme">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>

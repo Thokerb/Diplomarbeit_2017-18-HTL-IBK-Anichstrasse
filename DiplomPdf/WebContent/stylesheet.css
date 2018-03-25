@@ -7,10 +7,16 @@
 	display: inline-block;
 	margin-left: 5px;
 	padding: 5px;
-		    transition-duration: 0.4s;
+		    -webkit-transition-duration: 0.4s;
+		         -o-transition-duration: 0.4s;
+		            transition-duration: 0.4s;
 	cursor: default;
 	
 	
+}
+
+.brandimg{
+	max-width:50px;
 }
 
 #modalueberschrift{
@@ -40,7 +46,6 @@
 
 .term:HOVER {
 -webkit-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
 box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
 }
 
@@ -91,8 +96,11 @@ box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
 
 .iconeffect{
 
-	animation: linksnachrechts 0.8s forwards;
-		animation-iteration-count: 1;
+	-webkit-animation: linksnachrechts 0.8s forwards;
+
+	        animation: linksnachrechts 0.8s forwards;
+		-webkit-animation-iteration-count: 1;
+		        animation-iteration-count: 1;
 	
 	
 }
@@ -113,13 +121,32 @@ box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.75);
 
 
 
-@keyframes linksnachrechts{
+@-webkit-keyframes linksnachrechts{
 	49%{
-		transform: translateY(100%);
+		-webkit-transform: translateY(100%);
+		        transform: translateY(100%);
 	}
 	50%{
 		opacity: 0;
-		transform: translateY(-100%);
+		-webkit-transform: translateY(-100%);
+		        transform: translateY(-100%);
+	}
+	51%{
+		opacity: 1;
+	}
+}
+
+
+
+@keyframes linksnachrechts{
+	49%{
+		-webkit-transform: translateY(100%);
+		        transform: translateY(100%);
+	}
+	50%{
+		opacity: 0;
+		-webkit-transform: translateY(-100%);
+		        transform: translateY(-100%);
 	}
 	51%{
 		opacity: 1;
