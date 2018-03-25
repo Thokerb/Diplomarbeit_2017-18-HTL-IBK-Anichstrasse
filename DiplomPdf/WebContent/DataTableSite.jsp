@@ -51,13 +51,21 @@
 </head>
 
 <%
-
-System.out.println(session.getAttribute("user"));
-
-if(session.getAttribute("user") == null){
-	response.sendRedirect("Login.jsp");
-}
+	System.out.println(session.getAttribute("user"));
+	System.out.println("ID: "+session.getId());
+	System.out.println("IS NEW: "+session.isNew());
+	System.out.println("Creationtime: "+session.getCreationTime());
+	System.out.println("getLastAccessedTime: "+session.getLastAccessedTime());
+	System.out.println("getMaxInactiveInterval: "+session.getMaxInactiveInterval());
+	System.out.println("Cookie: " + request.isRequestedSessionIdFromCookie());
+	
+	if (session.getAttribute("user") == null) {
+		response.sendRedirect("Login.jsp");
+	}
+	
+	
 %>
+
 <body>
 
 	<!-- jquery script  -->

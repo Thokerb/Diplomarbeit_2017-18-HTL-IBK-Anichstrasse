@@ -172,8 +172,6 @@ public class DownloadServlet extends HttpServlet {
 	    out.write(byteData);
 	    out.flush();
 	    out.close();
-		
 
 		}
-
 	}

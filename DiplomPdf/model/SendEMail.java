@@ -9,6 +9,7 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
 public class SendEMail {
 
 	public void sendPlainTextEmail( String toAddress, String subject, String message) throws AddressException,

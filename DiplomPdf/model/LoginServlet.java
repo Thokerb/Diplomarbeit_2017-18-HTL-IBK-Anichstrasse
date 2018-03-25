@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet {
 		if(DBManager.checkUser(conn, username, hashpw) || username.equals("user") && pwd.equals("1234"))
 		{
 			System.out.println("Anmeldung erfolgreich");
-			HttpSession session = request.getSession();  
+			HttpSession session = request.getSession();  //TODO true? 
 			session.setAttribute("user",username);  
 			request.getRequestDispatcher("DataTableSite.jsp").forward(request, response);
 			anmeldung = true; 
