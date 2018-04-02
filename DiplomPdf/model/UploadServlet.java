@@ -112,7 +112,7 @@ public class UploadServlet extends HttpServlet {
 
 				dbm=new DBManager();
 				conn=dbm.getConnection();
-				String stichworttext=dbm.Stichtextgenerator(conn,inhalttext);
+				String stichworttext=dbm.VereinfachterTextGenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				Daten daten =new Daten();
 				daten.setInhalttext(inhalttext);
@@ -153,7 +153,7 @@ public class UploadServlet extends HttpServlet {
 
 				dbm = new DBManager();
 				conn = dbm.getConnection();
-				String stichworttext = dbm.Stichtextgenerator(conn,inhalttext);
+				String stichworttext = dbm.VereinfachterTextGenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				Daten daten =new Daten();
 				daten.setInhalttext(inhalttext);
@@ -200,7 +200,7 @@ public class UploadServlet extends HttpServlet {
 
 				dbm=new DBManager();
 				conn=dbm.getConnection();
-				String stichworttext=dbm.Stichtextgenerator(conn,inhalttext);
+				String stichworttext=dbm.VereinfachterTextGenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				Daten daten =new Daten();
 				daten.setInhalttext(inhalttext);
@@ -244,7 +244,7 @@ public class UploadServlet extends HttpServlet {
 
 				dbm=new DBManager();
 				conn=dbm.getConnection();
-				String stichworttext=dbm.Stichtextgenerator(conn,inhalttext);
+				String stichworttext=dbm.VereinfachterTextGenerator(conn,inhalttext);
 				//tag, inhalttext, uploader, autor, dateiname, uploaddatum, stichworttext, dateityp
 				//aus writeDaten: tag, inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei
 				Daten daten =new Daten();
