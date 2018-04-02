@@ -143,7 +143,7 @@ public class DownloadServlet extends HttpServlet {
 		JsonObject jobj; 
 
 		jobj = gsn.fromJson(antwort, JsonObject.class);
-		String idObj = jobj.get("ID").getAsString();
+		int idObj = jobj.get("ID").getAsInt();
 		String fileName = jobj.get("Name").getAsString();
 		System.out.println("ID: "+ idObj);
 		byte [] byteData = null;

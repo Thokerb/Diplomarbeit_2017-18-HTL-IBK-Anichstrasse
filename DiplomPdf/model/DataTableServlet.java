@@ -334,7 +334,8 @@ public class DataTableServlet extends HttpServlet {
 			}
 			else
 			{
-				anzahl=db.AnzahlEinträgeDaten(conn,spalte,spalteninhalt,"true");
+				boolean zustand = true;
+				anzahl=db.AnzahlEinträgeDaten(conn,spalte,spalteninhalt,zustand);
 			}
 
 		} catch (InstantiationException e) {
@@ -442,7 +443,7 @@ public class DataTableServlet extends HttpServlet {
 		//			antwort = "{\"draw\":"+draw+",\"recordsTotal\":0,\"recordsFiltered\":0,\"data\":[]}";
 		//		}
 
-		 System.out.println("all: "+all);
+		System.out.println("all: "+all);
 		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
 		System.out.println(antwort);
 		out.println(all);

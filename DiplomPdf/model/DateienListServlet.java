@@ -43,7 +43,7 @@ public class DateienListServlet extends HttpServlet {
 						try {
 							dbm=new DBManager();
 							conn=dbm.getConnection();
-							anzahl=dbm.AnzahlEinträge(conn, username,"uploaddaten");
+							anzahl=dbm.AnzahlEinträge(conn, username);
 				
 							if(anzahl != 0)
 							namen = new String[anzahl-1];

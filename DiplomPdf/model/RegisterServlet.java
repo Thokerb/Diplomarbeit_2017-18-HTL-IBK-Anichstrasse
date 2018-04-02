@@ -58,7 +58,12 @@ public class RegisterServlet extends HttpServlet {
 					String hashpw = pwh.passwordToHash(pwd);
 					System.out.println("Hash: "+ hashpw);
 					
-					m.RegisterBenutzer(conn,username, email, hashpw);
+					model.Benutzer benutzer = new model.Benutzer();
+					benutzer.setBenutzername(username);
+					benutzer.setEmail(email);
+					benutzer.setPasswort(hashpw);
+					
+					m.RegisterBenutzer(conn, benutzer);
 					code = 0;
 				} catch (InstantiationException e) {
 					e.printStackTrace();

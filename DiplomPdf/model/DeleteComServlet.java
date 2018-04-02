@@ -55,7 +55,7 @@ public class DeleteComServlet extends HttpServlet {
 		try {
 			db = new DBManager();
 			conn=db.getConnection();
-			db.Datenlöschen(conn, id, "uploaddaten","uploadid");
+			db.Datenlöschen(conn, id);
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {

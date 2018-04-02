@@ -242,7 +242,6 @@ public class GeloeschteDatenServlet extends HttpServlet {
 			default:{
 				
 				daten=db.geloeschteDaten(conn,sortierdings,"dateiname","ASC");
-				System.out.println("Daten ausgeben: "+daten.get(daten.size()-1).getDeletedatum());
 
 //				for(int i=0;i<daten.size();i++)
 //				{
@@ -259,7 +258,8 @@ public class GeloeschteDatenServlet extends HttpServlet {
 			}
 			else
 			{
-				anzahl=db.AnzahlEinträgeDaten(conn,"uploader",username,"false");
+				boolean zustand = false;
+				anzahl=db.AnzahlEinträgeDaten(conn,"uploader",username,zustand);
 			}
 
 		} catch (InstantiationException e) {
