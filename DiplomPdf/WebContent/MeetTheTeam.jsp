@@ -84,28 +84,29 @@ window.cookieconsent.initialise({
 </div>
 <div class="row inhalt">
  <div class="col-lg-4 col-md-6">   <div class="card center-block">
-        <img class="teamimg" src="TeamImages/sara.jpg">
+        <img class="teamimg" src="TeamImages/sara.jpeg">
         <h1>Sara Hindelang</h1>
         <p class="sector">Dokumentanalyse</p>
-        <p class="textme">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        <p class="textme">Wenn man mich mit einem Wort beschreiben sollte, wäre dieses mit Sicherheit verplant. Egal um was es geht, mein Kopf ist eher mehr in den Wolken als sonst wo. Und genau deswegen ist EasyDocs genau das richtige Tool um mir zu helfen, den Überblick über meine Unterlagen zu bewahren um somit meine Zeit mehr in meine Hobbies wie Yoga, lesen & wandern investieren zu können.   </p>
         <p class="pbutton"><a class="btn-block btn-info" href="mailto:easypdf.help@gmail.com?Subject=Kontakt%20Sara%20Hindelang">Schreib mir</a></p>
+        
+        </div></div>
+           <div class="col-lg-4 col-md-6">   <div class="card center-block">
+        <img class="teamimg" src="TeamImages/thomas.jpeg">
+        <h1>Thomas Kerber</h1>
+        <p class="sector">Frontend Entwickler</p>
+        <p class="textme">Lachen, Arbeiten, Programmieren, Feiern und Kaffeesucht. Wenn ich mein Leben in 5 Worten beschreiben sollte, dann wären es wohl diese. Abgesehen davon bin ich ein absoluter Serienjunkie. Mein Ziel bei dieser Website ist es einen möglichst simplen und intuitiven Weg gegen das Dokumente-chaos zu bieten. </p>
+        <p class="pbutton"><a class="btn-block btn-info" href="mailto:easypdf.help@gmail.com?Subject=Kontakt%20Thomas%20Kerber">Schreib mir</a></p>
         
         </div></div>
     <div class="col-lg-4 col-md-6">   <div class="card center-block">
         <img class="teamimg" src="TeamImages/verena.jpg">
         <h1>Verena Gurtner</h1>
         <p class="sector">Datenbankentwicklerin</p>
-        <p class="textme">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        <p class="textme">Ein Teelöffel Chaos im Kopf, eine Prise Humor, eine Messerspitze Ordnung, ein bisschen Party und ganz viel Liebe und Geborgenheit für meine Familie ergeben mich. Ich kann den besten strukturierten Plan haben und doch schwirren tausend Gedanken in meinem Kopf umher. Deshalb war mir für unsere Website wichtig schnell, einfach und ohne viel Nachzudenken seine Dokumente wiederzufinden. </p>
         <p class="pbutton"><a class="btn-block btn-info" href="mailto:easypdf.help@gmail.com?Subject=Kontakt%20Verena%20Gurtner">Schreib mir</a></p>
         
-        </div></div>    <div class="col-lg-4 col-md-6">   <div class="card center-block">
-        <img class="teamimg" src="TeamImages/thomas.jpg">
-        <h1>Thomas Kerber</h1>
-        <p class="sector">Frontend Entwickler</p>
-        <p class="textme">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-        <p class="pbutton"><a class="btn-block btn-info" href="mailto:easypdf.help@gmail.com?Subject=Kontakt%20Thomas%20Kerber">Schreib mir</a></p>
-        
-        </div></div>
+        </div></div> 
 </div>
 </div>
 </body>
