@@ -19,6 +19,10 @@ import java.util.List;
 import javax.servlet.http.Part;
 
 public class DBManager {
+	
+	/**
+	 * DBManager
+	 */
 
 	//Datenbank relevante Variablen
 	// JDBC driver name and database URL
@@ -78,8 +82,7 @@ public class DBManager {
 
 	/**
 	 * Hier werden die Methoden zum Schreiben von Daten in die Datenbank
-	 * @param uploaddaten
-	 * @return
+	 *
 	 */
 	public static boolean writeDaten(Connection conn,Daten uploaddaten, Part filePart){
 		InputStream fis;
@@ -221,7 +224,7 @@ public class DBManager {
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<Daten> DatenSortierPublic = new ArrayList<Daten>();
 		//SQL-Abfrage zum Auslesen der public sortierten Daten
-		String SQL="select uploadid,dateityp, dateiname, uploader, autor, uploaddatum, dokumentdatum, status from uploaddaten where status='public' and zustand='true' order by "+spalte+" "+reihung+";";
+		String SQL="select uploadid, dateityp, dateiname, uploader, autor, uploaddatum, dokumentdatum, status from uploaddaten where status='public' and zustand='true' order by "+spalte+" "+reihung+";";
 
 		try {
 			pstmt = conn.prepareStatement(SQL);
