@@ -32,8 +32,8 @@ public class DBManager {
 	//Datenbankreferenzen
 	static public String DB_USER = "postgres";
 	static public String DB_PASS = "password";
-	static PreparedStatement pstmt = null;
-	static ResultSet rs = null;
+//	static PreparedStatement pstmt = null; 		<-- evil		Problem ist, wenn immer das Gleiche genommen wird, dann kann ein Konflikt entstehen.
+//	static ResultSet rs = null;					<-- evil
 
 	//Variablen
 	private static boolean wert=false;
@@ -89,7 +89,7 @@ public class DBManager {
 		boolean erfolg = true;
 		//SQL-Operation zum hineinschreiben neuer Daten
 		String SQL = "INSERT INTO uploaddaten (inhalttext, uploader, autor, dateiname, stichworttext, dateityp, status, dokumentdatum, uploaddatum, blobdatei,zustand) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
-
+		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(SQL);
 			fis = filePart.getInputStream();
@@ -123,6 +123,8 @@ public class DBManager {
 		//SQL-Operation zum Updaten der Daten
 		String SQL = "update uploaddaten set zustand = 'false', deletedatum = ?, status='private' where uploadid = ?";
 		try {
+			PreparedStatement pstmt;
+
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, getaktuellesDatum());
 			pstmt.setInt(2, uploadid);
@@ -137,6 +139,8 @@ public class DBManager {
 	public void updateZustandwiederherstellen(Connection conn, int uploadid) {
 		//SQL-Operation zum Updaten der Daten
 		String SQL = "update uploaddaten set zustand = 'true', deletedatum = '' where uploadid = ?";
+		PreparedStatement pstmt;
+
 		try {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, uploadid);
@@ -163,6 +167,7 @@ public class DBManager {
 	{
 		//SQL-Operation zum Hineinschreiben der Suchwörter in die Datenbank
 		String SQL="Insert into suchwoerter (Suchwort,Benutzer) VALUES (?,?)";
+		PreparedStatement pstmt;
 
 		try {
 			pstmt=conn.prepareStatement(SQL);
@@ -189,7 +194,8 @@ public class DBManager {
 		ArrayList<Daten> DatenSortiertPrivate = new ArrayList<>();
 		//SQL-Abfrage zum Auslesen der privaten sortierten Daten
 		String SQL = "select uploadid,dateityp, dateiname, autor, uploaddatum, dokumentdatum, status from uploaddaten where uploader= ? and zustand='true' order by "+spalte+" "+reihung+";";
-
+		PreparedStatement pstmt;
+		ResultSet rs;
 		try {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, uploader);
@@ -225,6 +231,9 @@ public class DBManager {
 		ArrayList<Daten> DatenSortierPublic = new ArrayList<Daten>();
 		//SQL-Abfrage zum Auslesen der public sortierten Daten
 		String SQL="select uploadid, dateityp, dateiname, uploader, autor, uploaddatum, dokumentdatum, status from uploaddaten where status='public' and zustand='true' order by "+spalte+" "+reihung+";";
+		System.out.println(SQL+"wasd");
+		PreparedStatement pstmt;
+		ResultSet rs;
 
 		try {
 			pstmt = conn.prepareStatement(SQL);
@@ -260,10 +269,13 @@ public class DBManager {
 		ArrayList<Daten> geloeschteDaten = new ArrayList<Daten>();
 		//SQL-Abfrage zum Auslesen der gelöschten sortierten Daten
 		String SQL="select uploadid, dateityp, dateiname, autor, deletedatum, uploaddatum, dokumentdatum from uploaddaten where uploader=? and zustand='false' order by "+spalte+" "+reihung+";";
+		PreparedStatement pstmt;
 
 		try {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, sortierparameter);
+			ResultSet rs;
+
 			rs = pstmt.executeQuery();
 			while(rs.next())
 			{
@@ -292,6 +304,9 @@ public class DBManager {
 	public int AnzahlEinträge(Connection conn,String user)
 	{
 		String SQL="select count(*) from uploaddaten JOIN benutzer ON(uploaddaten.uploader = benutzer.benutzername) WHERE benutzername = ?;";
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 
 		try {
 			pstmt=conn.prepareStatement(SQL);
@@ -314,7 +329,10 @@ public class DBManager {
 	public int AnzahlEinträgeDaten(Connection conn,String spalte,String spalteninhalt,boolean zustand)
 	{
 		String SQL="select count(uploadid) from uploaddaten where "+spalte+"=? and zustand=?";
+		PreparedStatement pstmt;
+		ResultSet rs;
 
+		
 		System.out.println(SQL);
 		try {
 			pstmt=conn.prepareStatement(SQL);
@@ -356,6 +374,9 @@ public class DBManager {
 		//SQL-Operation
 		String SQL = "select to_tsvector(?);";
 		String vereinfachtertext = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs;
+
 		try {
 			if(pstmt==null){
 				pstmt = conn.prepareStatement(SQL);
@@ -366,7 +387,6 @@ public class DBManager {
 				}
 			}
 
-			rs.close();rs=null;
 			pstmt.close();pstmt=null;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -379,6 +399,8 @@ public class DBManager {
 
 		//SQL-Operation zum Abfragen ob ein Wort in einem Text ist
 		String SQL = "select (?)@@(?)";
+		PreparedStatement pstmt;
+		ResultSet rs;
 
 		try {	
 			pstmt = conn.prepareStatement(SQL);
@@ -402,6 +424,8 @@ public class DBManager {
 
 		//SQL-Operation
 		String SQL = "select ts_rank((?)@@ to_tsquery(?)) as relevancy";
+		PreparedStatement pstmt;
+		ResultSet rs;
 
 		try {	
 			pstmt = conn.prepareStatement(SQL);
@@ -426,6 +450,9 @@ public class DBManager {
 	//Volltextsuche der privaten Dokumente
 	public ArrayList<Daten> durchsuchenPrivate(Connection conn, String wort,String username) {
 		ArrayList<Daten> daten = new ArrayList<Daten>();
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 		//SQL-Abfrage
 		String SQL = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, status "
 				+ "FROM (SELECT uploaddaten.uploadid as uploadid,"
@@ -475,6 +502,9 @@ public class DBManager {
 	//Volltextsuche der privaten Dokumente
 	public ArrayList<Daten> durchsuchenPrivate2(Connection conn, String wort,String username) {
 		ArrayList<Daten> daten = new ArrayList<Daten>();
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 		//SQL_Abfrage
 		String SQL = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, status FROM (SELECT uploaddaten.uploadid as uploadid,"
 				+ "uploaddaten.dateityp as dateityp, uploaddaten.dateiname as dateiname, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum,"
@@ -523,6 +553,9 @@ public class DBManager {
 	//Volltextsuche der gelöschten Dokumente
 	public ArrayList<Daten> durchsuchenGeloeschte(Connection conn, String wort,String username) {
 		ArrayList<Daten> daten = new ArrayList<Daten>();
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 		//SQL-Abfrage
 		String SQL = "SELECT uploadid, dateityp, dateiname, autor, uploaddatum, dokumentdatum, deletedatum status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
 				+ "uploaddaten.dateiname as dateiname, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status, uploaddaten.autor as autor, uploaddaten.uploader as uploader, uploaddaten.deletedatum as deletedatum, uploaddaten.zustand as zustand,"
@@ -571,6 +604,9 @@ public class DBManager {
 	//Volltextsuche der public Dokumente
 	public ArrayList<Daten> durchsuchenPublic(Connection conn, String wort) {
 		ArrayList<Daten> daten = new ArrayList<Daten>();
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 		//SQL-Abfrage
 		String SQL = "SELECT uploadid, dateityp, dateiname, uploader,autor, uploaddatum, dokumentdatum, status FROM (SELECT uploaddaten.uploadid as uploadid, uploaddaten.dateityp as dateityp, "
 				+ "uploaddaten.dateiname as dateiname, uploaddaten.autor as autor, uploaddaten.dokumentdatum as dokumentdatum, uploaddaten.uploaddatum as uploaddatum, uploaddaten.status as status, uploaddaten.uploader as uploader, uploaddaten.zustand as zustand,"
@@ -620,6 +656,8 @@ public class DBManager {
 	{
 		byte[] buf=null;
 		//SQL-Abfrage
+		PreparedStatement pstmt;
+
 		String SQL = "SELECT blobdatei, LENGTH(blobdatei) FROM uploaddaten WHERE uploadid = ?";
 		try {
 			pstmt = conn.prepareStatement(SQL);
@@ -646,6 +684,9 @@ public class DBManager {
 	public ArrayList<String[]> readDaten(Connection conn, int id) {
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> daten = new ArrayList<String[]>();
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 		//SQL-Abfrage
 		String SQL = "SELECT loeschid, dateiname, autor, uploader, inhalttext, stichworttext,blobdatei,tag FROM uploaddaten where uploadid=?"; 
 		try { 
@@ -674,6 +715,9 @@ public class DBManager {
 	public ArrayList<String[]> readAutoren(Connection conn) {
 		//generieren einer ArrayList zum Zwischenspeichern von den Werten aus der Datenbank
 		ArrayList<String[]> Autoren = new ArrayList<String[]>();
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 		//SQL-Abfrage
 		String SQL = "select autor from uploaddaten group by autor";
 		try { 
@@ -700,6 +744,9 @@ public class DBManager {
 
 	//Auslesen aller Dateinamen
 	public ArrayList<String[]> readDateinamen(Connection conn) {
+		
+		PreparedStatement pstmt;
+		ResultSet rs;
 
 		ArrayList<String[]> dateinamen = new ArrayList<String[]>();
 		//SQL-Abfrage
@@ -730,6 +777,9 @@ public class DBManager {
 	public List<Benutzer> readBenutzer (Connection conn) throws SQLException
 	{
 		ArrayList<Benutzer> benutzer = new ArrayList<>();
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 		String SQL="select * from benutzer";
 
 		try {
@@ -759,6 +809,8 @@ public class DBManager {
 		ArrayList<Suchwoerter> suchwoerter = new ArrayList<>();
 		//SQL-Operation
 		String SQL="select * from suchwoerter order by suchwortid DESC LIMIT 3";
+		PreparedStatement pstmt;
+		ResultSet rs;
 
 		try {
 			pstmt=conn.prepareStatement(SQL);
@@ -786,6 +838,7 @@ public class DBManager {
 	{
 		//SQL-Operation
 		String SQL="delete from uploaddaten where uploadid=?;";
+		PreparedStatement pstmt;
 
 		try {
 			pstmt = conn.prepareStatement(SQL);
@@ -803,6 +856,7 @@ public class DBManager {
 	{
 		//SQL-Operation
 		String SQL="UPDATE benutzer set passwort =? WHERE benutzername = ?;";
+		PreparedStatement pstmt;
 
 		try {
 			pstmt = conn.prepareStatement(SQL);
@@ -841,6 +895,8 @@ public class DBManager {
 		//SQL-Abfrage
 		String SQL="SELECT email from benutzer WHERE benutzername = ?";
 		String email=null;
+		PreparedStatement pstmt;
+		ResultSet rs;
 
 		try {
 			pstmt=conn.prepareStatement(SQL);
@@ -863,6 +919,9 @@ public class DBManager {
 		//SQL-Abfrage
 		String SQL="SELECT benutzername FROM benutzer WHERE email =?";
 		String benutzername=null;
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 
 		try {
 			pstmt=conn.prepareStatement(SQL);
@@ -886,6 +945,9 @@ public class DBManager {
 		//SQL-Abfrage
 		String SQL="select benutzername from benutzer where benutzername like ?;";
 		String user=null;
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 
 		try {
 			pstmt=conn.prepareStatement(SQL);
@@ -910,6 +972,9 @@ public class DBManager {
 		//SQL-Abfrage
 		String SQL="select email from benutzer where email like ?";
 		String email=null;
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 
 		try {
 			pstmt=conn.prepareStatement(SQL);
@@ -933,6 +998,9 @@ public class DBManager {
 		String SQL="select dateiname from uploaddaten JOIN benutzer ON(uploaddaten.uploader = benutzer.benutzername) WHERE benutzername = ?;";
 
 		String[] spalten = new String[anzahl];
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 
 		try {
 			pstmt=conn.prepareStatement(SQL);
@@ -959,6 +1027,8 @@ public class DBManager {
 	public void saveHash(Connection conn,String authcode, String emailuser) {
 		//SQL-Operation zum Hineinschreiben des Hash-Codes
 		String SQL="UPDATE benutzer set authcode =? WHERE email =?;";
+		PreparedStatement pstmt;
+
 
 		try {
 			pstmt = conn.prepareStatement(SQL);
@@ -979,6 +1049,9 @@ public class DBManager {
 		List<String> vorhandeneHash = new ArrayList<String>();
 		//SQL-Abfrage zum Auslesen des Hash-Codes
 		String SQL="select authcode from benutzer;";
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 
 		try {
 			pstmt = conn.prepareStatement(SQL);
@@ -1009,6 +1082,9 @@ public class DBManager {
 		//SQL-Abfrage zum Auslesen des Benutzernamens nach Hash-Code
 		String SQL="select benutzername from benutzer where authcode =?;";
 		String user = "";
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 		try {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, hashcode);
@@ -1032,6 +1108,8 @@ public class DBManager {
 	{
 		//SQL-Operation zum Ändern der Zugriffszustandes
 		String SQL="UPDATE uploaddaten set status =? WHERE uploadid = ?";
+		PreparedStatement pstmt;
+
 		try {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, status);
@@ -1051,6 +1129,8 @@ public class DBManager {
 	{
 		//SQL-Operation
 		String SQL = "delete from uploaddaten where dateiname =? AND uploader = ?;";
+		PreparedStatement pstmt;
+
 
 		try {
 			pstmt = conn.prepareStatement(SQL);
@@ -1069,6 +1149,8 @@ public class DBManager {
 		boolean st = false; 
 		//SQL-Abfrage
 		String SQL = "SELECT * FROM benutzer where benutzername=? and passwort=?";
+		PreparedStatement pstmt;
+		ResultSet rs;
 
 		System.out.println("Connecting to database...");
 
@@ -1095,6 +1177,8 @@ public class DBManager {
 	{
 		//SQL-Operation
 		String SQL = "update benutzer set authcode = null where benutzername = ?";
+		PreparedStatement pstmt;
+
 		try {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, username);
@@ -1110,6 +1194,9 @@ public class DBManager {
 		//SQL-Abfrage
 		String SQL = "Select * from uploaddaten where uploadid = ?";
 		String uploader = null;
+		PreparedStatement pstmt;
+		ResultSet rs;
+
 		try {
 			pstmt = con.prepareStatement(SQL);
 			pstmt.setInt(1, id);

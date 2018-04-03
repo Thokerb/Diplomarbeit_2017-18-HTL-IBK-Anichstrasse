@@ -459,7 +459,7 @@
 	        			text = "<span class=\"fa fa-file-pdf-o icontype\" ></span>";
 	        			break;
 	        		case "TXT":
-	        			text = "<span class=\"fa fa-file-text-o	\" ></span>";
+	        			text = "<span class=\"fa fa-file-text-o icontype\" ></span>";
 	        			break;
 	        		case "DOC":
 	        			text = "<span class=\"fa fa-file-word-o	 icontype\" ></span>";
