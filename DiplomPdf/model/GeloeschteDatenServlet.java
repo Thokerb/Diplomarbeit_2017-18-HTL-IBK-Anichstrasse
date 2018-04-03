@@ -48,6 +48,7 @@ public class GeloeschteDatenServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=UTF-8");  
 		response.setCharacterEncoding("UTF-8");
+		
 		//------------------------------------------
 		//https://datatables.net/manual/server-side
 		//zum Nachlesen welche daten empfangen werden
@@ -55,20 +56,13 @@ public class GeloeschteDatenServlet extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 
-		//						Enumeration<String> en = request.getParameterNames();
-		//						System.out.println("Alle ELEMENTE");
-		//						while(en.hasMoreElements()){
-		//							System.out.println(en.nextElement());
-		//						}
-
-
 		HttpSession ses = request.getSession(false);
 
-		String username = (String) ses.getAttribute("user"); //Username wird schon vom vorherigen Servlet genommen
+		String username = (String) ses.getAttribute("user"); 
 		String search = request.getParameter("search[value]");
 		String draw = request.getParameter("draw");
 		String order_art = null;
-		//	String user = request.getParameter("user");
+
 		String table = request.getParameter("table");
 		System.out.println(table);
 		System.out.println("user: "+username);
@@ -76,19 +70,13 @@ public class GeloeschteDatenServlet extends HttpServlet {
 		String length = request.getParameter("length");
 		System.out.println("Erstes Element:"+start+" Einträge pro Seite: "+length);
 
-
 		String order =request.getParameter("order[0][column]");
 
 		order_art = request.getParameter("order[0][dir]");
 
 		String sortierparameter=order+order_art;
 		System.out.println(order+order_art);
-
-		//		String antwort = "{\"data\":[{\"Name\":\"Schuh des Manitu\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"},{\"Name\":\"Traumschiff Surprise\",\"Autor\":\"Internet\",\"UploadDatum\":\"morgen\",\"DokumentDatum\":\"gestern\"}, {\"Name\":\"FLasche Luggi\",\"Autor\":\"HTL\",\"UploadDatum\":\"übermorgen\",\"DokumentDatum\":\"2013\"},{\"]}";
-		//		System.out.println(antwort);
-		//		out.println(antwort);
-		//		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
-
+		
 		/**
 		 * Hier sollte je nach dem welcher button zum sortieren der Daten die Antwort anders sein, sortierparameter einstellen
 		 */
@@ -105,9 +93,7 @@ public class GeloeschteDatenServlet extends HttpServlet {
 		try {
 			db = new DBManager();
 			conn=db.getConnection();
-
-			//list = db.readDaten(conn);
-
+			
 			if(search!=null&&!search.isEmpty())
 			{
 				sortierparameter="suchwort";
@@ -119,77 +105,41 @@ public class GeloeschteDatenServlet extends HttpServlet {
 				System.out.println("Sortieren nach Dateiname aufsteigend");
 				daten=db.geloeschteDaten(conn,sortierdings,"dateiname","ASC");
 				System.out.println("Daten ausgeben: "+daten.get(1).getDeletedatum());
-
-//				for(int i=0;i<daten.size();i++)
-//				{
-//					System.out.println(daten.get(i)[1]);
-//				}
 				break;
 			}
 
 			case "2desc"  :{
 				System.out.println("Sortieren nach Dateiname absteigend");
 				daten=db.geloeschteDaten(conn,sortierdings,"dateiname","DESC");
-
-//				for(int i=0;i<daten.size();i++)
-//				{
-//					System.out.println(daten.get(i)[1]);
-//				}
 				break; 
 			}
 
 			case "3asc"  :{
 				System.out.println("Sortieren nach Autor aufsteigend");
 				daten=db.geloeschteDaten(conn,sortierdings,"autor","ASC");
-
-
-//				for(int i=0;i<daten.size();i++)
-//				{
-//					System.out.println(daten.get(i)[1]);
-//				}
 				break; 
 			}
 
 			case "3desc"  :{
 				System.out.println("Sortieren nach Autor absteigend");
 				daten=db.geloeschteDaten(conn,sortierdings,"autor","DESC");
-
-//				for(int i=0;i<daten.size();i++)
-//				{
-//					System.out.println(daten.get(i)[1]);
-//				}
 				break; 
 			}
 
 			case "4asc"  :{
 				System.out.println("Sortieren nach Uploaddatum aufsteigend");
 				daten=db.geloeschteDaten(conn,sortierdings,"uploaddatum","ASC");
-
-//				for(int i=0;i<daten.size();i++)
-//				{
-//					System.out.println(daten.get(i)[1]);
-//				}
 				break; 
 			}
 
 			case "4desc"  :{
 				System.out.println("Sortieren nach Uploaddatum absteigend");
 				daten=db.geloeschteDaten(conn,sortierdings,"uploaddatum","DESC");
-
-//				for(int i=0;i<daten.size();i++)
-//				{
-//					System.out.println(daten.get(i)[1]);
-//				}
 				break; 
 			}
 			case "5asc"  :{
 				System.out.println("Sortieren nach Deletedatum aufsteigend");
 				daten=db.geloeschteDaten(conn,sortierdings,"deletedatum","ASC");
-
-//				for(int i=0;i<daten.size();i++)
-//				{
-//					System.out.println(daten.get(i)[1]);
-//				}
 				break; 
 			}
 
@@ -197,22 +147,12 @@ public class GeloeschteDatenServlet extends HttpServlet {
 				System.out.println("Sortieren nach Deletedatum absteigend");
 				daten=db.geloeschteDaten(conn,sortierdings,"deletedatum","DESC");
 
-//				for(int i=0;i<daten.size();i++)
-//				{
-//					System.out.println(daten.get(i)[1]);
-//				}
 				break; 
 			}
 
 			case "6asc"  :{
 				System.out.println("Sortieren nach Dokumentdatum aufsteigend");
 				daten=db.geloeschteDaten(conn,sortierdings,"dokumentdatum","ASC");
-
-
-//				for(int i=0;i<daten.size();i++)
-//				{
-//					System.out.println(daten.get(i)[1]);
-//				}
 				break; 
 			}
 
@@ -220,10 +160,6 @@ public class GeloeschteDatenServlet extends HttpServlet {
 				System.out.println("Sortieren nach Dokumentdatum absteigend");
 				daten=db.geloeschteDaten(conn,sortierdings,"dokumentdatum","DESC");
 
-//				for(int i=0;i<daten.size();i++)
-//				{
-//					System.out.println(daten.get(i)[1]);
-//				}
 				break; 
 			}
 
@@ -233,9 +169,6 @@ public class GeloeschteDatenServlet extends HttpServlet {
 
 				daten=db.durchsuchenGeloeschte(conn,search,username);
 
-				//				anzahlsuch=daten.get(0)[0];
-				//				anzahls=Integer.parseInt(anzahlsuch);
-
 				break;
 			}
 
@@ -243,10 +176,6 @@ public class GeloeschteDatenServlet extends HttpServlet {
 				
 				daten=db.geloeschteDaten(conn,sortierdings,"dateiname","ASC");
 
-//				for(int i=0;i<daten.size();i++)
-//				{
-//					System.out.println(daten.get(i)[1]);
-//				}
 				System.out.println("Die Daten wurden nach dem Dateiname alphabetisch geordnet");
 			}
 			}
@@ -277,10 +206,10 @@ public class GeloeschteDatenServlet extends HttpServlet {
 		int startwert=Integer.parseInt(start);
 		int laenge=Integer.parseInt(length);
 		wh=anzahl-startwert;
-		System.out.println("--- Ausgabe DataTableSiteServlet: ---");
-		System.out.println("startwert: "+startwert);
-		System.out.println("lÄnGeee: "+laenge);
-		System.out.println("wert: "+wh);
+		System.out.println("--- Ausgabe GeloeschtDatenServlet: ---");
+		System.out.println("Startwert: "+startwert);
+		System.out.println("Länge: "+laenge);
+		System.out.println("Wert: "+wh);
 
 		String antwort=" ";
 
@@ -290,7 +219,6 @@ public class GeloeschteDatenServlet extends HttpServlet {
 		all.addProperty("recordsFiltered", anzahl);
 
 		JsonArray data = new JsonArray();
-
 
 		antwort = "{\"draw\":"+draw+",\"recordsTotal\":"+anzahl+",\"recordsFiltered\":"+anzahl+",\"data\":[";
 
@@ -305,13 +233,6 @@ public class GeloeschteDatenServlet extends HttpServlet {
 		{
 			wh=startwert+laenge-1;
 		}
-
-		//		if(anzahls>0)
-		//		{
-		//			startwert++;
-		//			wh+=2;
-		//			System.out.println("Wiederholungen in for-Schleife: "+wh);
-		//		}
 
 		for(int i=startwert;i<=wh;i++)
 		{
@@ -337,15 +258,10 @@ public class GeloeschteDatenServlet extends HttpServlet {
 
 		antwort+="]}";
 		all.add("data", data);
-		//		if(anzahl==0)
-		//		{
-		//			antwort = "{\"draw\":"+draw+",\"recordsTotal\":0,\"recordsFiltered\":0,\"data\":[]}";
-		//		}
-
+		
 		System.out.println("all: "+all);
 		System.out.println("Die Transaktionsnummer ist: " +draw+". Der Suchbegriff ist: "+search+".");
 		System.out.println(antwort);
 		out.println(all);
 	}
-
 }
