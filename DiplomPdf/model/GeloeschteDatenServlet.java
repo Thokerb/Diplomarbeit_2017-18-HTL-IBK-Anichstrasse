@@ -236,7 +236,6 @@ public class GeloeschteDatenServlet extends HttpServlet {
 
 		for(int i=startwert;i<=wh;i++)
 		{
-
 			//antwort += "{\"ID\":\""+daten.get(i)[0]+"\",\"DateiTyp\":\""+daten.get(i)[1]+"\",\"Name\":\""+daten.get(i)[2]+"\",\"Autor\":\""+daten.get(i)[3]+"\",\"UploadDatum\":\""+daten.get(i)[4]+"\",\"DokumentDatum\":\""+daten.get(i)[5]+"\",\"ZUGANG\":\""+daten.get(i)[6]+"\"}";
 			JsonObject test = new JsonObject();
 			test.addProperty("ID", daten.get(i).getUploadid());
