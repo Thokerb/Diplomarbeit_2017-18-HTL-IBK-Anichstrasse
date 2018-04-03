@@ -299,9 +299,9 @@ public class DataTableServlet extends HttpServlet {
 		int laenge=Integer.parseInt(length);
 		wh=anzahl-startwert;
 		System.out.println("--- Ausgabe DataTableSiteServlet: ---");
-		System.out.println("startwert: "+startwert);
-		System.out.println("lÄnGeee: "+laenge);
-		System.out.println("wert: "+wh);
+		System.out.println("Startwert: "+startwert);
+		System.out.println("Länge: "+laenge);
+		System.out.println("Wert: "+wh);
 
 		String antwort=" ";
 
@@ -318,7 +318,7 @@ public class DataTableServlet extends HttpServlet {
 		if(startwert+laenge>anzahl)
 		{
 			wh=anzahl-1;
-			System.out.println("wert: "+wh);
+			System.out.println("Wert: "+wh);
 		}
 		else
 		{
