@@ -17,6 +17,9 @@ import model.DBManager;
 
 /**
  * Servlet implementation class ResetPasswort
+ * 
+ * Reset Passwort Servlet dient dazu, wenn der Nutzer die Seite zum Zurücksetzten aufruft und seine neuen Daten eingibt, 
+ * den Nutzer der dies anfordert ausfindig zu machen, die neuen PW zu checken und dann zu hashen um es anschließend in die DB einzutragen 
  */
 @WebServlet("/ResetPasswort")
 public class ResetPasswort extends HttpServlet {
@@ -39,8 +42,7 @@ public class ResetPasswort extends HttpServlet {
 		String auth = (String) ses.getAttribute("hashcodeverified");
 		PasswordHash pwh = new PasswordHash();
 		
-	
-		System.out.println("User: "+ username +" PW2: "+pw+" PW2: "+pw2);
+		System.out.println("User: "+ username +" PW1: "+pw+" PW2: "+pw2);
 		
 		DBManager db = null;
 		Connection conn = null;
@@ -63,15 +65,9 @@ public class ResetPasswort extends HttpServlet {
 						PrintWriter out = response.getWriter();
 						out.print("pwok");
 
-						//TODO message muss no in seite zugordnet werdn
-
 						request.setAttribute("message", "Passwort konnte erfolgreich geändert werden ");
 						RequestDispatcher rd = request.getRequestDispatcher("NewPassword.jsp");
 						rd.forward(request, response);
-						//TODO löschen des hash
-//						DBManager m = new DBManager();
-//						Connection conn2 = m.getConnection();
-						
 						db.deletehash(conn,username);
 
 					}catch(SQLException e){
@@ -83,14 +79,9 @@ public class ResetPasswort extends HttpServlet {
 					} finally {
 						db.releaseConnection(conn);
 					}
-//					response.setContentType("text/plain");
-//					PrintWriter out = response.getWriter();
-//					out.print("pwok");
+
 				}
 				else {
-//					response.setContentType("text/plain");
-//					PrintWriter out = response.getWriter();
-//					out.print("notsamesame");
 					request.setAttribute("message", "Passwörter stimmen nicht überein");
 					RequestDispatcher rd = request.getRequestDispatcher("NewPassword.jsp");
 					rd.forward(request, response);

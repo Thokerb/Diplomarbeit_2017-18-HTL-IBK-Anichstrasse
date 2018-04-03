@@ -24,6 +24,8 @@ import model.DBManager;
 
 /**
  * Servlet implementation class EmailPasswort
+ * 
+ * Servlet dient dazu, eine Email durch die Klasse welche es ermöglicht Emails zu erstellen, mit den zugehörigen Parametern zu senden 
  */
 @WebServlet("/EmailPasswort")
 public class EmailPasswort extends HttpServlet {
@@ -69,13 +71,12 @@ public class EmailPasswort extends HttpServlet {
 
 			TokenGenerator tg = new TokenGenerator();
 			String authcode = tg.generateMD5Hash();
-//			String authcode = tg.generateCode();
 
 			db.saveHash(conn,authcode,getMail);
 
 			if( (getMail != null)){
 
-				System.out.println("User existiert, Mail kann versendet werden. . . "); // Bei erstaufruf jsp seite kein modal? 
+				System.out.println("User existiert, Mail kann versendet werden. . . ");  
 				SendEMail mailer = new SendEMail();
 
 				try {
@@ -103,7 +104,6 @@ public class EmailPasswort extends HttpServlet {
 				}
 
 			}else{
-
 				request.setAttribute("message", "Email kann nicht verwendet werden, Email nicht registriert!");
 				rd.include(request, response);
 			}

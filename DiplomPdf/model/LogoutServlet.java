@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class LogoutServlet
+ * LogoutServlet dient dazu, die die Session vom jeweiligen Nutzer zu beenden
  */
 //@WebServlet("/LogoutServlet")
 public class LogoutServlet extends HttpServlet {

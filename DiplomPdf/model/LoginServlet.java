@@ -1,5 +1,8 @@
 /**
- * pw: htlanichstr bei email account
+ * pw: htlanichstr bei email account easypdf
+ * 
+ * Dieses Servlet Meldet den Nutzer auf der Webanwendung an indem er eine HTTPSession erstellt
+ * Dafür wird das eingegebene Passwort gehasht und mit dem in der DB verglichen und natürlich kontrolliert ob der Nutzer überhautp existiert
  */
 
 import java.io.IOException;
@@ -32,8 +35,8 @@ public class LoginServlet extends HttpServlet {
 		System.out.println("Hash: "+ hashpw);
 		
 		boolean anmeldung; 
-		// Datenbank abfrage von Benutzer normal
 		DBManager dbm = null;
+		
 		Connection conn = null;
 		try {
 			dbm=new DBManager();
@@ -52,7 +55,7 @@ public class LoginServlet extends HttpServlet {
 			String error = "Achtung! Username oder Password sind nicht korrekt";
 			System.out.println(error);
 			anmeldung = false; 
-			request.setAttribute("message","Bitte erneut versuchen!"); // TODO wird nie verwendet? 
+			request.setAttribute("message","Bitte erneut versuchen!"); 
 			RequestDispatcher rs = request.getRequestDispatcher("Login.jsp");
 			rs.forward(request, response);
 		}

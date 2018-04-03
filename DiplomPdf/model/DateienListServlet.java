@@ -22,7 +22,7 @@ public class DateienListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/**
-		 * Hier sollten von der Datenbank als String Array eine Liste mit den Name der bereits vorhandenen Dateien geschickt werden.
+		 * Hier werden von der Datenbank als String Array eine Liste mit den Name der bereits vorhandenen Dateien geschickt 
 		 * Für ein Beipsiel siehe String[] namen
 		 */
 
@@ -32,6 +32,7 @@ public class DateienListServlet extends HttpServlet {
 		
 		if(ses.getAttribute("user") == null){
 			response.sendRedirect("Login.jsp");
+			ses.invalidate();
 		}else {
 			 username = (String) ses.getAttribute("user"); //Username wird vom vorherigen Servlet genommen
 		}
@@ -69,7 +70,6 @@ public class DateienListServlet extends HttpServlet {
 						Gson gson = new Gson();
 						String answer = gson.toJson(namen);
 				
-						//		response.getWriter().append("Served at: ").append(request.getContextPath());
 						response.setContentType("application/json;charset=UTF-8");  
 						response.setCharacterEncoding("UTF-8");
 						response.getWriter().write(answer);
@@ -81,5 +81,4 @@ public class DateienListServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

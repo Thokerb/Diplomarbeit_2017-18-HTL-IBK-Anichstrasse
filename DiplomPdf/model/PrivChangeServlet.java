@@ -89,10 +89,7 @@ public class PrivChangeServlet extends HttpServlet {
 		else{
 			System.out.println("ERROR fremder User ändert Privacy-Settings");
 		}
-		
-
-		
-		
+				
 		System.out.println("ToChange: "+antwort);
 	
 	}

@@ -33,7 +33,7 @@
  </listener>
  <error-page>
    <error-code>404</error-code>
-   <location>/ErrorPage.html</location>
+   <location>/ErrorPage.jsp</location>
  </error-page>
  <servlet>
    <servlet-name>DateienListServlet</servlet-name>

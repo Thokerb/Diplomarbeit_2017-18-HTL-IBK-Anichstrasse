@@ -10,7 +10,7 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
 /**
  * @author Sara
  * 
- * Extrahiert Text (und hoffendlich bald auch Datum und Autor) aus einer .doc Datei 
+ * Extrahiert Text, Autor und Erstelldatum aus einer .doc Datei 
  * Verwendet dabei die Apache POI Library, welche im Builthpath eingebettet ist 
  */
 

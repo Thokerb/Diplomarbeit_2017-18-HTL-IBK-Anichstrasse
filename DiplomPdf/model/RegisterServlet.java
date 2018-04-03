@@ -13,6 +13,8 @@ import model.DBManager;
 
 /**
  * Servlet implementation class RegisterServlet
+ * Legt Benutzer in DB an und kontrolliert zuvor ob die Daten korrekt sind
+ * Gibt bei Auftretenden Fehlern auch dementsprechende Rückmeldungen an Client weiter
  */
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {

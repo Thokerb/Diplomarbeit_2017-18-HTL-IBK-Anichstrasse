@@ -10,6 +10,11 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * 
+ *Klasse ermöglicht durch javax Library Emails mittels Google Account zu versenden, es müssen nur die richtigen Parameter mitgegeben werden
+ *
+ */
 public class SendEMail {
 
 	public void sendPlainTextEmail( String toAddress, String subject, String message) throws AddressException,

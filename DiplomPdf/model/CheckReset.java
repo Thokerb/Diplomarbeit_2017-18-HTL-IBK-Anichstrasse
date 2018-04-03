@@ -1,5 +1,3 @@
-
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,6 +13,7 @@ import model.DBManager;
 
 /**
  * Servlet implementation class CheckReset
+ * Prüft ob der Benutzer der das Zurücksetzten anfordert auch dazu berechtigt ist, indem der Hash aus der DB verglichen wird mit dem der Anfrage
  */
 @WebServlet("/CheckReset")
 public class CheckReset extends HttpServlet {

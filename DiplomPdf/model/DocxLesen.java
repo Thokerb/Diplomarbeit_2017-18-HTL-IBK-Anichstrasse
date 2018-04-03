@@ -7,9 +7,8 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 /**
- * @author Sara
  * 
- * Extrahiert Text aus einer .docx Datei 
+ * Extrahiert Text, Autor und Erstelldatum aus einer .docx Datei 
  * Verwendet dabei die Apache POI Library, welche im Builthpath eingebettet ist 
  */
 

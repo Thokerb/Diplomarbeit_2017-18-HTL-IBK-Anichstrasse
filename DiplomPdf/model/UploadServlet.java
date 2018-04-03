@@ -19,6 +19,8 @@ import model.Daten;
 
 /**
  * Servlet implementation class UploadServlet
+ * 
+ * Servlet holt Daten von Website und extrahiert Infos wie Text, Autor, Datum ect.. um es in DB zu speichern. 
  */
 //@WebServlet("/UploadServlet")
 //@MultipartConfig
@@ -35,11 +37,6 @@ public class UploadServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/**
-		 * Aktuell wird die Datei temporär auf C:/Temp gespeichert --> später dann alles über DB
-		 * wenn boolean overwrite true ist, dann gibt es die datei bereit und sie soll überschrieben werden
-		 * TODO: übergabe in DATENBANK
-		 */
 
 		int nummer = 1;
 
@@ -72,7 +69,7 @@ public class UploadServlet extends HttpServlet {
 		System.out.println("Es handelt sich um eine ' "+ dateityp +" ' Datei: ");
 		System.out.println("-----------------------------------------");
 
-		HttpSession ses = request.getSession(false); //TODO: if 
+		HttpSession ses = request.getSession(false); 
 		String username = (String) ses.getAttribute("user"); 
 
 		DBManager dbm = null;
@@ -93,7 +90,6 @@ public class UploadServlet extends HttpServlet {
 				dbm.releaseConnection(conn);
 			}
 		}
-
 
 		switch(dateityp){
 
@@ -331,45 +327,5 @@ public class UploadServlet extends HttpServlet {
 		File file = new File(uploads, name);
 		return file;
 
-	}
-
-	private String NamensNummerierer(String name,int nummer){
-
-		String nameneu;
-		String dateitypneu = name.substring(name.lastIndexOf('.')+1,name.length());
-		dateitypneu = dateitypneu.toUpperCase();
-
-		switch(dateitypneu) {
-		case "PDF": {
-			nameneu = name;
-			nameneu = name.substring(0,name.length()-4);
-			nameneu = nameneu+"("+nummer+")"+".pdf";
-			return nameneu; 
-		}
-		case "DOC": {
-			nameneu = name;
-			nameneu = name.substring(0,name.length()-4);
-			nameneu = nameneu+"("+nummer+")"+".doc";
-			return nameneu; 
-		}
-		case "DOCX": {
-			nameneu = name;
-			nameneu = name.substring(0,name.length()-5); // 5 ?
-			nameneu = nameneu+"("+nummer+")"+".docx";
-			return nameneu; 
-		}
-		case "TXT": {
-			nameneu = name;
-			nameneu = name.substring(0,name.length()-4);
-			nameneu = nameneu+"("+nummer+")"+".txt";
-			return nameneu;
-		}
-		default:{
-			//TODO Message senden an Client
-			System.out.println("Neuer Name konnte nicht vergeben werden, Dateityp wird nicht unterstuetzt");
-		}
-
-		}
-		return null;
 	}
 }

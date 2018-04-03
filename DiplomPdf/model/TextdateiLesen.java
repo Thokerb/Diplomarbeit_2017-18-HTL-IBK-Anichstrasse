@@ -5,7 +5,10 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.nio.file.attribute.UserPrincipal;
 import java.text.SimpleDateFormat;
-
+/**
+ * liest Text aus .txt File aus, da diese keine Metadaten besitzen wird als Autor der Nutzer von PC extrahiert und als Erstelldatum das aktuelle gesetzt
+ *
+ */
 
 public class TextdateiLesen implements IStrategy {
 

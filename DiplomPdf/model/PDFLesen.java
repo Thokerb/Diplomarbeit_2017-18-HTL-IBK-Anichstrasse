@@ -9,7 +9,9 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
-
+/**
+ * Lies Text, Autor und Erstelldatum aus PDFs aus, verwendet dazu die PDFBox Library von Apache
+ */
 public class PDFLesen implements IStrategy{
 	
 	private String autor ;
@@ -78,7 +80,6 @@ public class PDFLesen implements IStrategy{
 	private String convDatum(Calendar cal){
 
 		SimpleDateFormat d = new SimpleDateFormat("dd.MM.yyyy");
-		//		SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
 		String pD = d.format(cal.getTime());
 		return pD;
 	}

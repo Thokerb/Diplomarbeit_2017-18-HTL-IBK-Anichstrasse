@@ -5,26 +5,17 @@ import java.util.Locale;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+/**
+ * Generiert einen MD5 Hash zur einzigartigen Idendifizierung der PW Zurücksetzten-Anfrage
+ * @author Sara
+ *
+ */
 public class TokenGenerator {
 	
     public static final String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public static final String lower = upper.toLowerCase(Locale.ROOT);
     public static final String digits = "0123456789";
     public static final String alphanum = upper + lower + digits;
-
-//    public String generateCode(int length){
-//    	String code = "";
-//    	SecureRandom ran = new SecureRandom();
-//    	System.out.println(ran);
-//    	
-//    	for(int i = 0;i < length;i++){
-//    		int z = ran.nextInt(62);
-//    		code += alphanum.substring(z, z+1);
-//    		System.out.println(code) ;
-//    	}
-//    	return code;
-//    }
-    
     
     public String generateMD5Hash(){
 
@@ -45,11 +36,6 @@ public class TokenGenerator {
     	}
     	return hexString.toString();
     }
-  
-    
-//    public String generateCode(){
-//    	return generateCode(20);
-//    }
     
 //    public static void main(String[] args) {
 //    	
